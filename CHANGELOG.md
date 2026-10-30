@@ -2,6 +2,9 @@
 
 ## Unreleased — 2026-10-30
 
+- User selected the M5 host and explicitly authorized a small macOS guest. Guest boot/desktop is verified; native GUI, full-hand dynamics, live stream, and full-hand H800 work remain separate acceptance stages.
+- Clarified that Kimi owns operational execution as well as implementation; coordinator owns architecture, budgets, read-only review and Git/documentation integration.
+- Preserved native-app review failures and incomplete CPU-model checkpoints; extended narrowly scoped Kimi continuations instead of treating timeout or initial tests as acceptance.
 - Accepted architecture v2: articulated hand, visual closed-loop operation, multi-scale memory, and short action chunks.
 - Established a dedicated public project boundary, reproducibility policy, and append-only experiment records.
 - Preserved sanitized historical design snapshots and authoritative source links.

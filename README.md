@@ -28,7 +28,7 @@ Use a fresh output directory for each episode. This generates a **mock software 
 - MuJoCo CPU reference and NVIDIA GPU batch simulation through MuJoCo Warp, subject to backend validation.
 - Visual task reasoning, evidence-backed long-term memory, and continuous motor control with short action chunks.
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
-- A dedicated M1 Mac can run target applications, screen capture, and the input bridge; GPU servers handle learning and model inference.
+- Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 

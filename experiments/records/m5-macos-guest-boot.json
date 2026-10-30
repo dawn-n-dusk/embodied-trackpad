@@ -1,0 +1,54 @@
+{
+  "record_version": "1.0",
+  "id": "m5-macos-guest-boot-20261030",
+  "timestamp_utc": "2026-10-30T15:58:45.308913+00:00",
+  "kind": "virtual_machine_boot",
+  "status": "guest_boot_and_desktop_verified_bridge_pending",
+  "source_commit": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "runtime": {
+    "release": "2.41.1",
+    "url": "https://github.com/openai/tart/releases/tag/2.41.1",
+    "archive_sha256": "e680a734febccfce7d4e910c1f7f13fc3b00f19a181c945e2d746de3214c32c2",
+    "asset_url": "https://github.com/openai/tart/releases/download/2.41.1/tart.tar.gz"
+  },
+  "guest": {
+    "os": "macOS",
+    "version": "26.6.2",
+    "build": "25G83",
+    "cpus": 4,
+    "memory_mib": 6144,
+    "display_px": [
+      1024,
+      768
+    ],
+    "virtual_disk_gb": 50,
+    "base_image_requested": "ghcr.io/cirruslabs/macos-tahoe-base:latest",
+    "resolved_base_image": "ghcr.io/cirruslabs/macos-tahoe-base@sha256:4aaa751fa7538902d73c767f27a066fc87e83f183069da4e4b5022863abd4c77"
+  },
+  "isolation_configuration": {
+    "host_folder_shares": [],
+    "clipboard_sharing": false,
+    "audio_passthrough": false,
+    "usb_accessories": false,
+    "network_mode": "host-only",
+    "host_experimental_vnc": false
+  },
+  "checks": {
+    "vendor_signature_valid": true,
+    "guest_sw_vers_returned": true,
+    "guest_desktop_visually_observed": true,
+    "guest_screen_sharing_rfb_handshake": true,
+    "retired_host_vnc_listener_absent": true
+  },
+  "review_history": [
+    "Initial experimental Virtualization VNC mode listened on a host wildcard address, despite printing a loopback URL. The VM was stopped and restarted without that mode.",
+    "Current route will use guest Screen Sharing over host-only networking; an RFB handshake is not screenshot/input acceptance.",
+    "Imported CI image reports guest Gatekeeper assessments disabled. Guest provisioning/hardening and bridge acceptance are delegated to Kimi; no host security setting was changed."
+  ],
+  "ownership_note": "VM bootstrap preceded the user clarification that all further operational execution must be delegated to Kimi. That clarification now governs the project.",
+  "limitations": [
+    "Guest boot/desktop only; no accepted robotic input, video-to-policy loop, or trained policy",
+    "No robot real-time stream accepted at this point",
+    "Guest-only automated input/capture, cursor visibility and stop/timeout behavior remain to be verified"
+  ]
+}

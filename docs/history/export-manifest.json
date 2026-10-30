@@ -11,7 +11,7 @@
     {
       "source_label": "Kimi实施任务书_v2.md",
       "public_path": "docs/implementation-plan.zh-CN.md",
-      "public_sha256": "6c736cf288729a5c68c58a95cd91361ab71d9ef1d46a5145a445a87391d2cdbd",
+      "public_sha256": "a3e7833c7f754c5bdaad6fa4e7da4a497d49c4d999560ec176a2cb2ab26c4bc6",
       "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed",
       "initial_export_sha256": "955c2d96aa3af10ef0e595c6e2419939704aad789dd8ec7ae6096a484b8c8624"
     },
@@ -38,5 +38,5 @@
     }
   ],
   "checksum_policy": "initial_export_sha256 preserves the original sanitized export; public_sha256 identifies the current repository file. Historical snapshots remain historical; current status lives in STATUS.md.",
-  "updated_utc": "2026-10-30T10:39:14.421223+00:00"
+  "updated_utc": "2026-10-30T15:58:45.308913+00:00"
 }

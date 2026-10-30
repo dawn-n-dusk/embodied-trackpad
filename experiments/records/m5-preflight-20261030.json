@@ -1,0 +1,73 @@
+{
+  "record_version": "1.0",
+  "id": "m5-preflight-20261030",
+  "timestamp_utc": "2026-10-30T15:23:54.713991+00:00",
+  "kind": "host_preflight_and_dispatch",
+  "status": "implementation_and_vm_preparation_running",
+  "source_commit": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "host": {
+    "cpu": "Apple M5",
+    "memory_gb": 16,
+    "macos": "26.4.1",
+    "build": "25E253",
+    "virtualization_supported": true,
+    "memory_pressure_level_at_probe": 2,
+    "swap_used_mib_at_probe": 14009.12,
+    "free_disk_gib_at_probe": 376
+  },
+  "authorization": "User explicitly selected current M5, continued experiments/training, confinement, and starting a small macOS VM despite resource pressure. Existing unrelated hardware remains outside scope.",
+  "config": {
+    "vm_initial_cpus": 4,
+    "vm_initial_memory_mib": 6144,
+    "vm_runtime": "Tart 2.41.1",
+    "vm_image_requested": "ghcr.io/cirruslabs/macos-tahoe-base:latest",
+    "vm_image_digest": null,
+    "worker_timeout_seconds": 900,
+    "workers": [
+      "articulated_hand_cpu",
+      "native_mac_app_sandbox"
+    ]
+  },
+  "checks": [
+    "VZVirtualMachine.isSupported=true on this host",
+    "Tart release archive checksum matched published checksum",
+    "Tart app code signature verified (Developer ID; no bypass)",
+    "Two separate clean worktrees at stated source commit dispatched to Kimi"
+  ],
+  "sources": [
+    {
+      "label": "apple_macos_vm",
+      "url": "https://developer.apple.com/tutorials/data/documentation/virtualization/running-macos-in-a-virtual-machine-on-apple-silicon.json",
+      "fetched_utc": "2026-10-30T15:09:37.203928+00:00",
+      "sha256": "c3b46d66f74ea33f774cb63a391d748c0dcdc862498ece608a9ea75946079c7e",
+      "bytes": 83738
+    },
+    {
+      "label": "apple_app_sandbox",
+      "url": "https://developer.apple.com/tutorials/data/documentation/security/app-sandbox.json",
+      "fetched_utc": "2026-10-30T15:09:38.241691+00:00",
+      "sha256": "f471b5e1b721b0c3036a11da38117b361a7ed2e3e06df833ceaa05829d899d24",
+      "bytes": 27905
+    },
+    {
+      "label": "apple_sandbox_entitlement",
+      "url": "https://developer.apple.com/tutorials/data/documentation/bundleresources/entitlements/com.apple.security.app-sandbox.json",
+      "fetched_utc": "2026-10-30T15:09:39.303951+00:00",
+      "sha256": "46574e1144dbba5ea4d08efaf3ae613451aba5dc4a3c87927161ad6c35b53183",
+      "bytes": 23600
+    },
+    {
+      "label": "tart_quickstart",
+      "url": "https://raw.githubusercontent.com/cirruslabs/tart/main/README.md",
+      "fetched_utc": "2026-10-30T15:09:40.153783+00:00",
+      "sha256": "4702b7b83d52207ba4ef307b11bad8a00be7d1b1ae457dbe0a0d057a0a92fd80",
+      "bytes": 2874
+    }
+  ],
+  "limitations": [
+    "Runtime installation/download preparation is not guest boot acceptance",
+    "Native app and hand implementation not yet independently accepted",
+    "No physics-derived GUI training dataset or learned policy in this preflight record",
+    "Resource snapshot can change; user authorized trying a small guest"
+  ]
+}
