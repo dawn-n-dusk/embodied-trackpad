@@ -7,7 +7,7 @@ Updated: 2026-10-30. Status is evidence-based, not inferred from a roadmap item.
 | Architecture v2 | Accepted for implementation | User accepted the revised architecture on 2026-10-30; public design snapshot in docs |
 | Public project | Published | Public code/design repository; publication and integration revisions are recorded in the append-only ledger |
 | Protocol, recording, and dry-run pipeline | Independently validated locally | Six initial contracts, strict actor parsing, recording, schemas, CLI; 89 tests, 9 independent boundary checks, 12 CLI rejection cases; deterministic fixture output |
-| GitHub CI | Awaiting first run | Workflow for Python 3.10–3.13 and deterministic CLI replay is included; local results do not substitute for CI evidence |
+| GitHub CI | Passed on Python 3.10–3.13 | All four jobs passed behavior tests and deterministic CLI replay at `b671200`; [verified run](https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41042436190), [receipt](experiments/records/ci-foundation-20261030.json) |
 | MuJoCo CPU hand environment | Not validated | Compile selected embodiment and check contact/control |
 | H800 / MJWarp | GPU environment probe verified | One H800, tiny 1-DOF contact scene at 1/32 worlds; 12/12 checks; coordinator matched scheduler/script/result evidence. No full-hand or GPU speedup claim |
 | Datasets | No project training dataset yet | Begin dynamic GUI/robot demonstrations; preserve provenance |
