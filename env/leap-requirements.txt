@@ -1,0 +1,4 @@
+# Pinned CPU environment verified for tools/leap_model_probe.py and
+# tests/test_leap_sim.py on Python 3.12 (3.12.14), 2026-10-31, macOS arm64 venv.
+mujoco==3.17.0
+numpy==2.5.4

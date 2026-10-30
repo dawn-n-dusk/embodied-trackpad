@@ -1,5 +1,7 @@
 # 独立 Mac 测试台
 
+> 2026-10-31 最新安排：未来测试设备可为 MacBook 内置触控板，也可为独立 Apple Trackpad；不要求现在有完全闲置 MacBook，软件仿真先行。独立 Trackpad 仍需连接运行 GUI 的 Mac；型号、尺寸、增益、输入隔离和原生多点手势到位后单独校准。当前已授权的 M5/受限原生 GUI/虚拟机边界保持，详见 [ADR 0006](decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md)。
+
 用户于 2026-10-30 更新安排：M1 暂时不能专用，先使用当前 M5 Mac；优先隔离输入，允许继续实验和训练。当前机器已只读确认是 M5、16 GB、macOS 26.4.1，`VZVirtualMachine.isSupported=true`。训练和大模型推理放在 GPU 服务器。
 
 ## 当前 M5 路线

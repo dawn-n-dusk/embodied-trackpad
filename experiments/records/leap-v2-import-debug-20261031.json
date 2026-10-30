@@ -1,0 +1,79 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v2-import-debug-20261031",
+  "timestamp_utc": "2026-10-30T21:21:23.259130+00:00",
+  "kind": "failed_dynamics_and_delegation_checkpoint",
+  "status": "not_accepted_for_training",
+  "source_commit": "056669000e0d1fc999ffee1b703e8e5485d50143",
+  "model": "LEAP Hand v2 Advanced right, fixed palm, experimental adapter",
+  "upstream_commit": "a0936196e8fa0bcefff045d6fc02523d6da591f2",
+  "actual_execution": {
+    "steps": 13200,
+    "simulation_duration_s": 6.6,
+    "control": "17 position references through ctrl and mj_step; 21 joints and 4 equality couplings",
+    "result": "finite states, but limit/coupling errors; failed"
+  },
+  "metrics_artifact": {
+    "path": "experiments/records/leap-v2-pre-correction-metrics-20261031.json",
+    "sha256": "e9fa10ee3a7ef0bb5f7190b79dc6144a183d5f00ce9dfcb1edada60546b99a6b"
+  },
+  "initial_contact_diagnosis": {
+    "ncon": 18,
+    "max_penetration_m": 0.030448608915103106,
+    "max_normal_force_n": 1403.338610004529,
+    "interpretation": "Large overlaps at root/palm/motor assembly; full CAD convex hulls require collision adaptation. These are simulator artifacts, not measured hardware forces.",
+    "preservation_note": "Coordinator read initial diagnostic before worker overwrote its path on a later reset check. Original values are retained in the review/tool record; no claim that the later file preserves the original bytes."
+  },
+  "later_collision_checkpoint": {
+    "reset_contacts_after_8_body_exclusions": 0,
+    "acceptance": "not accepted; two world-based exclusions could suppress future world-mounted pad/palm contacts, and relative-motion exclusions are temporary approximations",
+    "corrected_motion_result": "not available at this checkpoint"
+  },
+  "delegation": {
+    "dispatches": [
+      {
+        "dispatch": "leap-latest-import",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "recorded_usage": null,
+        "exit_code": 124
+      },
+      {
+        "dispatch": "leap-latest-compile",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "recorded_usage": {
+          "records": 19,
+          "input_uncached": 81876,
+          "input_cached": 1663232,
+          "input_cache_write": 0,
+          "output": 22640,
+          "total": 1767748
+        },
+        "exit_code": 124
+      },
+      {
+        "dispatch": "leap-latest-correction",
+        "status": "timeout",
+        "elapsed_seconds": 900.1,
+        "recorded_usage": {
+          "records": 17,
+          "input_uncached": 51542,
+          "input_cached": 1858816,
+          "input_cache_write": 0,
+          "output": 15138,
+          "total": 1925496
+        },
+        "exit_code": 124
+      }
+    ],
+    "summed_dispatch_seconds": 2100.3,
+    "usage_note": "First dispatch usage is unknown. Provider-recorded tokens are not billing/quota, and cache counts are separate. Three calls timed out; implementation files and failed results preserved."
+  },
+  "limitations": [
+    "No LEAP touchpad, GUI, GPU, policy training or physical hardware result.",
+    "Failed probe did not bind all source hashes at execution time; later checkpoint source snapshots are not proof of the exact earlier source bytes.",
+    "Temporary assembly exclusions do not establish realistic soft fingers, tendon, Metal dynamics or full collision validity.",
+    "Coordinator requested bounded corrections; no transition to training based on these results."
+  ]
+}

@@ -2,6 +2,10 @@
 
 ## Unreleased — 2026-10-31
 
+- Integrated Kimi's LEAP v2 Advanced CPU adapter and pinned asset fetcher. Thirty-four focused tests and a 14,000-step scripted hand run passed; fixed false CAD-hull assembly contacts, preserved 17-motor/21-joint coupling, improved pose tracking, corrected observation timestamps, rejected invalid commands atomically and protected run artifacts. Published failed candidates, narrow acceptance limits and delegation/rework accounting. No LEAP pad/GUI, GPU or learning result is claimed.
+
+- Updated the research target to the latest available LEAP v2 Advanced full configuration, following the user's preference over the earlier v1 selection. Audited official URDF/STL/CAD sources, 17-motor/21-joint coupling, inertial-marker discrepancies and Metal calibration limits. Added MacBook/external-Trackpad hardware-readiness boundaries; dispatched Kimi's real CPU import and preserved its initial 600s source-only timeout. Corrected stale native-GUI pad dimensions in documentation to match the existing implementation.
+
 - Selected LEAP v1 Full as the single new research-hand target, with Allegro retained until import acceptance and future G1 DFX/Revo2 options separated from current simulation. Added model/motor/license qualifications and a prepared Kimi import contract; focused the research plan on visual decisions, action chunks and long-horizon memory. No new model import, GPU job, training or purchase occurred in this selection step.
 
 - Verified the corrected full-hand H800 teacher replay: 43/43 checks, 1/32/128/512 identical worlds, unchanged reset/model/control, actual completed allocation and full-cycle timing. Published sanitized results and independent review; retained sampled-contact limits, unknown solver warnings, remaining failure-gate work and the later Kimi CLI timeout. No training or production source integration is claimed.

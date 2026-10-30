@@ -1,0 +1,52 @@
+{
+  "record_version": "1.0",
+  "id": "leap-latest-assets-20261031",
+  "timestamp_utc": "2026-10-30T20:42:46.197495+00:00",
+  "kind": "research_and_architecture_update",
+  "status": "v2_advanced_selected_assets_audited_implementation_running",
+  "source_commit": "056669000e0d1fc999ffee1b703e8e5485d50143",
+  "selected": {
+    "model": "LEAP v2 Advanced",
+    "motor_channels": 17,
+    "articulated_joints": 21,
+    "fingers": 5,
+    "metal_parameters": "not_calibrated",
+    "upstream_commit": "a0936196e8fa0bcefff045d6fc02523d6da591f2"
+  },
+  "checks": {
+    "checked_utc": "2026-10-30T20:40:36.947268+00:00",
+    "download_hashes_verified": 10,
+    "github_right": {
+      "revolute": 21,
+      "links": 32,
+      "mass_kg": 2.5050000000000003,
+      "marker_count": 10,
+      "marker_mass_kg": 0.9999999999999999
+    },
+    "website_right": {
+      "revolute": 21,
+      "links": 22,
+      "mass_kg": 1.5049999999999997
+    }
+  },
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-31-leap-latest-assets.zh-CN.md",
+      "sha256": "a60cb05767709e98709a6562057ed407b7986e56cd64a2eee862a26e8d9b74fd"
+    },
+    {
+      "path": "docs/research/2026-10-31-leap-latest-assets-evidence.json",
+      "sha256": "d64fa5c37200d566760fa5b9a9909b8b00715013790953a2fc8301a6eb094390"
+    },
+    {
+      "path": "docs/decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md",
+      "sha256": "b48d6e32867adcdb4dd2a578c6a0214616e7d33bd8576b31aa8c209d1fd18f9c"
+    }
+  ],
+  "limitations": [
+    "Source research and selection are not runtime acceptance.",
+    "17-motor/21-joint coupling, marker-mass removal and Metal calibration require explicit implementation and validation.",
+    "Current Kimi continuation owns real CPU implementation; no new GPU or policy training result yet.",
+    "Future self-built LEAP and MacBook/external Trackpad have not been connected or calibrated."
+  ]
+}

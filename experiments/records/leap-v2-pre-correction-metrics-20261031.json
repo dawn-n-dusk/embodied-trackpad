@@ -1,0 +1,152 @@
+{
+  "probe": "leap-v2-adv-fixed-palm-cpu",
+  "started_utc": "2026-10-30T20:50:57.585216Z",
+  "finished_utc": "2026-10-30T20:50:59.152139Z",
+  "tiny": false,
+  "steps": 13200,
+  "timestep": 0.0005,
+  "checks": {
+    "finite_states": true,
+    "range_violations": [
+      {
+        "step": 9,
+        "joint": "index_pip",
+        "q": -0.012147829869018006
+      },
+      {
+        "step": 9,
+        "joint": "pinky_pip",
+        "q": -0.013523180914381731
+      },
+      {
+        "step": 10,
+        "joint": "index_pip",
+        "q": -0.021114064043411835
+      },
+      {
+        "step": 10,
+        "joint": "middle_pip",
+        "q": -0.01442146229084094
+      },
+      {
+        "step": 10,
+        "joint": "ring_pip",
+        "q": -0.015508173454601416
+      },
+      {
+        "step": 10,
+        "joint": "pinky_pip",
+        "q": -0.022664829249323056
+      },
+      {
+        "step": 11,
+        "joint": "index_pip",
+        "q": -0.029969859336307456
+      },
+      {
+        "step": 11,
+        "joint": "middle_pip",
+        "q": -0.022750510490594282
+      },
+      {
+        "step": 11,
+        "joint": "ring_pip",
+        "q": -0.023976555292283958
+      },
+      {
+        "step": 11,
+        "joint": "pinky_pip",
+        "q": -0.03168935845045347
+      },
+      {
+        "step": 12,
+        "joint": "index_pip",
+        "q": -0.0385985011695253
+      },
+      {
+        "step": 12,
+        "joint": "index_dip",
+        "q": -0.011678881903490012
+      },
+      {
+        "step": 12,
+        "joint": "middle_pip",
+        "q": -0.030942177442711733
+      },
+      {
+        "step": 12,
+        "joint": "ring_pip",
+        "q": -0.03225284599071473
+      },
+      {
+        "step": 12,
+        "joint": "pinky_pip",
+        "q": -0.0404783164730516
+      },
+      {
+        "step": 12,
+        "joint": "pinky_dip",
+        "q": -0.013054386103888493
+      },
+      {
+        "step": 13,
+        "joint": "index_pip",
+        "q": -0.04691586964503136
+      },
+      {
+        "step": 13,
+        "joint": "index_dip",
+        "q": -0.01849504427304112
+      },
+      {
+        "step": 13,
+        "joint": "middle_pip",
+        "q": -0.03882325149127078
+      },
+      {
+        "step": 13,
+        "joint": "middle_dip",
+        "q": -0.012108642879516556
+      }
+    ],
+    "n_range_violations_gt_0.01rad": 823,
+    "max_soft_limit_excursion_rad": 0.17122762520822465,
+    "max_coupling_error_rad": 0.04095777629971964,
+    "max_abs_qvel_rad_s": 45.50176912071917
+  },
+  "contacts": {
+    "max_simultaneous_contacts": 25,
+    "note": "free-space hand-only motion; no pad/GUI present; NOT touch readiness"
+  },
+  "motion": {
+    "index_thumb_tip_distance_m": {
+      "initial": 0.21640133495359928,
+      "min": 0.014869779268715553,
+      "final": 0.14917544445088465
+    },
+    "tip_site_order": [
+      "realtip",
+      "realtip_2",
+      "realtip_3",
+      "realtip_4",
+      "realtip_5"
+    ],
+    "tip_travel_m_initial_to_final": [
+      0.09387611462556163,
+      0.09446954289529089,
+      0.09413307946223134,
+      0.09086205875268219,
+      0.05679883676612657
+    ]
+  },
+  "artifacts": {
+    "inventory": "inventory.json",
+    "trajectories": "trajectories.npz",
+    "renders": [
+      "initial_open.png",
+      "flexed.png",
+      "pinch.png",
+      "released.png"
+    ]
+  }
+}

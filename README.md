@@ -6,7 +6,7 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the protocol/recording foundation is implemented (89 tests, reproducible mock output). Kimi's confined native Mac test GUI passed 47 additional real-app tests and 18 smoke checks, with coordinator source/evidence/visual review. The single-H800 full-hand teacher replay passed 43/43 checks at 1/32/128/512 repeated worlds; contact evidence is sampled and implementation integration remains pending. No training-ready full-hand environment, trained policy, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
+**Status:** the LEAP v2 Advanced adapter now runs the complete 17-motor/21-joint hand in MuJoCo CPU. Its 7-second scripted motion passed 34 focused asset/physics checks and 14,000-step numerical, contact and pose-recovery gates, with independent source/trace/image review. This is fixed-base hand motion; pad/GUI integration and policy training remain pending. The foundation (89 prior tests), confined native Mac GUI (47 additional real-app tests and 18 smoke checks), and earlier Allegro H800 replay (43/43 checks) are separate evidence. See [STATUS.md](STATUS.md).
 
 ## Run the foundation
 
@@ -22,15 +22,19 @@ python3 -m venv .venv
 
 Use a fresh output directory for each episode. This generates a **mock software fixture**, marked `training_eligible=false`; it exercises recording and validation without robot physics or Mac input. See the [foundation guide](docs/foundation.md) for contracts, timing, evidence references, and reproducibility.
 
+## Run the LEAP adapter
+
+The [model guide](docs/leap-model.md) describes the pinned asset downloader, optional CPU dependencies, runtime probe and calibration limits. Models remain in an ignored cache; the published code does not bundle meshes. [Measured results and failed candidates](experiments/records/leap-v2-cpu-20261031.json) retain the distinction between a scripted diagnostic and an autonomous learned task.
+
 ## Design
 
-- LEAP v1 Full is the selected four-finger research target; the existing Allegro V3 runtime remains the regression reference until LEAP import is accepted. Independently articulated two-finger hardware is a later comparison.
+- LEAP v2 Advanced is the selected five-finger research target: 17 motor channels, 21 articulated joints and an uncalibrated Metal hardware target. Existing Allegro results remain a separate regression reference. Independently articulated two-finger hardware is a later comparison.
 - MuJoCo CPU reference and NVIDIA GPU batch simulation through MuJoCo Warp, subject to backend validation.
 - Visual task reasoning, evidence-backed long-term memory, and continuous motor control with short action chunks.
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
 - Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
 
-The [hand-selection decision](docs/decisions/0005-research-hand-selection.zh-CN.md) selects LEAP v1 Full to keep cost and simulation integration manageable while focusing research on visual closed-loop decisions, action chunks and long-horizon memory. G1/H2 mounting remains custom integration, not established plug-and-play support. The [selection review](docs/research/2026-10-31-hand-selection.zh-CN.md) explains model/motor and license distinctions. Earlier [candidate research](docs/research/2026-10-31-hand-candidates.zh-CN.md), [market-price references](docs/research/2026-10-31-hand-market-prices.zh-CN.md) and [humanoid integration evidence](docs/research/2026-10-31-humanoid-integration.zh-CN.md) remain available as context.
+The [latest-model decision](docs/decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md) supersedes the earlier v1 selection with the user's latest/highest-configuration requirement and keeps software simulation independent of hardware arrival. It records coupling, inertial-marker and Metal-calibration qualifications, plus future MacBook/external-Trackpad interfaces. G1/H2 mounting remains custom integration. Earlier [selection research](docs/research/2026-10-31-hand-selection.zh-CN.md), [market prices](docs/research/2026-10-31-hand-market-prices.zh-CN.md) and [humanoid evidence](docs/research/2026-10-31-humanoid-integration.zh-CN.md) remain available as context.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 

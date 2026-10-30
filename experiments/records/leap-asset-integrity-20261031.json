@@ -1,0 +1,47 @@
+{
+  "record_version": "1.0",
+  "id": "leap-asset-integrity-20261031",
+  "timestamp_utc": "2026-10-30T21:33:42.205800+00:00",
+  "kind": "implementation_review",
+  "status": "asset_verification_reviewed",
+  "source_commit": "056669000e0d1fc999ffee1b703e8e5485d50143",
+  "implementation_artifacts": [
+    {
+      "path": "src/embodied_trackpad/leap_assets.py",
+      "sha256": "6d89c706d51f3b6962992d40854549ca5c8526edd2eac000755fef8b7210cdb4"
+    },
+    {
+      "path": "tools/fetch_leap_assets.py",
+      "sha256": "5854c678afad9d3c5ab53179c0cd111dedaa2f497d2cc25d3cbb57988636bcf1"
+    },
+    {
+      "path": "assets/manifests/leap-selected.json",
+      "sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f"
+    },
+    {
+      "path": "tests/test_leap_assets.py",
+      "sha256": "a98d5f9a42142c3cfea940913a5d4a64b0994fe1097a46306d2c0af0c2a8d2ee"
+    }
+  ],
+  "checks": {
+    "focused_pytest": {
+      "passed": 29,
+      "failed": 0,
+      "real_cache_override": true
+    },
+    "without_optional_real_cache": {
+      "passed": 28,
+      "skipped": 1
+    },
+    "original_expected_paths_hashes_sizes": "all13 unchanged, coordinator compared both manifests",
+    "source_review": "default fetch never rewrites manifest; validates per-destination before I/O; unique temporary file; atomic verified replacement; model wrapper integration pending"
+  },
+  "correction": "First24-test candidate checked unsafe paths only after writes and used a predictable temp path. Coordinator returned the issue; corrected29-test candidate keeps outside canaries and existing temporary symlink targets intact.",
+  "limitations": [
+    "Real-network download was not re-run in this bounded task; initial upstream download and readonly13-file checksum verification are separate evidence.",
+    "Adversarial concurrent filesystem races were not tested; the chosen resolved download root is the trusted anchor.",
+    "These tests establish asset provenance/error boundaries, not hand dynamics or task performance.",
+    "MuJoCo loader wrapper will be integrated after the active dynamics worker finishes."
+  ],
+  "third_party": "Nested upstream software LICENSE Apache-2.0; official CAD page lists CC BY-NC-SA. No blanket relicensing/redistribution inferred; raw and derived models stay ignored."
+}

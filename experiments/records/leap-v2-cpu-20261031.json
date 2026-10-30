@@ -1,0 +1,489 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v2-cpu-20261031",
+  "timestamp_utc": "2026-10-30T21:58:07.690739+00:00",
+  "kind": "independent_cpu_model_and_boundary_review",
+  "status": "bounded_fixed_base_motion_accepted_no_pad_or_training",
+  "source_commit": "056669000e0d1fc999ffee1b703e8e5485d50143",
+  "selected_model": "LEAP Hand v2 Advanced right, full5-finger17-motor21-joint",
+  "runtime": {
+    "python": "3.12.14",
+    "mujoco": "3.17.0",
+    "numpy": "2.5.4",
+    "threads": "OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2",
+    "pythonpath": "src (package not installed in venv; no installs performed)"
+  },
+  "actual_run": {
+    "started_utc": "2026-10-30T21:53:31.631047Z",
+    "finished_utc": "2026-10-30T21:53:34.869946Z",
+    "steps": 14000,
+    "simulated_seconds": 7.0,
+    "timestep_s": 0.0005,
+    "control": "scripted motor references through ctrl+mj_step; qpos written only at reset",
+    "command": "python tools/leap_model_probe.py --out <fresh-local-run-directory>",
+    "training_eligible": false,
+    "optimizer_updates": 0
+  },
+  "checks": {
+    "finite_states": true,
+    "max_limit_excursion_rad": 0.0,
+    "max_coupling_error_rad": 0.007543526307480841,
+    "warnings": {},
+    "ctrl_out_of_bounds_count": 0,
+    "max_abs_qvel_rad_s": 5.543280600384426,
+    "max_contact_penetration_m": 0.0004486688715069379,
+    "max_command_tracking_error_rad": 0.26011371754639534,
+    "final_open_pose_error_rad": 0.03709640366188454,
+    "open_hold_duration_s": 0.5999999999999996,
+    "held_phase_tracking_rad": {
+      "0.3-0.5s": 0.03728881670408723,
+      "2.2-2.5s": 0.025730944668802897,
+      "6.6-7.0s": 0.03711739373167174,
+      "max": 0.03728881670408723
+    }
+  },
+  "gates": {
+    "finite": true,
+    "limit_excursion<=0.01": true,
+    "coupling<=0.01": true,
+    "no_warnings": true,
+    "ctrl_in_bounds": true,
+    "penetration<=0.001": true,
+    "final_open<=0.05_after>=0.5s_hold": true,
+    "held_phase_tracking<=0.10": true
+  },
+  "tests": {
+    "command": "PYTHONPATH=src python -m pytest tests/test_leap_assets.py tests/test_leap_sim.py -q",
+    "passed": 34,
+    "skipped": 0,
+    "failed": 0,
+    "stdout_sha256": "80d0a677f82b06411dc6fa2d3be95b9677ca6dac157f8f6e6787b51a64f55dcc",
+    "coverage": [
+      "pinned assets, path and replacement boundaries",
+      "17/21/4 actuator-joint-coupling mapping and mass accounting",
+      "real short dynamics",
+      "invalid commands leave ctrl unchanged",
+      "world-mounted object contacts palm with root-only exclusion intact",
+      "existing output directory rejected"
+    ]
+  },
+  "independent_review": {
+    "source_hashes_match": {
+      "src/embodied_trackpad/leap_sim/model.py": true,
+      "tools/leap_model_probe.py": true,
+      "tests/test_leap_sim.py": true,
+      "env/leap-requirements.txt": true
+    },
+    "tests_stdout_hash_matches": true,
+    "all_gates_pass": true,
+    "steps": 14000,
+    "trace_rows": 1401,
+    "actual_time_first_last": [
+      0.0005,
+      6.99999999999884
+    ],
+    "control_to_observation_dt_max_error": 1.1602381382036508e-12,
+    "sampled_trace_finite": true,
+    "sampled_max_coupling_rad": 0.007528214570597547,
+    "mass_kg": {
+      "total_cad": 1.5049999999999994,
+      "fixed_root": 0.14,
+      "moving_links": 1.3649999999999993
+    }
+  },
+  "implementation_artifacts": [
+    {
+      "path": "src/embodied_trackpad/leap_sim/__init__.py",
+      "sha256": "143bcbaa63b4ecf70fa0f4319e6ba993d84e7f83c35e294bf827986b62370277"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_sim/model.py",
+      "sha256": "ef49958ce1fb38817158aeda6414c9f7fbf4a0660df38ee69379b9705afb3781"
+    },
+    {
+      "path": "tools/leap_model_probe.py",
+      "sha256": "1e75fb6c450d323ee2465846065fe8d7de6d911336dce042c93eb4d7df42f37e"
+    },
+    {
+      "path": "tests/test_leap_sim.py",
+      "sha256": "6ac5603fd26769759bedd12a3db7dbc5d6930002f7507d23ede23d701577b78b"
+    },
+    {
+      "path": "env/leap-requirements.txt",
+      "sha256": "8808f3cc5cfb081b5689b05336b519b73340cb2a917049460de1d946474a6b7e"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_assets.py",
+      "sha256": "6d89c706d51f3b6962992d40854549ca5c8526edd2eac000755fef8b7210cdb4"
+    },
+    {
+      "path": "tools/fetch_leap_assets.py",
+      "sha256": "5854c678afad9d3c5ab53179c0cd111dedaa2f497d2cc25d3cbb57988636bcf1"
+    },
+    {
+      "path": "assets/manifests/leap-selected.json",
+      "sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f"
+    },
+    {
+      "path": "tests/test_leap_assets.py",
+      "sha256": "a98d5f9a42142c3cfea940913a5d4a64b0994fe1097a46306d2c0af0c2a8d2ee"
+    }
+  ],
+  "raw_result_artifacts": {
+    "weak-servo": {
+      "path": "experiments/records/leap-v2-weak-servo-20261031.json",
+      "sha256": "2c252c5ff503659d23159a2054f3fb9d6a1bc79f45f7f1c1f01ad2f2583f99b5"
+    },
+    "candidate-a": {
+      "path": "experiments/records/leap-v2-candidate-a-20261031.json",
+      "sha256": "f4ac2205951de5621b2af25c3f861fc9c9b86eb6115977ab3cba2a1e3201795f"
+    },
+    "candidate-b": {
+      "path": "experiments/records/leap-v2-candidate-b-20261031.json",
+      "sha256": "d2519588332a2f821ffd57fd03840d586551e3d8f88eef698044d977037971bd"
+    },
+    "final": {
+      "path": "experiments/records/leap-v2-final-20261031.json",
+      "sha256": "2b75e54681798b85bc1794fd1fdb6fda2f4294ef8386c613970c1f60364d7a2d"
+    }
+  },
+  "trial_history": [
+    {
+      "name": "weak-servo",
+      "numeric_verdict": "PASS",
+      "checks": {
+        "finite_states": true,
+        "max_limit_excursion_rad": 0.0,
+        "max_coupling_error_rad": 0.0026238103821649705,
+        "warnings": {},
+        "ctrl_out_of_bounds_count": 0,
+        "max_abs_qvel_rad_s": 7.330965552960131,
+        "max_contact_penetration_m": 0.0002154704492539517,
+        "max_command_tracking_error_rad": 0.9652805514468099,
+        "final_open_pose_error_rad": 0.6405218638492685
+      },
+      "source_hashes": {
+        "model_py_sha256": "cca32c45604a1d10451ffe35de4a8d4d87e5bf42fb763be4b0b7e8b71a3dff38",
+        "probe_py_sha256": "deaa793d3983aaa46cbfa7a4f7885933e9377a4c6d91d2fe14b4aa23b349e8eb",
+        "manifest_sha256": "d0e0680cd6d1e7d19c01d9d1bafee225017a183947be241913bbbe98c4f78660",
+        "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+        "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b"
+      },
+      "artifact": {
+        "path": "experiments/records/leap-v2-weak-servo-20261031.json",
+        "sha256": "2c252c5ff503659d23159a2054f3fb9d6a1bc79f45f7f1c1f01ad2f2583f99b5"
+      }
+    },
+    {
+      "name": "candidate-a",
+      "numeric_verdict": "FAIL",
+      "checks": {
+        "finite_states": true,
+        "max_limit_excursion_rad": 0.0,
+        "max_coupling_error_rad": 0.025009445512720718,
+        "warnings": {},
+        "ctrl_out_of_bounds_count": 0,
+        "max_abs_qvel_rad_s": 4.646717106614929,
+        "max_contact_penetration_m": 0.0013982900824018043,
+        "max_command_tracking_error_rad": 0.23481350076242347,
+        "final_open_pose_error_rad": 0.037096718008744305
+      },
+      "source_hashes": {
+        "model_py_sha256": "839de55d02823a6c3dae9810e798dc8a20ea9fa30f9c67839df9a3cdba5ebd6e",
+        "probe_py_sha256": "4c0acf450d851889d06f70a3e3ae8b102c303f5ec0c6cb30563de81a5f99d7d7",
+        "manifest_sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f",
+        "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+        "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b"
+      },
+      "artifact": {
+        "path": "experiments/records/leap-v2-candidate-a-20261031.json",
+        "sha256": "f4ac2205951de5621b2af25c3f861fc9c9b86eb6115977ab3cba2a1e3201795f"
+      }
+    },
+    {
+      "name": "candidate-b",
+      "numeric_verdict": "PASS",
+      "checks": {
+        "finite_states": true,
+        "max_limit_excursion_rad": 0.0,
+        "max_coupling_error_rad": 0.007543526307480841,
+        "warnings": {},
+        "ctrl_out_of_bounds_count": 0,
+        "max_abs_qvel_rad_s": 5.543280600384426,
+        "max_contact_penetration_m": 0.0004486688715069379,
+        "max_command_tracking_error_rad": 0.26011371754639534,
+        "final_open_pose_error_rad": 0.03709640366188454
+      },
+      "source_hashes": {
+        "model_py_sha256": "bebd0d98efd346ebb48b0e91cd7aafd48cae90a626f2805166599f43b385b6a8",
+        "probe_py_sha256": "4c0acf450d851889d06f70a3e3ae8b102c303f5ec0c6cb30563de81a5f99d7d7",
+        "manifest_sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f",
+        "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+        "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b"
+      },
+      "artifact": {
+        "path": "experiments/records/leap-v2-candidate-b-20261031.json",
+        "sha256": "d2519588332a2f821ffd57fd03840d586551e3d8f88eef698044d977037971bd"
+      }
+    },
+    {
+      "name": "final",
+      "numeric_verdict": "PASS",
+      "checks": {
+        "finite_states": true,
+        "max_limit_excursion_rad": 0.0,
+        "max_coupling_error_rad": 0.007543526307480841,
+        "warnings": {},
+        "ctrl_out_of_bounds_count": 0,
+        "max_abs_qvel_rad_s": 5.543280600384426,
+        "max_contact_penetration_m": 0.0004486688715069379,
+        "max_command_tracking_error_rad": 0.26011371754639534,
+        "final_open_pose_error_rad": 0.03709640366188454,
+        "open_hold_duration_s": 0.5999999999999996,
+        "held_phase_tracking_rad": {
+          "0.3-0.5s": 0.03728881670408723,
+          "2.2-2.5s": 0.025730944668802897,
+          "6.6-7.0s": 0.03711739373167174,
+          "max": 0.03728881670408723
+        }
+      },
+      "source_hashes": {
+        "model_py_sha256": "ef49958ce1fb38817158aeda6414c9f7fbf4a0660df38ee69379b9705afb3781",
+        "probe_py_sha256": "1e75fb6c450d323ee2465846065fe8d7de6d911336dce042c93eb4d7df42f37e",
+        "manifest_sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f",
+        "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+        "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b"
+      },
+      "artifact": {
+        "path": "experiments/records/leap-v2-final-20261031.json",
+        "sha256": "2b75e54681798b85bc1794fd1fdb6fda2f4294ef8386c613970c1f60364d7a2d"
+      }
+    }
+  ],
+  "delegation": {
+    "dispatch_count": 16,
+    "timeout_count": 6,
+    "failed_invocation_count": 2,
+    "summed_dispatch_seconds": 4419.4,
+    "recorded_token_totals": {
+      "input_uncached": 370602,
+      "input_cached": 8947712,
+      "output": 109582
+    },
+    "usage_note": "Some usage is missing, and an interrupted call reported no completed usage records; unknown usage is not assumed zero. Summed dispatch time includes overlapping independent calls and is not wall-clock duration. Cached input is separate; these are provider records, not billing or quota.",
+    "dispatches": [
+      {
+        "purpose": "leap-latest-import",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "exit_code": 124,
+        "recorded_usage": null
+      },
+      {
+        "purpose": "leap-latest-compile",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "exit_code": 124,
+        "recorded_usage": {
+          "records": 19,
+          "input_uncached": 81876,
+          "input_cached": 1663232,
+          "input_cache_write": 0,
+          "output": 22640,
+          "total": 1767748
+        }
+      },
+      {
+        "purpose": "leap-latest-correction",
+        "status": "timeout",
+        "elapsed_seconds": 900.1,
+        "exit_code": 124,
+        "recorded_usage": {
+          "records": 17,
+          "input_uncached": 51542,
+          "input_cached": 1858816,
+          "input_cache_write": 0,
+          "output": 15138,
+          "total": 1925496
+        }
+      },
+      {
+        "purpose": "leap-runtime-fresh",
+        "status": "failed",
+        "elapsed_seconds": 1.2,
+        "exit_code": 1,
+        "recorded_usage": null
+      },
+      {
+        "purpose": "leap-integrity",
+        "status": "failed",
+        "elapsed_seconds": 1.3,
+        "exit_code": 1,
+        "recorded_usage": null
+      },
+      {
+        "purpose": "leap-runtime-read",
+        "status": "reported",
+        "elapsed_seconds": 67.4,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 2,
+          "input_uncached": 13547,
+          "input_cached": 59136,
+          "input_cache_write": 0,
+          "output": 1503,
+          "total": 74186
+        }
+      },
+      {
+        "purpose": "leap-integrity-read",
+        "status": "reported",
+        "elapsed_seconds": 32.1,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 4,
+          "input_uncached": 7952,
+          "input_cached": 128768,
+          "input_cache_write": 0,
+          "output": 980,
+          "total": 137700
+        }
+      },
+      {
+        "purpose": "leap-runtime-active",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "exit_code": 124,
+        "recorded_usage": {
+          "records": 13,
+          "input_uncached": 30385,
+          "input_cached": 632832,
+          "input_cache_write": 0,
+          "output": 8910,
+          "total": 672127
+        }
+      },
+      {
+        "purpose": "leap-integrity-active",
+        "status": "reported",
+        "elapsed_seconds": 372.4,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 18,
+          "input_uncached": 36505,
+          "input_cached": 915200,
+          "input_cache_write": 0,
+          "output": 20484,
+          "total": 972189
+        }
+      },
+      {
+        "purpose": "leap-integrity-review",
+        "status": "reported",
+        "elapsed_seconds": 211.3,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 14,
+          "input_uncached": 39253,
+          "input_cached": 941824,
+          "input_cache_write": 0,
+          "output": 11090,
+          "total": 992167
+        }
+      },
+      {
+        "purpose": "leap-runtime-final",
+        "status": "timeout",
+        "elapsed_seconds": 480.1,
+        "exit_code": 124,
+        "recorded_usage": {
+          "records": 0,
+          "input_uncached": 0,
+          "input_cached": 0,
+          "input_cache_write": 0,
+          "output": 0,
+          "total": 0
+        }
+      },
+      {
+        "purpose": "leap-service-check",
+        "status": "reported",
+        "elapsed_seconds": 13.4,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 2,
+          "input_uncached": 1719,
+          "input_cached": 61440,
+          "input_cache_write": 0,
+          "output": 204,
+          "total": 63363
+        }
+      },
+      {
+        "purpose": "leap-gain-run",
+        "status": "reported",
+        "elapsed_seconds": 56.6,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 8,
+          "input_uncached": 18835,
+          "input_cached": 326656,
+          "input_cache_write": 0,
+          "output": 2325,
+          "total": 347816
+        }
+      },
+      {
+        "purpose": "leap-coupling-run",
+        "status": "reported",
+        "elapsed_seconds": 55.1,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 6,
+          "input_uncached": 20582,
+          "input_cached": 279808,
+          "input_cache_write": 0,
+          "output": 2527,
+          "total": 302917
+        }
+      },
+      {
+        "purpose": "leap-boundary-finish",
+        "status": "timeout",
+        "elapsed_seconds": 360.1,
+        "exit_code": 124,
+        "recorded_usage": {
+          "records": 22,
+          "input_uncached": 34088,
+          "input_cached": 1535232,
+          "input_cache_write": 0,
+          "output": 20279,
+          "total": 1589599
+        }
+      },
+      {
+        "purpose": "leap-run-final-checks",
+        "status": "reported",
+        "elapsed_seconds": 68.0,
+        "exit_code": 0,
+        "recorded_usage": {
+          "records": 7,
+          "input_uncached": 34318,
+          "input_cached": 544768,
+          "input_cache_write": 0,
+          "output": 3502,
+          "total": 582588
+        }
+      }
+    ],
+    "rework": "Initial unsafe collisions; too-weak servo; stronger servo with excessive coupling error; reviewed solver candidate; timestamp/command/output/CI regression corrections. Two coordinator-created session identifiers failed because CLI only resumes existing sessions; fresh read calls established actual sessions. One resumed call timed out without model output; a fresh short check recovered."
+  },
+  "limitations": [
+    "Fixed-base hand-only scripted7s trajectory. No arm, pad/GUI bridge, LEAP GPU, learned policy, long-horizon task or physical validation.",
+    "All17 motor channels exist; this script mainly exercises finger motion and holds palm references. It is not full-workspace/all-motor excitation coverage.",
+    "Eight body exclusions approximate CAD assembly contacts, including relatively moving parts; soft fingers/tendon/backlash/Metal inertials remain uncalibrated.",
+    "Every-step numerical/contact maxima are checked, but persisted trace rows are every10steps plus final; complete raw contact events are not a training dataset.",
+    "Peak transient commanded-to-actual tracking error0.2601rad is reported separately from held-phase0.0373rad; no hardware speed/precision acceptance.",
+    "Real-network fetch was not re-run after integrity changes; readonly real assets and stubbed-download failure boundaries passed."
+  ]
+}

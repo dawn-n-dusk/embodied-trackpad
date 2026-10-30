@@ -46,7 +46,7 @@ separate task; this app is independent of it.
 ```
 
 x/y are meters about pad center (+x right, +y up), bounded to **half** the pad
-dimensions (|x| <= 0.08, |y| <= 0.0575 on the default 0.16 x 0.115 m pad); an
+dimensions (|x| <= 0.08, |y| <= 0.055 on the default 0.16 x 0.11 m pad); an
 omitted finger means lifted. The device model (`Sources/DeviceModel.swift`):
 
 - relative cursor motion from per-finger deltas; first contact has no origin,

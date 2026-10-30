@@ -1,6 +1,6 @@
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
-> 2026-10-31 更新：机构选型以 [ADR 0005](decisions/0005-research-hand-selection.zh-CN.md)为准。LEAP v1 Full 是选定的新研究目标，Allegro V3 暂留运行与回归参考；[LEAP 第一阶段接入任务书](tasks/leap-v1-import.zh-CN.md)已准备，尚未派发。下方总体分包仍适用，不能把历史 Allegro/H800 结果归到 LEAP。
+> 2026-10-31 更新：机构选型以 [ADR 0006](decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md)为准，当前目标为 LEAP v2 Advanced 完整配置。旧 v1 任务书已被取代；实际 Kimi 接入、运行与验收状态见 STATUS.md 和台账。下方总体分包仍适用，不能把历史 Allegro/H800 结果归到 LEAP。
 
 **Kimi 实施任务书 v2：灵巧手、视觉闭环与长程记忆**
 
@@ -12,7 +12,7 @@
 
 **共同约束**
 
-- 主机构候选为 7 轴固定基座机械臂与完整 Allegro 四指手，执行器全部可用；二指简化对照使用独立关节和可变相对位置的独立模型。Shadow 五指为后续形态扩展。
+- 主机构为 LEAP v2 Advanced 完整五指手，17 电机通道全部可用；先验收固定掌部模型，之后组合固定基座机械臂。保留 21 关节与 4 对耦合的区别。已有 Allegro 结果只作独立回归参考；可变指距二指对照在主线运行后开展。
 - 每个 Mac 输入须经过机器人运动、动力学、触点与设备行为。上层输出视觉目标，低层输出执行器参考；桥接不接受策略任意坐标点击或应用内部命令。
 - actor 仅使用明确的视觉/本体/历史观测。DOM、辅助功能树、系统光标真值、GUI 内部状态和评分隔离到 teacher/critic/evaluator；新增传感器明确未来硬件对应性。
 - 机械能力、训练 GUI 手势、Mac 合成鼠标/滚动、Mac 原生多点触控分别验收。完整手可改变指距不等于 Mac 原生捏合通路已完成。

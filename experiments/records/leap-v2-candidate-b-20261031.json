@@ -1,0 +1,80 @@
+{
+  "probe": "leap-v2-adv-fixed-palm-cpu",
+  "verdict": "PASS",
+  "failure_reasons": [],
+  "started_utc": "2026-10-30T21:43:45.864712Z",
+  "finished_utc": "2026-10-30T21:43:50.199672Z",
+  "tiny": false,
+  "steps": 14000,
+  "timestep": 0.0005,
+  "hashes": {
+    "model_py_sha256": "bebd0d98efd346ebb48b0e91cd7aafd48cae90a626f2805166599f43b385b6a8",
+    "probe_py_sha256": "4c0acf450d851889d06f70a3e3ae8b102c303f5ec0c6cb30563de81a5f99d7d7",
+    "manifest_sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f",
+    "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+    "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b"
+  },
+  "checks": {
+    "finite_states": true,
+    "max_limit_excursion_rad": 0.0,
+    "max_coupling_error_rad": 0.007543526307480841,
+    "warnings": {},
+    "ctrl_out_of_bounds_count": 0,
+    "max_abs_qvel_rad_s": 5.543280600384426,
+    "max_contact_penetration_m": 0.0004486688715069379,
+    "max_command_tracking_error_rad": 0.26011371754639534,
+    "final_open_pose_error_rad": 0.03709640366188454
+  },
+  "gates": {
+    "finite": true,
+    "limit_excursion<=0.01": true,
+    "coupling<=0.01": true,
+    "no_warnings": true,
+    "ctrl_in_bounds": true
+  },
+  "contacts": {
+    "initial": {
+      "ncon": 0,
+      "pairs": {},
+      "max_penetration_m": 0.0,
+      "worst_pair": null
+    },
+    "max_simultaneous_contacts": 15,
+    "pairs_min_signed_distance_m": {
+      "dip_tip_soft_upward_cut_3|dip_tip_soft_upward_cut_4": -0.00034935923935592065,
+      "dip_tip_soft_upward_cut|dip_tip_soft_upward_cut_2": -0.00029762187275910525,
+      "pip_dip_soft_parts_3|finger_v2_with_motor_4": -0.00010536089225798891,
+      "pip_dip_soft_parts|pip_dip_soft_parts_2": -0.0001902028917021946,
+      "dip_tip_soft_upward_cut_2|dip_tip_soft_upward_cut_3": -0.0004486688715069379,
+      "pip_dip_soft_parts_3|pip_dip_soft_parts_4": -0.00044002922673752924,
+      "finger_v2_with_motor|finger_v2_with_motor_2": -0.00010689904284467745,
+      "finger_v2_with_motor_3|finger_v2_with_motor_4": -1.8207371033930827e-05,
+      "finger_v2_with_motor|pip_dip_soft_parts_2": -8.269145988905763e-05,
+      "pip_dip_soft_parts_3|dip_tip_soft_upward_cut_4": -0.00019718870438738048,
+      "dip_tip_soft_upward_cut|pip_dip_soft_parts_2": -0.00019146538932287126
+    },
+    "note": "free-space hand-only motion; no pad/GUI; NOT touch readiness"
+  },
+  "ctrl_violations": [],
+  "motion": {
+    "index_thumb_tip_distance_m": {
+      "initial": 0.21640133495359928,
+      "min": 0.02741712619940331,
+      "final": 0.21503682748436906
+    },
+    "tip_site_order": [
+      "realtip",
+      "realtip_2",
+      "realtip_3",
+      "realtip_4",
+      "realtip_5"
+    ],
+    "tip_travel_m_initial_to_final": [
+      0.008101722184975669,
+      0.008342170595966099,
+      0.008286678801475818,
+      0.00802274356424832,
+      0.0032611189915012643
+    ]
+  }
+}

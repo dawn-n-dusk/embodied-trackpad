@@ -1,0 +1,82 @@
+{
+  "schema_version": "leap-selected-assets.v1",
+  "selected_model": "LEAP Hand v2 Advanced, right hand (URDF + STL meshes)",
+  "upstream": {
+    "repository": "https://github.com/leap-hand/LEAP_Hand_V2_Adv_API",
+    "pinned_commit": "a0936196e8fa0bcefff045d6fc02523d6da591f2",
+    "commit_date_utc": "2025-06-13T17:36:35Z",
+    "resolved_from": "HEAD of default branch at fetch time"
+  },
+  "download_root": "assets/downloads/leap_hand_v2_adv (git-ignored, local only)",
+  "redistribution": "Meshes are NOT redistributed by this repository; they are fetched on demand into the ignored download root. The upstream license is retained alongside the assets.",
+  "upstream_license": "Apache-2.0 per the nested upstream software LICENSE (leap_v2/LICENSE at the pinned commit); the official CAD page https://v2-adv.leaphand.com/leap_cad lists CC BY-NC-SA. No blanket relicensing or redistribution permission is inferred for individual assets.",
+  "license_file": "LICENSE (verbatim copy of leap_v2/LICENSE at the pinned commit; evidence for the Apache-2.0 upstream software license only)",
+  "note": "Model meshes stay git-ignored under assets/downloads/leap_hand_v2_adv and are NOT redistributed by this repository; see upstream_license for the license evidence (nested Apache-2.0 software LICENSE; official CAD page lists CC BY-NC-SA). URDF inertials are upstream Onshape CAD exports; the repo does not state whether they describe the Metal or Plastic v2 Advanced build, so Metal hardware dynamics are UNCALIBRATED.",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    {
+      "path": "README.upstream.md",
+      "sha256": "e836473bf2a73d4dbff7b2a1912b248b0cc44fe4634418f3bc3fa65e74e0bf37",
+      "bytes": 4998
+    },
+    {
+      "path": "leap_v2_right/robot.urdf",
+      "sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+      "bytes": 41519
+    },
+    {
+      "path": "leap_v2_right/no_finger_frame_mirror.stl",
+      "sha256": "029587689beeada6ccc7af35dd854906417d4be773ba97cc516be4a2b4209731",
+      "bytes": 1159584
+    },
+    {
+      "path": "leap_v2_right/4_finger_frame_mirror.stl",
+      "sha256": "bcecc9ce7b9c7b96f09dc70c525339d52db55c0a7aee933b3ffe706974b044e0",
+      "bytes": 11371384
+    },
+    {
+      "path": "leap_v2_right/axle_4_gear_together.stl",
+      "sha256": "e0bfd2fee78408b8faf961eb22d4f6567f316b2b2b0283c61f5f8d5f5fa11437",
+      "bytes": 1112784
+    },
+    {
+      "path": "leap_v2_right/axle_4_gear_together_mir.stl",
+      "sha256": "736449a3c2fccb540c35866e7db1f44d3aac0453d8729ecc91eb4a3e6bcaa902",
+      "bytes": 1100084
+    },
+    {
+      "path": "leap_v2_right/finger_v2_with_motor.stl",
+      "sha256": "605b11b0b35afd0714c1716788cacc164f425e0aa87a9f6979c49643c396caee",
+      "bytes": 622184
+    },
+    {
+      "path": "leap_v2_right/pip_dip_soft_parts.stl",
+      "sha256": "4c072af05450d18b53a4dc7dc9436f31faafd49329a3ae1e32c139f7842e59ea",
+      "bytes": 643884
+    },
+    {
+      "path": "leap_v2_right/dip_tip_soft_upward_cut.stl",
+      "sha256": "ccbd43295a31d8ec3bb136c877c54f8e2501675d7a04d540fbdb859bc3804ccb",
+      "bytes": 390884
+    },
+    {
+      "path": "leap_v2_right/thumb_frame_mirror.stl",
+      "sha256": "8fd1b282fa64a8cd1d6825c0d8ccc1cf6bdb81b6ce6cfbaa49b445e0bca66bfa",
+      "bytes": 3005684
+    },
+    {
+      "path": "leap_v2_right/thumb_tip_hard.stl",
+      "sha256": "1a6e4527a6a34478ed0a4449464473014b6817571ebdc5be6efee1ec1710ea14",
+      "bytes": 864084
+    },
+    {
+      "path": "leap_v2_right/thumb_with_motor.stl",
+      "sha256": "0f5733275a392a1921747e37201464aa4916bc16cf363f78807ce2ccb58768bb",
+      "bytes": 628684
+    }
+  ]
+}

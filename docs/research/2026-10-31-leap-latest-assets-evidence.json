@@ -1,0 +1,665 @@
+{
+  "checked_at_utc": "2026-10-30T20:38:26.188701+00:00",
+  "scope": "Read-only public source research and downloads. No installation, simulation, hardware action, vendor contact or form submission.",
+  "decision": "v2 Advanced mainline; optional metal palm/gears future DIY; no convenience fallback to v1",
+  "repos": [
+    {
+      "model": "adv",
+      "repo": "https://github.com/leap-hand/LEAP_Hand_V2_Adv_API",
+      "commit": "a0936196e8fa0bcefff045d6fc02523d6da591f2",
+      "commit_time": "2025-06-13T17:36:35Z"
+    },
+    {
+      "model": "v2",
+      "repo": "https://github.com/leap-hand/LEAP_Hand_V2_API",
+      "commit": "eec4bd58274484271cdfc33d7c5a937b5c936f9b",
+      "commit_time": "2025-09-01T21:37:07Z"
+    },
+    {
+      "model": "v1",
+      "repo": "https://github.com/leap-hand/LEAP_Hand_API",
+      "commit": "b0d00c881d0119077b2cab771a6de44f5aaec904",
+      "commit_time": "2025-10-20T16:31:10Z"
+    },
+    {
+      "model": "v1_sim",
+      "repo": "https://github.com/leap-hand/LEAP_Hand_Sim",
+      "commit": "150bc3d4b61fd6619193ba5a8ef209f3609ced89",
+      "commit_time": "2024-05-18T18:48:47Z"
+    },
+    {
+      "model": "v1_isaac",
+      "repo": "https://github.com/leap-hand/LEAP_Hand_Isaac_Lab",
+      "commit": "c576e6a83183ba504aef8f57015f2899b799db1a",
+      "commit_time": "2025-09-04T21:16:11Z"
+    }
+  ],
+  "advanced_urdf_parse": {
+    "left": {
+      "path": "leap_v2/leap_v2/leap_v2_left/robot.urdf",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/robot.urdf",
+      "links": 32,
+      "revolute": 21,
+      "fixed": 10,
+      "mimics": [
+        {
+          "source_joint": "index_pip",
+          "target_joint": "index_dip",
+          "multiplier": "1.0",
+          "offset": "0.0"
+        },
+        {
+          "source_joint": "middle_pip",
+          "target_joint": "index_dip",
+          "multiplier": "1.0",
+          "offset": "0.0"
+        },
+        {
+          "source_joint": "ring_pip",
+          "target_joint": "ring_dip",
+          "multiplier": "1.0",
+          "offset": "0.0"
+        },
+        {
+          "source_joint": "pinky_pip",
+          "target_joint": "pinky_dip",
+          "multiplier": "1.0",
+          "offset": "0.0"
+        }
+      ],
+      "mass_sum_kg": 2.505000000000001,
+      "meshes": [
+        {
+          "filename": "package:///4_finger_frame.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/4_finger_frame.stl",
+          "exists_in_tree": true,
+          "bytes": 10936684,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/4_finger_frame.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///axle_4_gear_together.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/axle_4_gear_together.stl",
+          "exists_in_tree": true,
+          "bytes": 1112784,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/axle_4_gear_together.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///axle_4_gear_together_mir.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/axle_4_gear_together_mir.stl",
+          "exists_in_tree": true,
+          "bytes": 1100084,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/axle_4_gear_together_mir.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///dip_tip_soft_upward_cut.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/dip_tip_soft_upward_cut.stl",
+          "exists_in_tree": true,
+          "bytes": 390884,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/dip_tip_soft_upward_cut.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///finger_v2_with_motor.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/finger_v2_with_motor.stl",
+          "exists_in_tree": true,
+          "bytes": 622184,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/finger_v2_with_motor.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///no_finger_frame.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/no_finger_frame.stl",
+          "exists_in_tree": true,
+          "bytes": 1204684,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/no_finger_frame.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///pip_dip_soft_parts.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/pip_dip_soft_parts.stl",
+          "exists_in_tree": true,
+          "bytes": 643884,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/pip_dip_soft_parts.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_frame.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/thumb_frame.stl",
+          "exists_in_tree": true,
+          "bytes": 3093584,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/thumb_frame.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_tip_hard.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/thumb_tip_hard.stl",
+          "exists_in_tree": true,
+          "bytes": 864084,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/thumb_tip_hard.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_with_motor.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_left/thumb_with_motor.stl",
+          "exists_in_tree": true,
+          "bytes": 628684,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/thumb_with_motor.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        }
+      ],
+      "joint_order": [
+        "thumb_ip",
+        "thumb_mcps",
+        "thumb_mcpf",
+        "palm_thumb",
+        "index_dip",
+        "index_pip",
+        "index_mcps",
+        "index_mcpf",
+        "middle_dip",
+        "middle_pip",
+        "middle_mcps",
+        "middle_mcpf",
+        "ring_dip",
+        "ring_pip",
+        "ring_mcps",
+        "ring_mcpf",
+        "pinky_dip",
+        "pinky_pip",
+        "pinky_mcps",
+        "pinky_mcpf",
+        "palm_4_finger"
+      ],
+      "marker_links": [
+        {
+          "name": "realtip",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_2",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_3",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_4",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_5",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_2",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_3",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_4",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_5",
+          "mass_kg": 0.1
+        }
+      ],
+      "physical_links_mass_sum_kg": 1.505
+    },
+    "right": {
+      "path": "leap_v2/leap_v2/leap_v2_right/robot.urdf",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/robot.urdf",
+      "links": 32,
+      "revolute": 21,
+      "fixed": 10,
+      "mimics": [],
+      "mass_sum_kg": 2.5050000000000003,
+      "meshes": [
+        {
+          "filename": "package:///4_finger_frame_mirror.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/4_finger_frame_mirror.stl",
+          "exists_in_tree": true,
+          "bytes": 11371384,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/4_finger_frame_mirror.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///axle_4_gear_together.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/axle_4_gear_together.stl",
+          "exists_in_tree": true,
+          "bytes": 1112784,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/axle_4_gear_together.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///axle_4_gear_together_mir.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/axle_4_gear_together_mir.stl",
+          "exists_in_tree": true,
+          "bytes": 1100084,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/axle_4_gear_together_mir.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///dip_tip_soft_upward_cut.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/dip_tip_soft_upward_cut.stl",
+          "exists_in_tree": true,
+          "bytes": 390884,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/dip_tip_soft_upward_cut.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///finger_v2_with_motor.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/finger_v2_with_motor.stl",
+          "exists_in_tree": true,
+          "bytes": 622184,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/finger_v2_with_motor.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///no_finger_frame_mirror.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/no_finger_frame_mirror.stl",
+          "exists_in_tree": true,
+          "bytes": 1159584,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/no_finger_frame_mirror.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///pip_dip_soft_parts.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/pip_dip_soft_parts.stl",
+          "exists_in_tree": true,
+          "bytes": 643884,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/pip_dip_soft_parts.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_frame_mirror.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/thumb_frame_mirror.stl",
+          "exists_in_tree": true,
+          "bytes": 3005684,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/thumb_frame_mirror.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_tip_hard.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/thumb_tip_hard.stl",
+          "exists_in_tree": true,
+          "bytes": 864084,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/thumb_tip_hard.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        },
+        {
+          "filename": "package:///thumb_with_motor.stl",
+          "repository_path": "leap_v2/leap_v2/leap_v2_right/thumb_with_motor.stl",
+          "exists_in_tree": true,
+          "bytes": 628684,
+          "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/thumb_with_motor.stl",
+          "resolution_note": "Upstream uses package:///basename; rewrite to relative basename to resolve local download."
+        }
+      ],
+      "joint_order": [
+        "index_dip",
+        "index_pip",
+        "index_mcps",
+        "index_mcpf",
+        "middle_dip",
+        "middle_pip",
+        "middle_mcps",
+        "middle_mcpf",
+        "ring_dip",
+        "ring_pip",
+        "ring_mcps",
+        "ring_mcpf",
+        "pinky_dip",
+        "pinky_pip",
+        "pinky_mcps",
+        "pinky_mcpf",
+        "palm_4_finger",
+        "thumb_ip",
+        "thumb_mcps",
+        "thumb_mcpf",
+        "palm_thumb"
+      ],
+      "marker_links": [
+        {
+          "name": "realtip",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_2",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_3",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_4",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realtip_5",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_2",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_3",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_4",
+          "mass_kg": 0.1
+        },
+        {
+          "name": "realdip_5",
+          "mass_kg": 0.1
+        }
+      ],
+      "physical_links_mass_sum_kg": 1.5049999999999994
+    }
+  },
+  "advanced_zip_inventory": {
+    "left": {
+      "zip_sha256": "e899e18575a9fb2c3e0110e0123dfb7c38b5561687a84037d2e3092f7fc299c2",
+      "files": [
+        "leap_final_left/",
+        "leap_final_left/4_finger_frame.part",
+        "leap_final_left/4_finger_frame.stl",
+        "leap_final_left/4_finger_frame_low_res.stl",
+        "leap_final_left/axle_4_gear_together.part",
+        "leap_final_left/axle_4_gear_together.stl",
+        "leap_final_left/axle_4_gear_together_mir.part",
+        "leap_final_left/axle_4_gear_together_mir.stl",
+        "leap_final_left/config.json",
+        "leap_final_left/dip_tip_soft_upward_cut.part",
+        "leap_final_left/dip_tip_soft_upward_cut.stl",
+        "leap_final_left/finger_v2_with_motor.part",
+        "leap_final_left/finger_v2_with_motor.stl",
+        "leap_final_left/leapv2_left.urdf",
+        "leap_final_left/leapv2_left_full_res/",
+        "leap_final_left/leapv2_left_full_res/instanceable_meshes.usd",
+        "leap_final_left/leapv2_left_full_res/leapv2_left_full_res.usd",
+        "leap_final_left/leapv2_left_full_res.xml",
+        "leap_final_left/leapv2_left_low_res.xml",
+        "leap_final_left/no_finger_frame.part",
+        "leap_final_left/no_finger_frame.stl",
+        "leap_final_left/no_finger_frame_low_res.stl",
+        "leap_final_left/pip_dip_soft_parts.part",
+        "leap_final_left/pip_dip_soft_parts.stl",
+        "leap_final_left/thumb_frame.part",
+        "leap_final_left/thumb_frame.stl",
+        "leap_final_left/thumb_frame_low_res.stl",
+        "leap_final_left/thumb_tip_hard.part",
+        "leap_final_left/thumb_tip_hard.stl",
+        "leap_final_left/thumb_with_motor_base.part",
+        "leap_final_left/thumb_with_motor_base.stl"
+      ],
+      "urdfs": [
+        {
+          "name": "leap_final_left/leapv2_left.urdf",
+          "sha256": "c5d6929eaf84694297d8d2ce498b1229d70045bf31f76455a751f4c31076f012",
+          "same_as_repo": false,
+          "links": 22,
+          "revolute": 21,
+          "mimics": [],
+          "mass_sum_kg": 1.505
+        }
+      ]
+    },
+    "right": {
+      "zip_sha256": "3f349c7c81cb7fa0c2cc27b10290a81d924cb2e15b9f29859a39b9712c0f3975",
+      "files": [
+        "leap_final_right/",
+        "leap_final_right/4_finger_frame_mirror.part",
+        "leap_final_right/4_finger_frame_mirror.stl",
+        "leap_final_right/4_finger_frame_mirror_low_res.stl",
+        "leap_final_right/axle_4_gear_together.part",
+        "leap_final_right/axle_4_gear_together.stl",
+        "leap_final_right/axle_4_gear_together_mir.part",
+        "leap_final_right/axle_4_gear_together_mir.stl",
+        "leap_final_right/config.json",
+        "leap_final_right/dip_tip_soft_upward_cut.part",
+        "leap_final_right/dip_tip_soft_upward_cut.stl",
+        "leap_final_right/finger_v2_with_motor.part",
+        "leap_final_right/finger_v2_with_motor.stl",
+        "leap_final_right/leapv2_right.urdf",
+        "leap_final_right/leapv2_right_full_res/",
+        "leap_final_right/leapv2_right_full_res/instanceable_meshes.usd",
+        "leap_final_right/leapv2_right_full_res/leapv2_right_full_res.usd",
+        "leap_final_right/leapv2_right_full_res.xml",
+        "leap_final_right/leapv2_right_low_res.xml",
+        "leap_final_right/no_finger_frame_mirror.part",
+        "leap_final_right/no_finger_frame_mirror.stl",
+        "leap_final_right/no_finger_frame_mirror_low_res.stl",
+        "leap_final_right/pip_dip_soft_parts.part",
+        "leap_final_right/pip_dip_soft_parts.stl",
+        "leap_final_right/thumb_frame_mirror.part",
+        "leap_final_right/thumb_frame_mirror.stl",
+        "leap_final_right/thumb_frame_mirror_low_res.stl",
+        "leap_final_right/thumb_tip_hard.part",
+        "leap_final_right/thumb_tip_hard.stl",
+        "leap_final_right/thumb_with_motor_base.part",
+        "leap_final_right/thumb_with_motor_base.stl"
+      ],
+      "urdfs": [
+        {
+          "name": "leap_final_right/leapv2_right.urdf",
+          "sha256": "c400ead9c3fff60d32aeb01fcd32c929cb9aaf780929b3bf367e78c280d8eaf3",
+          "same_as_repo": false,
+          "links": 22,
+          "revolute": 21,
+          "mimics": [],
+          "mass_sum_kg": 1.5049999999999997
+        }
+      ]
+    }
+  },
+  "v1_zip_inventory": {
+    "sha256": "65c46277b792bd608efabff4ffed6c88d1a8d0d5066b05fd9800ffb453721908",
+    "files": [
+      "dip.part",
+      "dip.stl",
+      "fingertip.part",
+      "fingertip.stl",
+      "mcp_joint.part",
+      "mcp_joint.stl",
+      "palm_lower.part",
+      "palm_lower.stl",
+      "pip.part",
+      "pip.stl",
+      "robot.urdf",
+      "thumb_dip.part",
+      "thumb_dip.stl",
+      "thumb_fingertip.part",
+      "thumb_fingertip.stl",
+      "thumb_pip.part",
+      "thumb_pip.stl"
+    ],
+    "urdfs": [
+      {
+        "path": "robot.urdf",
+        "sha256": "c7fb6f93018d13d9fffe878b4b34489948fca8d97bc2c43e3da01b0cf01f247b",
+        "links": 17,
+        "revolute": 16,
+        "mimics": 0,
+        "mesh": 34
+      }
+    ]
+  },
+  "artifact_hashes": [
+    {
+      "bytes": 41708,
+      "sha256": "2c58f4e5bc891aba47dad9414553023e0112b4a3c2d3a888b1c9b3005c442f98",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_left/robot.urdf",
+      "source_kind": "github_raw",
+      "private_snapshot_label": "leap_latest_adv_left_urdf.txt"
+    },
+    {
+      "bytes": 41519,
+      "sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/leap_v2/leap_v2_right/robot.urdf",
+      "source_kind": "github_raw",
+      "private_snapshot_label": "leap_latest_adv_right_urdf.txt"
+    },
+    {
+      "bytes": 8460208,
+      "sha256": "e899e18575a9fb2c3e0110e0123dfb7c38b5561687a84037d2e3092f7fc299c2",
+      "url": "https://v2-adv.leaphand.com/static/cad/leap_v2_adv_left.zip",
+      "source_kind": "official_website_download",
+      "private_snapshot_label": "leap_latest_adv_zip_left.zip"
+    },
+    {
+      "bytes": 15027778,
+      "sha256": "3f349c7c81cb7fa0c2cc27b10290a81d924cb2e15b9f29859a39b9712c0f3975",
+      "url": "https://v2-adv.leaphand.com/static/cad/leap_v2_adv_right.zip",
+      "source_kind": "official_website_download",
+      "private_snapshot_label": "leap_latest_adv_zip_right.zip"
+    },
+    {
+      "bytes": 539800,
+      "sha256": "50e82041c7a50d442a7e9904b70de9f973d5a66c1ffc085a383e4250ba8d4380",
+      "url": "https://v2-adv.leaphand.com/static/cad/palm_parts/four_fingers_lower_palm_metal.stp",
+      "source_kind": "official_website_download",
+      "private_snapshot_label": "leap_latest_adv_metal_palm_step.stp"
+    },
+    {
+      "bytes": 15789020,
+      "sha256": "f8103e24cccc423b6679829665f1f089c6bdf64a8202edfce78abd04a956fcbe",
+      "url": "https://v2.leaphand.com/static/cad/assembly/flat_finger_top_mount_right.stp",
+      "source_kind": "official_website_download",
+      "private_snapshot_label": "leap_latest_v2_flat_right_step.stp"
+    },
+    {
+      "bytes": 2950694,
+      "sha256": "65c46277b792bd608efabff4ffed6c88d1a8d0d5066b05fd9800ffb453721908",
+      "url": "https://v1.leaphand.com/static/cad/urdf/leap_right.zip",
+      "source_kind": "official_website_download",
+      "private_snapshot_label": "leap_latest_v1_zip_right.zip"
+    },
+    {
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_V2_Adv_API/a0936196e8fa0bcefff045d6fc02523d6da591f2/leap_v2/LICENSE",
+      "source_kind": "github_raw",
+      "private_snapshot_label": "leap_latest_adv_license.txt"
+    },
+    {
+      "bytes": 1241,
+      "sha256": "b9937f749bea8689e83766f7a732c23e63730d3a4483ef827a6c6603c4a023be",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_API/b0d00c881d0119077b2cab771a6de44f5aaec904/LICENSE",
+      "source_kind": "github_raw",
+      "private_snapshot_label": "leap_latest_v1_api_license.txt"
+    },
+    {
+      "bytes": 1062,
+      "sha256": "5a91c3d709c2ee3a71f166b46e3208cebd83c0c7a870746c729b31a01f156984",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_Sim/150bc3d4b61fd6619193ba5a8ef209f3609ced89/LICENSE.txt",
+      "source_kind": "github_raw",
+      "private_snapshot_label": "leap_latest_v1_sim_license.txt"
+    }
+  ],
+  "key_findings": [
+    {
+      "id": "motor_vs_joint_count",
+      "claim": "Advanced has 21 revolute joints and 17 motor inputs; 4 non-thumb PIP/DIP pairs share tendons.",
+      "sources": [
+        "https://v2-adv.leaphand.com/",
+        "https://github.com/leap-hand/LEAP_Hand_V2_Adv_API/blob/a0936196e8fa0bcefff045d6fc02523d6da591f2/README.md"
+      ]
+    },
+    {
+      "id": "marker_mass",
+      "claim": "GitHub URDF extra ten realtip/realdip links each carry 0.1kg; convert landmarks to sites before dynamics. Physical links sum 1.505kg; same as website ZIP. Not measured hardware mass.",
+      "source_files": [
+        "sources/leap_latest_adv_parsed.json",
+        "sources/leap_latest_adv_zip_inventory.json"
+      ]
+    },
+    {
+      "id": "mimic_error",
+      "claim": "Left middle_pip targets index_dip; right URDF has no mimics. Requires documented correction/coupling approximation.",
+      "source_files": [
+        "sources/leap_latest_adv_parsed.json"
+      ]
+    },
+    {
+      "id": "metal_precision",
+      "claim": "Official CAD page warns of 10-15 degree forward MCP backlash with metal 3D printing and recommends considering CNC for precision.",
+      "sources": [
+        "https://v2-adv.leaphand.com/leap_cad"
+      ]
+    },
+    {
+      "id": "lowcost_model_mismatch",
+      "claim": "Low-cost CAD page URDF links actually target Advanced repository; own API tree has no URDF/MJCF.",
+      "sources": [
+        "https://v2.leaphand.com/leap_cad",
+        "https://github.com/leap-hand/LEAP_Hand_V2_API/tree/eec4bd58274484271cdfc33d7c5a937b5c936f9b"
+      ]
+    },
+    {
+      "id": "sensors",
+      "claim": "Motor position/velocity/current feedback, no verified standard tactile sensor inclusion. Advanced ROS feedback service registration is commented in current node.",
+      "source_files": [
+        "sources/leap_latest_adv_node.txt",
+        "sources/leap_latest_v2_readme.txt",
+        "sources/leap_latest_adv_cad_index.txt"
+      ]
+    },
+    {
+      "id": "license_conflicts",
+      "claim": "Advanced software nested Apache-2.0 vs CAD NC-SA; Low-cost README CAD NC-SA vs current website BY-SA4; v1 API NC4 vs website CAD BY-SA4 and sim MIT. Preserve per-source licensing.",
+      "source_files": [
+        "sources/leap_latest_adv_license.txt",
+        "sources/leap_latest_adv_cad_index.txt",
+        "sources/leap_latest_v2_readme.txt",
+        "sources/leap_latest_v2_cad_index.txt",
+        "sources/leap_latest_v1_api_license.txt",
+        "sources/leap_latest_v1_cad_index.txt",
+        "sources/leap_latest_v1_sim_license.txt"
+      ]
+    }
+  ],
+  "status": {
+    "assets_downloaded": true,
+    "urdf_parsed": true,
+    "simulator_loaded": false,
+    "trained": false,
+    "physical_trackpad_validated": false
+  },
+  "sensitive_config_note": "Do not copy/use/publish upstream exporter configs or credentials; safe manifest contains only required model artifacts.",
+  "private_snapshots_included": false,
+  "coordinator_review": {
+    "checked_utc": "2026-10-30T20:40:36.947268+00:00",
+    "download_hashes_verified": 10,
+    "github_right": {
+      "revolute": 21,
+      "links": 32,
+      "mass_kg": 2.5050000000000003,
+      "marker_count": 10,
+      "marker_mass_kg": 0.9999999999999999
+    },
+    "website_right": {
+      "revolute": 21,
+      "links": 22,
+      "mass_kg": 1.5049999999999997
+    }
+  }
+}
