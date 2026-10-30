@@ -1,6 +1,6 @@
 # Current status
 
-Updated: 2026-10-30. Status is evidence-based, not inferred from a roadmap item.
+Updated: 2026-10-31 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 
 | Milestone | State | Evidence / next condition |
 |---|---|---|
@@ -14,7 +14,7 @@ Updated: 2026-10-30. Status is evidence-based, not inferred from a roadmap item.
 | Training | Not started | Wait for environment/data acceptance |
 | Mac test host | M5 authorized and inspected | M5/16 GB/macOS 26.4.1; M1 currently unavailable. Lightweight confined native app is being implemented |
 | macOS virtual machine | Guest boot and desktop verified | macOS 26.6.2, 4 CPUs/6 GB, fixed 1024×768; no host folder/clipboard sharing. Experimental host VNC listener was stopped after a binding review; guest-only capture/input bridge still pending |
-| Confined native Mac GUI | Initial result rejected; Kimi correcting | Initial build/sandbox probes and 110-test report exist, but independent real-app checks found gesture/watchdog/evidence gaps. Do not treat initial smoke as accepted |
+| Confined native Mac GUI | Corrected software test GUI accepted | Kimi's signed AppKit app: 47 native integration tests, 136 total tests and 18 smoke checks passed. Coordinator reviewed source, raw receipts, checksums and actual drag image. [Record](experiments/records/mac-sandbox-first.json); synthetic contact tests only, physics bridge pending |
 | Robot live stream | Kimi operational task dispatched | No accepted stream URL yet. Prepare LimCPU live rendering and separately verify full-hand H800 batches after stable CPU source |
 | Full-hand H800 batch simulation | Pending | Existing 12/12 result is only the tiny probe; it is not a full-hand result or measured GPU speedup |
 | Real-Mac input and autonomous tasks | Not started | Dedicated testbed, bridge implementation, and measured verification required |

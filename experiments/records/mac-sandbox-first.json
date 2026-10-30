@@ -1,0 +1,84 @@
+{
+  "record_id": "mac-sandbox-first",
+  "ts_utc": "2026-10-30T16:20:37Z",
+  "source_revision": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "branch": "codex/trackpad-mac-sandbox",
+  "host": "user-current M5 Mac, macOS 26.4.1 (25E253), arm64",
+  "scope": "original bounded native test GUI (TrackpadSandbox); NOT Finder, NOT whole-macOS, NOT a VM; no real-robot services touched; full-VM work is a separate task and was not used",
+  "failure_history": {
+    "v0.1_2026-10-30": {
+      "state": "NOT ACCEPTED",
+      "evidence": "coordinator independent review (mac-independent-review.json) reproduced: button held after 0.8s wall idle; duplicate finger ids accepted; touch ack leaked cursor truth; omitted-then-returning finger jumped +24px; sequence=true accepted; x=0.09 accepted on 0.16m pad; drag completed with press starting outside source; probes callable in normal mode. Prior 110-test/10-smoke pass retained as unaccepted history."
+    },
+    "v0.2_2026-10-30": "8 reproduced defects corrected; coordinator confirmed actual object placement in smoke-3 PNG and genuine 132-test raw output. Follow-up integration review found: pad height 115mm instead of shared 110mm contract; sim-time expiry not applied before lift evaluation; click hit counted on release position only; privileged state query ungated on actor transport; handwritten future timestamp.",
+    "v0.3_2026-10-30": "all 5 integration findings corrected; see observed_outcome"
+  },
+  "commands": [
+    "bash macos/TrackpadSandbox/build.sh",
+    "codesign --verify --deep --strict .local/build/TrackpadSandbox.app",
+    "python3 tools/mac_sandbox_client.py smoke",
+    "python3 tools/mac_sandbox_client.py probe",
+    "PYTHONPATH=src:. uv run --no-project --offline --with pytest --with jsonschema -- python -m pytest tests -q"
+  ],
+  "observed_outcome": {
+    "build": "swiftc -O OK; ad-hoc signature; codesign verify OK; only com.apple.security.app-sandbox=true",
+    "protocol_tests": "47/47 real-app tests passed: adds +/-0.055 y-boundary and 0.056 rejection, expiry-before-lift (no release/hit/drag on gapped empty contacts), press-outside-slide-in no-hit negative and in-target positive, evaluator role gating (normal launch rejected)",
+    "full_suite": "136/136 passed (89 pre-existing + 47 new)",
+    "smoke": "18/18 checks passed: ack-no-truth, first_touch_no_jump, relative_move (32,16 px), pixel changes on move/click/drag, capture clock monotonic, click_target_hit (hits=1/releases=1), outside_click_no_hit (hits unchanged, release counted), false_drag_rejected (object unmoved), drag_done_by_object_placement (object relocated and retained inside destination), scroll 0->36, watchdog cancels held button without fake click, press suppressed until lift, stop clears button, clean EOF exit",
+    "entitlements_vs_measured": {
+      "declared": [
+        "com.apple.security.app-sandbox=true"
+      ],
+      "measured": {
+        "canary_file_outside_container": "denied (NSCocoaErrorDomain 513), fixed name sandbox-canary.txt under designated fresh root",
+        "localhost_connect_ports_9_65000": "denied (EPERM errno 1)",
+        "probes_in_normal_mode": "rejected diagnostics_disabled; state rejected evaluator_required",
+        "stdin_stdout_jsonl": "permitted (inherited channels)"
+      }
+    },
+    "device_contract": "pad 160 x 110 mm (half-extents 0.08 / 0.055 m)",
+    "role_boundary": "state query requires launch-only --evaluator flag; normal actor launch rejected with evaluator_required. Protocol role boundary, not an OS security claim."
+  },
+  "artifacts": {
+    "png_samples_sha256": {
+      ".local/output/smoke-0-reset.png": "56e54ceae02dbaae42d3e112da032976bc6b1fcc0b8f3f7a3426e737a5fceaca",
+      ".local/output/smoke-1-moved.png": "c7763ff19d87bd8ffc5ce31ad4b9ce2448932cbde835f5e59c1f2ebe5ad05038",
+      ".local/output/smoke-2-clicked.png": "4333e58983f80d406a252aa0d9647e732cfd3744eae960e2deb9788992c448c0",
+      ".local/output/smoke-3-dragged.png": "ae7fa465dfaeb8d613b6cfb9a716eb548d3d287da3620993f9113dc047ddc267",
+      ".local/output/smoke-4-scrolled.png": "81278ebf067d450edeff3d277d526d3e51f43851e820eb5ac74f3a44b150ef2b"
+    },
+    "note": "smoke-3-dragged.png shows the draggable object relocated into the destination (faint outline marks its origin)",
+    "report": ".local/final-report.json",
+    "qa_receipt": ".local/qa-receipt.txt"
+  },
+  "limitations": [
+    "synthetic contacts only; software/protocol semantics, not physical robot evidence",
+    "smoke sequences are synthetic and ineligible for training",
+    "capture renders only the app's own content view; no host desktop capture exists",
+    "no Finder/whole-macOS/VM acceptance claimed or tested",
+    "Accepted as a confined native software test GUI; physics-driven inputs, real macOS applications and policy training remain untested."
+  ],
+  "ts_correction": "Timestamps in this record are generated with datetime.now(timezone.utc). Earlier versions carried a handwritten future/wrong-zone ts (2026-10-31T00:12:00Z); that exact execution UTC is unknown within the runner window. The superseded v0.2 report is preserved privately at .local/final-report-v0.2-superseded.json.",
+  "source_working_tree_dirty": true,
+  "source_hashes": {
+    "tests/test_mac_sandbox_protocol.py": "848fe301b0687c24db8233ea3cc784def7f98cbd8a553628b622a1499ec88cd7",
+    "tools/mac_sandbox_client.py": "20b29da4b0bfe39d3be01613c49ee2c8e107c611eff3eff5301366c359812683",
+    "macos/TrackpadSandbox/build.sh": "281cd37b65ce1c9d4d66515ba78938551c695ea5e0f7f8e3c267dc98f70be360",
+    "macos/TrackpadSandbox/TrackpadSandbox.entitlements": "97adfde4e3d17fec5442593ab1566e1cce8532f1f5285845a7e9096abb08d45b",
+    "macos/TrackpadSandbox/Info.plist": "1cb85b08ed1b657bbe5194401b9a505614098739058e618290c8dadd4d3c59b6",
+    "macos/TrackpadSandbox/Sources/DeviceModel.swift": "f2fd258e97b5633a97309fb4a5f02609390d358e6d7a5a327a286a178b8a2630",
+    "macos/TrackpadSandbox/Sources/main.swift": "d3344491ed12a17814451d72b53bcf8beda5ebc39a4ff39ffc8b9c42e7f39e3f"
+  },
+  "coordinator_review": {
+    "timestamp_utc": "2026-10-30T16:26:09.606019+00:00",
+    "mode": "read-only source, raw result and saved GUI image review; operational execution by Kimi",
+    "checks": [
+      "Real-app 136-test and 18-check smoke receipt reviewed",
+      "App/client source hashes matched worker receipt",
+      "Five PNG checksums matched and drag placement independently viewed",
+      "Additional pad/expiry/click-origin/evaluator findings corrected in source and covered by real-app tests",
+      "Non-macOS module skip added after real-app run; Linux CI coverage must be reported separately"
+    ],
+    "preview": "docs/assets/native-sandbox-drag.png"
+  }
+}
