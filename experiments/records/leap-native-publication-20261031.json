@@ -1,0 +1,37 @@
+{
+  "record_version": "1.0",
+  "id": "leap-native-publication-20261031",
+  "timestamp_utc": "2026-10-30T22:59:22.522990+00:00",
+  "kind": "public_release_verification",
+  "status": "published_ci_passed",
+  "source_commit": "65ad7caff427ea8650ee2a6480dc1f9b4be4aa08",
+  "remote_branch": "main",
+  "remote_revision_verified": true,
+  "ci": {
+    "run_id": 41141498847,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41141498847",
+    "status": "completed",
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "review": {
+    "files": 13,
+    "source_hashes_match_executed_native_run": true,
+    "last_three_ledger_artifact_hashes_match": true,
+    "json_and_python_syntax": "passed",
+    "local_markdown_links_checked": 66,
+    "diff_check": "passed",
+    "private_path_and_credential_pattern_scan": "no findings after replacing an overbroad sk- substring pattern with a bounded key-like pattern",
+    "raw_models_private_sessions_or_images_published": false
+  },
+  "limitations": [
+    "Foundation-only Ubuntu CI does not run the optional native app or MuJoCo/GPU runtime. Actual run evidence is separately recorded.",
+    "No online visual policy, D1 training dataset, long-horizon task or hardware acceptance.",
+    "The next online pilot is prepared, not dispatched; no background training is running from this release."
+  ]
+}
