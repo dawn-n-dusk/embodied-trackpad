@@ -1,0 +1,6 @@
+# Pinned versions verified in the single-H800 Slurm probe on 2026-10-30.
+# See docs/experiments/2026-10-30-h800-probe.md for the exact environment.
+mujoco==3.17.0
+mujoco-warp==3.17.0
+warp-lang==1.18.0
+numpy==2.2.6
