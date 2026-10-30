@@ -1,0 +1,40 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v2-publication-20261031",
+  "timestamp_utc": "2026-10-30T22:07:49.555316+00:00",
+  "kind": "public_release_verification",
+  "status": "published_ci_passed",
+  "source_commit": "7401ab768625b6e5b91e6bf658fdb9899023f958",
+  "remote_branch": "main",
+  "remote_revision_verified": true,
+  "ci": {
+    "run_id": 41135546284,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41135546284",
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ],
+    "per_job": {
+      "passed": 117,
+      "skipped": 3
+    },
+    "fixture_reproducibility": "passed"
+  },
+  "review": {
+    "files": 34,
+    "source_hashes_match_accepted_run": true,
+    "last_four_ledger_artifact_hashes_match": true,
+    "json_and_python_syntax": "passed",
+    "local_markdown_links": "passed",
+    "diff_check": "passed",
+    "private_path_and_credential_pattern_scan": "no findings",
+    "raw_models_or_private_images_published": false
+  },
+  "limitations": [
+    "Ubuntu CI omits optional native-app and physics runtime checks; the separate 34-test CPU receipt establishes actual local physics coverage.",
+    "No LEAP pad/GUI, GPU, learning or physical-hardware acceptance is claimed by this publication."
+  ]
+}
