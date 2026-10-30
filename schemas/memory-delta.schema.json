@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embodied-trackpad.dev/schemas/memory-delta.schema.json",
+  "title": "MemoryDelta",
+  "description": "Increment to long-term semantic memory (trackpad.v2-draft). attempted and observed_success are separate states; success facts must carry observable evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "memory_version",
+    "source_observation_id",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "trackpad.v2-draft" },
+    "memory_version": { "type": "integer", "minimum": 0 },
+    "source_observation_id": { "type": "string", "minLength": 1 },
+    "generated_at": { "$ref": "#/$defs/clockStamp" },
+    "attempted": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "observed_success": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidencedFact" }
+    },
+    "uncertain": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "revisions": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/memoryRevision" }
+    }
+  },
+  "$defs": {
+    "clockStamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock_id", "time_ns"],
+      "properties": {
+        "clock_id": { "type": "string", "minLength": 1 },
+        "time_ns": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "evidencedFact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact", "evidence_frame_ids"],
+      "properties": {
+        "fact": { "type": "string", "minLength": 1 },
+        "evidence_frame_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "memoryRevision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["supersedes", "fact", "evidence_frame_ids"],
+      "properties": {
+        "supersedes": { "type": "string", "minLength": 1 },
+        "fact": { "type": "string", "minLength": 1 },
+        "evidence_frame_ids": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

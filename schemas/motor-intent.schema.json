@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embodied-trackpad.dev/schemas/motor-intent.schema.json",
+  "title": "MotorIntent",
+  "description": "A time-bounded visual interaction goal for the motor layer (trackpad.v2-draft). Bounding boxes use capture-image coordinates, top-left origin, [x0,y0,x1,y1] in [0,1].",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "intent_id",
+    "goal_id",
+    "goal_version",
+    "observation_id",
+    "interaction_kind",
+    "target_bbox_norm",
+    "target_confidence",
+    "calibration_id",
+    "issued_at",
+    "valid_until"
+  ],
+  "properties": {
+    "schema_version": { "const": "trackpad.v2-draft" },
+    "intent_id": { "type": "string", "minLength": 1 },
+    "goal_id": { "type": "string", "minLength": 1 },
+    "goal_version": { "type": "integer", "minimum": 0 },
+    "observation_id": { "type": "string", "minLength": 1 },
+    "interaction_kind": {
+      "enum": ["move", "activate", "drag", "scroll", "pinch", "rotate", "release", "wait"]
+    },
+    "target_bbox_norm": { "$ref": "#/$defs/bbox" },
+    "destination_bbox_norm": { "anyOf": [{ "$ref": "#/$defs/bbox" }, { "type": "null" }] },
+    "target_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "calibration_id": { "type": "string", "minLength": 1 },
+    "issued_at": { "$ref": "#/$defs/clockStamp" },
+    "valid_until": { "$ref": "#/$defs/clockStamp" }
+  },
+  "$defs": {
+    "bbox": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": { "type": "number", "minimum": 0, "maximum": 1 }
+    },
+    "clockStamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock_id", "time_ns"],
+      "properties": {
+        "clock_id": { "type": "string", "minLength": 1 },
+        "time_ns": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}
