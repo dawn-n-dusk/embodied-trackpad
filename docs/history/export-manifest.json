@@ -1,0 +1,35 @@
+{
+  "exported_utc": "2026-10-30T09:38:40.371138+00:00",
+  "documents": [
+    {
+      "source_label": "后端架构修订_v2.md",
+      "public_path": "docs/architecture.zh-CN.md",
+      "public_sha256": "7bd982a415293bc2e17fcad1c1fa21fad84796e3c00094e85a2027830a1319d0",
+      "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed"
+    },
+    {
+      "source_label": "Kimi实施任务书_v2.md",
+      "public_path": "docs/implementation-plan.zh-CN.md",
+      "public_sha256": "955c2d96aa3af10ef0e595c6e2419939704aad789dd8ec7ae6096a484b8c8624",
+      "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed"
+    },
+    {
+      "source_label": "后端训练架构与数据设计_v1.md",
+      "public_path": "docs/history/2026-10-30-architecture-v1.zh-CN.md",
+      "public_sha256": "648da6a33677f3a4bb7aad1b2dd24ad12d4f6ee8075f5b2c401d35e7071b3c5a",
+      "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed"
+    },
+    {
+      "source_label": "可行性与仿真方案.md",
+      "public_path": "docs/history/2026-10-30-feasibility.zh-CN.md",
+      "public_sha256": "4b928a1ab5108c21c726d87d27d66fc655c3145679a22f2051dcf810e0db4f9b",
+      "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed"
+    },
+    {
+      "source_label": "Kimi实施任务书.md",
+      "public_path": "docs/history/2026-10-30-implementation-v1.zh-CN.md",
+      "public_sha256": "afd61985fe36c8ac3bc198b58cbe49f57ae074f6dc6376e691227a35bcb201a7",
+      "export_policy": "design content retained; private account/host/session fields removed; external source snapshots not redistributed"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "record_version": "1.0",
+  "id": "REPLACE_WITH_UNIQUE_ID",
+  "timestamp_utc": null,
+  "kind": "development_or_experiment",
+  "status": "planned",
+  "objective": "",
+  "source_commit": null,
+  "config": {},
+  "seed": null,
+  "environment": {},
+  "data_revision": null,
+  "policy_revision": null,
+  "commands": [],
+  "checks": [],
+  "metrics": {},
+  "artifacts": [],
+  "limitations": [],
+  "supersedes": null
+}
