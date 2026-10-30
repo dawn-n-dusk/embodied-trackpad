@@ -1,0 +1,50 @@
+{
+  "record_version": "1.0",
+  "id": "hand-cpu-failed-cycle-20261030",
+  "timestamp_utc": "2026-10-30T16:40:40.227486+00:00",
+  "experiment_timestamp_utc": "2026-10-30T16:35:27.794199+00:00",
+  "kind": "cpu_physics_probe",
+  "status": "failed_not_accepted",
+  "source_commit": "2f7c01335637610c6f741c110bcaca214152628a",
+  "source_working_tree_dirty": true,
+  "source_sha256": {
+    "src/embodied_trackpad/sim/model.py": "1d67fc7cd1d8c1682a8e1e2dc8ad5bfd4d5c3a2f5a7554616c94d4a85c6ddc49",
+    "src/embodied_trackpad/sim/env.py": "14e475019c753c3627c57fd2dc9bda9a85686f43b3db02ef87c147947993f7f2",
+    "src/embodied_trackpad/sim/__init__.py": "aed933e8358ceaec6cda6576c27b7ce47a9a26bb77de70b90679414e1c6f2172",
+    "tools/hand_cpu_probe.py": "d49272c0b740a3a373ecdf7622109fa257ec232097a8e08c957efd4684beb738"
+  },
+  "metrics": {
+    "target_finger": "mf",
+    "tip_start_world": [
+      0.427344,
+      -4.6e-05,
+      0.59491
+    ],
+    "press_target_world": [
+      0.427344,
+      -4.6e-05,
+      0.524371
+    ],
+    "press_depth_target_m": 0.004,
+    "duration_s": 3.0,
+    "steps": 1500,
+    "tip_pad_contacts_press": 0,
+    "tip_pad_fingers_press": [],
+    "max_normal_force_n": 0.0,
+    "tip_pad_contacts_final_0.5s": 0,
+    "max_penetration_m": 0.005898,
+    "qacc_finite": true,
+    "solver_warnings": {},
+    "success": false
+  },
+  "reset_contacts": 0,
+  "limits": [
+    "No successful fingertip-pad interaction in this cycle; no GUI or learned policy.",
+    "Joint-extreme sweep includes collisions outside the executed reset; it is a diagnostic census, not a validated workspace.",
+    "Coordinator source review found that the root palm quaternion and actual attached-frame transform must be included in mounting calculations; requested actual compiled orientation assertions and corrected pad placement.",
+    "Worker process exited after provider response-policy rejection; saved files were preserved and a bounded same-session ordinary robot-model debugging task was issued."
+  ],
+  "raw_result_sha256": "de37907957196b79eba60662c294a239d0fa9f110fe44f97d3bb2fec12ad4a7e",
+  "operational_owner": "Kimi",
+  "coordinator_review": "Read-only source, saved numerical output, and rendered images; no coordinator physics execution."
+}

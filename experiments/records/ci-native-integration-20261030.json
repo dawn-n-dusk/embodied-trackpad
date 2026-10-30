@@ -1,0 +1,20 @@
+{
+  "record_version": "1.0",
+  "id": "ci-native-integration-20261030",
+  "timestamp_utc": "2026-10-30T16:32:22.604783+00:00",
+  "kind": "publication_and_ci",
+  "status": "verified",
+  "source_commit": "bda8131323f0842dfd88b1b23c62b5b3214d7bce",
+  "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41089979975",
+  "checks": {
+    "python3.10": "success",
+    "python3.11": "success",
+    "python3.12": "success",
+    "python3.13": "success"
+  },
+  "limitations": [
+    "Ubuntu CI explicitly skips the AppKit integration module. Its success covers foundation behavior and deterministic replay, not native Mac execution.",
+    "The native signed-app tests were executed separately by Kimi on the M5 and reviewed in experiments/records/mac-sandbox-first.json.",
+    "No full-hand live/GPU/learning result is inferred."
+  ]
+}
