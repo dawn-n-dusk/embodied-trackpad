@@ -1,0 +1,1342 @@
+{
+  "checks": [
+    {
+      "detail": "schedule shape/finite/ctrlrange ok, sha256=0479d2c38ea54cf6",
+      "name": "schedule_valid",
+      "pass": true
+    },
+    {
+      "detail": "no transient or final nonfinite state over 1800 steps",
+      "name": "cpu_states_finite",
+      "pass": true
+    },
+    {
+      "detail": "trajectory max pad-contact ncon = 1 (tip-pad 1, finger-pad 0; other-collision max 0)",
+      "name": "cpu_pad_contact_observed",
+      "pass": true
+    },
+    {
+      "detail": "trajectory max penetration = 7.890525e-04 m (tol 1.0e-03)",
+      "name": "cpu_penetration_bounded",
+      "pass": true
+    },
+    {
+      "detail": "warnings: none",
+      "name": "cpu_no_solver_warnings",
+      "pass": true
+    },
+    {
+      "detail": "max |dq| vs frozen trace final row = 1.110e-16 (tol 1e-9)",
+      "name": "cpu_replay_matches_trace_final_qpos",
+      "pass": true
+    },
+    {
+      "detail": "|max pen 7.890525203e-04 - trace 7.890525203e-04| = 6.106e-16 (tol 1e-9)",
+      "name": "cpu_replay_matches_trace_penetration",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite; qpos sampled every 60 steps (transient sample step=None); NOT every-step coverage",
+      "name": "gpu_states_finite_sampled[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 pad contacts max=1 (tip-pad/finger-pad; readback channel via contact.geom[]; native-channel pad max=1; coverage: world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_pad_contact_observed[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "pad-contact presence readback=1 vs native=1 (both world0, same sample steps); disagreement proves a readback-layer defect",
+      "name": "gpu_contact_channels_agree[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "final step 1799 phase=lift_hold: readback ncon=0, native ncon=0 (CPU reference final ncon=0)",
+      "name": "gpu_lift_release_observed[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "sampled max penetration = 6.690938e-04 m (tol 1.0e-03; coverage world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_penetration_bounded[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 1<=256 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate batch expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)",
+      "name": "cpu_gpu_pos_agree[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dv| = 1.162979e-05 (tol 5.0e-02)",
+      "name": "cpu_gpu_vel_agree[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite; qpos sampled every 60 steps (transient sample step=None); NOT every-step coverage",
+      "name": "gpu_states_finite_sampled[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 pad contacts max=1 (tip-pad/finger-pad; readback channel via contact.geom[]; native-channel pad max=1; coverage: world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_pad_contact_observed[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "pad-contact presence readback=1 vs native=1 (both world0, same sample steps); disagreement proves a readback-layer defect",
+      "name": "gpu_contact_channels_agree[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "final step 1799 phase=lift_hold: readback ncon=0, native ncon=0 (CPU reference final ncon=0)",
+      "name": "gpu_lift_release_observed[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "sampled max penetration = 6.690938e-04 m (tol 1.0e-03; coverage world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_penetration_bounded[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 32<=256 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate batch expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "all 32 worlds vs world0: max |dq|=0.000e+00 |dv|=0.000e+00 (tol 1.0e-09)",
+      "name": "gpu_cross_world_agree[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)",
+      "name": "cpu_gpu_pos_agree[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dv| = 1.162979e-05 (tol 5.0e-02)",
+      "name": "cpu_gpu_vel_agree[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite; qpos sampled every 60 steps (transient sample step=None); NOT every-step coverage",
+      "name": "gpu_states_finite_sampled[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 pad contacts max=1 (tip-pad/finger-pad; readback channel via contact.geom[]; native-channel pad max=1; coverage: world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_pad_contact_observed[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "pad-contact presence readback=1 vs native=1 (both world0, same sample steps); disagreement proves a readback-layer defect",
+      "name": "gpu_contact_channels_agree[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "final step 1799 phase=lift_hold: readback ncon=0, native ncon=0 (CPU reference final ncon=0)",
+      "name": "gpu_lift_release_observed[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "sampled max penetration = 6.690938e-04 m (tol 1.0e-03; coverage world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_penetration_bounded[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 128<=512 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate batch expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "all 128 worlds vs world0: max |dq|=0.000e+00 |dv|=0.000e+00 (tol 1.0e-09)",
+      "name": "gpu_cross_world_agree[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)",
+      "name": "cpu_gpu_pos_agree[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dv| = 1.162979e-05 (tol 5.0e-02)",
+      "name": "cpu_gpu_vel_agree[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite; qpos sampled every 60 steps (transient sample step=None); NOT every-step coverage",
+      "name": "gpu_states_finite_sampled[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 pad contacts max=1 (tip-pad/finger-pad; readback channel via contact.geom[]; native-channel pad max=1; coverage: world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_pad_contact_observed[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "pad-contact presence readback=1 vs native=1 (both world0, same sample steps); disagreement proves a readback-layer defect",
+      "name": "gpu_contact_channels_agree[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "final step 1799 phase=lift_hold: readback ncon=0, native ncon=0 (CPU reference final ncon=0)",
+      "name": "gpu_lift_release_observed[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "sampled max penetration = 6.690938e-04 m (tol 1.0e-03; coverage world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity)",
+      "name": "gpu_penetration_bounded[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 512<=2048 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate batch expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "all 512 worlds vs world0: max |dq|=0.000e+00 |dv|=0.000e+00 (tol 1.0e-09)",
+      "name": "gpu_cross_world_agree[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)",
+      "name": "cpu_gpu_pos_agree[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU max |dv| = 1.162979e-05 (tol 5.0e-02)",
+      "name": "cpu_gpu_vel_agree[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "NVIDIA H800",
+      "name": "gpu_device_named",
+      "pass": true
+    }
+  ],
+  "cpu_reference": {
+    "bench": {
+      "seconds": 0.03304910520091653,
+      "steps": 1800,
+      "steps_per_s": 54464.40952204908,
+      "timed_schedule": {
+        "n_rows": 1800,
+        "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+        "start_offset_rows": 0,
+        "warmup": "none (isolated, untimed)"
+      }
+    },
+    "final_contacts": {
+      "classes": {
+        "finger-pad": {
+          "max_penetration_m": 0.0,
+          "ncon": 0,
+          "total_normal_force_n": 0.0
+        },
+        "other": {
+          "max_penetration_m": 0.0,
+          "ncon": 0,
+          "total_normal_force_n": 0.0
+        },
+        "tip-pad": {
+          "max_penetration_m": 0.0,
+          "ncon": 0,
+          "total_normal_force_n": 0.0
+        }
+      },
+      "total_ncon": 0
+    },
+    "final_qpos": [
+      0.0003505595383620308,
+      -0.0017394601535434106,
+      0.00034951363757049236,
+      -1.5727612475894353,
+      -0.0018312652742810008,
+      1.5706381654450332,
+      -0.7852988393536301,
+      1.0732333607433506e-05,
+      5.3409404809885574e-05,
+      6.599521167787282e-05,
+      3.679693826618e-05,
+      -2.480841790342421e-07,
+      5.362315261112908e-05,
+      6.624091784753482e-05,
+      3.693221036670876e-05,
+      -1.122676787655097e-05,
+      5.3386740061909656e-05,
+      6.597239722231359e-05,
+      3.678483789805731e-05,
+      0.3018351894967014,
+      5.844201053590379e-06,
+      0.021141297312678994,
+      0.004837549093993516
+    ],
+    "final_qvel": [
+      -1.5985050110006932e-06,
+      -7.03597768276817e-05,
+      6.223425898877341e-06,
+      1.5349177206277763e-05,
+      -1.1663819886203427e-05,
+      7.981826383112062e-05,
+      -2.604750094329864e-06,
+      -2.160750983841077e-07,
+      2.7144114498662294e-05,
+      9.88530530781199e-06,
+      2.154209733825768e-06,
+      2.7468240542405944e-08,
+      2.7676452074742245e-05,
+      1.0057327410972895e-05,
+      2.187420446884888e-06,
+      2.6929460755026064e-07,
+      2.7103095969482447e-05,
+      9.871927653974913e-06,
+      2.1515755644736487e-06,
+      -1.1830683299340509e-05,
+      2.3693196295404377e-07,
+      6.540251468059676e-05,
+      1.4779910020845098e-05
+    ],
+    "reset_state_sha256": "9ee5f7cdbf5306723cb24da036f11f23a7cef86bb98dc6c8eac586af865b07c9",
+    "seconds": 0.05590548273175955,
+    "states_finite": true,
+    "steps": 1800,
+    "trajectory": {
+      "coverage": "every step (CPU)",
+      "first_nonfinite_step": null,
+      "max_ncon_by_class": {
+        "finger-pad": 0,
+        "other": 0,
+        "tip-pad": 1
+      },
+      "max_penetration_m_by_class": {
+        "finger-pad": 0.0,
+        "other": 0.0,
+        "tip-pad": 0.0007890525202535626
+      },
+      "max_total_ncon": 1,
+      "warnings_seen": {},
+      "warnings_unknown": false
+    }
+  },
+  "errors": [],
+  "gpu": {
+    "device_name": "NVIDIA H800",
+    "gating_audit": {
+      "note": "each stage's checks were evaluated before the next stage was gated; stages >32 additionally required --allow-large-batch and allocated-device free memory >= 16384 MiB",
+      "stages_run_in_order": [
+        1,
+        32,
+        128,
+        512
+      ]
+    },
+    "mjw_version": "3.17.0",
+    "put_model_s": 0.029710326809436083,
+    "stages": [
+      {
+        "bench": {
+          "schedule_applied_each_step": true,
+          "seconds": 13.626969788223505,
+          "steps_per_s_per_world": 132.09099513492492,
+          "steps_per_world": 1800,
+          "timed_schedule": {
+            "n_rows": 1800,
+            "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+            "start_offset_rows": 0,
+            "warmup": "1 step on isolated throwaway batch, untimed"
+          },
+          "world_steps_per_s": 132.09099513492492
+        },
+        "capacity": {
+          "coverage": "nacon/nefc sampled every 60 steps + final (aggregate over all worlds / per-world max)",
+          "nacon_peak_sampled": 1,
+          "naconmax_alloc": 256,
+          "nconmax_per_world": 64,
+          "nefc_peak_per_world_sampled": 3,
+          "njmax_per_world": 1024,
+          "overflow_observed": false,
+          "units": "nconmax per-world hint; naconmax aggregate hard cap; njmax per-world hard cap (mujoco-warp 3.17 verified)",
+          "verdict": "pass",
+          "verdict_detail": "sampled peaks within capacity: nacon 1<=256 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+        },
+        "checks_passed": true,
+        "cold_first_step_s": 0.8974190121516585,
+        "contact_coverage": "world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity",
+        "contact_readback_diagnostic": {
+          "native": {
+            "classes": {
+              "finger-pad": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "other": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "tip-pad": {
+                "max_penetration_m": 2.6436522603034973e-05,
+                "ncon": 1
+              }
+            },
+            "pairs": [
+              {
+                "class": "tip-pad",
+                "dist": -2.6436522603034973e-05,
+                "g1": 80,
+                "g2": 101,
+                "names": [
+                  "<unnamed geom 80>",
+                  "trackpad_surface"
+                ],
+                "type": 1,
+                "worldid": 0
+              }
+            ],
+            "total_ncon": 1
+          },
+          "note": "get_data_into (verified mjwarp 3.17 source) writes only contact.geom[:]; geom1/geom2 columns show what the deprecated accessors actually return after readback",
+          "phase": "press",
+          "readback_contacts": [
+            {
+              "deprecated_names": [
+                "<unnamed geom 0>",
+                "<unnamed geom 0>"
+              ],
+              "dist": -2.6436522603034973e-05,
+              "exclude": 0,
+              "geom1_geom2_deprecated": [
+                0,
+                0
+              ],
+              "geom_array": [
+                80,
+                101
+              ],
+              "geom_array_names": [
+                "<unnamed geom 80>",
+                "trackpad_surface"
+              ],
+              "pos": [
+                0.5535296201705933,
+                -0.00012542857439257205,
+                0.4289892017841339
+              ]
+            }
+          ],
+          "readback_ncon": 1,
+          "step": 720,
+          "world_id": 0
+        },
+        "cross_world_max_abs_dq": 0.0,
+        "cross_world_max_abs_dv": 0.0,
+        "final_contacts_world0": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_contacts_world0_native": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_qpos_world0": [
+          0.00035055953776463866,
+          -0.0017394536407664418,
+          0.0003495134296827018,
+          -1.5727616548538208,
+          -0.0018312655156478286,
+          1.5706377029418945,
+          -0.785297691822052,
+          1.073108160198899e-05,
+          5.3424406360136345e-05,
+          6.600327469641343e-05,
+          3.679775181808509e-05,
+          -2.4800564801807923e-07,
+          5.3637271776096895e-05,
+          6.624872185057029e-05,
+          3.6932717193849385e-05,
+          -1.1225200069020502e-05,
+          5.340107964002527e-05,
+          6.598097388632596e-05,
+          3.678499342640862e-05,
+          0.301835298538208,
+          5.830537702422589e-06,
+          0.021141324192285538,
+          0.00483755674213171
+        ],
+        "final_qvel_world0": [
+          -1.5966819546520128e-06,
+          -6.988140376051888e-05,
+          6.225768174772384e-06,
+          1.8800568795995787e-05,
+          -1.1686287507473025e-05,
+          8.354048623004928e-05,
+          -1.4234539776225574e-05,
+          -2.2506392838295142e-07,
+          2.991317887790501e-05,
+          1.0914490303548519e-05,
+          2.369225512666162e-06,
+          3.171374984844988e-08,
+          3.052778265555389e-05,
+          1.0987577297782991e-05,
+          2.412908543192316e-06,
+          2.3532842874374182e-07,
+          2.973133814521134e-05,
+          1.0805119018186815e-05,
+          2.3655736640648684e-06,
+          -1.2213356967549771e-05,
+          2.1774380343231314e-07,
+          6.720212695654482e-05,
+          1.5170378901530057e-05
+        ],
+        "free_mib_allocated_device": 80521,
+        "gpu_solver_warnings": "unknown - warning counters are not transferred by get_data_into in mujoco-warp 3.17 (verified source); not interpreted as no-warning",
+        "native_channel_error": null,
+        "nworld": 1,
+        "qpos_finite_all_worlds": true,
+        "qvel_finite_all_worlds": true,
+        "sampled_max_penetration_m_by_class": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_max_penetration_m_by_class_native": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_pad_ncon_max_world0": 1,
+        "sampled_pad_ncon_max_world0_native": 1,
+        "steps": 1800,
+        "transient_coverage": "qpos sampled every 60 steps only; qvel/qacc between samples unchecked; NOT every-step",
+        "transient_nonfinite_step": null
+      },
+      {
+        "bench": {
+          "schedule_applied_each_step": true,
+          "seconds": 13.706496899947524,
+          "steps_per_s_per_world": 131.32458374589436,
+          "steps_per_world": 1800,
+          "timed_schedule": {
+            "n_rows": 1800,
+            "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+            "start_offset_rows": 0,
+            "warmup": "1 step on isolated throwaway batch, untimed"
+          },
+          "world_steps_per_s": 4202.3866798686195
+        },
+        "capacity": {
+          "coverage": "nacon/nefc sampled every 60 steps + final (aggregate over all worlds / per-world max)",
+          "nacon_peak_sampled": 32,
+          "naconmax_alloc": 256,
+          "nconmax_per_world": 64,
+          "nefc_peak_per_world_sampled": 3,
+          "njmax_per_world": 1024,
+          "overflow_observed": false,
+          "units": "nconmax per-world hint; naconmax aggregate hard cap; njmax per-world hard cap (mujoco-warp 3.17 verified)",
+          "verdict": "pass",
+          "verdict_detail": "sampled peaks within capacity: nacon 32<=256 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+        },
+        "checks_passed": true,
+        "cold_first_step_s": 0.00845042709261179,
+        "contact_coverage": "world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity",
+        "contact_readback_diagnostic": {
+          "native": {
+            "classes": {
+              "finger-pad": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "other": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "tip-pad": {
+                "max_penetration_m": 2.6436522603034973e-05,
+                "ncon": 1
+              }
+            },
+            "pairs": [
+              {
+                "class": "tip-pad",
+                "dist": -2.6436522603034973e-05,
+                "g1": 80,
+                "g2": 101,
+                "names": [
+                  "<unnamed geom 80>",
+                  "trackpad_surface"
+                ],
+                "type": 1,
+                "worldid": 0
+              }
+            ],
+            "total_ncon": 1
+          },
+          "note": "get_data_into (verified mjwarp 3.17 source) writes only contact.geom[:]; geom1/geom2 columns show what the deprecated accessors actually return after readback",
+          "phase": "press",
+          "readback_contacts": [
+            {
+              "deprecated_names": [
+                "<unnamed geom -1083220964>",
+                "<unnamed geom -2147483648>"
+              ],
+              "dist": -2.6436522603034973e-05,
+              "exclude": 0,
+              "geom1_geom2_deprecated": [
+                -1083220964,
+                -2147483648
+              ],
+              "geom_array": [
+                80,
+                101
+              ],
+              "geom_array_names": [
+                "<unnamed geom 80>",
+                "trackpad_surface"
+              ],
+              "pos": [
+                0.5535296201705933,
+                -0.00012542857439257205,
+                0.4289892017841339
+              ]
+            }
+          ],
+          "readback_ncon": 1,
+          "step": 720,
+          "world_id": 0
+        },
+        "cross_world_max_abs_dq": 0.0,
+        "cross_world_max_abs_dv": 0.0,
+        "final_contacts_world0": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_contacts_world0_native": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_qpos_world0": [
+          0.00035055953776463866,
+          -0.0017394536407664418,
+          0.0003495134296827018,
+          -1.5727616548538208,
+          -0.0018312655156478286,
+          1.5706377029418945,
+          -0.785297691822052,
+          1.073108160198899e-05,
+          5.3424406360136345e-05,
+          6.600327469641343e-05,
+          3.679775181808509e-05,
+          -2.4800564801807923e-07,
+          5.3637271776096895e-05,
+          6.624872185057029e-05,
+          3.6932717193849385e-05,
+          -1.1225200069020502e-05,
+          5.340107964002527e-05,
+          6.598097388632596e-05,
+          3.678499342640862e-05,
+          0.301835298538208,
+          5.830537702422589e-06,
+          0.021141324192285538,
+          0.00483755674213171
+        ],
+        "final_qvel_world0": [
+          -1.5966819546520128e-06,
+          -6.988140376051888e-05,
+          6.225768174772384e-06,
+          1.8800568795995787e-05,
+          -1.1686287507473025e-05,
+          8.354048623004928e-05,
+          -1.4234539776225574e-05,
+          -2.2506392838295142e-07,
+          2.991317887790501e-05,
+          1.0914490303548519e-05,
+          2.369225512666162e-06,
+          3.171374984844988e-08,
+          3.052778265555389e-05,
+          1.0987577297782991e-05,
+          2.412908543192316e-06,
+          2.3532842874374182e-07,
+          2.973133814521134e-05,
+          1.0805119018186815e-05,
+          2.3655736640648684e-06,
+          -1.2213356967549771e-05,
+          2.1774380343231314e-07,
+          6.720212695654482e-05,
+          1.5170378901530057e-05
+        ],
+        "free_mib_allocated_device": 80331,
+        "gpu_solver_warnings": "unknown - warning counters are not transferred by get_data_into in mujoco-warp 3.17 (verified source); not interpreted as no-warning",
+        "native_channel_error": null,
+        "nworld": 32,
+        "qpos_finite_all_worlds": true,
+        "qvel_finite_all_worlds": true,
+        "sampled_max_penetration_m_by_class": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_max_penetration_m_by_class_native": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_pad_ncon_max_world0": 1,
+        "sampled_pad_ncon_max_world0_native": 1,
+        "steps": 1800,
+        "transient_coverage": "qpos sampled every 60 steps only; qvel/qacc between samples unchecked; NOT every-step",
+        "transient_nonfinite_step": null
+      },
+      {
+        "bench": {
+          "schedule_applied_each_step": true,
+          "seconds": 13.791775305755436,
+          "steps_per_s_per_world": 130.51256709851148,
+          "steps_per_world": 1800,
+          "timed_schedule": {
+            "n_rows": 1800,
+            "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+            "start_offset_rows": 0,
+            "warmup": "1 step on isolated throwaway batch, untimed"
+          },
+          "world_steps_per_s": 16705.60858860947
+        },
+        "capacity": {
+          "coverage": "nacon/nefc sampled every 60 steps + final (aggregate over all worlds / per-world max)",
+          "nacon_peak_sampled": 128,
+          "naconmax_alloc": 512,
+          "nconmax_per_world": 64,
+          "nefc_peak_per_world_sampled": 3,
+          "njmax_per_world": 1024,
+          "overflow_observed": false,
+          "units": "nconmax per-world hint; naconmax aggregate hard cap; njmax per-world hard cap (mujoco-warp 3.17 verified)",
+          "verdict": "pass",
+          "verdict_detail": "sampled peaks within capacity: nacon 128<=512 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+        },
+        "checks_passed": true,
+        "cold_first_step_s": 0.008650608826428652,
+        "contact_coverage": "world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity",
+        "contact_readback_diagnostic": {
+          "native": {
+            "classes": {
+              "finger-pad": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "other": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "tip-pad": {
+                "max_penetration_m": 2.6436522603034973e-05,
+                "ncon": 1
+              }
+            },
+            "pairs": [
+              {
+                "class": "tip-pad",
+                "dist": -2.6436522603034973e-05,
+                "g1": 80,
+                "g2": 101,
+                "names": [
+                  "<unnamed geom 80>",
+                  "trackpad_surface"
+                ],
+                "type": 1,
+                "worldid": 0
+              }
+            ],
+            "total_ncon": 1
+          },
+          "note": "get_data_into (verified mjwarp 3.17 source) writes only contact.geom[:]; geom1/geom2 columns show what the deprecated accessors actually return after readback",
+          "phase": "press",
+          "readback_contacts": [
+            {
+              "deprecated_names": [
+                "<unnamed geom 1058682594>",
+                "<unnamed geom 1073741824>"
+              ],
+              "dist": -2.6436522603034973e-05,
+              "exclude": 0,
+              "geom1_geom2_deprecated": [
+                1058682594,
+                1073741824
+              ],
+              "geom_array": [
+                80,
+                101
+              ],
+              "geom_array_names": [
+                "<unnamed geom 80>",
+                "trackpad_surface"
+              ],
+              "pos": [
+                0.5535296201705933,
+                -0.00012542857439257205,
+                0.4289892017841339
+              ]
+            }
+          ],
+          "readback_ncon": 1,
+          "step": 720,
+          "world_id": 0
+        },
+        "cross_world_max_abs_dq": 0.0,
+        "cross_world_max_abs_dv": 0.0,
+        "final_contacts_world0": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_contacts_world0_native": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_qpos_world0": [
+          0.00035055953776463866,
+          -0.0017394536407664418,
+          0.0003495134296827018,
+          -1.5727616548538208,
+          -0.0018312655156478286,
+          1.5706377029418945,
+          -0.785297691822052,
+          1.073108160198899e-05,
+          5.3424406360136345e-05,
+          6.600327469641343e-05,
+          3.679775181808509e-05,
+          -2.4800564801807923e-07,
+          5.3637271776096895e-05,
+          6.624872185057029e-05,
+          3.6932717193849385e-05,
+          -1.1225200069020502e-05,
+          5.340107964002527e-05,
+          6.598097388632596e-05,
+          3.678499342640862e-05,
+          0.301835298538208,
+          5.830537702422589e-06,
+          0.021141324192285538,
+          0.00483755674213171
+        ],
+        "final_qvel_world0": [
+          -1.5966819546520128e-06,
+          -6.988140376051888e-05,
+          6.225768174772384e-06,
+          1.8800568795995787e-05,
+          -1.1686287507473025e-05,
+          8.354048623004928e-05,
+          -1.4234539776225574e-05,
+          -2.2506392838295142e-07,
+          2.991317887790501e-05,
+          1.0914490303548519e-05,
+          2.369225512666162e-06,
+          3.171374984844988e-08,
+          3.052778265555389e-05,
+          1.0987577297782991e-05,
+          2.412908543192316e-06,
+          2.3532842874374182e-07,
+          2.973133814521134e-05,
+          1.0805119018186815e-05,
+          2.3655736640648684e-06,
+          -1.2213356967549771e-05,
+          2.1774380343231314e-07,
+          6.720212695654482e-05,
+          1.5170378901530057e-05
+        ],
+        "free_mib_allocated_device": 80331,
+        "gpu_solver_warnings": "unknown - warning counters are not transferred by get_data_into in mujoco-warp 3.17 (verified source); not interpreted as no-warning",
+        "native_channel_error": null,
+        "nworld": 128,
+        "qpos_finite_all_worlds": true,
+        "qvel_finite_all_worlds": true,
+        "sampled_max_penetration_m_by_class": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_max_penetration_m_by_class_native": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_pad_ncon_max_world0": 1,
+        "sampled_pad_ncon_max_world0_native": 1,
+        "steps": 1800,
+        "transient_coverage": "qpos sampled every 60 steps only; qvel/qacc between samples unchecked; NOT every-step",
+        "transient_nonfinite_step": null
+      },
+      {
+        "bench": {
+          "schedule_applied_each_step": true,
+          "seconds": 13.740848248824477,
+          "steps_per_s_per_world": 130.9962796622828,
+          "steps_per_world": 1800,
+          "timed_schedule": {
+            "n_rows": 1800,
+            "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+            "start_offset_rows": 0,
+            "warmup": "1 step on isolated throwaway batch, untimed"
+          },
+          "world_steps_per_s": 67070.0951870888
+        },
+        "capacity": {
+          "coverage": "nacon/nefc sampled every 60 steps + final (aggregate over all worlds / per-world max)",
+          "nacon_peak_sampled": 512,
+          "naconmax_alloc": 2048,
+          "nconmax_per_world": 64,
+          "nefc_peak_per_world_sampled": 3,
+          "njmax_per_world": 1024,
+          "overflow_observed": false,
+          "units": "nconmax per-world hint; naconmax aggregate hard cap; njmax per-world hard cap (mujoco-warp 3.17 verified)",
+          "verdict": "pass",
+          "verdict_detail": "sampled peaks within capacity: nacon 512<=2048 (aggregate), nefc 3<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+        },
+        "checks_passed": true,
+        "cold_first_step_s": 0.009428644087165594,
+        "contact_coverage": "world0 only: every 60 steps + final, dual channel (get_data_into readback + native device arrays); does not prove all-world contact validity",
+        "contact_readback_diagnostic": {
+          "native": {
+            "classes": {
+              "finger-pad": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "other": {
+                "max_penetration_m": 0.0,
+                "ncon": 0
+              },
+              "tip-pad": {
+                "max_penetration_m": 2.6436522603034973e-05,
+                "ncon": 1
+              }
+            },
+            "pairs": [
+              {
+                "class": "tip-pad",
+                "dist": -2.6436522603034973e-05,
+                "g1": 80,
+                "g2": 101,
+                "names": [
+                  "<unnamed geom 80>",
+                  "trackpad_surface"
+                ],
+                "type": 1,
+                "worldid": 0
+              }
+            ],
+            "total_ncon": 1
+          },
+          "note": "get_data_into (verified mjwarp 3.17 source) writes only contact.geom[:]; geom1/geom2 columns show what the deprecated accessors actually return after readback",
+          "phase": "press",
+          "readback_contacts": [
+            {
+              "deprecated_names": [
+                "<unnamed geom 0>",
+                "<unnamed geom 0>"
+              ],
+              "dist": -2.6436522603034973e-05,
+              "exclude": 0,
+              "geom1_geom2_deprecated": [
+                0,
+                0
+              ],
+              "geom_array": [
+                80,
+                101
+              ],
+              "geom_array_names": [
+                "<unnamed geom 80>",
+                "trackpad_surface"
+              ],
+              "pos": [
+                0.5535296201705933,
+                -0.00012542857439257205,
+                0.4289892017841339
+              ]
+            }
+          ],
+          "readback_ncon": 1,
+          "step": 720,
+          "world_id": 0
+        },
+        "cross_world_max_abs_dq": 0.0,
+        "cross_world_max_abs_dv": 0.0,
+        "final_contacts_world0": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0,
+              "total_normal_force_n": 0.0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_contacts_world0_native": {
+          "classes": {
+            "finger-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "other": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            },
+            "tip-pad": {
+              "max_penetration_m": 0.0,
+              "ncon": 0
+            }
+          },
+          "total_ncon": 0
+        },
+        "final_qpos_world0": [
+          0.00035055953776463866,
+          -0.0017394536407664418,
+          0.0003495134296827018,
+          -1.5727616548538208,
+          -0.0018312655156478286,
+          1.5706377029418945,
+          -0.785297691822052,
+          1.073108160198899e-05,
+          5.3424406360136345e-05,
+          6.600327469641343e-05,
+          3.679775181808509e-05,
+          -2.4800564801807923e-07,
+          5.3637271776096895e-05,
+          6.624872185057029e-05,
+          3.6932717193849385e-05,
+          -1.1225200069020502e-05,
+          5.340107964002527e-05,
+          6.598097388632596e-05,
+          3.678499342640862e-05,
+          0.301835298538208,
+          5.830537702422589e-06,
+          0.021141324192285538,
+          0.00483755674213171
+        ],
+        "final_qvel_world0": [
+          -1.5966819546520128e-06,
+          -6.988140376051888e-05,
+          6.225768174772384e-06,
+          1.8800568795995787e-05,
+          -1.1686287507473025e-05,
+          8.354048623004928e-05,
+          -1.4234539776225574e-05,
+          -2.2506392838295142e-07,
+          2.991317887790501e-05,
+          1.0914490303548519e-05,
+          2.369225512666162e-06,
+          3.171374984844988e-08,
+          3.052778265555389e-05,
+          1.0987577297782991e-05,
+          2.412908543192316e-06,
+          2.3532842874374182e-07,
+          2.973133814521134e-05,
+          1.0805119018186815e-05,
+          2.3655736640648684e-06,
+          -1.2213356967549771e-05,
+          2.1774380343231314e-07,
+          6.720212695654482e-05,
+          1.5170378901530057e-05
+        ],
+        "free_mib_allocated_device": 80267,
+        "gpu_solver_warnings": "unknown - warning counters are not transferred by get_data_into in mujoco-warp 3.17 (verified source); not interpreted as no-warning",
+        "native_channel_error": null,
+        "nworld": 512,
+        "qpos_finite_all_worlds": true,
+        "qvel_finite_all_worlds": true,
+        "sampled_max_penetration_m_by_class": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_max_penetration_m_by_class_native": {
+          "finger-pad": 0.0,
+          "other": 0.0,
+          "tip-pad": 0.0006690938025712967
+        },
+        "sampled_pad_ncon_max_world0": 1,
+        "sampled_pad_ncon_max_world0_native": 1,
+        "steps": 1800,
+        "transient_coverage": "qpos sampled every 60 steps only; qvel/qacc between samples unchecked; NOT every-step",
+        "transient_nonfinite_step": null
+      }
+    ],
+    "stages_skipped": [],
+    "warp_version": "1.18.0"
+  },
+  "harness": "embodied-trackpad-h800-batch",
+  "mode": "gpu_batch",
+  "overall": "pass",
+  "packages": {
+    "mujoco": "3.17.0",
+    "mujoco-warp": "3.17.0",
+    "numpy": "2.2.6",
+    "pillow": null,
+    "warp-lang": "1.18.0"
+  },
+  "platform": {
+    "machine": "x86_64",
+    "python": "3.10.12",
+    "system": "Linux"
+  },
+  "replay_verification": {
+    "max_abs_dq_final": 1.1102230246251565e-16,
+    "max_pen_diff": 6.106226635438361e-16,
+    "trace_ctrl_equals_ctrl_ref_rows": 1800,
+    "trace_rows": 1800
+  },
+  "review_corrected": "2026-10-30 compute-review (schedule/reset/gating/contact/live)",
+  "scene": {
+    "contact_sets": {
+      "finger": [
+        "geom59",
+        "geom60",
+        "geom61",
+        "geom62",
+        "geom63",
+        "geom64",
+        "geom65",
+        "geom66",
+        "geom67",
+        "geom68",
+        "geom69",
+        "geom70",
+        "geom71",
+        "geom72",
+        "geom73",
+        "geom74",
+        "geom75",
+        "geom76",
+        "geom77",
+        "geom78",
+        "geom79",
+        "geom80",
+        "geom81",
+        "geom82",
+        "geom83",
+        "geom84",
+        "geom85",
+        "geom86",
+        "geom87",
+        "geom88",
+        "geom89",
+        "geom90",
+        "geom91",
+        "geom92",
+        "geom93",
+        "geom94",
+        "geom95",
+        "geom96",
+        "geom97",
+        "geom98",
+        "geom99",
+        "geom100"
+      ],
+      "pad": [
+        "trackpad_surface"
+      ],
+      "tip": [
+        "geom69",
+        "geom70",
+        "geom79",
+        "geom80",
+        "geom89",
+        "geom90",
+        "geom99",
+        "geom100"
+      ]
+    },
+    "expect_contact": true,
+    "info": {
+      "composed_model_xml_sha256": "dcf6ede3a241cd8c964879803958434bb97b19d296c1ec9d8d9681fee23b29ed",
+      "handoff_utc": "2026-10-30T17:24:52.351511+00:00",
+      "label": "CPU debug-physics checked; teacher trace replay; not trained (handoff 2026-10-30T17:24:52Z)",
+      "probe_metrics": {
+        "hold_contacts": 0,
+        "lift_hold_contacts": 0,
+        "lift_target_world": [
+          0.5538760418222662,
+          -0.000108270214886937,
+          0.46100242948758935
+        ],
+        "max_penetration_m": 0.000789,
+        "mf_tip_sag_during_hold_m": 0.006591,
+        "per_fingertip_max_normal_force_n": {
+          "mf": 0.937605
+        },
+        "press_target_world": [
+          0.5538760418222662,
+          -0.000108270214886937,
+          0.44900242948758934
+        ],
+        "sag_compensation_applied_m": [
+          0.000623,
+          0.000108,
+          0.006561
+        ],
+        "solver_warnings": {},
+        "steps": 1800,
+        "tip_after_hold_world": [
+          0.5538760418222662,
+          -0.000108270214886937,
+          0.4544414057931713
+        ],
+        "tip_pad_contacts_press": 385,
+        "tip_pad_fingers_press": [
+          "mf"
+        ],
+        "total_duration_s": 3.6,
+        "unintended_contact_pairs": [],
+        "unintended_contacts": 0
+      },
+      "trajectory_trace_sha256": "36523c06e9d107a3e1149f6584d91678ead2a222078000c631ad85e0e3250290"
+    },
+    "nq": 23,
+    "nu": 23,
+    "nv": 23,
+    "source": "scene-module:compute_hand_scene",
+    "source_sha256": "f57cc6deb8bcad25b2b3f0faaee99ad4232f5f545333da5bbc44b82cc1620939",
+    "timestep_s": 0.002
+  },
+  "schedule": {
+    "applied": "row i at step i on CPU and on every GPU world; bench wraps rows when bench_steps > steps (recorded)",
+    "kind": "precomputed_open_loop_time_indexed",
+    "nu": 23,
+    "sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+    "steps": 1800,
+    "validation_problems": []
+  },
+  "schema_version": "2.0",
+  "seed": null,
+  "source_commit": "07b0d75179b1535f827ebb2445aeaf97ea2da97a+contact-readback-fix-uncommitted",
+  "stage_plan": {
+    "gated": [
+      1,
+      32,
+      128,
+      512
+    ],
+    "requested": [
+      1,
+      32,
+      128,
+      512
+    ],
+    "skipped": []
+  },
+  "tolerance_justification": "pos 5e-3 m/rad and vel 5e-2 are contact-scale (not bitwise) values inherited from the validated probe; penetration 1e-3 m bounds MuJoCo solref softness by an order of magnitude; cross-world 1e-9 bounds kernel reduction noise for identical worlds",
+  "tolerances": {
+    "cross_world": 1e-09,
+    "penetration": 0.001,
+    "pos": 0.005,
+    "vel": 0.05
+  },
+  "utc_end": "2026-10-30T18:25:41.870195+00:00",
+  "utc_start": "2026-10-30T18:23:46.690305+00:00",
+  "world_variation": "repeated_identical",
+  "public_export": {
+    "timestamp_utc": "2026-10-30T18:34:25.222146+00:00",
+    "removed_fields": [
+      "host_sha256_12",
+      "user_sha256_12",
+      "slurm_job_sha256_12"
+    ],
+    "original_result_sha256": "da4e8bb6e561fb650758713efa998ac76e9ea168ab7476bbe0f015ee5576f733",
+    "note": "Original numerical/check results retained; identifier digests removed. Interpret gating_audit with coordinator record: the 1-to-32 failure gate is incomplete."
+  }
+}

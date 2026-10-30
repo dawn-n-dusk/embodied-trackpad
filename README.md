@@ -6,7 +6,7 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the protocol/recording foundation is implemented (89 tests, reproducible mock output). Kimi's confined native Mac test GUI passed 47 additional real-app tests and 18 smoke checks, with coordinator source/evidence/visual review. The single-H800 MuJoCo Warp environment probe passed 12/12 checks on a tiny contact scene. No trained policy, accepted full-hand environment, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
+**Status:** the protocol/recording foundation is implemented (89 tests, reproducible mock output). Kimi's confined native Mac test GUI passed 47 additional real-app tests and 18 smoke checks, with coordinator source/evidence/visual review. The single-H800 full-hand teacher replay passed 43/43 checks at 1/32/128/512 repeated worlds; contact evidence is sampled and implementation integration remains pending. No training-ready full-hand environment, trained policy, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
 
 ## Run the foundation
 
@@ -34,7 +34,7 @@ The [dexterous-hand survey](docs/research/2026-10-31-hand-candidates.zh-CN.md) c
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 
-The [H800 probe report](docs/experiments/2026-10-30-h800-probe.md) includes pinned dependencies, reproduction commands, the first failed attempt and correction, numerical checks, and measured limits. GPU execution is established; a performance advantage over CPU or full-hand readiness is not.
+The [initial H800 probe report](docs/experiments/2026-10-30-h800-probe.md) preserves the tiny-scene baseline. The [full-hand H800 report](docs/experiments/2026-10-31-h800-fullhand.zh-CN.md) records the contact-readback correction, actual completed allocation, complete-cycle timing and coverage limits. At 512 repeated worlds this harness reached 67,070 aggregate world-steps/s, about 1.23 times its single-CPU-world reference; this is not an end-to-end training speedup or a comparison with a CPU batch implementation.
 
 The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. Its current results use synthetic contact tests; it has not yet been driven by the articulated robot or a learned policy.
 

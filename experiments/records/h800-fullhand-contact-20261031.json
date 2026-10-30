@@ -1,0 +1,205 @@
+{
+  "record_version": "1.0",
+  "id": "h800-fullhand-contact-20261031",
+  "timestamp_utc": "2026-10-30T18:34:25.222146+00:00",
+  "kind": "independent_gpu_result_and_source_review",
+  "status": "bounded_fullhand_teacher_replay_verified_integration_pending",
+  "source_commit": "d8e1be70c050cd7afa0570b567f27e1d60e051bf",
+  "executed_source": {
+    "worker_base_commit": "07b0d75179b1535f827ebb2445aeaf97ea2da97a",
+    "worker_changes_committed": false,
+    "harness_sha256": "1abaa5abdb57d8a4bedf4edff085cc7799dabb2100c3306f762110e74a8bc939",
+    "scene_sha256": "f57cc6deb8bcad25b2b3f0faaee99ad4232f5f545333da5bbc44b82cc1620939",
+    "composed_model_xml_sha256": "dcf6ede3a241cd8c964879803958434bb97b19d296c1ec9d8d9681fee23b29ed",
+    "reset_state_sha256": "9ee5f7cdbf5306723cb24da036f11f23a7cef86bb98dc6c8eac586af865b07c9",
+    "control_schedule_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+    "original_private_result_sha256": "da4e8bb6e561fb650758713efa998ac76e9ea168ab7476bbe0f015ee5576f733",
+    "public_implementation_integrated": false
+  },
+  "run": {
+    "utc_start": "2026-10-30T18:23:46.690305+00:00",
+    "utc_end": "2026-10-30T18:25:41.870195+00:00",
+    "device": "NVIDIA H800",
+    "allocated_gpus": 1,
+    "allocated_cpus": 8,
+    "time_limit_minutes": 20,
+    "scheduler_elapsed_seconds": 117,
+    "scheduler_state": "COMPLETED",
+    "scheduler_exit_code": "0:0",
+    "scheduler_independently_checked_utc": "2026-10-30T18:31:32.569482+00:00",
+    "both_authorized_jobs_absent_from_queue": true,
+    "checks_passed": 43,
+    "checks_total": 43,
+    "stage_worlds": [
+      1,
+      32,
+      128,
+      512
+    ],
+    "steps_per_world": 1800,
+    "trajectory_seconds": 3.6,
+    "world_variation": "repeated_identical",
+    "seed": null,
+    "actuators": 23,
+    "packages": {
+      "mujoco": "3.17.0",
+      "mujoco-warp": "3.17.0",
+      "numpy": "2.2.6",
+      "pillow": null,
+      "warp-lang": "1.18.0"
+    },
+    "training_updates": 0
+  },
+  "previous_attempt": {
+    "record": "experiments/records/fullhand-gpu-live-review-20261031.json",
+    "scheduler_state": "FAILED",
+    "scheduler_exit_code": "1:0",
+    "scheduler_elapsed_seconds": 152,
+    "checks_passed": 19,
+    "checks_total": 21,
+    "preserved": true
+  },
+  "budget": {
+    "authorized_jobs": 2,
+    "consumed_jobs": 2,
+    "remaining_jobs": 0,
+    "total_allocation_elapsed_seconds": 269
+  },
+  "contact_diagnosis": {
+    "cause": "MJWarp 3.17 get_data_into populates contact.geom[] but deprecated geom1/geom2 are stale in this readback path.",
+    "fix": "Classify via canonical contact.geom[] and preserve an independent native-device contact channel.",
+    "physics_reset_scene_and_schedule_hashes_unchanged_from_failed_job": true,
+    "diagnostic_step": 720,
+    "phase": "press",
+    "world_id": 0,
+    "native_and_readback_geom_pair": [
+      80,
+      101
+    ],
+    "native_and_readback_distance_m": -2.6436522603034973e-05,
+    "sampled_max_tip_pad_penetration_m": 0.0006690938025712967,
+    "final_lift_contact_counts_both_channels": 0,
+    "scope": "Exact pair/distance equality independently checked at diagnostic sample; harness channel-agreement check only compares sampled presence."
+  },
+  "benchmark": {
+    "same_schedule_and_reset": true,
+    "cpu": {
+      "seconds": 0.03304910520091653,
+      "steps": 1800,
+      "steps_per_s": 54464.40952204908,
+      "timed_schedule": {
+        "n_rows": 1800,
+        "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+        "start_offset_rows": 0,
+        "warmup": "none (isolated, untimed)"
+      }
+    },
+    "gpu_stages": [
+      {
+        "nworld": 1,
+        "schedule_applied_each_step": true,
+        "seconds": 13.626969788223505,
+        "steps_per_s_per_world": 132.09099513492492,
+        "steps_per_world": 1800,
+        "timed_schedule": {
+          "n_rows": 1800,
+          "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+          "start_offset_rows": 0,
+          "warmup": "1 step on isolated throwaway batch, untimed"
+        },
+        "world_steps_per_s": 132.09099513492492
+      },
+      {
+        "nworld": 32,
+        "schedule_applied_each_step": true,
+        "seconds": 13.706496899947524,
+        "steps_per_s_per_world": 131.32458374589436,
+        "steps_per_world": 1800,
+        "timed_schedule": {
+          "n_rows": 1800,
+          "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+          "start_offset_rows": 0,
+          "warmup": "1 step on isolated throwaway batch, untimed"
+        },
+        "world_steps_per_s": 4202.3866798686195
+      },
+      {
+        "nworld": 128,
+        "schedule_applied_each_step": true,
+        "seconds": 13.791775305755436,
+        "steps_per_s_per_world": 130.51256709851148,
+        "steps_per_world": 1800,
+        "timed_schedule": {
+          "n_rows": 1800,
+          "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+          "start_offset_rows": 0,
+          "warmup": "1 step on isolated throwaway batch, untimed"
+        },
+        "world_steps_per_s": 16705.60858860947
+      },
+      {
+        "nworld": 512,
+        "schedule_applied_each_step": true,
+        "seconds": 13.740848248824477,
+        "steps_per_s_per_world": 130.9962796622828,
+        "steps_per_world": 1800,
+        "timed_schedule": {
+          "n_rows": 1800,
+          "rows_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+          "start_offset_rows": 0,
+          "warmup": "1 step on isolated throwaway batch, untimed"
+        },
+        "world_steps_per_s": 67070.0951870888
+      }
+    ],
+    "gpu512_aggregate_over_single_cpu_world": 1.231448128707546,
+    "interpretation": "Single full-cycle measurement; CPU one world vs GPU aggregate, no CPU multicore baseline or end-to-end training speedup. CPU-side tile/assign per step, explicit synchronization at end, no CUDA graph. Cached first step is not cold compilation."
+  },
+  "review_checks": [
+    "Independently fetched remote result and matched its SHA256; local/remote executed harness SHA256 matched.",
+    "Compared failed/successful reset, composed model, scene adapter and control schedule hashes: unchanged.",
+    "Parsed 43 result checks; all true; native/readback step720 contact pair and signed distance matched for all four stage sizes.",
+    "Read source timing loop and gate_decision; retained the incomplete 1-to-32 failure gate as unresolved.",
+    "Read scheduler accounting and queue for exactly the two authorized full-hand jobs; both completed/failed and absent from queue.",
+    "Documentation-only integration; no runtime test or additional GPU job by the coordinator."
+  ],
+  "delegation": {
+    "implementation_and_execution_owner": "Kimi",
+    "integration_and_review_owner": "Codex",
+    "latest_dispatch_elapsed_seconds": 900.1,
+    "latest_dispatch_status": "timeout",
+    "latest_dispatch_exit_code": 124,
+    "gpu_job_completed_before_cli_timeout": true,
+    "structured_final_worker_report_received": false,
+    "exact_session_recovered_from_workspace_index": true,
+    "latest_session_recorded_usage": {
+      "records": 31,
+      "input_uncached": 68934,
+      "input_cached": 2246912,
+      "input_cache_write": 0,
+      "output": 24551,
+      "total": 2340397
+    },
+    "usage_scope": "Latest correction session only; interrupted requests may be missing. Whole-project combined Codex/Kimi usage unknown; no cost/savings claim.",
+    "worker_local_test_claim": "py_compile and 480-step CPU self-test passed; 12 harness tests via shim because pytest was absent. Not a normal full pytest acceptance."
+  },
+  "limitations": [
+    "Frozen open-loop teacher trajectory with repeated identical worlds; no learned policy, dataset acceptance, GUI or physical validation.",
+    "GPU contact observations: world0 every60steps and final only; no all-world/all-step contact acceptance.",
+    "GPU qpos sampled every60steps for all worlds; qvel/qacc transient coverage incomplete; all-world final qpos/qvel finite.",
+    "Capacity sampled; absence of transient overflow is unproven. GPU solver warning counters unknown, not zero.",
+    "Normal forces remain uncalibrated; sampled penetration bound is a debug threshold, not hardware precision acceptance.",
+    "32-world stage does not require the 1-world stage to pass in current gate_decision. All stages passed this time; repair before general harness/training acceptance.",
+    "Implementation not integrated; this publication contains documentation and sanitized evidence only."
+  ],
+  "artifacts": [
+    {
+      "path": "experiments/records/h800-fullhand-contact-result-20261031.json",
+      "sha256": "3379f21696eee83abbdf623076fcef36fda94ffcf4ef20225a01d84be05b1e77"
+    },
+    {
+      "path": "docs/experiments/2026-10-31-h800-fullhand.zh-CN.md",
+      "sha256": "4d96dff8fb20f8192b696c8c9e2cce973b6168b4c9e7fcf963fbbc663e37e4e1"
+    }
+  ]
+}

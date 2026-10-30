@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Verified the corrected full-hand H800 teacher replay: 43/43 checks, 1/32/128/512 identical worlds, unchanged reset/model/control, actual completed allocation and full-cycle timing. Published sanitized results and independent review; retained sampled-contact limits, unknown solver warnings, remaining failure-gate work and the later Kimi CLI timeout. No training or production source integration is claimed.
+
 - Added exact humanoid/hand compatibility evidence, including official G1 support, H2 dealer-only configurations, Dex5-S power/physical-layer constraints, and wheel-based Linker platform distinctions. Kept hardware fit separate from policy transfer and real acceptance.
 
 - Preserved a600-second Kimi correction timeout with saved viewer/contact source, no deployment acceptance and no second GPU job; confirmed the scheduler queue is empty.
