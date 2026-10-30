@@ -38,6 +38,8 @@ The [latest-model decision](docs/decisions/0006-latest-leap-and-hardware-readine
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 
+The [LEAP H800 validation](docs/leap-h800.md) now covers1/32/128/512 repeated worlds with42/42 checks and14,000 steps per world. The successful job completed in7m46s;512-world whole-loop throughput was about47,001 aggregate world-steps/s. This is hand-only backend validation with sampled contact/state checks, separate from learning or GUI performance.
+
 The [initial H800 probe report](docs/experiments/2026-10-30-h800-probe.md) preserves the tiny-scene baseline. The [full-hand H800 report](docs/experiments/2026-10-31-h800-fullhand.zh-CN.md) records the contact-readback correction, actual completed allocation, complete-cycle timing and coverage limits. At 512 repeated worlds this harness reached 67,070 aggregate world-steps/s, about 1.23 times its single-CPU-world reference; this is not an end-to-end training speedup or a comparison with a CPU batch implementation.
 
 The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. Its current results use synthetic contact tests; it has not yet been driven by the articulated robot or a learned policy.

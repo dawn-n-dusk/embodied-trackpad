@@ -1,6 +1,8 @@
 # Changelog
 
 
+- Validated the unchanged full LEAP hand on H800 at1/32/128/512 worlds:42/42 checks. Added the reproducible batch harness and exact backend-representation reset audit, preserving the failed first reset-hash attempt and sampled-coverage/timing limitations.
+
 - Added the reviewed LEAP static-pad contact cycle, continuous contact recording and thirteen focused tests. Recorded the failed initial mounting/force accounting and the first H800 reset-audit failure separately; no GUI or learning success is inferred.
 ## Unreleased — 2026-10-31
 

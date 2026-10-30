@@ -1,0 +1,858 @@
+{
+  "record_version": "1.0",
+  "id": "leap-h800-20261031",
+  "timestamp_utc": "2026-10-30T22:45:24.430377+00:00",
+  "kind": "independent_h800_backend_acceptance",
+  "status": "bounded_hand_only_batch_replay_accepted",
+  "source_commit": "7401ab768625b6e5b91e6bf658fdb9899023f958",
+  "actual_run": {
+    "started_utc": "2026-10-30T22:33:30.500992+00:00",
+    "finished_utc": "2026-10-30T22:41:15.733231+00:00",
+    "scheduler_state": "COMPLETED",
+    "exit_code": "0:0",
+    "elapsed_seconds": 466,
+    "allocated_gpus": 1,
+    "allocated_cpus": 8,
+    "time_limit_seconds": 1200,
+    "device": {
+      "cuda_visible_devices": "0",
+      "driver_version": "580.173.02",
+      "memory_total": "81559 MiB",
+      "name": "NVIDIA H800"
+    },
+    "world_sizes": [
+      1,
+      32,
+      128,
+      512
+    ],
+    "steps_per_world": 14000,
+    "simulated_seconds_per_world": 7,
+    "aggregate_world_steps": 9422000,
+    "optimizer_updates": 0
+  },
+  "packages": {
+    "mujoco": "3.17.0",
+    "mujoco-warp": "3.17.0",
+    "numpy": "2.2.6",
+    "warp-lang": "1.18.0"
+  },
+  "scene": {
+    "canonical_reset_state_sha256": "95fcce8ae1a3ade9e70bbdf00e1aec605d2d05e3d22bc6502606250c37aba317",
+    "hashes": {
+      "accepted_cpu_probe_sha256": "1e75fb6c450d323ee2465846065fe8d7de6d911336dce042c93eb4d7df42f37e",
+      "derived_urdf_sha256": "138eb7a18575214a2b146a07b0a790b6bb606e52ca434fe6545671e401e7bc5b",
+      "manifest_sha256": "04babe709df1c762f2fc37abd1e2d626f3e5b157950067ee7ec5ba869319428f",
+      "model_py_sha256": "ef49958ce1fb38817158aeda6414c9f7fbf4a0660df38ee69379b9705afb3781",
+      "this_probe_sha256": "3530e505ef2bb9708dc92abce47313814ebf29b8b3390528584674e6c9088afc",
+      "upstream_urdf_sha256": "cdd886d2f61dcb2904bbf2e9a0b7401f699ceb62521bf7512687dc880997230e"
+    },
+    "model": "LEAP Hand v2 Advanced right hand, fixed palm, hand-only scene",
+    "njnt": 21,
+    "nq": 21,
+    "nu": 17,
+    "nv": 21,
+    "sampling": {
+      "allworld_state_every_steps": 200,
+      "plus_final": true,
+      "world0_contacts_joints_every_steps": 20
+    },
+    "schedule": {
+      "applied": "row i at step i on CPU and on every GPU world",
+      "backend_representation": "device ctrl dtype float32 on mujoco-warp 3.17: each frozen float64 row is converted by warp assign at every step; float64 precision is NOT claimed on the GPU",
+      "kind": "frozen_open_loop_time_indexed_from_accepted_probe_ctrl_at",
+      "max_f64_to_f32_conversion_delta": 5.953652526535791e-08,
+      "nu": 17,
+      "rows": 14000,
+      "sha256": "64f2684309fd0db40780734b44e9e784600aad11efe072cd40941c40c51456a0",
+      "sha256_dtype": "float64 (canonical; unchanged from the accepted-probe control sequence)",
+      "validation_problems": []
+    },
+    "stage_plan": {
+      "order": "1->32->128(->512 gated)",
+      "requested": [
+        1,
+        32,
+        128,
+        512
+      ]
+    },
+    "steps": 14000,
+    "timestep_s": 0.0005,
+    "tolerances": {
+      "coupling_rad": 0.01,
+      "cpu_gpu_final_qpos_rad": 0.01,
+      "final_open_rad": 0.05,
+      "limit_excursion_rad": 0.01,
+      "penetration_m_sampled": 0.001
+    },
+    "world_variation": "repeated_identical (backend diagnostic only; NOT randomized task generalization or training speedup)"
+  },
+  "checks": [
+    {
+      "detail": "model.py ef49958ce1fb3881, accepted probe 1e75fb6c450d323e matched pinned values before any run",
+      "name": "canonical_hashes_verified",
+      "pass": true
+    },
+    {
+      "detail": "frozen schedule shape/finite/ctrlrange ok, sha256=64f2684309fd0db4",
+      "name": "schedule_valid",
+      "pass": true
+    },
+    {
+      "detail": "CPU run reset hash matches frozen canonical reset",
+      "name": "cpu_reset_matches_canonical",
+      "pass": true
+    },
+    {
+      "detail": "every-step finite over 14000 steps",
+      "name": "cpu_states_finite",
+      "pass": true
+    },
+    {
+      "detail": "every-step max 0.000000e+00 rad",
+      "name": "cpu_limit_excursion<=0.01",
+      "pass": true
+    },
+    {
+      "detail": "every-step max 7.543526e-03 rad",
+      "name": "cpu_coupling<=0.01",
+      "pass": true
+    },
+    {
+      "detail": "every-step max 4.486689e-04 m",
+      "name": "cpu_penetration<=0.001",
+      "pass": true
+    },
+    {
+      "detail": "warnings: none",
+      "name": "cpu_no_solver_warnings",
+      "pass": true
+    },
+    {
+      "detail": "final open-pose error 3.709640e-02 rad",
+      "name": "cpu_final_open<=0.05",
+      "pass": true
+    },
+    {
+      "detail": "pre-step exact broadcast audit in actual backend dtype: qpos(dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=7.451e-10); qvel(dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=0.000e+00); ctrl(dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=7.451e-10) | canonical f64 hash 95fcce8ae1a3ade9 kept for provenance only",
+      "name": "gpu_reset_broadcast_exact[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite=True; transient sample step=None (sampled coverage, NOT every-step)",
+      "name": "gpu_states_finite[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 0.000000e+00; all-world sampled max 0.000000e+00 rad (tol 0.01)",
+      "name": "gpu_limit_excursion<=0.01[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 7.995695e-03; all-world sampled max 7.223547e-03 rad (tol 0.01)",
+      "name": "gpu_coupling<=0.01[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max penetration 4.489840e-04 m (tol 1.0e-03)",
+      "name": "gpu_penetration<=0.001[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 final open-pose error 3.709649e-02 rad (tol 0.05)",
+      "name": "gpu_final_open<=0.05[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU final max |dq| 1.423251e-07 rad (tol 0.01); |dv| 7.040256e-06 reported",
+      "name": "cpu_gpu_final_qpos<=0.01[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 12<=256 (aggregate), nefc 52<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=1]",
+      "pass": true
+    },
+    {
+      "detail": "pre-step exact broadcast audit in actual backend dtype: qpos(dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=7.451e-10); qvel(dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=0.000e+00); ctrl(dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=7.451e-10) | canonical f64 hash 95fcce8ae1a3ade9 kept for provenance only",
+      "name": "gpu_reset_broadcast_exact[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite=True; transient sample step=None (sampled coverage, NOT every-step)",
+      "name": "gpu_states_finite[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 0.000000e+00; all-world sampled max 0.000000e+00 rad (tol 0.01)",
+      "name": "gpu_limit_excursion<=0.01[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 7.643372e-03; all-world sampled max 7.372916e-03 rad (tol 0.01)",
+      "name": "gpu_coupling<=0.01[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max penetration 4.488036e-04 m (tol 1.0e-03)",
+      "name": "gpu_penetration<=0.001[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 final open-pose error 3.709649e-02 rad (tol 0.05)",
+      "name": "gpu_final_open<=0.05[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU final max |dq| 1.423251e-07 rad (tol 0.01); |dv| 7.038210e-06 reported",
+      "name": "cpu_gpu_final_qpos<=0.01[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 414<=1920 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=32]",
+      "pass": true
+    },
+    {
+      "detail": "pre-step exact broadcast audit in actual backend dtype: qpos(dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=7.451e-10); qvel(dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=0.000e+00); ctrl(dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=7.451e-10) | canonical f64 hash 95fcce8ae1a3ade9 kept for provenance only",
+      "name": "gpu_reset_broadcast_exact[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite=True; transient sample step=None (sampled coverage, NOT every-step)",
+      "name": "gpu_states_finite[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 0.000000e+00; all-world sampled max 0.000000e+00 rad (tol 0.01)",
+      "name": "gpu_limit_excursion<=0.01[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 7.399857e-03; all-world sampled max 7.537127e-03 rad (tol 0.01)",
+      "name": "gpu_coupling<=0.01[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max penetration 4.488174e-04 m (tol 1.0e-03)",
+      "name": "gpu_penetration<=0.001[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 final open-pose error 3.709649e-02 rad (tol 0.05)",
+      "name": "gpu_final_open<=0.05[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU final max |dq| 1.423251e-07 rad (tol 0.01); |dv| 7.033113e-06 reported",
+      "name": "cpu_gpu_final_qpos<=0.01[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 1651<=7680 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=128]",
+      "pass": true
+    },
+    {
+      "detail": "pre-step exact broadcast audit in actual backend dtype: qpos(dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=7.451e-10); qvel(dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=0.000e+00); ctrl(dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=7.451e-10) | canonical f64 hash 95fcce8ae1a3ade9 kept for provenance only",
+      "name": "gpu_reset_broadcast_exact[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "final all-world qpos/qvel finite=True; transient sample step=None (sampled coverage, NOT every-step)",
+      "name": "gpu_states_finite[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 0.000000e+00; all-world sampled max 0.000000e+00 rad (tol 0.01)",
+      "name": "gpu_limit_excursion<=0.01[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max 8.085787e-03; all-world sampled max 7.667363e-03 rad (tol 0.01)",
+      "name": "gpu_coupling<=0.01[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 sampled max penetration 4.488260e-04 m (tol 1.0e-03)",
+      "name": "gpu_penetration<=0.001[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 final open-pose error 3.709649e-02 rad (tol 0.05)",
+      "name": "gpu_final_open<=0.05[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "world0 vs CPU final max |dq| 1.423251e-07 rad (tol 0.01); |dv| 7.035765e-06 reported",
+      "name": "cpu_gpu_final_qpos<=0.01[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "sampled peaks within capacity: nacon 6610<=30720 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof (unknown counters gate expansion and cannot pass)",
+      "name": "gpu_capacity_verified[nworld=512]",
+      "pass": true
+    },
+    {
+      "detail": "stages run: [1, 32, 128, 512]; skipped: []",
+      "name": "gpu_stage_ran",
+      "pass": true
+    }
+  ],
+  "cpu_reference": {
+    "checks": {
+      "final_open_pose_error_rad": 0.03709640366188454,
+      "first_nonfinite_step": null,
+      "max_contact_penetration_m": 0.00044866887150653864,
+      "max_coupling_residual_rad": 0.007543526307473403,
+      "max_limit_excursion_rad": 0.0,
+      "max_simultaneous_contacts": 15,
+      "solver_warnings": {},
+      "states_finite": true
+    },
+    "contact_evaluation_instant": "post-integration: mj_forward refresh after each mj_step, so contacts belong to the recorded qpos (unlike the GPU samples, which use the solver-step pre-integration evaluation)",
+    "coverage": "every step (finite/limit/coupling/penetration/warnings)",
+    "final_contacts": {
+      "max_penetration_m": 0.0,
+      "ncon": 0,
+      "pairs": {},
+      "worst_pair": null
+    },
+    "final_qpos": [
+      0.03709640366188454,
+      0.08580357891046708,
+      1.8443963281049522e-07,
+      0.05736272761307514,
+      0.05667046359870875,
+      0.08580357863304833,
+      1.844396417325878e-07,
+      0.05736271729087178,
+      0.05667044877855454,
+      0.08580357886803382,
+      1.8443964290251218e-07,
+      0.057362716008216665,
+      0.05667044877736829,
+      0.0858050386870851,
+      -1.166361755158786e-06,
+      0.057355890009936315,
+      0.05666428111354225,
+      0.01196979849912714,
+      0.07480686081533999,
+      -8.31895852567305e-08,
+      0.05240540877790041
+    ],
+    "final_qvel": [
+      -8.914279623280607e-07,
+      -3.7636427602069663e-07,
+      -5.6422892744418835e-12,
+      -5.209452081406028e-07,
+      -5.005714722913686e-07,
+      -4.2822403566851136e-07,
+      -6.259294613545876e-12,
+      -1.39814535958076e-07,
+      -1.3546279967790822e-07,
+      -4.2057032880343784e-07,
+      -6.196813461035123e-12,
+      -1.3770878319969497e-07,
+      -1.3342215316459424e-07,
+      -3.8484183045572757e-07,
+      6.689536036254234e-12,
+      -1.2765629085664736e-07,
+      -1.2368152957591797e-07,
+      1.0791298231115404e-11,
+      -7.774019282631116e-12,
+      2.2140181437225667e-15,
+      -8.541603372406637e-13
+    ],
+    "reset_state_sha256": "95fcce8ae1a3ade9e70bbdf00e1aec605d2d05e3d22bc6502606250c37aba317",
+    "state_evaluation_instant": "post-integration (qpos/qvel after each mj_step)",
+    "steps": 14000,
+    "timing": {
+      "observation_s": 0.8109575984999537,
+      "step_s": 0.6151103526353836,
+      "steps_per_s_step_only": 22760.143671811555,
+      "steps_per_s_total_PRIMARY": 9796.665395449636,
+      "total_s": 1.4290576879866421
+    }
+  },
+  "stages": [
+    {
+      "nworld": 1,
+      "checks_passed": true,
+      "reset_audit": {
+        "fields": {
+          "ctrl": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "canonical_f64_sha256": "cc161971b732eb6671fe6e8bd62e3bd8708cb0554f6a6954721210015b8bb2b2",
+            "detail": "dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 1,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qpos": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "canonical_f64_sha256": "073ec878aea366767a3779ab1524835aa4f4f363d694d186ef41d16536891bf8",
+            "detail": "dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 1,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qvel": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "canonical_f64_sha256": "e3c2af35d1dfc500e16f826a071cc311bf55003a3de77de7ea3376c6b6fa2857",
+            "detail": "dtype=float32 worlds=1 exact=True finite=True max|f64->float32|=0.000e+00",
+            "finite": true,
+            "max_conversion_delta": 0.0,
+            "mismatch_worlds": [],
+            "n_worlds": 1,
+            "pass": true,
+            "shape_ok": true
+          }
+        },
+        "pass": true,
+        "semantics": "exact equality against the canonical arrays explicitly converted to the actual backend dtype; permits only the backend representation, never a relaxed tolerance"
+      },
+      "checks_data": {
+        "cpu_gpu_final_max_abs_dq_world0": 1.4232510953116062e-07,
+        "cpu_gpu_final_max_abs_dv_world0": 7.040256107189093e-06,
+        "cross_world_final_max_abs_dq": 0.0,
+        "cross_world_final_max_abs_dv": 0.0,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.03709649294614792,
+        "max_coupling_residual_rad_allworld_sampled": 0.007223546504974365,
+        "max_coupling_residual_rad_world0_sampled": 0.007995694875717163,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 12,
+        "max_penetration_m_world0_sampled": 0.0004489840066526085,
+        "transient_nonfinite_step": null
+      },
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 200) + final",
+        "nacon_peak_sampled": 12,
+        "naconmax_alloc": 256,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 52,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 12<=256 (aggregate), nefc 52<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "timing": {
+        "compile_warmup_s_isolated": 0.7091806069947779,
+        "first_measured_step_s": 0.011910818982869387,
+        "loop_note": "subtraction-derived (run_total - observation); NOT pure GPU kernel time",
+        "observation_excluded_loop_s": 96.01727065397426,
+        "observation_s_in_run": 3.1579022048972547,
+        "reset_transfer_s": 0.005634242668747902,
+        "run_total_s": 99.17517285887152,
+        "steps": 14000,
+        "steps_per_s_observation_excluded_loop": 145.80710224989636,
+        "steps_per_s_whole_run_PRIMARY": 141.16436197113882,
+        "whole_run_note": "PRIMARY: whole measured run including ctrl transfers, observation readbacks and Python overhead",
+        "world_steps_per_s_observation_excluded_loop": 145.80710224989636
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit/coupling sampled every 200 steps + final (70 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (700 samples); NOT every-step, NOT all-world"
+      },
+      "final_contacts_world0": {
+        "max_penetration_m": 0.0,
+        "ncon": 0,
+        "pairs": {},
+        "worst_pair": null
+      },
+      "aggregate_world_steps_per_s_whole_run": 141.16436197113882
+    },
+    {
+      "nworld": 32,
+      "checks_passed": true,
+      "reset_audit": {
+        "fields": {
+          "ctrl": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "canonical_f64_sha256": "cc161971b732eb6671fe6e8bd62e3bd8708cb0554f6a6954721210015b8bb2b2",
+            "detail": "dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 32,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qpos": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "canonical_f64_sha256": "073ec878aea366767a3779ab1524835aa4f4f363d694d186ef41d16536891bf8",
+            "detail": "dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 32,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qvel": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "canonical_f64_sha256": "e3c2af35d1dfc500e16f826a071cc311bf55003a3de77de7ea3376c6b6fa2857",
+            "detail": "dtype=float32 worlds=32 exact=True finite=True max|f64->float32|=0.000e+00",
+            "finite": true,
+            "max_conversion_delta": 0.0,
+            "mismatch_worlds": [],
+            "n_worlds": 32,
+            "pass": true,
+            "shape_ok": true
+          }
+        },
+        "pass": true,
+        "semantics": "exact equality against the canonical arrays explicitly converted to the actual backend dtype; permits only the backend representation, never a relaxed tolerance"
+      },
+      "checks_data": {
+        "cpu_gpu_final_max_abs_dq_world0": 1.4232510953116062e-07,
+        "cpu_gpu_final_max_abs_dv_world0": 7.0382101988574546e-06,
+        "cross_world_final_max_abs_dq": 7.450580596923828e-09,
+        "cross_world_final_max_abs_dv": 1.280202582165657e-06,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.03709649294614792,
+        "max_coupling_residual_rad_allworld_sampled": 0.007372915744781494,
+        "max_coupling_residual_rad_world0_sampled": 0.007643371820449829,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 13,
+        "max_penetration_m_world0_sampled": 0.0004488036211114377,
+        "transient_nonfinite_step": null
+      },
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 200) + final",
+        "nacon_peak_sampled": 414,
+        "naconmax_alloc": 1920,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 56,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 414<=1920 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "timing": {
+        "compile_warmup_s_isolated": 0.019026088993996382,
+        "first_measured_step_s": 0.0070301229134202,
+        "loop_note": "subtraction-derived (run_total - observation); NOT pure GPU kernel time",
+        "observation_excluded_loop_s": 91.12444948358461,
+        "observation_s_in_run": 3.5553249744698405,
+        "reset_transfer_s": 0.008568157907575369,
+        "run_total_s": 94.67977445805445,
+        "steps": 14000,
+        "steps_per_s_observation_excluded_loop": 153.63604476449535,
+        "steps_per_s_whole_run_PRIMARY": 147.86684991737445,
+        "whole_run_note": "PRIMARY: whole measured run including ctrl transfers, observation readbacks and Python overhead",
+        "world_steps_per_s_observation_excluded_loop": 4916.353432463851
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit/coupling sampled every 200 steps + final (70 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (700 samples); NOT every-step, NOT all-world"
+      },
+      "final_contacts_world0": {
+        "max_penetration_m": 0.0,
+        "ncon": 0,
+        "pairs": {},
+        "worst_pair": null
+      },
+      "aggregate_world_steps_per_s_whole_run": 4731.7391973559825
+    },
+    {
+      "nworld": 128,
+      "checks_passed": true,
+      "reset_audit": {
+        "fields": {
+          "ctrl": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "canonical_f64_sha256": "cc161971b732eb6671fe6e8bd62e3bd8708cb0554f6a6954721210015b8bb2b2",
+            "detail": "dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 128,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qpos": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "canonical_f64_sha256": "073ec878aea366767a3779ab1524835aa4f4f363d694d186ef41d16536891bf8",
+            "detail": "dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 128,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qvel": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "canonical_f64_sha256": "e3c2af35d1dfc500e16f826a071cc311bf55003a3de77de7ea3376c6b6fa2857",
+            "detail": "dtype=float32 worlds=128 exact=True finite=True max|f64->float32|=0.000e+00",
+            "finite": true,
+            "max_conversion_delta": 0.0,
+            "mismatch_worlds": [],
+            "n_worlds": 128,
+            "pass": true,
+            "shape_ok": true
+          }
+        },
+        "pass": true,
+        "semantics": "exact equality against the canonical arrays explicitly converted to the actual backend dtype; permits only the backend representation, never a relaxed tolerance"
+      },
+      "checks_data": {
+        "cpu_gpu_final_max_abs_dq_world0": 1.4232510953116062e-07,
+        "cpu_gpu_final_max_abs_dv_world0": 7.033113390548719e-06,
+        "cross_world_final_max_abs_dq": 7.450580596923828e-09,
+        "cross_world_final_max_abs_dv": 1.281495542571065e-06,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.03709649294614792,
+        "max_coupling_residual_rad_allworld_sampled": 0.007537126541137695,
+        "max_coupling_residual_rad_world0_sampled": 0.007399857044219971,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 13,
+        "max_penetration_m_world0_sampled": 0.00044881741632707417,
+        "transient_nonfinite_step": null
+      },
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 200) + final",
+        "nacon_peak_sampled": 1651,
+        "naconmax_alloc": 7680,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 56,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 1651<=7680 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "timing": {
+        "compile_warmup_s_isolated": 0.03202766319736838,
+        "first_measured_step_s": 0.007572276052087545,
+        "loop_note": "subtraction-derived (run_total - observation); NOT pure GPU kernel time",
+        "observation_excluded_loop_s": 104.47570977406576,
+        "observation_s_in_run": 4.3582745008170605,
+        "reset_transfer_s": 0.014125776011496782,
+        "run_total_s": 108.83398427488282,
+        "steps": 14000,
+        "steps_per_s_observation_excluded_loop": 134.00243970848095,
+        "steps_per_s_whole_run_PRIMARY": 128.63629033960655,
+        "whole_run_note": "PRIMARY: whole measured run including ctrl transfers, observation readbacks and Python overhead",
+        "world_steps_per_s_observation_excluded_loop": 17152.31228268556
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit/coupling sampled every 200 steps + final (70 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (700 samples); NOT every-step, NOT all-world"
+      },
+      "final_contacts_world0": {
+        "max_penetration_m": 0.0,
+        "ncon": 0,
+        "pairs": {},
+        "worst_pair": null
+      },
+      "aggregate_world_steps_per_s_whole_run": 16465.445163469638
+    },
+    {
+      "nworld": 512,
+      "checks_passed": true,
+      "reset_audit": {
+        "fields": {
+          "ctrl": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "9b834e939f3ec3c69b7ab38637ad9a5ca7e43a3a5d9ec8a919a1342747cbcf9e",
+            "canonical_f64_sha256": "cc161971b732eb6671fe6e8bd62e3bd8708cb0554f6a6954721210015b8bb2b2",
+            "detail": "dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 512,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qpos": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "455d1d87fb6cd2515bdee06773dc76de3f26f7c16abceaa6ae06391ea6cc7557",
+            "canonical_f64_sha256": "073ec878aea366767a3779ab1524835aa4f4f363d694d186ef41d16536891bf8",
+            "detail": "dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=7.451e-10",
+            "finite": true,
+            "max_conversion_delta": 7.450580569168253e-10,
+            "mismatch_worlds": [],
+            "n_worlds": 512,
+            "pass": true,
+            "shape_ok": true
+          },
+          "qvel": {
+            "all_worlds_exact": true,
+            "backend_actual_sha256_world0": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "backend_dtype": "float32",
+            "backend_expected_sha256": "4fea5e6a3ec5f5474a26d858bc77b6d7bd3ab864ea02d988683fdc648602b248",
+            "canonical_f64_sha256": "e3c2af35d1dfc500e16f826a071cc311bf55003a3de77de7ea3376c6b6fa2857",
+            "detail": "dtype=float32 worlds=512 exact=True finite=True max|f64->float32|=0.000e+00",
+            "finite": true,
+            "max_conversion_delta": 0.0,
+            "mismatch_worlds": [],
+            "n_worlds": 512,
+            "pass": true,
+            "shape_ok": true
+          }
+        },
+        "pass": true,
+        "semantics": "exact equality against the canonical arrays explicitly converted to the actual backend dtype; permits only the backend representation, never a relaxed tolerance"
+      },
+      "checks_data": {
+        "cpu_gpu_final_max_abs_dq_world0": 1.4232510953116062e-07,
+        "cpu_gpu_final_max_abs_dv_world0": 7.035765022351738e-06,
+        "cross_world_final_max_abs_dq": 1.4901161193847656e-08,
+        "cross_world_final_max_abs_dv": 1.2854669648731942e-06,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.03709649294614792,
+        "max_coupling_residual_rad_allworld_sampled": 0.007667362689971924,
+        "max_coupling_residual_rad_world0_sampled": 0.008085787296295166,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 13,
+        "max_penetration_m_world0_sampled": 0.00044882597285322845,
+        "transient_nonfinite_step": null
+      },
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 200) + final",
+        "nacon_peak_sampled": 6610,
+        "naconmax_alloc": 30720,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 56,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 6610<=30720 (aggregate), nefc 56<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "timing": {
+        "compile_warmup_s_isolated": 0.061330013908445835,
+        "first_measured_step_s": 0.012632295023649931,
+        "loop_note": "subtraction-derived (run_total - observation); NOT pure GPU kernel time",
+        "observation_excluded_loop_s": 128.67589073255658,
+        "observation_s_in_run": 23.83196383435279,
+        "reset_transfer_s": 0.04620497580617666,
+        "run_total_s": 152.50785456690937,
+        "steps": 14000,
+        "steps_per_s_observation_excluded_loop": 108.80049028840978,
+        "steps_per_s_whole_run_PRIMARY": 91.79855057142527,
+        "whole_run_note": "PRIMARY: whole measured run including ctrl transfers, observation readbacks and Python overhead",
+        "world_steps_per_s_observation_excluded_loop": 55705.851027665805
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit/coupling sampled every 200 steps + final (70 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (700 samples); NOT every-step, NOT all-world"
+      },
+      "final_contacts_world0": {
+        "max_penetration_m": 0.0,
+        "ncon": 0,
+        "pairs": {},
+        "worst_pair": null
+      },
+      "aggregate_world_steps_per_s_whole_run": 47000.85789256974
+    }
+  ],
+  "gpu_warning_coverage": "unknown - warning counters are not transferred by get_data_into in mujoco-warp 3.17 (verified source); not interpreted as no-warning",
+  "first_reset_failure_review": {
+    "reviewed_utc": "2026-10-30T22:28:27.305082+00:00",
+    "method": "readonly reconstruction from accepted inventory and OPEN_POSE; no simulation run",
+    "reconstructed_canonical_f64_sha256": "95fcce8ae1a3ade9e70bbdf00e1aec605d2d05e3d22bc6502606250c37aba317",
+    "reconstructed_f32_cast_then_f64_hash": "bd9690c14a745f0eee728672f065f2218ad04738d4803123f245b50a04b53d6a",
+    "matches_recorded_canonical": true,
+    "matches_recorded_gpu_reset": true,
+    "max_expected_cast_delta": 7.450580569168253e-10,
+    "scope": "first job world0 reset hash only; new worker must verify actual dtype and all-world arrays before accepting a corrected run"
+  },
+  "tests": {
+    "focused_passed": 22,
+    "skipped": 0,
+    "runtime": "existing local simulation venv, NumPy2.5.4/MuJoCo3.17; earlier17-test remote run used NumPy2.2.6",
+    "linux_note": "Optional numpy/MuJoCo module-level imports cause this entire test module to skip in the foundation-only CI environment."
+  },
+  "implementation_artifacts": [
+    {
+      "path": "tools/leap_h800_probe.py",
+      "sha256": "3530e505ef2bb9708dc92abce47313814ebf29b8b3390528584674e6c9088afc"
+    },
+    {
+      "path": "tools/leap_h800_probe.sbatch",
+      "sha256": "b25f565616c14b251fc5a0842c2f2ec50c0ae489f89449c3b5845f320abd4425"
+    },
+    {
+      "path": "tests/test_leap_h800_probe.py",
+      "sha256": "631a3f7a361b4b314531d63240a9ceaa6a6fdf527becccb3816ac73658aabb09"
+    }
+  ],
+  "raw_result_sha256": "2df698d58ad723ce848702a996f100f9553156b885e6e4d8cad8fd8c83bcfc9f",
+  "independent_review": {
+    "scheduler_success_observed": true,
+    "actual_device_model_observed": true,
+    "execution_source_hash_matches_integrated_source": true,
+    "all42_checks_pass": true,
+    "all_stage_reset_field_world_counts_match_requested": true,
+    "no_new_gpu_job_submitted_by_coordinator": true
+  },
+  "limitations": [
+    "Hand-only seven-second teacher schedule; no pad, GUI, policy training or randomized task result on H800.",
+    "Every world repeats the same initial state/control. Final-state agreement does not prove workspace/generalization performance.",
+    "World0 contact/state checks are sampled every20 steps plus final; all-world state checks every200 steps plus final. Not every-step/all-world contact acceptance.",
+    "GPU solver warnings remain unknown. Capacity peaks are sampled, not a proof of no overflow between samples.",
+    "CPU contacts were refreshed after stepping; GPU contacts retain pre-integration solver-step values. No instantaneous contact-alignment equivalence is claimed.",
+    "Primary throughput includes control transfer, Python and observation. Observation-excluded time is not pure kernel time. No end-to-end training speedup or CPU-batch comparison is claimed.",
+    "Both Kimi GPU dispatches timed out after900.1s. Actual remote jobs were independently reconciled: first failed in141s; corrected job completed in466s. No training or ongoing GPU allocation remains from these two jobs."
+  ]
+}
