@@ -2,6 +2,7 @@
 
 1. State the concrete objective, allowed files/resources, acceptance checks, and exclusions before dispatch.
 2. Implement on a dedicated branch. Keep implementation and coordinator documentation ownership separate when work runs concurrently.
+   Kimi also owns operational execution, including installation, deployment, simulation, training, VM lifecycle and streaming. The coordinator reviews source, results and live views read-only, and handles documentation/Git integration. Recover timed-out worker checkpoints through bounded Kimi continuations.
 3. Record the source revision, environment/configuration, commands, observed results, and limitations. Keep raw private logs outside Git; publish reviewed evidence summaries and checksums.
 4. Run relevant checks. A failed run remains part of the record. Distinguish mocked, CPU-simulated, GPU-simulated, real-Mac, and physical evidence.
 5. Update STATUS.md, relevant design/usage docs, CHANGELOG.md, and the experiment ledger. The ledger is append-only; corrections reference the superseded entry.

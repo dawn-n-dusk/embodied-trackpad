@@ -36,7 +36,7 @@ The [H800 probe report](docs/experiments/2026-10-30-h800-probe.md) includes pinn
 
 ## Reproducibility and responsibilities
 
-The coordinator owns architecture, review, integration, publication, and evidence reporting. Kimi owns bounded implementation tasks. A worker's completion message is not an acceptance result.
+The coordinator owns architecture, budgets, read-only review, integration, publication, and evidence reporting. Kimi owns bounded implementation and operational work: installation, VM/server setup, simulation, training, capture/input experiments, and live streaming. A worker's completion message is not an acceptance result. The [live and batch acceptance contract](docs/decisions/0004-live-and-batch-evidence.md) defines what a full-hand stream or comparable H800 result must demonstrate.
 
 Every meaningful change or experiment has a Git commit and an entry in [experiments/ledger.jsonl](experiments/ledger.jsonl), linked to its configuration, source revision, checks, and outcome. Corrections append new entries. [CONTRIBUTING.md](CONTRIBUTING.md) defines the process.
 

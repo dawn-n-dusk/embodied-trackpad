@@ -2,6 +2,7 @@
 
 ## Unreleased — 2026-10-30
 
+- Added explicit shared reset/control, 160 × 110 mm pad, immutable live-frame and staged GPU acceptance contracts. Preserved additional native-GUI and compute-harness review findings for Kimi correction before integration.
 - User selected the M5 host and explicitly authorized a small macOS guest. Guest boot/desktop is verified; native GUI, full-hand dynamics, live stream, and full-hand H800 work remain separate acceptance stages.
 - Clarified that Kimi owns operational execution as well as implementation; coordinator owns architecture, budgets, read-only review and Git/documentation integration.
 - Preserved native-app review failures and incomplete CPU-model checkpoints; extended narrowly scoped Kimi continuations instead of treating timeout or initial tests as acceptance.

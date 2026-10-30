@@ -1,0 +1,25 @@
+{
+  "record_version": "1.0",
+  "id": "integration-review-20261030-live-mac",
+  "timestamp_utc": "2026-10-30T16:18:11.733994+00:00",
+  "kind": "source_and_evidence_review",
+  "status": "corrections_requested",
+  "source_commit": "0a60585d5993be73fc0bff44189ce57e6e1222d4",
+  "objective": "Review Kimi native GUI correction and proposed live/GPU harness before integration",
+  "checks": [
+    "Native worker raw output contains 43 corrected real-app protocol tests and 132 total tests passed; coordinator reviewed source and the saved drag image showing the object relocated inside its destination.",
+    "Additional source review identified a 115-vs-110 mm pad-height mismatch, delayed empty-contact expiry, release-only target-hit logic and evaluator queries enabled in normal mode. A bounded same-session Kimi correction was dispatched.",
+    "Native report UTC fields incorrectly used local time with Z suffix; require system-generated UTC and preserve correction without inventing past execution times.",
+    "GPU harness source updated CPU controls at every step but GPU controls only once, and used zero controls during its GPU throughput loop. Results from that code are not accepted as a CPU/GPU comparison.",
+    "GPU batch admission examined CPU checks before all GPU batches rather than requiring earlier GPU checks to pass. Reset state, transient contact/capacity checks and full-hand source adapter are also pending.",
+    "Live harness used mutable physics data across threads and mismatched overlay/frame timestamps; immutable frame snapshots and independent client timeouts requested."
+  ],
+  "artifacts": [
+    "docs/decisions/0004-live-and-batch-evidence.md"
+  ],
+  "limitations": [
+    "Read-only coordinator source/evidence/visual review; execution remains Kimi-owned under the user instruction.",
+    "No full-hand live stream, full-hand H800 benchmark, physics-to-Mac data or trained policy is accepted by this record.",
+    "Generic two-link live/CPU self-test output establishes only infrastructure; all new scripts remain in isolated worker branches until corrected."
+  ]
+}
