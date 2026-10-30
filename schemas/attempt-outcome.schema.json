@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embodied-trackpad.dev/schemas/attempt-outcome.schema.json",
+  "title": "AttemptOutcome",
+  "description": "Result of one attempted intent (trackpad.v2-draft). motion_status reports the motion layer only; observed_success requires evidence_frame_ids and is never inferred from attempt emission.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "intent_id",
+    "motion_status",
+    "visible_outcome"
+  ],
+  "properties": {
+    "schema_version": { "const": "trackpad.v2-draft" },
+    "intent_id": { "type": "string", "minLength": 1 },
+    "motion_status": {
+      "enum": ["attempted", "completed", "aborted", "rejected", "interrupted"]
+    },
+    "visible_outcome": {
+      "enum": ["unknown", "observed_success", "observed_failure", "uncertain"]
+    },
+    "evidence_frame_ids": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "uncertainty": { "type": "number", "minimum": 0, "maximum": 1 },
+    "request_replan": { "type": "boolean" },
+    "note": { "type": "string" }
+  }
+}

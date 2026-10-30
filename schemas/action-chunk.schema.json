@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://embodied-trackpad.dev/schemas/action-chunk.schema.json",
+  "title": "ActionChunk",
+  "description": "A short block of normalized actuator position references (trackpad.v2-draft). values has shape [horizon][len(actuator_order)] and follows the exact actuator ordering identified by actuator_layout_id (canonical hash of the episode config's actuator_order); these are actuator references, never coordinate-click commands. Zero rows can be valid; executability is expressed only by valid_mask.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_version",
+    "embodiment_id",
+    "actuator_layout_id",
+    "goal_id",
+    "goal_version",
+    "observation_id",
+    "command_type",
+    "start",
+    "dt_seconds",
+    "horizon",
+    "values",
+    "valid_mask"
+  ],
+  "properties": {
+    "schema_version": { "const": "trackpad.v2-draft" },
+    "policy_version": { "type": "string", "minLength": 1 },
+    "embodiment_id": { "type": "string", "minLength": 1 },
+    "actuator_layout_id": { "type": "string", "minLength": 1 },
+    "goal_id": { "type": "string", "minLength": 1 },
+    "goal_version": { "type": "integer", "minimum": 0 },
+    "observation_id": { "type": "string", "minLength": 1 },
+    "command_type": { "enum": ["actuator_position_reference"] },
+    "start": { "$ref": "#/$defs/clockStamp" },
+    "dt_seconds": { "type": "number", "exclusiveMinimum": 0 },
+    "horizon": { "type": "integer", "minimum": 1 },
+    "values": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "array",
+        "minItems": 1,
+        "items": { "type": "number", "minimum": -1, "maximum": 1 }
+      }
+    },
+    "valid_mask": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "boolean" }
+    },
+    "valid_until": {
+      "anyOf": [{ "$ref": "#/$defs/clockStamp" }, { "type": "null" }]
+    },
+    "phase_estimate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 }
+  },
+  "$defs": {
+    "clockStamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["clock_id", "time_ns"],
+      "properties": {
+        "clock_id": { "type": "string", "minLength": 1 },
+        "time_ns": { "type": "integer", "minimum": 0 }
+      }
+    }
+  }
+}

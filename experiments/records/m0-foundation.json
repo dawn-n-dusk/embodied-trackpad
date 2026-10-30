@@ -1,0 +1,282 @@
+{
+  "record_version": "1.0",
+  "id": "m0-foundation",
+  "timestamp_utc": "2026-10-30T10:36:24.717678+00:00",
+  "kind": "development_or_experiment",
+  "status": "implemented_independently_locally_tested",
+  "objective": "First runnable foundation package: protocol v2 (draft) typed contracts, runtime validation, append-only episode recorder, deterministic mock dry-run CLI, JSON Schemas, behavior tests, and lightweight CI.",
+  "source_commit": "3e43e6c36cd10b315cda60f8f538403cf9ec3565",
+  "config": {
+    "schema_version": "trackpad.v2-draft",
+    "json_schema_draft": "https://json-schema.org/draft/2020-12/schema",
+    "package": "embodied-trackpad 0.1.0",
+    "requires_python": ">=3.10",
+    "runtime_dependencies": [],
+    "dev_dependencies": [
+      "pytest>=8",
+      "jsonschema>=4.21"
+    ],
+    "mock_fixture": {
+      "embodiment_id": "synthetic_mock_embodiment_v1",
+      "actuators": [
+        "arm_x",
+        "arm_y",
+        "finger_a_flex",
+        "finger_b_flex"
+      ],
+      "horizon": 4,
+      "dt_seconds": 0.05,
+      "evidence_class": "mock_software_fixture",
+      "training_eligible": false
+    }
+  },
+  "seed": 7,
+  "environment": {
+    "os": "macOS (arm64)",
+    "python": "3.12.14",
+    "pytest": "9.2.0",
+    "jsonschema": "4.26.0",
+    "gpu": "none required or used"
+  },
+  "data_revision": null,
+  "policy_revision": "mock_policy_v1 (synthetic fixture only; not a learned policy)",
+  "commands": [
+    ".venv/bin/python -m pytest -q",
+    ".venv/bin/python -m embodied_trackpad.cli --out .local/coordinator-final-a --seed 7 --steps 8 --created-utc 2026-10-30T00:00:00Z --source-commit 3e43e6c36cd10b315cda60f8f538403cf9ec3565",
+    ".venv/bin/python -m embodied_trackpad.cli --out .local/coordinator-final-b --seed 7 --steps 8 --created-utc 2026-10-30T00:00:00Z --source-commit 3e43e6c36cd10b315cda60f8f538403cf9ec3565",
+    "diff -r .local/coordinator-final-a .local/coordinator-final-b",
+    "git diff --check"
+  ],
+  "checks": [
+    {
+      "command": ".venv/bin/python -m pytest -q",
+      "result": "89 passed in 0.22s, 0 failed",
+      "scope": "Corrected contracts, layout identity, live timing, path boundaries, reference integrity, flushing/interruption, CLI and schemas; coordinator executed after correction worker stopped."
+    },
+    {
+      "command": "Independent coordinator boundary regression",
+      "result": "9/9 accepted after correcting the coordinator harness",
+      "scope": "Initially reproduced invalid cases; detailed checks in coordinator_review."
+    },
+    {
+      "command": "dry-run CLI seed 7, steps 8",
+      "result": "34 actor events, 1 teacher event, 1 evaluator event; 12/12 negative cases rejected",
+      "scope": "Mock software pipeline only; training_eligible=false."
+    },
+    {
+      "command": "diff -r .local/coordinator-final-a .local/coordinator-final-b",
+      "result": "exit 0; byte-identical output trees",
+      "scope": "Fixed seed, timestamp and baseline source revision."
+    },
+    {
+      "command": "git diff --check",
+      "result": "clean",
+      "scope": "Tracked diff; staged additions also checked before commit."
+    }
+  ],
+  "metrics": {
+    "tests_passed": 89,
+    "tests_failed": 0,
+    "negative_checks_rejected": 12,
+    "actor_events_recorded": 34,
+    "teacher_events_recorded": 1,
+    "evaluator_events_recorded": 1,
+    "independent_boundary_checks_passed": 9
+  },
+  "artifacts": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "sha256": "deaeb2299966931394e56e504cb18611792d2a97317bb0350601eff4b59c29bb"
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7.fixture_manifest.json",
+      "sha256": "fab51aeef5cb1530fd1a3599a02cef70815cd78490b8da154d938f7c724d9905",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/actor_events.jsonl",
+      "sha256": "2f912d4c8bfe23818eed99f6163f08b3999b83860b4196ce3f3b75a4a9adc7e6",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/config.json",
+      "sha256": "7d1952659988b6ed6dbc71afc730bdb619c096a664ae50b17263b1d6150f8495",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/evaluator_events.jsonl",
+      "sha256": "49f0a4625b5c00b4839896da9c67d471558b338dd742ed8e227b069a43a66f59",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/manifest.json",
+      "sha256": "ccf2a9c490a6b1e46b091db7ec58510bf0d9a0269e8fd516ca349be8056e44ca",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/provenance.json",
+      "sha256": "4aff15d1f3774fdcbf9479dd94146b33c1cce63298cbb8cae32b2d0db5593e0c",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": ".local/coordinator-final-a/dryrun-seed7/teacher_events.jsonl",
+      "sha256": "09633730867df21ee315688a22a81560f9ca8d7df8320c658390f71c67e9da7e",
+      "note": "Ignored local mock fixture; reproducible with the recorded CLI command; not training data."
+    },
+    {
+      "path": "docs/foundation.md",
+      "sha256": "b72bbfcece92015761fd2ad4cf0d0c651b91c7bfde68987f674f743ee5eec5c9"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "1770e61f9a339e09043e9d1cf4a09119de91497dfaf98bb2e0d075da44ec1bda"
+    },
+    {
+      "path": "schemas/action-chunk.schema.json",
+      "sha256": "3a3083668eb37127d4e3d128391083fab50796a9867a960501192bc42b5475c3"
+    },
+    {
+      "path": "schemas/attempt-outcome.schema.json",
+      "sha256": "f75f2c3accac46d65fca7ab0a6456b4c545df5070bcc2366eb5c7f1b079a9399"
+    },
+    {
+      "path": "schemas/episode-config.schema.json",
+      "sha256": "ca87d2c555fbeaf8a37cb540f17b7b141d8b15fc5cb8037be85ad2adb34669aa"
+    },
+    {
+      "path": "schemas/frame-packet.schema.json",
+      "sha256": "b4011384dc454fadc8c830984ecbd8f5fa5c9de16e466889a33b8681703f1207"
+    },
+    {
+      "path": "schemas/memory-delta.schema.json",
+      "sha256": "fb49121e6f9147c1c0095b03acb452e2b7f14093a1fdbf9fdcbbfe906d801c80"
+    },
+    {
+      "path": "schemas/motor-intent.schema.json",
+      "sha256": "c832f3e3b71f53a5cdfcd68c1cfd490ef2c2435c8207e74d765cbd9d01a28784"
+    },
+    {
+      "path": "src/embodied_trackpad/__init__.py",
+      "sha256": "fc66c08943fa8139642c7b829216bad6f3108df7550caad75dcdaad5c9b4adf9"
+    },
+    {
+      "path": "src/embodied_trackpad/cli.py",
+      "sha256": "6ec1a77c79c9a0c9a1e8ec9f4eb082df04a09472ec94b0fa01a733ddd04dadc5"
+    },
+    {
+      "path": "src/embodied_trackpad/clock.py",
+      "sha256": "545381461ac64e7cb4f78c8acedd358ab0dc565a5fa03fad0ad428c918d84d43"
+    },
+    {
+      "path": "src/embodied_trackpad/contracts.py",
+      "sha256": "5180ded46a09cf3dd696b3e17fffda5ddd14e17b20ee2b0902b9405fe5fe1c81"
+    },
+    {
+      "path": "src/embodied_trackpad/errors.py",
+      "sha256": "e9e3a794746efcf3020ac4efb2d492c9d125989300906a06a7f5cf3e92d3959b"
+    },
+    {
+      "path": "src/embodied_trackpad/recorder.py",
+      "sha256": "4365a0efa4c2453d578a857136d65c17dae42264c6925b5e30439f4c49c47df1"
+    },
+    {
+      "path": "src/embodied_trackpad/validation.py",
+      "sha256": "407ea9230ffd032106714d797ddd4632d671f3b2ba37084440b5fce16b9f0ce7"
+    },
+    {
+      "path": "tests/conftest.py",
+      "sha256": "84e22e2413e566fc455c060443e6f8208c15ec0d0f46ab4cde81c41e7aecda13"
+    },
+    {
+      "path": "tests/test_cli.py",
+      "sha256": "a781d8a770fd7b6d94cdb3dfa306ba4e585d803ea30bb54f5f8ad4ac0c980f01"
+    },
+    {
+      "path": "tests/test_contracts.py",
+      "sha256": "ce1a4cec83d2bcab45edbfffa1a461d5e5455008c4f334da3692b711b5e742ba"
+    },
+    {
+      "path": "tests/test_recorder.py",
+      "sha256": "4033dae894476d8f8399ce0b99792f3e51ed589c44ae3f26284786d7f260b4a2"
+    },
+    {
+      "path": "tests/test_schemas.py",
+      "sha256": "3665bab1e3d14b68ba688f3442664a2407a2df2e66ebabd8c2940d1090dba226"
+    },
+    {
+      "path": "tests/test_validation.py",
+      "sha256": "ade58530e63845ad2debe55980d79ccd95d158f6fef7e86d13fff6deb2c305ed"
+    }
+  ],
+  "limitations": [
+    "Protocol/message-level validation only; no physical executability or GUI task-success claims. Mock fixtures are training_eligible=false.",
+    "At this local acceptance point CI is configured but has not yet run on GitHub. Later CI evidence is appended to the ledger and STATUS.md.",
+    "Teacher/evaluator separation is by streams and strict contracts, not process isolation or semantic proof that images/text contain no privileged information.",
+    "Cross-host clock synchronization remains out of scope; live action admission requires a shared declared clock domain.",
+    "image_ref is opaque. No real screen capture, image storage, physical hand environment, real-Mac input, or learned policy is provided by this package.",
+    "Six initial contracts are implemented; full task-context, semantic-goal and motor-observation runtime components remain future work.",
+    "Events are flushed but not fsynced. Hard process termination may leave partial JSONL without a final manifest; no power-loss durability is claimed.",
+    "The fixed fixture created_utc is a reproducibility parameter, not the actual experiment execution time.",
+    "This record is not included in its own artifact hashes; public integration is identified separately in the ledger."
+  ],
+  "supersedes": null,
+  "source_working_tree_dirty": true,
+  "source_provenance_note": "source_commit is the baseline before uncommitted foundation additions and corrections. Exact reviewed sources, schemas, tests and reproducible output are bound by the artifact hashes below. The subsequent integration commit is recorded in the append-only ledger.",
+  "coordinator_review": {
+    "timestamp_utc": "2026-10-30T10:34:18.006856+00:00",
+    "checks": {
+      "reordered_actuator_layout": true,
+      "past_chunk_horizon": true,
+      "unsafe_episode_path": true,
+      "mock_training_eligibility": true,
+      "unrecorded_intent_observation": true,
+      "unrecorded_success_evidence": true,
+      "actor_unknown_nested_fields": true,
+      "append_is_flushed": true,
+      "exception_marked_interrupted": true
+    },
+    "code_changed_by_coordinator": false,
+    "coordinator_changes": [
+      "Final documentation, result record and artifact checksums",
+      "Integration and publication records"
+    ],
+    "harness_correction": "Coordinator harness expected bad_field but correct rejection code is unsafe_path. Focused recheck initially omitted valid source provenance and was corrected; construction, recorder defense and absence of filesystem mutation then passed. Production code unchanged.",
+    "review_receipt_sha256": "7a9938c6ff16b1c4cb131c2c045077f553c7e1b37fb7d8186547cf4c4c024b48"
+  },
+  "review_history": [
+    {
+      "stage": "initial_worker_report",
+      "timestamp_utc": "2026-10-30T10:02:17Z",
+      "tests_passed": 54,
+      "acceptance": "not_accepted",
+      "record_sha256": "17c602fb1527a7652ef7ede93850ddf254616a440f78179278be7b328c14a418",
+      "note": "Original record and worker receipts retained privately; the first suite did not cover the subsequently reproduced boundary gaps."
+    },
+    {
+      "stage": "independent_review",
+      "timestamp_utc": "2026-10-30T10:08:17.142864+00:00",
+      "result": "corrections_requested",
+      "findings": [
+        "Equal-width actuator reordering accepted",
+        "Chunk accepted after its horizon",
+        "Episode path traversal",
+        "Mock fixture permitted training eligibility",
+        "Unknown observation/success-evidence references",
+        "Non-strict actor payload filtering",
+        "Flush and interrupted-lifecycle requirements needed strengthening"
+      ]
+    },
+    {
+      "stage": "same_worker_correction",
+      "result": "timeout_after_source_and_test_updates",
+      "elapsed_seconds": 1200.1,
+      "note": "Runner stopped the correction call at its 20-minute limit; no successful final correction report was received. Saved code/tests were independently verified. Coordinator completed stale docs and result hashes, without changing production code."
+    },
+    {
+      "stage": "coordinator_acceptance",
+      "timestamp_utc": "2026-10-30T10:36:24.717678+00:00",
+      "result": "89 local tests, 9 boundary checks, 12 CLI rejection cases and deterministic replay accepted",
+      "note": "Path review initially expected the wrong error code; focused harness also needed valid provenance. Both harness issues were corrected without source changes. First harness result remains in private review history."
+    }
+  ]
+}
