@@ -6,7 +6,7 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the LEAP v2 Advanced adapter now runs the complete 17-motor/21-joint hand in MuJoCo CPU. Its 7-second scripted motion passed 34 focused asset/physics checks and 14,000-step numerical, contact and pose-recovery gates, with independent source/trace/image review. A subsequent fixed-base pad cycle passed7,600-step checks:1.81s sustained contact,5.13mm net slide,1.05N peak force and full lift. Its105 device-contact frames were independently reconstructed from raw physics. Native GUI integration and policy training remain pending. The foundation (89 prior tests), confined native Mac GUI (47 additional real-app tests and 18 smoke checks), and earlier Allegro H800 replay (43/43 checks) are separate evidence. See [STATUS.md](STATUS.md).
+**Status:** LEAP v2 Advanced runs the complete 17-motor/21-joint hand in MuJoCo CPU and in 1/32/128/512-world H800 diagnostics. One scripted pad cycle achieved 1.81 s sustained contact, 5.13 mm net slide, 1.05 N peak force and full lift. Its 105 physics-derived contact frames were replayed into the confined native Mac GUI: all accepted, with visible cursor motion and press/release verified independently. This is offline replay; online visual control, a training dataset and policy learning remain pending. See [STATUS.md](STATUS.md) and the [native bridge report](docs/leap-native-bridge.md).
 
 ## Run the foundation
 
@@ -42,7 +42,7 @@ The [LEAP H800 validation](docs/leap-h800.md) now covers1/32/128/512 repeated wo
 
 The [initial H800 probe report](docs/experiments/2026-10-30-h800-probe.md) preserves the tiny-scene baseline. The [full-hand H800 report](docs/experiments/2026-10-31-h800-fullhand.zh-CN.md) records the contact-readback correction, actual completed allocation, complete-cycle timing and coverage limits. At 512 repeated worlds this harness reached 67,070 aggregate world-steps/s, about 1.23 times its single-CPU-world reference; this is not an end-to-end training speedup or a comparison with a CPU batch implementation.
 
-The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. Its current results use synthetic contact tests; it has not yet been driven by the articulated robot or a learned policy.
+The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. A separately reviewed [LEAP contact replay](docs/leap-native-bridge.md) now connects recorded articulated-hand physics to that GUI. It does not yet close the visual feedback loop. The [next online pilot contract](docs/tasks/leap-online-pilot.zh-CN.md) defines the remaining gate before collecting D1 training demonstrations.
 
 ## Reproducibility and responsibilities
 

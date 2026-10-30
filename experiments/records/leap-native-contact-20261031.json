@@ -1,0 +1,221 @@
+{
+  "record_version": "1.0",
+  "id": "leap-native-contact-20261031",
+  "timestamp_utc": "2026-10-30T22:54:35.455775+00:00",
+  "kind": "independent_native_contact_replay_acceptance",
+  "status": "offline_physics_contact_replay_accepted",
+  "source_commit": "c6d3f5a0bbff3cb8586ff31367d7bdb73de0d5db",
+  "source_note": "Worker baseline plus new replay script identified by exact hash; public integration revision recorded by Git. Physics inputs come from separately accepted LEAP pad cycle.",
+  "source_hashes": {
+    "tools/leap_native_contact_replay.py": "90bdba4dc1e2ecf62b77a96fbf85ce868c1a0c00d0f1fcd433b7471cdd093d85",
+    "tools/mac_sandbox_client.py": "20b29da4b0bfe39d3be01613c49ee2c8e107c611eff3eff5301366c359812683",
+    "macos/TrackpadSandbox/Sources/main.swift": "d3344491ed12a17814451d72b53bcf8beda5ebc39a4ff39ffc8b9c42e7f39e3f",
+    "macos/TrackpadSandbox/Sources/DeviceModel.swift": "f2fd258e97b5633a97309fb4a5f02609390d358e6d7a5a327a286a178b8a2630"
+  },
+  "input_hashes": {
+    "metrics.json": "7e7ade10d4c2490d9727fb3231201477bec16622c01da07cad209ad13cdcac2a",
+    "touch-v1.json": "773db6feaba6ccdd43260ba796ed5f1a5bec4775ed277d8e9ac21641bfa37105",
+    "raw-contacts.json": "a82c2caedd18f620e06baa311ccb3c44700724a252692951fc53032db0411296",
+    "trace.npz": "fbb025a7a24bf6d75579251c0e00511482254eece7f2a67e741bf1374d61382e",
+    "pad-report.json": "d851cc63af7b61b50e70fd4d0377f8cff32c646a242a2436f4a2b3d1afa3f20c"
+  },
+  "binary": {
+    "sha256": "f64822ed6ac206bf95e4e06a039a6553ed7bfcf82306b402fc31ba41d3a4b33d",
+    "codesign_verify_exit_code": 0,
+    "app_sandbox_entitlement": true,
+    "entitlement_is_not_full_security_acceptance": true
+  },
+  "actual_run": {
+    "started_utc": "2026-10-30T22:51:37.569860+00:00",
+    "finished_utc": "2026-10-30T22:51:45.245801+00:00",
+    "seed": 7,
+    "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+    "normal_role": {
+      "accepted_touch_frames": 105,
+      "wall_seconds": 3.825886584003456,
+      "quit_rc": 0,
+      "reaped": true,
+      "privileged_state_queries": 0
+    },
+    "separate_evaluator_role": {
+      "accepted_touch_frames": 105,
+      "wall_seconds": 3.8222843749972526,
+      "quit_rc": 0,
+      "reaped": true
+    },
+    "gates_passed": 10,
+    "gates_total": 10,
+    "sequence_adapter": {
+      "source": [
+        0,
+        104
+      ],
+      "wire": [
+        1,
+        105
+      ],
+      "modifications": [
+        "add cmd=touch",
+        "sequence+1"
+      ],
+      "preserved_payload": [
+        "finger_id",
+        "x_m",
+        "y_m",
+        "normal_force_n",
+        "simulation_time_s"
+      ]
+    },
+    "physics_executed_during_replay": false,
+    "optimizer_updates": 0,
+    "training_eligible": false
+  },
+  "outcomes": {
+    "release_count": 1,
+    "target_hits": 0,
+    "drag_done": false,
+    "button_down_final": false,
+    "press_held_at_mark": true,
+    "note": "generic force-hysteresis release counted; target_hits and drag_done are reported separately and no task success is claimed."
+  },
+  "derived": {
+    "expected_cursor_delta": {
+      "dx_px": 20.5838774457518,
+      "dy_px": -0.9412827376049093
+    },
+    "sampled_max_force_n": 1.0538767313034296,
+    "note": "sampled 105-frame max is not the 7600-step all-step peak 1.0543156536410327"
+  },
+  "independent_pixel_review": {
+    "pixel_measurements": {
+      "before": {
+        "png_shape": [
+          600,
+          800,
+          3
+        ],
+        "red_pixels": 116,
+        "centroid_px_top_left": [
+          399.5,
+          299.5
+        ],
+        "bbox_inclusive": [
+          390,
+          290,
+          409,
+          309
+        ]
+      },
+      "press": {
+        "png_shape": [
+          600,
+          800,
+          3
+        ],
+        "red_pixels": 232,
+        "centroid_px_top_left": [
+          405.4181034482759,
+          299.6163793103448
+        ],
+        "bbox_inclusive": [
+          395,
+          289,
+          416,
+          310
+        ]
+      },
+      "slide": {
+        "png_shape": [
+          600,
+          800,
+          3
+        ],
+        "red_pixels": 222,
+        "centroid_px_top_left": [
+          412.9054054054054,
+          300.990990990991
+        ],
+        "bbox_inclusive": [
+          403,
+          291,
+          423,
+          311
+        ]
+      },
+      "release": {
+        "png_shape": [
+          600,
+          800,
+          3
+        ],
+        "red_pixels": 119,
+        "centroid_px_top_left": [
+          419.85714285714283,
+          300.33613445378154
+        ],
+        "bbox_inclusive": [
+          411,
+          291,
+          429,
+          310
+        ]
+      }
+    },
+    "pixel_delta_top_left_px": [
+      20.357142857142833,
+      0.8361344537815398
+    ],
+    "expected_pixel_delta_top_left_px": [
+      20.5838774457518,
+      0.9412827376049093
+    ],
+    "pixel_error_px": [
+      0.22673458860896645,
+      0.10514828382336949
+    ],
+    "pixel_tolerance_px": 0.5,
+    "pixel_delta_pass": true,
+    "press_ring_thicker": true
+  },
+  "evidence_hashes": {
+    "native-contact-report.json": "50927b38a9e8725ceb782573077f2b7a323dbff73c21cf6fa39f8c2694663c94",
+    "coordinator-native-review.json": "65925c97895d16a9da54b97321b1beb6a23b4bfb5837dcfe5ceae98fee0011bb",
+    "evaluator.json": "1d5ff9b2678a7437d6ba2a5645db7e230e3879e8c7da9230852ad50e279a098b",
+    "normal-before.png": "56e54ceae02dbaae42d3e112da032976bc6b1fcc0b8f3f7a3426e737a5fceaca",
+    "normal-press.png": "92764bd2e99c6d5a388aa99258fd6fe1594cee7a939e378c2c3884be77fdacd1",
+    "normal-release.png": "8198474aafd82942e8a1f84fa910869c980b843b2bd5696aa3465bf1c3a2b328",
+    "normal-run.json": "316c6557fbe63fd467be03b06eb8215f37697f22d93cb280db02d9f9d0a663ba",
+    "normal-slide.png": "c1d5cb999e307feecdfe2950adc4684df1bacc8f78f737194d0304362f3b6904"
+  },
+  "delegation": {
+    "implementation_and_native_execution": "Kimi",
+    "independent_review_and_publication": "Codex coordinator",
+    "dispatches": 3,
+    "timeouts": 2,
+    "summed_dispatch_seconds": 753.8,
+    "usage_known_dispatches": 2,
+    "usage_unknown_dispatches": 1,
+    "known_recorded_usage": {
+      "input_uncached": 92909,
+      "input_cached": 805120,
+      "output": 24122,
+      "total": 922151
+    },
+    "rework": [
+      "300.1s planning-only timeout; no app execution.",
+      "240.1s timeout saved replay script; no app execution.",
+      "213.6s completed correction plus actual normal/evaluator runs."
+    ],
+    "accounting_note": "Known recorded provider tokens only, including cache reads; missing usage is unknown. Summed dispatch times are not end-to-end elapsed or costs."
+  },
+  "limitations": [
+    "Offline replay of one scripted CPU physics episode; no current screenshot influences a subsequent motor action.",
+    "Normal-role images are real own-window app pixels. The privileged evaluator used a separate process and does not feed actor observations.",
+    "One generic force-hysteresis release occurred; target_hits=0 and drag_done=false. No click-target or drag task success.",
+    "The 105 sampled-frame force peak differs from the 7600-step peak; no complete force trace was sent over the GUI wire.",
+    "Pixel centroid uses thresholded anti-aliased cursor pixels in a declared crop, 0.5px tolerance; not calibrated subpixel metrology.",
+    "No Apple native trackpad events, global Mac input, host desktop capture, VM operation or real hand was used.",
+    "No D1 dataset, trained visual policy, long-horizon memory or sim-to-real acceptance.",
+    "Replay CLI is specialized to this 105-frame accepted fixture, not a general multi-finger dataset or online controller."
+  ]
+}

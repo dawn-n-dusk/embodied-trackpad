@@ -65,7 +65,7 @@ each candidate dir; `.local/pad-report.json` has hashes/versions/budget.
 
 ## Limitations
 
-- Physics only: no GUI/GPU/training; touch.v1 recorded, not delivered.
+- This physics probe itself does not launch a GUI/GPU or train a policy. Its accepted touch.v1 stream was subsequently delivered in the separate [native replay experiment](leap-native-bridge.md); that replay does not add online feedback to this trajectory.
 - Placeholder servo gains and CAD inertials: force values are not
   hardware-calibrated. Rigid meshes and 1:1 PIP/DIP coupling remain
   approximations (see `docs/leap-model.md`).

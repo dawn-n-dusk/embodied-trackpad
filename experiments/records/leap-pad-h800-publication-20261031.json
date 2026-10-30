@@ -1,0 +1,28 @@
+{
+  "record_version": "1.0",
+  "id": "leap-pad-h800-publication-20261031",
+  "timestamp_utc": "2026-10-30T22:54:35.455775+00:00",
+  "kind": "public_release_verification",
+  "status": "published_ci_passed",
+  "source_commit": "dd51fede0066de2db68e83fb4d0988a63903919e",
+  "remote_branch": "main",
+  "remote_revision_verified": true,
+  "verified_ci_runs": [
+    {
+      "revision": "a633b113d11bccc053d99e8f918a764e16584beb",
+      "run_id": 41139494650,
+      "conclusion": "success",
+      "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41139494650"
+    },
+    {
+      "revision": "dd51fede0066de2db68e83fb4d0988a63903919e",
+      "run_id": 41140482926,
+      "conclusion": "success",
+      "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41140482926"
+    }
+  ],
+  "limitations": [
+    "Optional MuJoCo and native AppKit executions are separate local/H800 evidence, not exercised by foundation-only Ubuntu CI.",
+    "Publication confirms the recorded revision; future follow-up commits require their own checks."
+  ]
+}

@@ -45,6 +45,6 @@ The stronger hand-control acceptance requires joint-limit excursion and coupling
 
 ## Next interface
 
-The next milestone connects actual fingertip-pad contacts to the existing confined native Mac GUI and records the resulting pixels. Requested motor references, executed states, contacts and observations must share explicit timestamps and model versions. The actor cannot bypass dynamics with software click coordinates. A contact trace or teacher replay is not a learned visual policy.
+The [native replay milestone](leap-native-bridge.md) now connects recorded fingertip-pad contacts to the confined Mac GUI and verifies actual pixels. The [next online pilot](tasks/leap-online-pilot.zh-CN.md) must use new screen feedback to change subsequent motor actions. Requested motor references, executed states, contacts and observations must share explicit timestamps and model versions. The actor cannot bypass dynamics with software click coordinates. A contact trace or teacher replay is not a learned visual policy.
 
 Future self-built LEAP hardware needs its actual BOM, motor directions/zeros, limits, coupling, latency, backlash and fingertip properties calibrated against this interface. A separate Apple Trackpad can be used with a connected Mac; a completely idle MacBook is not required for the present software work. Neither hardware option is connected or validated by this adapter.

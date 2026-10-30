@@ -1,5 +1,7 @@
 # TrackpadSandbox — bounded native Mac test GUI
 
+Follow-up evidence: the [LEAP native replay](leap-native-bridge.md) delivered 105 frames from an accepted articulated-hand physics run and verified visible cursor motion and press/release. The synthetic tests documented below remain separate. No online learned controller or global Mac input has been accepted.
+
 Status: implemented and locally validated on the user's current M5 Mac
 (macOS 26.4.1, arm64). This is an **original, purpose-built test GUI** — not
 Finder, not whole-macOS, not a VM. No Finder/whole-macOS/VM acceptance is

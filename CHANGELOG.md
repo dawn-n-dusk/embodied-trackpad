@@ -1,11 +1,12 @@
 # Changelog
 
+## Unreleased — 2026-10-31
+
+- Integrated Kimi's executed LEAP contact-to-native-GUI replay: 105 frames accepted in each role, four actual window captures, verified press/release and cursor displacement. Independent source/hash/pixel review passed. Preserved actor/evaluator isolation, two prior dispatch timeouts and offline-only limitations; added the next online-feedback pilot contract.
 
 - Validated the unchanged full LEAP hand on H800 at1/32/128/512 worlds:42/42 checks. Added the reproducible batch harness and exact backend-representation reset audit, preserving the failed first reset-hash attempt and sampled-coverage/timing limitations.
 
 - Added the reviewed LEAP static-pad contact cycle, continuous contact recording and thirteen focused tests. Recorded the failed initial mounting/force accounting and the first H800 reset-audit failure separately; no GUI or learning success is inferred.
-## Unreleased — 2026-10-31
-
 - Integrated Kimi's LEAP v2 Advanced CPU adapter and pinned asset fetcher. Thirty-four focused tests and a 14,000-step scripted hand run passed; fixed false CAD-hull assembly contacts, preserved 17-motor/21-joint coupling, improved pose tracking, corrected observation timestamps, rejected invalid commands atomically and protected run artifacts. Published failed candidates, narrow acceptance limits and delegation/rework accounting. No LEAP pad/GUI, GPU or learning result is claimed.
 
 - Updated the research target to the latest available LEAP v2 Advanced full configuration, following the user's preference over the earlier v1 selection. Audited official URDF/STL/CAD sources, 17-motor/21-joint coupling, inertial-marker discrepancies and Metal calibration limits. Added MacBook/external-Trackpad hardware-readiness boundaries; dispatched Kimi's real CPU import and preserved its initial 600s source-only timeout. Corrected stale native-GUI pad dimensions in documentation to match the existing implementation.
