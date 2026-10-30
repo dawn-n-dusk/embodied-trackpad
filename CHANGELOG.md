@@ -2,6 +2,9 @@
 
 ## Unreleased — 2026-10-31
 
+- Expanded hand pricing beyond official pages with 37 price records, domestic interviews, retail configurations, historical costs and public used-market coverage. Added RMB reference conversions and practical budget tiers; preserved original research and unresolved stock/unit differences.
+- Recorded the first full-hand H800 contact-classification failure at 1/32 worlds and independent viewing of the corrected CPU source after manual reload; stale-image false-LIVE behavior returned to Kimi.
+
 - Recorded independent review of one corrected CPU light-touch cycle, the live full-hand diagnostic stream, and actual guest fixture click/scroll pixels. Preserved timeouts, old failed-precision stream provenance and missing cursor/release acceptance; corrected viewer/H800 continuation remains Kimi-owned.
 
 - Added a source-grounded dexterous-hand survey with exact hardware/model versions, humanoid integration boundaries, public price references and a LEAP v1/Tesollo S shortlist. Raw vendor sources remain private.

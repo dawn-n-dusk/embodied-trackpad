@@ -30,7 +30,7 @@ Use a fresh output directory for each episode. This generates a **mock software 
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
 - Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
 
-The [dexterous-hand survey](docs/research/2026-10-31-hand-candidates.zh-CN.md) compares specific hardware versions, humanoid integration, model availability and verified price references. LEAP v1 and Tesollo DG-5F-S 20DoF are candidate comparisons; the current baseline remains the simplified Allegro V3 asset.
+The [dexterous-hand survey](docs/research/2026-10-31-hand-candidates.zh-CN.md) compares specific hardware versions, humanoid integration, model availability and verified price references. LEAP v1 and Tesollo DG-5F-S 20DoF are candidate comparisons; the current baseline remains the simplified Allegro V3 asset. The [expanded market-price report](docs/research/2026-10-31-hand-market-prices.zh-CN.md) adds domestic interviews, retail and historical budgets, explicit unit/configuration differences and used-market coverage limits.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 

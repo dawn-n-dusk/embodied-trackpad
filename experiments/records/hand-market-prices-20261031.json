@@ -1,0 +1,116 @@
+{
+  "record_version": "1.0",
+  "id": "hand-market-prices-20261031",
+  "timestamp_utc": "2026-10-30T17:52:50.153310+00:00",
+  "kind": "research_and_independent_review",
+  "status": "reviewed_budget_references_not_purchase_quotes",
+  "source_commit": "a46eb128a97a28d0cd0b3c8eee2e30d7976d1c2f",
+  "objective": "Broaden the same research agent survey to public dealers, domestic media, historical research and used/community sources for practical hardware budgeting.",
+  "checks": {
+    "price_records": 37,
+    "source_hash_matches": 33,
+    "unique_source_snapshots": 22,
+    "inherited_from_prior_review": [
+      "inspire-eu",
+      "unitree-dex5s-official",
+      "tesollo-legacy-retail"
+    ],
+    "unarchived_search_leads_excluded_from_budget": [
+      "inspire-taobao-lead"
+    ],
+    "currency_conversions": "All USD/EUR/CNY approx_cny amounts independently recomputed using ECB2026-10-30; CHF retained in original currency.",
+    "independent_current_fetches": [
+      {
+        "key": "revo2basic",
+        "url": "https://www.robotsinternational.com/BrainCo-Revo-2-Basic-Left-Dexterous-Hand.htm",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.193315+00:00",
+        "sha256": "cda94e244f34ae5e504c522582cc61c39d99cbc6f7cb426f644599e8e95ec257"
+      },
+      {
+        "key": "allegrov4",
+        "url": "https://www.knoxlabs.com/products/wonik-robotics-allegro-hand-v4",
+        "limitation": "HTTP Error 429: Too Many Requests"
+      },
+      {
+        "key": "tesollo-s",
+        "url": "https://brevity.ch/en/robotics/hands/tesollo-dg-5f-s",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.194072+00:00",
+        "sha256": "dceb7148e37cda0f648d6e5cf6e9af4dac85ab76c6f40eb18a489b83e56a0e08"
+      },
+      {
+        "key": "tesollo-guide",
+        "url": "https://humanoid.guide/product/dg-5f-s/",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.194196+00:00",
+        "sha256": "f6331da22f143c9e573eae00a9034ef6000e5c0f22f2d4b425b48bd3625f4ea4"
+      },
+      {
+        "key": "inspire-qq",
+        "url": "https://view.inews.qq.com/a/20260429A07UBZ00",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.194409+00:00",
+        "sha256": "c39fdb9adb3e9404d1af4e6d2da849ebd1538413e9d93372b82af59f164df829"
+      },
+      {
+        "key": "inspire-unitree-ofweek",
+        "url": "https://robot.ofweek.com/2026-09/ART-8321201-12003-30704930.html",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.194517+00:00",
+        "sha256": "bbce6beba69108c6f7b997fc2fe26c15c48e81af1db8c037b4200357c486ae5e"
+      },
+      {
+        "key": "unitree-robotlab",
+        "url": "https://www.robotlab.com/store/unitree-humanoid-hands/",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.607965+00:00",
+        "sha256": "3ca2ea871217d8888ab27c79b99dc73abfdf94dbef008b1a2f4d9204724820b2"
+      },
+      {
+        "key": "revo3",
+        "url": "https://www.k-robotic.com/products/brainco-revo3-touch",
+        "status": 200,
+        "retrieved_utc": "2026-10-30T17:46:21.653228+00:00",
+        "sha256": "f68d316d55abb3072b365e92d45a6f9f08f9088f97fe9a8861d3822843be3866"
+      },
+      {
+        "url": "https://www.k-robotic.com/products.json?limit=250",
+        "retrieved_utc": "2026-10-30T17:49:00.265059+00:00",
+        "sha256": "08d67ee132090c87601b5eae8d16c118306320bd64bcb1cf5085d96115972a22",
+        "note": "availability is a public API flag, not independently confirmed stock; corrected prior handle filter"
+      }
+    ],
+    "targeted_archive_review": [
+      "Knoxlabs V4 price/unit/USA sales scope (independent direct request429)",
+      "Shadow catalogue price",
+      "LEAP paper historical Allegro and Shadow amounts",
+      "Inspire September interview exact price quote"
+    ],
+    "configuration_review": [
+      "single versus pair",
+      "exact versions and15/20DoF variants",
+      "new retail vs BOM vs media vs historical",
+      "Revo3 template sold-out text vs available API/UI",
+      "deposits and unverifiable currency excluded from price ranges"
+    ],
+    "no_runtime_tests": "Documentation/research only; no implementation change or new test needed."
+  },
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-31-hand-market-prices.zh-CN.md",
+      "sha256": "971e186645ec9b67f719d0c6137bcff8c4ba1adc754f77821569f1ec84f3cd12"
+    },
+    {
+      "path": "docs/research/2026-10-31-hand-market-prices-evidence.json",
+      "sha256": "e5586491c6762c0fad74c4b930a498eb71a100416253ab5b8ba68ff06a9a27f0"
+    }
+  ],
+  "limitations": [
+    "No seller message, formal quote, cart, purchase or actual stock/delivery verification.",
+    "Domestic Inspire interviews do not identify SKU, configuration or order quantity;1.8–2万元 is a series budget anchor.",
+    "No qualifying specific used-hand listing found; blocked/empty sites leave coverage unknown.",
+    "Retailer guide prices do not establish manufacturer authorization or Hong Kong delivery.",
+    "No alternate hand imported, trained, attached to a humanoid or validated on a real Mac trackpad."
+  ]
+}

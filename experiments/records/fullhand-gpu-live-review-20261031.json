@@ -1,0 +1,79 @@
+{
+  "record_version": "1.0",
+  "id": "fullhand-gpu-live-review-20261031",
+  "timestamp_utc": "2026-10-30T17:50:14.395358+00:00",
+  "kind": "independent_source_result_and_visual_review",
+  "status": "gpu_contact_gate_failed_corrected_cpu_stream_observed",
+  "source_commit": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "gpu_job1": {
+    "result_sha256": "276d37cf81a570344b96cd0291d333cb3615a0adf0371a64a5cff7fea7309bcf",
+    "overall": "fail",
+    "device": "NVIDIA H800",
+    "stage_worlds": [
+      1,
+      32
+    ],
+    "checks_passed": 19,
+    "checks_total": 21,
+    "failed_checks": [
+      {
+        "detail": "world0 pad contacts max=0 (tip-pad/finger-pad classes; coverage: world0 only: every 60 steps + final; does not prove all-world contact validity)",
+        "name": "gpu_pad_contact_observed[nworld=1]",
+        "pass": false
+      },
+      {
+        "detail": "world0 pad contacts max=0 (tip-pad/finger-pad classes; coverage: world0 only: every 60 steps + final; does not prove all-world contact validity)",
+        "name": "gpu_pad_contact_observed[nworld=32]",
+        "pass": false
+      }
+    ],
+    "controls_sha256": "0479d2c38ea54cf66b0406dbb6cd3d18e87797a597708c0fd65985b5457c541d",
+    "cpu_max_penetration_m": 0.0007890525202535626,
+    "cpu_gpu_final_dq": [
+      "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)",
+      "world0 vs CPU max |dq| = 1.147532e-06 (tol 5.0e-03)"
+    ],
+    "timing_limitation": "480 rows timed only; full trajectory 1800 rows. Do not equate reported timings with full-cycle contact throughput."
+  },
+  "live_browser": {
+    "url": "http://127.0.0.1:8766/",
+    "false_live_before_reload": {
+      "image_frame": 6759,
+      "image_utc": "2026-10-30T17:35:32Z",
+      "metadata_frame": 5650,
+      "metadata_utc": "2026-10-30T17:44:56.561071+00:00",
+      "label": "LIVE"
+    },
+    "reloaded_at_approx_utc": "2026-10-30T17:44:57Z",
+    "post_reload_image_observations": [
+      {
+        "frame": 6147,
+        "utc": "2026-10-30T17:45:46Z",
+        "phase": "episode-reset"
+      },
+      {
+        "frame": 6578,
+        "utc": "2026-10-30T17:46:30Z",
+        "phase": "press_hold",
+        "ncon": 1
+      }
+    ],
+    "source_sha256_prefix": "f57cc6deb8bcad25",
+    "conclusion": "Corrected source displayed and image advancement verified after manual reload; automatic stale-frame/reconnect defect remains. Teacher control, no trained actor."
+  },
+  "remaining_authorized_budget": {
+    "jobs": 1,
+    "gpus_per_job": 1,
+    "cpus_per_job_max": 8,
+    "minutes_per_job_max": 20
+  },
+  "next": "Bounded same-session Kimi correction dispatched for contact-ID/readback diagnosis and displayed-frame freshness; no duplicate worker.",
+  "limitations": [
+    "One frozen teacher-controlled3.6s trajectory; no learned actor or training.",
+    "GPU contact classification gate failed; final state agreement does not establish contact acceptance.",
+    "GPU contact observations cover world0 every60steps+final; final finite states cover all worlds. Solver warnings are unknown.",
+    "Manual browser reload restores displayed source; it does not resolve automatic reconnection or stale-LIVE behavior.",
+    "GPU timing covers first480rows only, not the complete1800-row contact cycle.",
+    "Implementation remains in the worker branch pending source and behavior acceptance."
+  ]
+}
