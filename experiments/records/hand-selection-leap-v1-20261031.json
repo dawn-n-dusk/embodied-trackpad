@@ -1,0 +1,65 @@
+{
+  "record_version": "1.0",
+  "id": "hand-selection-leap-v1-20261031",
+  "timestamp_utc": "2026-10-30T19:14:19.752992+00:00",
+  "kind": "research_selection_and_architecture_decision",
+  "status": "leap_v1_full_selected_import_prepared_not_dispatched",
+  "source_commit": "7d9bd07211636405c24c8fefee23e58b7239ad31",
+  "decision": {
+    "selected_research_target": "LEAP v1 Full",
+    "current_runtime_reference": "Allegro V3",
+    "future_g1_options": [
+      "Inspire RH56DFX",
+      "BrainCo Revo2"
+    ],
+    "focus": [
+      "continuous visual closed-loop decisions",
+      "short action chunks with replanning",
+      "evidence-grounded long-horizon memory"
+    ],
+    "humanoid_integration": "G1/H2 exact LEAP combination unverified; custom mounting/driver work remains",
+    "budget_reference": "LEAP official assembled-hand indication about USD2200; exact Full kit/taxes/shipping not confirmed"
+  },
+  "checks": {
+    "private_source_hashes_verified": 11,
+    "independent_official_sources": 4,
+    "full_lite_distinction": "Full XC330; frozen Playground README lists XL330; simplified model not Full calibration",
+    "license_distinction": "Menagerie model MIT; Playground Apache-2.0; official LEAP API CC BY-NC4.0",
+    "method": "Read source snapshots and pinned official README/license; no runtime benchmark"
+  },
+  "execution_state": {
+    "model_imported": false,
+    "kimi_task_prepared": true,
+    "kimi_task_dispatched": false,
+    "new_gpu_jobs": 0,
+    "training_started": false,
+    "hardware_operated": false,
+    "vendor_contacted": false,
+    "purchase_made": false
+  },
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-31-hand-selection.zh-CN.md",
+      "sha256": "64394c8feb1b9b5574f0f0cc546696ab166558733208ad3efad517d11cd16a12"
+    },
+    {
+      "path": "docs/research/2026-10-31-hand-selection-evidence.json",
+      "sha256": "c38c4a7e34e92347b4fdf146c5622114e43b682f681b13091da46388f4543a67"
+    },
+    {
+      "path": "docs/decisions/0005-research-hand-selection.zh-CN.md",
+      "sha256": "23489e0b46f429ad5b28d8085dfd873aa61dd3ad0a1e072bcaeed6c80b93257f"
+    },
+    {
+      "path": "docs/tasks/leap-v1-import.zh-CN.md",
+      "sha256": "fa3ed53bf1199f44671fa48589b0a22ed66db89d777a8377d7a8bd145944e22f"
+    }
+  ],
+  "limitations": [
+    "Selection is not simulation, hardware or training acceptance. Current Allegro runtime is retained.",
+    "No exact LEAP+G1/H2 integration verified; H2 Plus channel SKU remains to be fixed before hardware integration.",
+    "Full motor/dynamics/contact calibration remains; do not reuse Allegro action vectors even if dimensionality matches.",
+    "Public prices are budget references, not exact delivered configuration quotes.",
+    "Prepared Kimi task is not dispatched or executed by this decision."
+  ]
+}

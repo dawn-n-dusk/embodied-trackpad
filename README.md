@@ -24,13 +24,13 @@ Use a fresh output directory for each episode. This generates a **mock software 
 
 ## Design
 
-- Full articulated four-finger hand as the primary embodiment; independently articulated two-finger hardware as a later comparison.
+- LEAP v1 Full is the selected four-finger research target; the existing Allegro V3 runtime remains the regression reference until LEAP import is accepted. Independently articulated two-finger hardware is a later comparison.
 - MuJoCo CPU reference and NVIDIA GPU batch simulation through MuJoCo Warp, subject to backend validation.
 - Visual task reasoning, evidence-backed long-term memory, and continuous motor control with short action chunks.
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
 - Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
 
-The [dexterous-hand survey](docs/research/2026-10-31-hand-candidates.zh-CN.md) compares specific hardware versions, humanoid integration, model availability and verified price references. LEAP v1 and Tesollo DG-5F-S 20DoF are candidate comparisons; the current baseline remains the simplified Allegro V3 asset. The [expanded market-price report](docs/research/2026-10-31-hand-market-prices.zh-CN.md) adds domestic interviews, retail and historical budgets, explicit unit/configuration differences and used-market coverage limits. The [humanoid integration review](docs/research/2026-10-31-humanoid-integration.zh-CN.md) separates official platform support, generic integration designs and dealer configurations.
+The [hand-selection decision](docs/decisions/0005-research-hand-selection.zh-CN.md) selects LEAP v1 Full to keep cost and simulation integration manageable while focusing research on visual closed-loop decisions, action chunks and long-horizon memory. G1/H2 mounting remains custom integration, not established plug-and-play support. The [selection review](docs/research/2026-10-31-hand-selection.zh-CN.md) explains model/motor and license distinctions. Earlier [candidate research](docs/research/2026-10-31-hand-candidates.zh-CN.md), [market-price references](docs/research/2026-10-31-hand-market-prices.zh-CN.md) and [humanoid integration evidence](docs/research/2026-10-31-humanoid-integration.zh-CN.md) remain available as context.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 

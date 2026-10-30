@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Selected LEAP v1 Full as the single new research-hand target, with Allegro retained until import acceptance and future G1 DFX/Revo2 options separated from current simulation. Added model/motor/license qualifications and a prepared Kimi import contract; focused the research plan on visual decisions, action chunks and long-horizon memory. No new model import, GPU job, training or purchase occurred in this selection step.
+
 - Verified the corrected full-hand H800 teacher replay: 43/43 checks, 1/32/128/512 identical worlds, unchanged reset/model/control, actual completed allocation and full-cycle timing. Published sanitized results and independent review; retained sampled-contact limits, unknown solver warnings, remaining failure-gate work and the later Kimi CLI timeout. No training or production source integration is claimed.
 
 - Added exact humanoid/hand compatibility evidence, including official G1 support, H2 dealer-only configurations, Dex5-S power/physical-layer constraints, and wheel-based Linker platform distinctions. Kept hardware fit separate from policy transfer and real acceptance.

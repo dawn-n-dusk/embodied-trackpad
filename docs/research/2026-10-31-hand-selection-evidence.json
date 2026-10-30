@@ -1,0 +1,93 @@
+{
+  "created_utc": "2026-10-30T19:11:17.827581+00:00",
+  "recommendation": "LEAP v1 Full as single new research target; Allegro regression only; DFX/Revo2 later G1 integration candidates",
+  "key_qualifications": [
+    "Full XC330 versus Playground README XL330; do not claim calibrated Full dynamics",
+    "Menagerie simplified MJCF MIT; Playground Apache-2.0; official LEAP API CC BY-NC 4.0",
+    "G1 DFX/FTP/Revo2/Dex3 official evidence does not imply H2 combinations",
+    "G1 29DoF generic MuJoCo XML has static rubber hands, not confirmed articulated Dex3",
+    "6 active DoF does not mean unable to pinch; continuous-contact reachable motions need evaluation"
+  ],
+  "scope": "read-only research; no package installation, simulation or contact",
+  "private_snapshot_checks": [
+    {
+      "label": "menagerie_leap.txt",
+      "sha256": "4187b9e4696deba4488e44d73e99066d19dd5cdec71e8d0ad6bbdbfd5f7429d7"
+    },
+    {
+      "label": "menagerie_leap_license.txt",
+      "sha256": "04fd5999dc10b79ec6b423d9320b3c9abd0bd65cd86a3f09227baccb35a050ef"
+    },
+    {
+      "label": "playground_leap_readme.txt",
+      "sha256": "0e1b80e03a045736fc930179bde330ea117af154099d68cd7136e8cd353d0b23"
+    },
+    {
+      "label": "leap_parts.txt",
+      "sha256": "2fcc4c2dd4a58b69d4c89b16127b08bdf164e640d69895c73c3b65c944220125"
+    },
+    {
+      "label": "selection_leap_api_license.txt",
+      "sha256": "b9937f749bea8689e83766f7a732c23e63730d3a4483ef827a6c6603c4a023be"
+    },
+    {
+      "label": "brainco_revo2_models.txt",
+      "sha256": "baa2c5f724b5fb2db0c85fbfc4a23fdf01f9912d0fa987b80424bec8a521492f"
+    },
+    {
+      "label": "unitree_teleop_tree.json",
+      "sha256": "e8170af1b9f74b1fca0899e0762532b1215789f66ffe443b22c76d1400ffe3e4"
+    },
+    {
+      "label": "unitree_teleop_license.txt",
+      "sha256": "54e62e1d20aa199f35cf605a3318da3ddabd85e5a8ccdb27ac5fc1ec24fe0662"
+    },
+    {
+      "label": "unitree_isaac_readme.txt",
+      "sha256": "c806e853e6b6a0a8d25463d194dc17ca268b803d89900a8106679fed94aaa713"
+    },
+    {
+      "label": "selection_g1_29dof.xml",
+      "sha256": "423e28bd718b19f7a65cda539b6f794ddbb268b4b9bdbd85f4bd982b30729617"
+    },
+    {
+      "label": "selection_refresh.json",
+      "sha256": "ce3b714a7d4b9334f0aef62f58f636df204e76f96afa05c3155a1faf0236745c"
+    }
+  ],
+  "independent_official_fetches": [
+    {
+      "key": "menagerie-readme",
+      "url": "https://raw.githubusercontent.com/google-deepmind/mujoco_menagerie/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/leap_hand/README.md",
+      "retrieved_utc": "2026-10-30T19:10:24.400712+00:00",
+      "bytes": 3788,
+      "sha256": "ca21a2f308c24a66aff628441359dc405af069add20c604ce4341f9281b5d99a",
+      "ok": true
+    },
+    {
+      "key": "menagerie-license",
+      "url": "https://raw.githubusercontent.com/google-deepmind/mujoco_menagerie/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/leap_hand/LICENSE",
+      "retrieved_utc": "2026-10-30T19:10:24.394950+00:00",
+      "bytes": 1062,
+      "sha256": "5a91c3d709c2ee3a71f166b46e3208cebd83c0c7a870746c729b31a01f156984",
+      "ok": true
+    },
+    {
+      "key": "playground-readme",
+      "url": "https://raw.githubusercontent.com/google-deepmind/mujoco_playground/12ad7f3842791ced39f27e5ac96d066bbe361653/mujoco_playground/_src/manipulation/leap_hand/README.md",
+      "retrieved_utc": "2026-10-30T19:10:24.428913+00:00",
+      "bytes": 220,
+      "sha256": "7113da2cc9fc2d388fc998454f690c2a8e19b742dac1d0ccebb2a417eb636970",
+      "ok": true
+    },
+    {
+      "key": "leap-api-license",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_API/main/LICENSE",
+      "retrieved_utc": "2026-10-30T19:11:09.531831+00:00",
+      "bytes": 1241,
+      "sha256": "b9937f749bea8689e83766f7a732c23e63730d3a4483ef827a6c6603c4a023be",
+      "ok": true
+    }
+  ],
+  "raw_snapshots_published": false
+}

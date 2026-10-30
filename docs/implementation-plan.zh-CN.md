@@ -1,5 +1,7 @@
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
+> 2026-10-31 更新：机构选型以 [ADR 0005](decisions/0005-research-hand-selection.zh-CN.md)为准。LEAP v1 Full 是选定的新研究目标，Allegro V3 暂留运行与回归参考；[LEAP 第一阶段接入任务书](tasks/leap-v1-import.zh-CN.md)已准备，尚未派发。下方总体分包仍适用，不能把历史 Allegro/H800 结果归到 LEAP。
+
 **Kimi 实施任务书 v2：灵巧手、视觉闭环与长程记忆**
 
 2026-10-30。本文保留完整分包设计；初次导出时尚未派发。现已派发并本地验收包 0 的首批协议/记录子集，以及包 1 的单 H800 极小接触场景探针。完整手模型、GPU 完整环境及其余包仍待实施；最新状态见 [STATUS.md](../STATUS.md)，实际结果见实验台账。完整参数、来源和协议解释见《docs/architecture.zh-CN.md》；原任务书保留为历史记录。

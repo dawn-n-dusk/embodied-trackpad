@@ -1,6 +1,7 @@
 # Project instructions
 
 - Read README.md, STATUS.md, docs/architecture.zh-CN.md, and the current bounded task before editing.
+- Current hand selection is ADR 0005: LEAP v1 Full is the selected new research target; Allegro V3 remains the running/regression reference until import acceptance. Do not start several hand implementations, assume G1/H2 plug-and-play support, or relabel Allegro results as LEAP results.
 - The coordinator owns design, review, integration, GitHub publication, and milestone acceptance. Kimi implements within the task's explicit file and resource scope.
 - User clarification on 2026-10-30: operational execution also belongs to Kimi. Delegate environment installation, VM lifecycle/configuration, server deployment, simulation/benchmark execution, training, capture/input experiments, and live streaming to bounded Kimi tasks. Codex defines architecture, contracts, budgets and acceptance, reviews source/evidence and live views read-only, maintains docs, and integrates/publishes Git changes. Do not silently take over worker implementation or deployment when a call times out; recover the checkpoint and re-scope the Kimi task.
 - Use a clean dedicated branch, normally `codex/<topic>`. Workers do not commit, push, merge, or change repository settings unless explicitly included in their task.

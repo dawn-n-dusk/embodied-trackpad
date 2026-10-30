@@ -1,5 +1,7 @@
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
+> 2026-10-31 选型更新：[ADR 0005](decisions/0005-research-hand-selection.zh-CN.md)将新的主研究目标收敛为 LEAP v1 Full，现有 Allegro V3 在接入验收前继续作运行/回归参考。本文下方 Allegro/Shadow 选型保留为 v2 历史设计；当前不并行推进多款主训练手，重点转向决策、动作块与长程记忆。其余动作链路与接口约束继续有效。
+
 **机器人触控板项目：后端架构修订 v2**
 
 2026-10-30，Asia/Hong_Kong。本文是根据最新讨论提出的设计基线，尚无本项目训练、Mac 输入桥接或机器人动作实验结果。它取代 v1 关于固定指距二指主线、Qwen2.5 默认模型、单步低层默认策略及统一 BC→PPO 路线的建议。资源数目沿用同日只读审计，不代表已分配 GPU；本轮新增的是论文、官方文档和模型卡核验。
