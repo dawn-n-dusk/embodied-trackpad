@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased — 2026-10-30
+## Unreleased — 2026-10-31
+
+- Added a source-grounded dexterous-hand survey with exact hardware/model versions, humanoid integration boundaries, public price references and a LEAP v1/Tesollo S shortlist. Raw vendor sources remain private.
+- Verified Kimi invocation recovery and preserved the subsequent contact/release review rejection: passive hold sag and 6.328 mm penetration remain unsuitable for training acceptance.
 
 - Integrated Kimi's corrected sandboxed AppKit GUI, contact client and 47 real-app integration tests (136 total locally), plus 18 smoke checks. Preserved initial failures and timestamp corrections. Coordinator reviewed actual output images and source/receipt hashes; physics-to-GUI and learned tasks remain pending.
 - Added explicit shared reset/control, 160 × 110 mm pad, immutable live-frame and staged GPU acceptance contracts. Preserved additional native-GUI and compute-harness review findings for Kimi correction before integration.

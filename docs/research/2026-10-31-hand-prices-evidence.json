@@ -1,0 +1,209 @@
+{
+  "research_date_local": "2026-10-31",
+  "timezone": "Asia/Hong_Kong",
+  "completed_at_utc": "2026-10-30T17:13:56.165007+00:00",
+  "scope": "bounded public price supplement; no vendor contact, forms, cart, orders or simulation",
+  "records": [
+    {
+      "manufacturer": "Unitree",
+      "model": "Dex5-S",
+      "vendor": "Unitree official Shopify store",
+      "vendor_status": "official",
+      "currency": "USD",
+      "amount": 6350,
+      "variant_id": 67654587154665,
+      "sku": null,
+      "quantity_basis": "single versus pair not specified",
+      "tax": "customs duties excluded; sales tax unspecified",
+      "shipping": "calculated at checkout",
+      "accessories": "not enumerated",
+      "stock": "backordered; shipments begin December per product page",
+      "source": "https://shop.unitree.com/products/unitree-g1-%E5%89%AF%E6%9C%AC",
+      "data_source": "https://shop.unitree.com/products.json?limit=250",
+      "quotes": [
+        "Shippment will begin in December.",
+        "Does not include customs duties",
+        "Dex5-S is backordered and will ship as soon as it is back in stock."
+      ],
+      "not_equivalent_to": [
+        "Dex5-1",
+        "Dex5-1P"
+      ]
+    },
+    {
+      "manufacturer": "Unitree",
+      "model": "Dex5-S Pro",
+      "vendor": "Unitree official Shopify store",
+      "vendor_status": "official",
+      "currency": "USD",
+      "amount": 13500,
+      "variant_id": 67654671204585,
+      "quantity_basis": "single versus pair not specified",
+      "tax": "customs excluded; sales tax unspecified",
+      "shipping": "calculated at checkout",
+      "stock": "variant available=false; product page directs contact sales",
+      "price_evidence": "public product variant data; no checkout or purchase",
+      "source": "https://shop.unitree.com/products.json?limit=250"
+    },
+    {
+      "manufacturer": "Inspire Robots",
+      "model": "RH56DFX",
+      "variant": "Left Side",
+      "vendor": "Génération Robots",
+      "vendor_status": "professional retailer; brand authorization not independently verified",
+      "item_id": "404369-2020",
+      "variant_reference": "A-000000-07836",
+      "generic_product_reference": "A-000000-07816",
+      "currency": "EUR",
+      "amount_excluding_vat": 4150,
+      "amount_including_vat": 4980,
+      "quantity_basis": "quantity=1 Left Side SKU; not pair",
+      "shipping": "not established",
+      "accessories": "not enumerated in checked page",
+      "stock": "page says 2 to 3 weeks; not verified inventory",
+      "source": "https://www.generationrobots.com/en/404369-rh56dfx-robotic-hand-2020.html",
+      "variant_evidence_source": "https://www.generationrobots.com/en/search?controller=search&s=Inspire",
+      "quotes": [
+        "RH56DFX Robotic Hand",
+        "€4,980.00 VAT incl. €4,150.00 VAT excl.",
+        "Left Side"
+      ],
+      "limitations": [
+        "right-side price not independently confirmed",
+        "EU page tax not Hong Kong landed tax"
+      ]
+    },
+    {
+      "manufacturer": "Tesollo",
+      "model": "Delto Gripper DG-5F",
+      "vendor": "MYBOTSHOP",
+      "vendor_status": "professional retailer; Tesollo authorization not independently verified",
+      "sku": "MBS-G-45",
+      "manufacturer_part": "DG-5F",
+      "currency": "EUR",
+      "amount_including_vat": 18886.95,
+      "vat_rate": 0.19,
+      "shipping": "additional",
+      "quantity_basis": "single gripper kit explicitly enumerated",
+      "accessories": [
+        "1x Delto DG-5F gripper",
+        "1x 24 V DC power supply",
+        "1x Ethernet and control cable",
+        "1x mounting flange"
+      ],
+      "side": "unspecified",
+      "variant_limitation": "page offers DG-5F / Short Wrist; exact price-to-variant mapping not independently confirmed",
+      "stock": "requires order; listed 10 days from order, unverified",
+      "source": "https://www.mybotshop.de/Tesollo-Delto-Gripper-DG-5F_1",
+      "quotes": [
+        "Standardmäßig Enthalten: 1× Delto DG-5F Greifer",
+        "€ 18.886,95 inkl. 19% USt., zzgl. Versand"
+      ],
+      "not_equivalent_to": [
+        "DG-5F-S"
+      ],
+      "hardware_revision": "1.76kg 20DoF page; current M revision mapping not confirmed"
+    },
+    {
+      "manufacturer": "Allegro",
+      "model": "V4 right",
+      "vendor": "MYBOTSHOP",
+      "vendor_status": "listed by manufacturer official sales network for Germany/Austria/Switzerland",
+      "sku": "MBS-G-33",
+      "amount": null,
+      "status": "quote_required",
+      "source": "https://www.mybotshop.de/Allegro-Hand-V4-rechts",
+      "authorization_source": "https://www.allegrohand.com/sub/contact/network.php",
+      "quote": "Preis auf Anfrage"
+    }
+  ],
+  "still_unpriced": [
+    "Allegro current full hand SKUs",
+    "Unitree Dex3-1 and Dex5-1/P",
+    "BrainCo Revo2 and Revo3 standalone hands",
+    "Tesollo DG-5F-S"
+  ],
+  "access_limits": [
+    {
+      "source": "RobotShop search pages",
+      "result": "HTTP403; unknown coverage"
+    },
+    {
+      "source": "MYBOTSHOP legacy /navi.php search",
+      "result": "404; updated /search used instead"
+    },
+    {
+      "source": "Yahoo search",
+      "result": "HTTP500; not used as evidence"
+    }
+  ],
+  "critical_boundaries": [
+    "Dex5-S is new product, not Dex5-1/P",
+    "Dex5-S listed amounts have unresolved single/pair unit",
+    "Tesollo DG-5F retail price cannot be mapped to DG-5F-S or multiplied by 60%",
+    "No final landed quotes or checkout receipts obtained",
+    "Retailer authorization for Inspire/Tesollo not independently verified"
+  ],
+  "coordinator_public_source_checks": {
+    "unitree_variants": {
+      "url": "https://shop.unitree.com/products.json?limit=250",
+      "status": 200,
+      "sha256": "88abc96470f4f69d5c4d264eca3e41f79d91539296c7164a74cc26eaf4f156bf",
+      "retrieved_utc": "2026-10-30T17:14:49.221884+00:00",
+      "products": [
+        {
+          "title": "Unitree Dex5-S Dexterous Hand",
+          "variants": [
+            {
+              "id": 67654587154665,
+              "title": "Dex5-S",
+              "price": "6350.00",
+              "available": true,
+              "sku": null
+            },
+            {
+              "id": 67654671204585,
+              "title": "Dex5-S Pro",
+              "price": "13500.00",
+              "available": false,
+              "sku": null
+            }
+          ]
+        }
+      ]
+    },
+    "unitree_product": {
+      "url": "https://shop.unitree.com/products/unitree-g1-%E5%89%AF%E6%9C%AC",
+      "status": 200,
+      "sha256": "7a77e3e109d9ffc232d434d70633fa5f0cb238c71027f1e729a07b735be403e9",
+      "retrieved_utc": "2026-10-30T17:14:49.227095+00:00",
+      "extracts": {
+        "Shippment": "us Hand $6,350.00 USD $6,350.00 USD $13,500.00 USD From $6,350.00 USD Shippment will begin in December. Please contact our sales team (sales_global@unitree.cc) to purchase Dex5-S Pro. Does not include customs duties, please comply with local customs ",
+        "backordered": "tity Minus Plus Add to Cart Unitree Dex5-S Dexterous Hand - Dex5-S is backordered and will ship as soon as it is back in stock. Description 22 DoF per hand. Effortless dexterityat your command Coming closer than ever to true human hand size, the Dex5",
+        "customs": "am (sales_global@unitree.cc) to purchase Dex5-S Pro. Does not include customs duties, please comply with local customs laws pay customs duties and clear the goods Product Dex5-S Dex5-S Pro Choose an option Dex5-S Dex5-S Pro Quantity Minus Plus Add to"
+      }
+    },
+    "inspire_retail": {
+      "url": "https://www.generationrobots.com/en/404369-rh56dfx-robotic-hand-2020.html",
+      "status": 200,
+      "sha256": "8069df274e911f2b1f1b1161e91a2516513f917e69972ef791f42150e3498e03",
+      "retrieved_utc": "2026-10-30T17:14:52.338379+00:00",
+      "extracts": {
+        "4,980": "px)') }); });  RH56DFX Robotic Hand Inspire Robots | A-000000-07816 €4,980.00 VAT incl. €4,150.00 VAT excl. The RH56DFX is a compact robotic hand combining power and speed . It provides real-time feedback and easily integrates with any ROS-compatibl",
+        "4,150": "DFX Robotic Hand Inspire Robots | A-000000-07816 €4,980.00 VAT incl. €4,150.00 VAT excl. The RH56DFX is a compact robotic hand combining power and speed . It provides real-time feedback and easily integrates with any ROS-compatible robotic arm or hum",
+        "Left Side": "ts\",\"item_category2\":\"Robot Grippers and Accessories\",\"item_variant\":\"Left Side\",\"price\":\"4150\",\"price_tax_exc\":\"4150\",\"price_tax_inc\":\"4980\",\"quantity\":1,\"google_business_vertical\":\"retail\"}]}}; dataLayer.push(cdcDatalayer); /* call to GTM Tag */ (f"
+      }
+    },
+    "tesollo_retail": {
+      "url": "https://www.mybotshop.de/Tesollo-Delto-Gripper-DG-5F_1",
+      "status": 200,
+      "sha256": "c581cc1f8cfbd7a180e2ca98f3e694c27fde4b7188154da08c0e4c71ab717684",
+      "retrieved_utc": "2026-10-30T17:14:54.602705+00:00",
+      "extracts": {
+        "18.886,95": " Tesollo Delto Gripper DG-5F | MYBOTSHOP.DE, € 18.886,95 ._t-center{text-align:center}._t-left{text-align:left}._t-right{text-align:right}._v-middle{vertical-align:middle!important}._v-top{vertical-align:top!important}._v-botto",
+        "1×": " N Max. Objektgröße: 170 mm Gewicht: 1,76 kg Standardmäßig Enthalten: 1× Delto DG-5F Greifer 1× Netzteil 24 V DC 1× Ethernet- & Steuerkabel 1× Montage- flansch Tesollo Produkthandbuch Produkteigenschaft Wert Versandgewicht: 2,20 kg Artikelgewicht: 1,",
+        "DG-5F": " Tesollo Delto Gripper DG-5F | MYBOTSHOP.DE, € 18.886,95 ._t-center{text-align:center}._t-left{text-align:left}._t-right{text-align:right}._v-middle{vertical-align:middle!important}._v-top{vertical-align"
+      }
+    }
+  }
+}

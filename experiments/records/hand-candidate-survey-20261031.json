@@ -1,0 +1,43 @@
+{
+  "record_version": "1.0",
+  "id": "hand-candidate-survey-20261031",
+  "timestamp_utc": "2026-10-30T17:15:58.519220+00:00",
+  "kind": "research_review",
+  "status": "reviewed_public_research_no_hardware_selection",
+  "source_commit": "751d738ac0a31fe800ea789563e8579e63f88a0b",
+  "scope": "Independent delegated survey of seven hand families, specific generations, model licensing, humanoid integration, and bounded public price supplement.",
+  "checks": [
+    "Coordinator verified all67 archived primary-source file hashes and independently read key price/spec/model-version passages.",
+    "Coordinator independently fetched four live official/retailer endpoints; allHTTP200; matched Dex5-S variants6350/13500USD, DFX left-hand4150/4980EUR and DG-5F18886.95EUR single-kit reference.",
+    "Public report excludes raw vendor pages, private account identifiers, connection configuration and raw agent sessions.",
+    "Prices preserve exactSKU, units, tax/stock limits. No price inferred for unpriced S/Revo3/Allegro variants."
+  ],
+  "recommendation": [
+    "Add LEAP v1 and Tesollo DG-5F-S20DoF to a future same-condition simulation comparison; retain Allegro V3 baseline.",
+    "Hardware shortlist remains provisional; all Mac capacitive-detection and actual low-force sliding claims require real testing."
+  ],
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-31-hand-candidates-evidence.json",
+      "sha256": "e7e803e1869dcf99250e9a814074a0f8efd22b34c5d37202c04cada153e529ab"
+    },
+    {
+      "path": "docs/research/2026-10-31-hand-candidates.zh-CN.md",
+      "sha256": "30b29dc6ecba5dee12f77fe24b990358b4d3fc2ee831f6c921a03b2726d2d3a9"
+    },
+    {
+      "path": "docs/research/2026-10-31-hand-prices-evidence.json",
+      "sha256": "7ecc78f68e7e54350a400290d55d6f7212f4e3e82595aafbfd7717e58bf89624"
+    },
+    {
+      "path": "docs/research/2026-10-31-hand-prices.zh-CN.md",
+      "sha256": "8ffa547ed25f5b533ee37135e699576f2b75e06aee47de3f904ffeae369d2d2b"
+    }
+  ],
+  "limitations": [
+    "Research only; no alternative hand asset imported or run.",
+    "No purchase, vendor message or formal quotation.",
+    "Dex5-S is separate from Dex5-1/P; DG-5F retail price is not DG-5F-S.",
+    "Public specification or available model does not establish calibrated dynamics or humanoid mounting acceptance."
+  ]
+}

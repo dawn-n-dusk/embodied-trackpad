@@ -1,0 +1,19 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-retry-20261030",
+  "timestamp_utc": "2026-10-30T17:00:25.732068+00:00",
+  "kind": "delegation_recovery",
+  "status": "read_only_invocation_verified",
+  "source_commit": "751d738",
+  "trigger": "User explicitly requested retry after provider response-policy interruptions.",
+  "checks": {
+    "runner_exit_code": 0,
+    "structured_status": "invocation_ok",
+    "elapsed_seconds": 30.0
+  },
+  "next_action": "Same-session bounded mechanical-scene correction resumed under Kimi operational ownership.",
+  "limitations": [
+    "This completed read-only call establishes invocation availability at this time; it does not guarantee later provider calls.",
+    "Saved physics cycle remains unsuccessful; no full-hand live/H800/training acceptance."
+  ]
+}

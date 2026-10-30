@@ -1,0 +1,50 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-recovery-completed-calls-20261031",
+  "timestamp_utc": "2026-10-30T17:13:30.280694+00:00",
+  "kind": "delegation_review",
+  "status": "invocation_recovered_physics_acceptance_separate",
+  "calls": [
+    {
+      "scope": "read_only_invocation_retry",
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 30.0,
+      "recorded_usage": {
+        "records": 2,
+        "input_uncached": 13094,
+        "input_cached": 176896,
+        "input_cache_write": 0,
+        "output": 703,
+        "total": 190693
+      }
+    },
+    {
+      "scope": "bounded_hand_correction",
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 695.2,
+      "recorded_usage": {
+        "records": 31,
+        "input_uncached": 32676,
+        "input_cached": 3449907,
+        "input_cache_write": 0,
+        "output": 20582,
+        "total": 3503165
+      }
+    }
+  ],
+  "sum_dispatch_seconds": 725.2,
+  "recorded_usage_sum": {
+    "input_uncached": 45770,
+    "input_cached": 3626803,
+    "output": 21285,
+    "total": 3693858
+  },
+  "usage_note": "Provider-recorded token telemetry for these two completed recovery calls only. No billing/quota inference, no delegation cost-savings claim. Later concurrent corrections are excluded until they finish.",
+  "outcome": "Read-only retry and a subsequent implementation call both returned exit0. Coordinator rejected the implementation physics acceptance after inspecting actual hold sag and6.328mm depth; exact-session correction was dispatched.",
+  "limitations": [
+    "Exit0 establishes model invocation/reporting, not successful hand control.",
+    "Additional compute and guest-bridge operational continuations remain separate."
+  ]
+}

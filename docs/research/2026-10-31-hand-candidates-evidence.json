@@ -1,0 +1,1087 @@
+{
+  "schema_version": 1,
+  "research_date_local": "2026-10-31",
+  "timezone": "Asia/Hong_Kong",
+  "created_at_utc": "2026-10-30T17:02:53.715508+00:00",
+  "scope": "read-only product selection research; no hardware, simulation, purchase, or vendor contact",
+  "sources": {
+    "L1": {
+      "key": "leap",
+      "url": "https://v1.leaphand.com/",
+      "retrieved_at_utc": "2026-10-30T16:48:53.221900+00:00",
+      "files": [
+        {
+          "sha256": "275262cd432dbdf24079359d095aa061a3c4feaad20d38f5e164f38a993abb61",
+          "private_archive_filename": "leap.html"
+        },
+        {
+          "sha256": "b1bf1493ea476cd38c62703ab6520f165d50121eac7880f7da4657b5289d06cc",
+          "private_archive_filename": "leap.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L2": {
+      "key": "leap_parts",
+      "url": "https://v1.leaphand.com/parts",
+      "retrieved_at_utc": "2026-10-30T16:53:57.854423+00:00",
+      "files": [
+        {
+          "sha256": "9e0032a7eb3ad6a8845d634466b190a60f060dccaf1280d273ac549a09658009",
+          "private_archive_filename": "leap_parts.html"
+        },
+        {
+          "sha256": "2fcc4c2dd4a58b69d4c89b16127b08bdf164e640d69895c73c3b65c944220125",
+          "private_archive_filename": "leap_parts.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L3": {
+      "key": "leap_v2",
+      "url": "https://v2.leaphand.com/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "21f5f5ba78cf1c74fe585f7c4896038d5907afb50fe220e4b4a2ef9dbfeb157e",
+          "private_archive_filename": "leap_v2.txt"
+        },
+        {
+          "sha256": "68e155a19e40780dda6e82e17b795cffc294fbb2e50f30202e12a4876cd45895",
+          "private_archive_filename": "leap_v2.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L4": {
+      "key": "leap_v2_parts",
+      "url": "https://v2.leaphand.com/parts",
+      "retrieved_at_utc": "2026-10-30T16:53:57.854423+00:00",
+      "files": [
+        {
+          "sha256": "a3d90d03807dd8acbb62995b8af29dd188bd32853c064975d2a81099480786ec",
+          "private_archive_filename": "leap_v2_parts.html"
+        },
+        {
+          "sha256": "632263e0a47432ba72c6c1c8376b8271919315d87527608bfce2eede83a55eb1",
+          "private_archive_filename": "leap_v2_parts.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L5": {
+      "key": "leap_v2adv",
+      "url": "https://v2-adv.leaphand.com/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "df6227a66d7ad1559794ca31597309e97e23125041e76939c1c10a8ab5bbc842",
+          "private_archive_filename": "leap_v2adv.txt"
+        },
+        {
+          "sha256": "4c740fa4b40500549e95d4647b2e3adf29d7a397133f5f8d2ed2bf84a35084b8",
+          "private_archive_filename": "leap_v2adv.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L6": {
+      "key": "leap_v2adv_parts",
+      "url": "https://v2-adv.leaphand.com/parts",
+      "retrieved_at_utc": "2026-10-30T16:53:57.854423+00:00",
+      "files": [
+        {
+          "sha256": "95c1895ddf41d9aa54d59daad1fcbe87daa6e6b3d7153e9188039fa7a7301cd6",
+          "private_archive_filename": "leap_v2adv_parts.txt"
+        },
+        {
+          "sha256": "be5497921dc44ab73e146424d2071a796938a2dc868e3ed2ffc03510e896f803",
+          "private_archive_filename": "leap_v2adv_parts.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L7": {
+      "key": "leap_purchase",
+      "url": "https://v1.leaphand.com/purchase",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "668dff380a8cec66fc930763aa12004b64ebb0bc6b804619ec05ae8824e95186",
+          "private_archive_filename": "leap_purchase.html"
+        },
+        {
+          "sha256": "428b49345549cb340c640aa7190526397a437602451af93bda825632b89fbaeb",
+          "private_archive_filename": "leap_purchase.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L8": {
+      "key": "menagerie_leap",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/leap_hand/README.md",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "4187b9e4696deba4488e44d73e99066d19dd5cdec71e8d0ad6bbdbfd5f7429d7",
+          "private_archive_filename": "menagerie_leap.txt"
+        },
+        {
+          "sha256": "ca21a2f308c24a66aff628441359dc405af069add20c604ce4341f9281b5d99a",
+          "private_archive_filename": "menagerie_leap.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "L9": {
+      "key": "playground_leap_readme",
+      "url": "https://github.com/google-deepmind/mujoco_playground/tree/12ad7f3842791ced39f27e5ac96d066bbe361653/mujoco_playground/_src/manipulation/leap_hand",
+      "retrieved_at_utc": "2026-10-30T16:56:19.176176+00:00",
+      "files": [
+        {
+          "sha256": "7113da2cc9fc2d388fc998454f690c2a8e19b742dac1d0ccebb2a417eb636970",
+          "private_archive_filename": "playground_leap_readme.html"
+        },
+        {
+          "sha256": "0e1b80e03a045736fc930179bde330ea117af154099d68cd7136e8cd353d0b23",
+          "private_archive_filename": "playground_leap_readme.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A1": {
+      "key": "allegro_v4",
+      "url": "https://www.allegrohand.com/sub/product/p.php?idx=1",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "445c162852d4f03806330e8d2aaa193a3cb81d0a716bf69b71ebaed68a888672",
+          "private_archive_filename": "allegro_v4.txt"
+        },
+        {
+          "sha256": "9b904895a851aefb867f00b21c98e5d6621cbd01356c6fd52c531af1efb987d9",
+          "private_archive_filename": "allegro_v4.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A2": {
+      "key": "allegro_v5plus",
+      "url": "https://www.allegrohand.com/sub/product/p.php?idx=4",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "34c96c04cd8361df918f4cd85e433e49fbbd023231709145416c15390194c5df",
+          "private_archive_filename": "allegro_v5plus.txt"
+        },
+        {
+          "sha256": "4d988217d4132720adf0c904da20a648bf0eab1eb1e98acb99e6d8eb90a6d6e3",
+          "private_archive_filename": "allegro_v5plus.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A3": {
+      "key": "allegro_v6f",
+      "url": "https://www.allegrohand.com/sub/product/p.php?idx=25",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "5eb0c3bbaed66af1732697ebf0d7fa7cfa266e7d72e5d1853f7115f6ea1dbe43",
+          "private_archive_filename": "allegro_v6f.txt"
+        },
+        {
+          "sha256": "d99231639c5cb34363e70894c7a9aea039c801586b13554c9f0ecd53219b71de",
+          "private_archive_filename": "allegro_v6f.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A4": {
+      "key": "menagerie_allegro",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/wonik_allegro/README.md",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "2cc5f80c0e3aff504c8c8d63ff9054f13a1b515f6a2a11bd47b8aaaf3a1c636d",
+          "private_archive_filename": "menagerie_allegro.txt"
+        },
+        {
+          "sha256": "10d8795ad8682bdab403aab8fb7b5d4c051b68e025accfe58ebf0d440188665b",
+          "private_archive_filename": "menagerie_allegro.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A5": {
+      "key": "hora_readme",
+      "url": "https://github.com/HaozhiQi/hora",
+      "retrieved_at_utc": "2026-10-30T16:55:07.995415+00:00",
+      "files": [
+        {
+          "sha256": "4641261ef3a3fb61bf2f0e1d6d0fc776ac118fc70c77483dfc96ec5c206ee626",
+          "private_archive_filename": "hora_readme.txt"
+        },
+        {
+          "sha256": "a807e875538fb7b26c676d9a50502e21b113d1043fab58bcad54b444634926fa",
+          "private_archive_filename": "hora_readme.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "A6": {
+      "key": "allegro",
+      "url": "https://www.allegrohand.com/",
+      "retrieved_at_utc": "2026-10-30T16:48:53.221900+00:00",
+      "files": [
+        {
+          "sha256": "628f3850f1ef3e2ad96b372b81978b1522e4d568a599c02e4b15d59d343ed021",
+          "private_archive_filename": "allegro.html"
+        },
+        {
+          "sha256": "b9298fa770bd085ce14bbd34ab3fcad72f9d2846a2080b39f6300f5045627046",
+          "private_archive_filename": "allegro.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "I1": {
+      "key": "inspire_dfx",
+      "url": "https://www.inspire-robots.com/dexterous%20hands/rh56dfx-series/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "febf8b6385097d052ca5437b0e61159b6ddb8525206b276387cd03733d2393f1",
+          "private_archive_filename": "inspire_dfx.html"
+        },
+        {
+          "sha256": "c4d6bfa07eeec85325a6a9214251d4d45f33d88cab82bcd6f274b38882539727",
+          "private_archive_filename": "inspire_dfx.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "I2": {
+      "key": "inspire_e2",
+      "url": "https://www.inspire-robots.com/dexterous%20hands/rh56dftp-series/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "4d794b4efc050e85a121cd1201f547dcf6038f88a18f3be29de153d59b0685fe",
+          "private_archive_filename": "inspire_e2.txt"
+        },
+        {
+          "sha256": "b331202f74c1c7b41b52d630175d90f3601114b68d5872b4ed7af5e1ef16d1ca",
+          "private_archive_filename": "inspire_e2.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "U1": {
+      "key": "unitree_hand",
+      "url": "https://www.unitree.com/Dex3-1/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "84a5a74a6c8d197894438143316bcb4d957b53c2a8a7d9d78feaa34da9314342",
+          "private_archive_filename": "unitree_hand.txt"
+        },
+        {
+          "sha256": "faeba137075775184c0aa3d2321b59253d1c33b0adeaf53e1e9340bf2513af4e",
+          "private_archive_filename": "unitree_hand.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "U2": {
+      "key": "unitree_dex5",
+      "url": "https://www.unitree.com/Dex5-1/",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "a2b60ac83ca0c5baa061aae07f197ccf5d78714c53b8f4a1bd91becdd0df88dc",
+          "private_archive_filename": "unitree_dex5.html"
+        },
+        {
+          "sha256": "b64d0a311a16c296eda0ac30a4762ee55caacf5a79151dccb84b4b1e6359873c",
+          "private_archive_filename": "unitree_dex5.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "U3": {
+      "key": "unitree_teleop_readme",
+      "url": "https://github.com/unitreerobotics/xr_teleoperate/tree/817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "4213c39fbb71e8f84243ce6d40c014c1c9bc6c54e4513c79d24062ec35b58881",
+          "private_archive_filename": "unitree_teleop_readme.txt"
+        },
+        {
+          "sha256": "74584a00b61204e7eefe3a60de549fa55f918dda52491c4e3b27e39ae7d9fd3c",
+          "private_archive_filename": "unitree_teleop_readme.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "U4": {
+      "key": "unitree_isaac_readme",
+      "url": "https://github.com/unitreerobotics/unitree_sim_isaaclab/tree/e30c25b1dffdf92ada1d6c8c1fe9a47bdde0fecc",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "c806e853e6b6a0a8d25463d194dc17ca268b803d89900a8106679fed94aaa713",
+          "private_archive_filename": "unitree_isaac_readme.txt"
+        },
+        {
+          "sha256": "06e5e5dd4d75a048ea890758df7f33ed5bab819a172ce3e7aa98b8a00bd7bccf",
+          "private_archive_filename": "unitree_isaac_readme.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "T1": {
+      "key": "tesollo_small",
+      "url": "https://www.tesollo.com/products/grippers/dg-5f-s",
+      "retrieved_at_utc": null,
+      "files": [
+        {
+          "sha256": "d25156e7e9f14131a229105412f002c9296f008b4a8e0a6e1165345bb980ab67",
+          "private_archive_filename": "tesollo_small.html"
+        },
+        {
+          "sha256": "c55e9674a53c9c1e5042045a129a9055310ac12eb22d76185375962e11e33d0e",
+          "private_archive_filename": "tesollo_small.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "T2": {
+      "key": "tesollo",
+      "url": "https://www.tesollo.com/products/grippers/dg-5f-m",
+      "retrieved_at_utc": "2026-10-30T17:01:01.513332+00:00",
+      "files": [
+        {
+          "sha256": "8d69f27d2f8133e8731863fc171a1eae6b0320d220ca014e039070b14df5755e",
+          "private_archive_filename": "tesollo.html"
+        },
+        {
+          "sha256": "4c47595e7d82c2f9d7d8a2e68bcd6ac854e9ad96e171bd0488f72e6daa55cc01",
+          "private_archive_filename": "tesollo.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "T3": {
+      "key": "tesollo_readme",
+      "url": "https://github.com/tesollodelto/tesollo_model/tree/84be60a8e06d22fbc00aec3534011ed0e5008325",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "3ef92c0bb0c45893ff74df3e9df3ee276f9cc3c355db188b046703dde0ced91b",
+          "private_archive_filename": "tesollo_readme.txt"
+        },
+        {
+          "sha256": "2f938f32fa33ad9d9368ac0f7f7ed2a50264be1b109047e7ebd671362ca521d8",
+          "private_archive_filename": "tesollo_readme.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "T4": {
+      "key": "tesollo_small_readme",
+      "url": "https://github.com/tesollodelto/tesollo_model/blob/84be60a8e06d22fbc00aec3534011ed0e5008325/dg5fs/README.md",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "28ecb72cf6bcfd0664a57610a25f1b9d51de37f60c56ce820d0342764179a26a",
+          "private_archive_filename": "tesollo_small_readme.txt"
+        },
+        {
+          "sha256": "b1c67d00025067e2fc6ccbd3e115691734243e18dedeb3fda504057804c1bf66",
+          "private_archive_filename": "tesollo_small_readme.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B1": {
+      "key": "brainco_revo2_parameters",
+      "url": "https://www.brainco-hz.com/docs/revolimb-hand/revo2/parameters.html",
+      "retrieved_at_utc": "2026-10-30T16:56:19.176176+00:00",
+      "files": [
+        {
+          "sha256": "5a11fce8431b7328b164c0dc74ebc7cf21bd58a8435f0b357bfddbc17df30fca",
+          "private_archive_filename": "brainco_revo2_parameters.txt"
+        },
+        {
+          "sha256": "6de26bed9b7e08ff6a8727551c7f1f5db9fdd4197dc591b58c96a72c06b1b958",
+          "private_archive_filename": "brainco_revo2_parameters.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B2": {
+      "key": "brainco_revo3_parameters",
+      "url": "https://www.brainco-hz.com/docs/revolimb-hand/revo3/parameters.html",
+      "retrieved_at_utc": "2026-10-30T16:56:19.176176+00:00",
+      "files": [
+        {
+          "sha256": "01355dbb4783d711687244a718eba9d4a361937fbda107857a9e9e0fc8076325",
+          "private_archive_filename": "brainco_revo3_parameters.txt"
+        },
+        {
+          "sha256": "b61374b838fcb19cb5e15b7f977474f56641a8d6f2d14dfc62ea380eb7273f68",
+          "private_archive_filename": "brainco_revo3_parameters.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B3": {
+      "key": "brainco_revo2_models",
+      "url": "https://github.com/BrainCoTech/revo2_description",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "38a69f4adf0cad588da9e7906edad2ff9d7f31977b4bbf77b07f9696d3c8179a",
+          "private_archive_filename": "brainco_revo2_models.html"
+        },
+        {
+          "sha256": "baa2c5f724b5fb2db0c85fbfc4a23fdf01f9912d0fa987b80424bec8a521492f",
+          "private_archive_filename": "brainco_revo2_models.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B4": {
+      "key": "brainco_revo3_ros",
+      "url": "https://github.com/BrainCoTech/brainco_revo3_ros2",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "71441f73e3ac8c8eca0e347307d01094af4ebf35b0b85bf94f56b5abd7515112",
+          "private_archive_filename": "brainco_revo3_ros.html"
+        },
+        {
+          "sha256": "c6d47cd9590b29f13930c3c472688094e3c5b2c46f3f2bea72361c651f99c60b",
+          "private_archive_filename": "brainco_revo3_ros.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B5": {
+      "key": "brainco_revolab_readme",
+      "url": "https://github.com/BrainCoTech/RevoLab/blob/0fb72da54c2401638f808eb814bbfe55b6f9931f/README.md",
+      "retrieved_at_utc": "2026-10-30T16:57:06.684253+00:00",
+      "files": [
+        {
+          "sha256": "0283e817796edd8d9fc90469c100f1848ab59c259ad6363676f5434a5bb029e3",
+          "private_archive_filename": "brainco_revolab_readme.md"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B6": {
+      "key": "brainco_mjlab_readme",
+      "url": "https://github.com/BrainCoTech/Revo-MjLab/blob/2727426b51036daf1a0353857cf0a6f0704928b8/README.md",
+      "retrieved_at_utc": "2026-10-30T16:57:06.684253+00:00",
+      "files": [
+        {
+          "sha256": "c1debf6453ded6c1e339a430438edf7a0650672653f90f45e561bc26dd712c55",
+          "private_archive_filename": "brainco_mjlab_readme.md"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "B7": {
+      "key": "brainco_revosim_readme",
+      "url": "https://github.com/BrainCoTech/RevoSim/blob/c862db29a964422721e231533a80078181d381a5/README.md",
+      "retrieved_at_utc": "2026-10-30T16:57:06.684253+00:00",
+      "files": [
+        {
+          "sha256": "ca1f2c94425aa375fc8164987924ee1b3724326c7bae759876ffb0591ad64c3e",
+          "private_archive_filename": "brainco_revosim_readme.md"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "S1": {
+      "key": "shadow",
+      "url": "https://shadowrobot.com/dexterous-hand-series/",
+      "retrieved_at_utc": "2026-10-30T16:48:53.221900+00:00",
+      "files": [
+        {
+          "sha256": "6191cadca16e5d762cd2e2fee50a4c84915a5e0b9b0c27895e5f7f9263c438cf",
+          "private_archive_filename": "shadow.html"
+        },
+        {
+          "sha256": "89033545df0268bd66c9d3641be2af720ac82be66fbf9e14d4208e11364ea3e2",
+          "private_archive_filename": "shadow.txt"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "S2": {
+      "key": "dactyl_arxiv",
+      "url": "https://arxiv.org/abs/1808.00177",
+      "retrieved_at_utc": "2026-10-30T16:55:07.995415+00:00",
+      "files": [
+        {
+          "sha256": "006c6db0747fd36fa15c7ba7610ce743311107728da1ac1451a1092f9ead8940",
+          "private_archive_filename": "dactyl_arxiv.txt"
+        },
+        {
+          "sha256": "2453d16f6a4c986889287ac58675d134ded3c7f94c746187ea99425e2a88c275",
+          "private_archive_filename": "dactyl_arxiv.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    },
+    "S3": {
+      "key": "menagerie_shadow",
+      "url": "https://github.com/google-deepmind/mujoco_menagerie/blob/f3b6013629c7b94f8ee93fd977b161fa8350f9bc/shadow_hand/README.md",
+      "retrieved_at_utc": "2026-10-30T16:54:40.427413+00:00",
+      "files": [
+        {
+          "sha256": "6b8c60d438a25b6b1c0cacc6ded69249e7c06d20c4b47dde0b0ba8285bbbf01a",
+          "private_archive_filename": "menagerie_shadow.txt"
+        },
+        {
+          "sha256": "451943a22b2312a3152a55e9ec47fd449e89e3c674ccd8c763364e61cfe3f137",
+          "private_archive_filename": "menagerie_shadow.html"
+        }
+      ],
+      "retrieved_date_local": "2026-10-31"
+    }
+  },
+  "candidates": [
+    {
+      "hardware_version": "LEAP v1 Full",
+      "active_dof": 16,
+      "motion_dof_or_joints": 16,
+      "mass_g": null,
+      "sources": [
+        "L1",
+        "L2",
+        "L7",
+        "L8",
+        "L9"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "Menagerie 2023 LEAP v1 morphology; not v2; MIT",
+      "humanoid_evidence": "arm mounts documented; no named humanoid verified",
+      "strengths": [
+        "MCP lateral movement",
+        "open API/URDF/training ecosystem",
+        "replaceable/custom fingertips"
+      ],
+      "limitations": [
+        "motor variant and backlash",
+        "bulky actuator layout",
+        "mass not established in checked official page"
+      ]
+    },
+    {
+      "hardware_version": "LEAP v2 Low-cost",
+      "active_dof": 8,
+      "motion_dof_or_joints": 16,
+      "mass_g": null,
+      "sources": [
+        "L3",
+        "L4"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "official website claims URDF/examples; files not loaded or validated",
+      "humanoid_evidence": "manufacturer arm mounting statement only",
+      "strengths": [
+        "low build cost",
+        "compliant hybrid structure"
+      ],
+      "limitations": [
+        "underactuated curling",
+        "tendon hysteresis",
+        "cannot inherit v1 policy/model"
+      ]
+    },
+    {
+      "hardware_version": "LEAP v2 Advanced",
+      "active_dof": 17,
+      "motion_dof_or_joints": 21,
+      "mass_g": null,
+      "sources": [
+        "L5",
+        "L6"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "CAD/software offered; version-matched dynamics not validated",
+      "humanoid_evidence": "manufacturer mid-size arm mounting statement only",
+      "strengths": [
+        "active palm",
+        "hybrid compliant fingers"
+      ],
+      "limitations": [
+        "BOM exceeds headline price",
+        "fabrication and calibration burden"
+      ]
+    },
+    {
+      "hardware_version": "Allegro V4",
+      "active_dof": 16,
+      "motion_dof_or_joints": 16,
+      "mass_g": 1080,
+      "sources": [
+        "A1",
+        "A4",
+        "A5"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "current project Menagerie is V3; HORA offers separate public V4 reference",
+      "humanoid_evidence": "mechanically plausible, no named platform verified"
+    },
+    {
+      "hardware_version": "Allegro V5 Plus",
+      "active_dof": 16,
+      "motion_dof_or_joints": 16,
+      "mass_g": 1024,
+      "sources": [
+        "A2",
+        "A6"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "not established in this survey",
+      "humanoid_evidence": "mechanically plausible",
+      "note": "V5 non-Plus is 9 DoF; do not conflate"
+    },
+    {
+      "hardware_version": "Allegro V6 F",
+      "active_dof": 20,
+      "motion_dof_or_joints": 20,
+      "mass_g": 1150,
+      "sources": [
+        "A3",
+        "A6"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "not established in this survey",
+      "humanoid_evidence": "mechanically plausible",
+      "note": "new product; old Allegro maturity not transferred"
+    },
+    {
+      "hardware_version": "Inspire RH56DFX-2L/2R",
+      "active_dof": 6,
+      "motion_dof_or_joints": 12,
+      "mass_g": 540,
+      "sources": [
+        "I1",
+        "U3",
+        "U4"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "Unitree generic Inspire 6-active/12-joint URDF; exact SKU dynamics unverified",
+      "humanoid_evidence": "Unitree G1 DFX explicit support",
+      "limitations": [
+        "no independent index/middle lateral spread"
+      ]
+    },
+    {
+      "hardware_version": "Inspire RH56E2",
+      "active_dof": 6,
+      "motion_dof_or_joints": 12,
+      "mass_g": 790,
+      "sources": [
+        "I2"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "not established; legacy DFTP URL now shows E2",
+      "humanoid_evidence": "DFX/FTP support does not establish E2 integration"
+    },
+    {
+      "hardware_version": "BrainCo Revo2",
+      "active_dof": 6,
+      "motion_dof_or_joints": 11,
+      "mass_g": 383,
+      "sources": [
+        "B1",
+        "B3",
+        "U3"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "official Revo2 URDF Apache-2.0; Unitree URDF robot name brainco-righthand-V2",
+      "humanoid_evidence": "Unitree humanoid teleoperation integration for V2 asset",
+      "limitations": [
+        "only finger curling for four non-thumb digits"
+      ]
+    },
+    {
+      "hardware_version": "BrainCo Revo3 U21/U21F/U21T/U21VT",
+      "active_dof": 21,
+      "motion_dof_or_joints": 21,
+      "mass_g": null,
+      "sources": [
+        "B2",
+        "B4",
+        "B5",
+        "B6",
+        "B7"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "RevoLab v1 20261014 assets; Revo-MjLab; ROS2 descriptions; versions must match",
+      "humanoid_evidence": "arm/dual-arm research package; no named full humanoid verified",
+      "strengths": [
+        "independent finger spread and flexion",
+        "backdrivability",
+        "500 Hz control"
+      ],
+      "limitations": [
+        "no checked official mass/price",
+        "v1 pretrained/hardware validation not published",
+        "tactile is SKU dependent"
+      ]
+    },
+    {
+      "hardware_version": "Unitree Dex3-1",
+      "active_dof": 7,
+      "motion_dof_or_joints": 7,
+      "mass_g": 710,
+      "sources": [
+        "U1",
+        "U3",
+        "U4"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "official Dex3 URDF and G1 Isaac Lab tasks",
+      "humanoid_evidence": "G1 explicitly supported",
+      "limitations": [
+        "index/middle each have two parallel-axis flexion joints"
+      ]
+    },
+    {
+      "hardware_version": "Unitree Dex5-1/P",
+      "active_dof": 16,
+      "motion_dof_or_joints": 20,
+      "mass_g": 1100,
+      "sources": [
+        "U2"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "not established in checked official task/asset paths",
+      "humanoid_evidence": "exact platform and mounting version unverified",
+      "strengths": [
+        "four-finger lateral swing ±22 deg"
+      ],
+      "limitations": [
+        "94 tactile taxels P only",
+        "coupled distal joints"
+      ]
+    },
+    {
+      "hardware_version": "Tesollo DG-5F-S 20DoF",
+      "active_dof": 20,
+      "motion_dof_or_joints": 20,
+      "mass_g": 880,
+      "sources": [
+        "T1",
+        "T3",
+        "T4"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "official dg5fs 20DoF URDF/MJCF/USD; BSD-3-Clause",
+      "humanoid_evidence": "explicitly designed for humanoid integration, named platform not verified",
+      "strengths": [
+        "independent joints",
+        "sub-1kg",
+        "model formats available"
+      ],
+      "limitations": [
+        "new variant",
+        "model parameters subject to change",
+        "price unknown"
+      ]
+    },
+    {
+      "hardware_version": "Tesollo DG-5F-M",
+      "active_dof": 20,
+      "motion_dof_or_joints": 20,
+      "mass_g": 1763,
+      "sources": [
+        "T2",
+        "T3"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "official dg5f URDF/MJCF/USD; short-wrist variants; BSD-3-Clause",
+      "humanoid_evidence": "manufacturer short-wrist option for humanoids",
+      "limitations": [
+        "heavier than S",
+        "250 Hz vs S 500 Hz"
+      ]
+    },
+    {
+      "hardware_version": "Shadow Classic / model E3M5",
+      "active_dof": 20,
+      "motion_dof_or_joints": 24,
+      "mass_g": 4300,
+      "sources": [
+        "S1",
+        "S2",
+        "S3"
+      ],
+      "mac_capacitive_compatibility": "unverified",
+      "simulation_asset": "Menagerie Shadow E3M5 MJCF; Apache-2.0",
+      "humanoid_evidence": "custom integration plausible; not light universal wrist module",
+      "strengths": [
+        "long research use",
+        "independent ab/adduction",
+        "sensing"
+      ],
+      "limitations": [
+        "forearm/actuator assembly mass",
+        "complexity",
+        "no current public price"
+      ]
+    }
+  ],
+  "prices": [
+    {
+      "model": "LEAP v1 Full DIY",
+      "currency": "USD",
+      "amount": 2000,
+      "kind": "official approximate build-cost statement",
+      "quote": "LEAP Hand is low-cost and can be assembled in 4 hours at a cost of 2000 USD from readily available parts.",
+      "source": "L1",
+      "quantity": "one hand build context"
+    },
+    {
+      "model": "LEAP v1 Full DIY BOM",
+      "currency": "USD",
+      "amount": 1771.74,
+      "kind": "historical itemized parts cost",
+      "as_of": "2023-08",
+      "source": "L2",
+      "quantity": "one-hand parts list",
+      "includes": "Dynamixel parts, U2D2, power hub, PSU, cables and consumables",
+      "excludes_or_unknown": "tools/printer separately listed; current taxes/shipping unknown"
+    },
+    {
+      "model": "LEAP v1 assembled",
+      "currency": "USD",
+      "amount": 2200,
+      "kind": "approximate direct official assembled offer; not checkout quote",
+      "quote": "Around ~$2200 for assembled hands",
+      "source": "L7",
+      "quantity": "left/right selection offered; formal per-hand/pair unit not explicit",
+      "scope": "tax/shipping/accessories unconfirmed"
+    },
+    {
+      "model": "LEAP v1 Lite DIY BOM",
+      "currency": "USD",
+      "amount": 714.3,
+      "kind": "historical parts cost with weaker motor variant",
+      "as_of": "2023-08",
+      "source": "L2"
+    },
+    {
+      "model": "LEAP v2 Low-cost headline",
+      "currency": "USD",
+      "amount": 200,
+      "kind": "headline design/build-cost claim, not current finished price",
+      "quote": "a $200 8-DOF highly dexterous robotic hand",
+      "source": "L3"
+    },
+    {
+      "model": "LEAP v2 Low-cost updated parts estimate",
+      "currency": "USD",
+      "amount": 300,
+      "kind": "approximate current-page parts statement",
+      "quote": "LEAP Hand V2 parts cost around $300 now due to tariffs.",
+      "source": "L4"
+    },
+    {
+      "model": "LEAP v2 Low-cost BOM",
+      "currency": "USD",
+      "amount": 473.48,
+      "components": [
+        221.95,
+        251.53
+      ],
+      "kind": "sum of published purchase subtotals, includes multi-hand consumables",
+      "as_of": "2025-08",
+      "quote": "Total Cost (1 Hand): As of August 2025",
+      "source": "L4"
+    },
+    {
+      "model": "LEAP v2 Low-cost assembled",
+      "currency": "USD",
+      "amount": 500,
+      "kind": "approximate official limited-stock offer; availability unverified",
+      "quote": "limited supply of 3D printed parts kits ($100) or fully assembled hands in stock (~$500)",
+      "source": "L4",
+      "scope": "tax/shipping/accessories unconfirmed"
+    },
+    {
+      "model": "LEAP v2 Advanced headline",
+      "currency": "USD",
+      "amount": 3000,
+      "kind": "design-cost headline conflicts with detailed BOM; not finished purchase price",
+      "quote": "a dexterous, $3000, simple anthropomorphic hybrid rigid-soft hand",
+      "source": "L5"
+    },
+    {
+      "model": "LEAP v2 Advanced plastic BOM",
+      "currency": "USD",
+      "amount": 4079.88,
+      "kind": "historical published parts subtotal",
+      "as_of": "2024-12",
+      "source": "L6",
+      "scope": "tools/printer separately listed; taxes/shipping unknown"
+    },
+    {
+      "model": "LEAP v2 Advanced metal BOM",
+      "currency": "USD",
+      "amount": 5079.88,
+      "kind": "historical published parts subtotal",
+      "as_of": "2024-12",
+      "source": "L6",
+      "scope": "contradicts page-top around $4000 statement; tools/printer separately listed"
+    },
+    {
+      "model": "Tesollo DG-5F-S",
+      "currency": null,
+      "amount": null,
+      "kind": "quote required; relative statement only",
+      "quote": "At approximately 60% of the DG-5F-M price",
+      "source": "T1"
+    },
+    {
+      "model": "Allegro V4/V5 Plus/V6 F",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "A1",
+        "A2",
+        "A3"
+      ]
+    },
+    {
+      "model": "Inspire DFX/E2",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "I1",
+        "I2"
+      ]
+    },
+    {
+      "model": "BrainCo Revo2/Revo3",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "B1",
+        "B2"
+      ]
+    },
+    {
+      "model": "Unitree Dex3-1/Dex5-1/P",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "U1",
+        "U2"
+      ]
+    },
+    {
+      "model": "Tesollo DG-5F-M",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "T2"
+      ]
+    },
+    {
+      "model": "Shadow Classic",
+      "amount": null,
+      "currency": null,
+      "kind": "quote required; no current official public price established in checked sources",
+      "sources": [
+        "S1"
+      ]
+    }
+  ],
+  "pinned_repository_refs": {
+    "tesollo": {
+      "commit": "84be60a8e06d22fbc00aec3534011ed0e5008325",
+      "tree": "e6a8b043f8d479810a41f6935101581593b8b030"
+    },
+    "unitree_teleop": {
+      "commit": "817fb00c63cde15e5f24a0f8fa08e1e33ed89d3b",
+      "tree": "344fe46e529fe03dd53e1be1beda7cc7cdaae008"
+    },
+    "unitree_sim": {
+      "commit": "e30c25b1dffdf92ada1d6c8c1fe9a47bdde0fecc",
+      "tree": "b167ce43f010dc1ebc3c3b2c6e82935575f0bb97"
+    },
+    "playground": {
+      "commit": "12ad7f3842791ced39f27e5ac96d066bbe361653",
+      "tree": "a4c963519fd8a0c2314e1ccc7a33951d919e8572"
+    },
+    "revolab": {
+      "commit": "0fb72da54c2401638f808eb814bbfe55b6f9931f",
+      "tree": "2513734931e7196ac2056daa9d7022dbb49de446"
+    },
+    "revo_mjlab": {
+      "commit": "2727426b51036daf1a0353857cf0a6f0704928b8",
+      "tree": "fa0345b9afddaeaa908d651b7a95f6a04c24848e"
+    },
+    "revosim": {
+      "commit": "c862db29a964422721e231533a80078181d381a5",
+      "tree": "d7bf678c680c745fcc9f60438b55a6db74c11799"
+    },
+    "brainco_ros": {
+      "commit": "2ed7eda87f2e82342241bf93065e2f40853fd23d",
+      "tree": "cbdca5d5a2a29b3a4d70cf4f600c74d9567b317f"
+    },
+    "menagerie": {
+      "commit": "f3b6013629c7b94f8ee93fd977b161fa8350f9bc",
+      "note": "project-pinned asset reference; Allegro V3, Shadow E3M5, LEAP 2023 v1"
+    }
+  },
+  "recommendations": {
+    "simulation_next": [
+      "LEAP v1",
+      "Tesollo DG-5F-S 20DoF",
+      "retain current Allegro V3 as comparison"
+    ],
+    "purchase_shortlist": [
+      "LEAP v1 Full assembled",
+      "Tesollo DG-5F-S 20DoF",
+      "BrainCo Revo3 U21F/U21T"
+    ],
+    "conditional": "If G1 is selected, compare Unitree Dex5-1/P with full vendor mounting evidence before purchase"
+  },
+  "unresolved": [
+    "All real Mac capacitive trackpad detection and conductive fingertip interfaces",
+    "Measured two-tip workspace on 160x110 mm pad",
+    "Version-specific hardware price, tax, shipping, included PSU, adapters, warranty and stock",
+    "Low-force control, stick-slip, thermal drift, backlash and contact sensor calibration",
+    "Exact Revo3 mass and exact newer-hand humanoid integration",
+    "GPU and simulator loading acceptance of newly identified assets"
+  ],
+  "critical_corrections": [
+    "Current project Allegro asset is V3, not V4",
+    "LEAP v2 $200 and Advanced $3000 headlines are not verified finished current prices",
+    "V5 non-Plus is 9DoF, unlike V5 Plus 16DoF",
+    "Inspire old DFTP webpage now contains E2 specs",
+    "BrainCo V2 humanoid integration does not establish Revo3 integration",
+    "Unitree Dex5 tactile 94-taxel configuration applies to P version",
+    "Tesollo S has its own released models, but not the same evidence maturity as M",
+    "Simulation assets and SDK availability do not establish Mac touchpad compatibility"
+  ],
+  "public_export": {
+    "raw_vendor_sources_included": false,
+    "coordinator_review": "Verified all67 saved source-file hashes and independently read key price/spec/version passages. No model execution or purchasing validation."
+  }
+}

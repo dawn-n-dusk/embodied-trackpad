@@ -1,0 +1,38 @@
+{
+  "record_version": "1.0",
+  "id": "hand-cpu-contact-release-review-20261031",
+  "timestamp_utc": "2026-10-30T17:11:59.234114+00:00",
+  "kind": "independent_review",
+  "status": "diagnostic_progress_precision_acceptance_rejected",
+  "source_commit": "2f7c01335637610c6f741c110bcaca214152628a",
+  "reviewed_source_files_sha256": {
+    "src/embodied_trackpad/sim/model.py": "2c27b4e4ecc16a9f38bc3793415a4aa13c5c15f32970be5f8795d159162f446f",
+    "src/embodied_trackpad/sim/env.py": "5419572cfb94f29f0dbbade9d7191c51ffcf358f35ff2261ceb310840782892c",
+    "src/embodied_trackpad/sim/__init__.py": "aed933e8358ceaec6cda6576c27b7ce47a9a26bb77de70b90679414e1c6f2172",
+    "tools/hand_cpu_probe.py": "0fd8a46248d437df4beb0b95a19b58f825e141d6bbcf4b25c60d5010fd637da6"
+  },
+  "observed": {
+    "reset_contacts": 0,
+    "hold_duration_s": 1.0,
+    "hold_contact_records": 2294,
+    "middle_fingertip_hold_drift_m": 0.005002,
+    "press_contact_records": 3750,
+    "press_max_normal_force_per_contact_n": 8.289816,
+    "press_peak_penetration_m": 0.006328,
+    "final_half_second_tip_pad_contacts": 0,
+    "press_start_world_z_m": 0.456004,
+    "press_target_world_z_m": 0.459002
+  },
+  "review": [
+    "Compiled palm orientation and mounting spacer are corrected. Source hashes and saved press image reviewed independently; no coordinator simulation operation.",
+    "Contact and release occurred, but hold sag already creates contact and the nominal press target moves upward. This is not an intentional clear-approach-press-release result.",
+    "Worker success predicate ignores initial hold, penetration and unintended contacts. Its passed flag is not accepted as environment readiness.",
+    "Returned to exact Kimi session for bounded correction with sustained clear hold, intended downward approach, <=2mm penetration, provisional <=5N per-fingertip peak force, finite states/warnings and no unintended executed-trajectory contacts.",
+    "A full-hand diagnostic viewer may show the frozen source with explicit limitations; precision training and GPU reference admission remain gated."
+  ],
+  "limitations": [
+    "No learned policy, GPU full-hand validation, Mac task or physical hardware result.",
+    "Contact counts are summed contact records, not independent successful taps.",
+    "2mm/5N are provisional simulation engineering gates, not calibrated hardware requirements."
+  ]
+}

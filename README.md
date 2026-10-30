@@ -6,7 +6,7 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the protocol/recording foundation is implemented (89 tests, reproducible mock output). Kimi's confined native Mac test GUI passed 47 additional real-app tests and 18 smoke checks, with coordinator source/evidence/visual review. The single-H800 MuJoCo Warp environment probe passed 12/12 checks on a tiny contact scene. No trained policy, full-hand environment, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
+**Status:** the protocol/recording foundation is implemented (89 tests, reproducible mock output). Kimi's confined native Mac test GUI passed 47 additional real-app tests and 18 smoke checks, with coordinator source/evidence/visual review. The single-H800 MuJoCo Warp environment probe passed 12/12 checks on a tiny contact scene. No trained policy, accepted full-hand environment, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
 
 ## Run the foundation
 
@@ -29,6 +29,8 @@ Use a fresh output directory for each episode. This generates a **mock software 
 - Visual task reasoning, evidence-backed long-term memory, and continuous motor control with short action chunks.
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
 - Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
+
+The [dexterous-hand survey](docs/research/2026-10-31-hand-candidates.zh-CN.md) compares specific hardware versions, humanoid integration, model availability and verified price references. LEAP v1 and Tesollo DG-5F-S 20DoF are candidate comparisons; the current baseline remains the simplified Allegro V3 asset.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 
