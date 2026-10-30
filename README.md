@@ -6,7 +6,21 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the single-H800 MuJoCo Warp environment probe is verified (12/12 checks on a tiny contact scene). Protocol/data foundations are under implementation review. No trained policy, full-hand environment, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for verified milestones.
+**Status:** the protocol/recording foundation is implemented and independently validated locally (89 tests, reproducible mock output). The single-H800 MuJoCo Warp environment probe passed 12/12 checks on a tiny contact scene. No trained policy, full-hand environment, real-Mac autonomous task, or hardware result is claimed. See [STATUS.md](STATUS.md) for current evidence, including CI.
+
+## Run the foundation
+
+From a checkout, using Python 3.10 or newer:
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e '.[dev]'
+.venv/bin/python -m pytest -q
+.venv/bin/python -m embodied_trackpad.cli \
+  --out runs/demo --seed 7 --steps 8 --created-utc 2026-10-30T00:00:00Z
+```
+
+Use a fresh output directory for each episode. This generates a **mock software fixture**, marked `training_eligible=false`; it exercises recording and validation without robot physics or Mac input. See the [foundation guide](docs/foundation.md) for contracts, timing, evidence references, and reproducibility.
 
 ## Design
 
@@ -25,6 +39,8 @@ The [H800 probe report](docs/experiments/2026-10-30-h800-probe.md) includes pinn
 The coordinator owns architecture, review, integration, publication, and evidence reporting. Kimi owns bounded implementation tasks. A worker's completion message is not an acceptance result.
 
 Every meaningful change or experiment has a Git commit and an entry in [experiments/ledger.jsonl](experiments/ledger.jsonl), linked to its configuration, source revision, checks, and outcome. Corrections append new entries. [CONTRIBUTING.md](CONTRIBUTING.md) defines the process.
+
+The [initial development report](docs/experiments/2026-10-30-development-report.zh-CN.md) preserves review findings, worker timeouts, corrections, delegation usage, and the next acceptance boundary.
 
 Large datasets, checkpoints, personal screenshots, account details, and raw agent sessions stay outside Git. Publish reviewed manifests and aggregate results; review licenses and privacy before releasing data. Source citations are in [docs/references.md](docs/references.md).
 
