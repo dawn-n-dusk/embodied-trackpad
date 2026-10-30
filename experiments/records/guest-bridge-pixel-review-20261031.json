@@ -1,0 +1,35 @@
+{
+  "record_version": "1.0",
+  "id": "guest-bridge-pixel-review-20261031",
+  "timestamp_utc": "2026-10-30T17:33:06.799733+00:00",
+  "kind": "guest_pixel_review",
+  "status": "capture_and_fixture_click_scroll_observed_partial_bridge",
+  "source_commit": "b31293f065853356b8e6381c4cc58e4237c827ce",
+  "run_started_utc": "2026-10-30T17:26:26Z",
+  "run_finished_utc": "2026-10-30T17:26:42Z",
+  "frames_sha256": {
+    "00-authenticated.png": "6f42271b0db8fc8ae3b3fe92a49d923f4255762a5a5ed96f542ad5ea9239c633",
+    "01-after-move-input.png": "f439c64949d52142856a798052cfc257f13b41a82956105318f2755d6d0f2c84",
+    "02-after-click-input.png": "73cd90047ba838f24192e358a46ce58bed089d8259686120f4f3f5293b218dc1",
+    "03-after-scroll-input.png": "ac980ed25eeac726b79ae174860fb30f13af66e7fc8de3c4295672c4710f31d1",
+    "04-reconnected.png": "14d406cb6f20b76b46ded42355531701b59ca10b2eeeacd2a739b0b36eb07cbd"
+  },
+  "observed": [
+    "Authenticated1024x768 guest framebuffer and explicit reconnect recorded.",
+    "Coordinator directly reviewed saved frames: original guest fixture click counter displays1 after synthetic touch-driven click.",
+    "After two-finger synthetic scroll input, fixture text shifts upward and a right-side scrollbar appears.",
+    "Corrected source maps pad+y-up to RFB-y-down, serializes processor/transport cancellation, attempts release onstop/reconnect and preserves unknown receive timestamps."
+  ],
+  "remaining_unknown": [
+    "Guest cursor position is not observed; cursor pseudo-rectangles encodehotspots, notposition.",
+    "Transportrelease reports do not independently establish guest-side buttonrelease.",
+    "InitialabsoluteRFBpointerorigin canjump; continuousrelative state initialization/cursor-containingfeedback remains pending."
+  ],
+  "dispatch_outcome": "600-second Kimi correction timed out after saving code/tests and actual guest run; do not equate timeout with full bridge acceptance.",
+  "training_eligible": false,
+  "limitations": [
+    "Synthetic touch exerciser, not robot-driven input, trainedpolicy or long-horizon task.",
+    "Overall worker smoke remainsfalse; capture/click/scroll are partial observed results.",
+    "Private guest screenshots and connection/auth details are excluded from publicrepository."
+  ]
+}

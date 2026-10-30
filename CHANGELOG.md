@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Recorded independent review of one corrected CPU light-touch cycle, the live full-hand diagnostic stream, and actual guest fixture click/scroll pixels. Preserved timeouts, old failed-precision stream provenance and missing cursor/release acceptance; corrected viewer/H800 continuation remains Kimi-owned.
+
 - Added a source-grounded dexterous-hand survey with exact hardware/model versions, humanoid integration boundaries, public price references and a LEAP v1/Tesollo S shortlist. Raw vendor sources remain private.
 - Verified Kimi invocation recovery and preserved the subsequent contact/release review rejection: passive hold sag and 6.328 mm penetration remain unsuitable for training acceptance.
 

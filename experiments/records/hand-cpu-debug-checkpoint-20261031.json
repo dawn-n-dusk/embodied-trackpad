@@ -1,0 +1,89 @@
+{
+  "record_version": "1.0",
+  "id": "hand-cpu-debug-checkpoint-20261031",
+  "timestamp_utc": "2026-10-30T17:33:06.799733+00:00",
+  "kind": "cpu_checkpoint_review",
+  "status": "single_cycle_reviewed_not_training_accepted",
+  "source_commit": "2f7c01335637610c6f741c110bcaca214152628a",
+  "source_files_sha256": {
+    "src/embodied_trackpad/sim/model.py": "2db6ae890591ee2b0235ea9c7957aee556190e3bf68a99e659c0cedb5c2fb220",
+    "src/embodied_trackpad/sim/env.py": "5419572cfb94f29f0dbbade9d7191c51ffcf358f35ff2261ceb310840782892c",
+    "src/embodied_trackpad/sim/__init__.py": "aed933e8358ceaec6cda6576c27b7ce47a9a26bb77de70b90679414e1c6f2172",
+    "tools/hand_cpu_probe.py": "d434df73a244edfb767ef82b46beb34bf3658538ecc7deb5d5b19d322c96b69b",
+    "tests/test_hand_cpu.py": "ecb5d50b80e48be5068fce2eebe4586e250fc9d69aef5da3e6d44ecb4efe442d"
+  },
+  "probe_started_utc": "2026-10-30T17:21:50.556432+00:00",
+  "probe_file_sha256": "36523c06e9d107a3e1149f6584d91678ead2a222078000c631ad85e0e3250290",
+  "trace_json_sha256": "10cc14a8f63c9ab22421a1bc77ab3cf58761ae61e3861b0aef4f84824f4bc195",
+  "trace_hash_encoding": "UTF-8 json.dumps(trace,separators=(comma,colon)), full Python JSON float representation",
+  "observed": {
+    "total_duration_s": 3.6,
+    "steps": 1800,
+    "hold_contacts": 0,
+    "tip_after_hold_world": [
+      0.5538760418222662,
+      -0.000108270214886937,
+      0.4544414057931713
+    ],
+    "press_target_world": [
+      0.5538760418222662,
+      -0.000108270214886937,
+      0.44900242948758934
+    ],
+    "lift_target_world": [
+      0.5538760418222662,
+      -0.000108270214886937,
+      0.46100242948758935
+    ],
+    "tip_pad_contacts_press": 385,
+    "tip_pad_fingers_press": [
+      "mf"
+    ],
+    "per_fingertip_max_normal_force_n": {
+      "mf": 0.937605
+    },
+    "max_penetration_m": 0.000789,
+    "unintended_contacts": 0,
+    "unintended_contact_pairs": [],
+    "lift_hold_contacts": 0,
+    "solver_warnings": {},
+    "mf_tip_sag_during_hold_m": 0.006591,
+    "sag_compensation_applied_m": [
+      0.000623,
+      0.000108,
+      0.006561
+    ]
+  },
+  "gates": {
+    "reset_clear": true,
+    "hold_clear": true,
+    "press_downward": true,
+    "tip_contact": true,
+    "force_gate": true,
+    "penetration_gate": true,
+    "no_unintended": true,
+    "lift_clear": true,
+    "finite": true
+  },
+  "independent_checks": {
+    "source_hashes_match": true,
+    "all_trace_qpos_qvel_ctrl_finite": true,
+    "peak_sum_normal_force_per_finger_n": {
+      "mf": 0.9376052217677554
+    },
+    "max_contacts_per_finger_per_step": {
+      "mf": 1
+    },
+    "source_and_saved_images_reviewed": true
+  },
+  "worker_test_report": "6 focused hand tests passed per saved worker record; coordinator did not operationally rerun the simulator.",
+  "dispatch_outcome": "900-second Kimi call timed out after saving passing probe, source/tests/docs and stable handoff. Timeout is retained; it does not erase measured checkpoint.",
+  "limitations": [
+    "Only one3.6s teacher-controlled CPU cycle,1800steps; no learned policy or autonomous Mac task.",
+    "Stock PD and measured sag compensation are uncalibrated simulation controls.",
+    "Probe currently takes maximum individual contact under a per-finger label. Independent summation confirms one contact/finger/step in this run, so its0.937605N value is correct here; aggregate multiple contacts before broader force-gate use.",
+    "Probe finite flag coversqacc; coordinator independently checked all recordedqpos/qvel/ctrl in this run.",
+    "Source checkpoint remains under integration review; new handoff dispatched to Kimi compute worker."
+  ],
+  "supersedes": "hand-cpu-contact-release-review-20261031 for this new single-cycle checkpoint only"
+}

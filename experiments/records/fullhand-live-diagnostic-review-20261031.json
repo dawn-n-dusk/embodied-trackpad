@@ -1,0 +1,40 @@
+{
+  "record_version": "1.0",
+  "id": "fullhand-live-diagnostic-review-20261031",
+  "timestamp_utc": "2026-10-30T17:33:06.799733+00:00",
+  "kind": "live_view_review",
+  "status": "live_infrastructure_observed_old_diagnostic_scene",
+  "source_commit": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "observed": {
+    "viewer_url_local": "http://127.0.0.1:8766/",
+    "backend": "remote MuJoCo CPU physics with EGL rendering",
+    "actuators": 23,
+    "resolution": [
+      640,
+      480
+    ],
+    "displayed_fps": 10,
+    "browser_frame_ids": [
+      2129,
+      2254
+    ],
+    "frame_utc_range": [
+      "2026-10-30T17:27:35Z",
+      "2026-10-30T17:27:48Z"
+    ],
+    "mode": "debug; prerecorded actuator-reference replay through live physics, not a prerecorded movie",
+    "source_handoff_utc": "2026-10-30T17:08:40.208154+00:00"
+  },
+  "cpu_reference_of_displayed_source": {
+    "steps": 2000,
+    "peak_penetration_m": 0.006328095,
+    "penetration_tolerance_m": 0.001,
+    "pass": false
+  },
+  "next_action": "Kimi dispatched to consume new17:24:52 checkpoint, verify all1800reference rows, update same viewer and then run bounded H800 stages only after prerequisites pass.",
+  "limitations": [
+    "Displayed old scene is diagnostic and fails precision gate.",
+    "No full-hand H800 Slurm job was submitted in the completed diagnostic deployment call;2-job allowance remained unconsumed.",
+    "New corrected CPU scene has not yet been independently observed in the viewer."
+  ]
+}
