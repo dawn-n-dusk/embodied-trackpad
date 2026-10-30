@@ -1,0 +1,101 @@
+{
+  "record_version": "1.0",
+  "id": "leap-next-validation-first-failures-20261031",
+  "timestamp_utc": "2026-10-30T22:27:27.240431+00:00",
+  "kind": "independent_failed_run_review",
+  "status": "failed_runs_preserved_corrections_dispatched",
+  "source_commit": "7401ab768625b6e5b91e6bf658fdb9899023f958",
+  "h800": {
+    "scheduler_state": "FAILED",
+    "exit_code": "1:0",
+    "elapsed_seconds": 141,
+    "gpus": 1,
+    "cpus": 8,
+    "wall_limit_seconds": 1200,
+    "device": "NVIDIA H800",
+    "packages": {
+      "mujoco": "3.17.0",
+      "mujoco-warp": "3.17.0",
+      "numpy": "2.2.6",
+      "warp-lang": "1.18.0"
+    },
+    "overall": "fail",
+    "failed_checks": [
+      {
+        "detail": "world0 reset hash bd9690c14a745f0e vs canonical 95fcce8ae1a3ade9",
+        "name": "gpu_reset_matches_canonical[nworld=1]",
+        "pass": false
+      }
+    ],
+    "worlds_executed": [
+      1
+    ],
+    "steps": 14000,
+    "checks_data": {
+      "cpu_gpu_final_max_abs_dq_world0": 1.4232510953116062e-07,
+      "cpu_gpu_final_max_abs_dv_world0": 7.033169324472878e-06,
+      "cross_world_final_max_abs_dq": 0.0,
+      "cross_world_final_max_abs_dv": 0.0,
+      "final_finite_all_worlds": true,
+      "final_open_pose_error_rad_world0": 0.03709649294614792,
+      "max_coupling_residual_rad_allworld_sampled": 0.007212638854980469,
+      "max_coupling_residual_rad_world0_sampled": 0.0072689056396484375,
+      "max_limit_excursion_rad_allworld_sampled": 0.0,
+      "max_limit_excursion_rad_world0_sampled": 0.0,
+      "max_ncon_world0_sampled": 13,
+      "max_penetration_m_world0_sampled": 0.0004488642734941095,
+      "transient_nonfinite_step": null
+    },
+    "stages_skipped": [
+      {
+        "nworld": 32,
+        "reason": "expansion stopped: stage 1 failed"
+      },
+      {
+        "nworld": 128,
+        "reason": "expansion stopped: stage 1 failed"
+      },
+      {
+        "nworld": 512,
+        "reason": "expansion stopped: stage 1 failed"
+      }
+    ],
+    "cpu_checks": {
+      "final_open_pose_error_rad": 0.03709640366188454,
+      "first_nonfinite_step": null,
+      "max_contact_penetration_m": 0.00044866887150653864,
+      "max_coupling_residual_rad": 0.007543526307473403,
+      "max_limit_excursion_rad": 0.0,
+      "max_simultaneous_contacts": 15,
+      "solver_warnings": {},
+      "states_finite": true
+    },
+    "raw_result_sha256": "79229ebacfc091f870700ba501fa07ce512514d41f075333b43b4e654e015d40",
+    "review": "Single-world dynamics ran, but exact reset-hash gate failed. Backend float representation is a diagnostic hypothesis pending an actual reset-array check; no accepted GPU result or larger-world run yet."
+  },
+  "pad": {
+    "run_kind": "0.8s clearance smoke, not a full task candidate",
+    "outcome": "failed_initial_clearance_and_nontip_contact",
+    "render_reviewed": true,
+    "max_penetration_m": 0.002055860187859824,
+    "raw_all_pad_force_max_n": 138.1368008892916,
+    "unique_unintended_contact_steps": 1594,
+    "unintended_contact_events": 30684,
+    "raw_contacts_sha256": "9e21c14dde0da025d52c379f3aa5928afef14ac9496eb173703f44f4d5e4006b",
+    "metric_defects": [
+      "Worker maximum-pad-force metric included eligible tips only and reported0N while raw non-tip forces were substantial. Correction must include all pad contacts.",
+      "Worker unintended-contact steps was a sum of contacts rather than unique steps.",
+      "Earlier tiny smoke failed PNG serialization and JSON conversion; it was never accepted."
+    ],
+    "source_binding_limit": "Individual smoke metrics did not bind source hashes at execution time. Later source inspection must not be presented as a proven exact source snapshot for those outputs."
+  },
+  "next_dispatch": {
+    "pad": "Correct fixed mounting and force/event accounting; start with at most3 full candidates within original16-candidate/300s-physics budget.",
+    "gpu": "One additional1-H800/8-CPU/20-minute allocation after exact backend-representation reset audit. Preserve model and all physical tolerances."
+  },
+  "limitations": [
+    "No GUI operation, training dataset, policy updates or physical hardware result.",
+    "GPU contacts are solver-step observations; state/contact timing and primary throughput labels require clarification in corrected report.",
+    "Kimi calls timed out after600.1s,480.1s and900.1s; saved files and actual scheduler output were reviewed independently."
+  ]
+}

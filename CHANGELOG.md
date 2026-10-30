@@ -1,5 +1,7 @@
 # Changelog
 
+
+- Added the reviewed LEAP static-pad contact cycle, continuous contact recording and thirteen focused tests. Recorded the failed initial mounting/force accounting and the first H800 reset-audit failure separately; no GUI or learning success is inferred.
 ## Unreleased — 2026-10-31
 
 - Integrated Kimi's LEAP v2 Advanced CPU adapter and pinned asset fetcher. Thirty-four focused tests and a 14,000-step scripted hand run passed; fixed false CAD-hull assembly contacts, preserved 17-motor/21-joint coupling, improved pose tracking, corrected observation timestamps, rejected invalid commands atomically and protected run artifacts. Published failed candidates, narrow acceptance limits and delegation/rework accounting. No LEAP pad/GUI, GPU or learning result is claimed.

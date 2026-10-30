@@ -1,0 +1,282 @@
+{
+  "record_version": "1.0",
+  "id": "leap-pad-contact-20261031",
+  "timestamp_utc": "2026-10-30T22:38:05.266062+00:00",
+  "kind": "independent_cpu_pad_contact_acceptance",
+  "status": "single_scripted_contact_cycle_accepted",
+  "source_commit": "7401ab768625b6e5b91e6bf658fdb9899023f958",
+  "runtime": {
+    "python": "3.12.14",
+    "mujoco": "3.17.0",
+    "numpy": "2.5.4",
+    "platform": "macOS-26.4.1-arm64-arm-64bit"
+  },
+  "actual_run": {
+    "started_utc": "2026-10-30T22:31:07.773210Z",
+    "finished_utc": "2026-10-30T22:31:09.814818Z"
+  },
+  "metrics": {
+    "candidate_id": "c01",
+    "smoke": false,
+    "verdict": "PASS",
+    "failure_reasons": [],
+    "config": {
+      "candidate_id": "c01",
+      "pad_center": [
+        0.0,
+        -0.05,
+        -0.177
+      ],
+      "pad_half_extents": [
+        0.08,
+        0.055,
+        0.005
+      ],
+      "press_finger": "index",
+      "press_mcpf": 0.12,
+      "press_dip": 0.45,
+      "slide_mcps": -0.22,
+      "phase_times_s": {
+        "clear1_end": 0.6,
+        "press_ramp_end": 1.2,
+        "press_hold_end": 1.9,
+        "slide_end": 2.7,
+        "lift_ramp_end": 3.1,
+        "t_end": 3.8
+      }
+    },
+    "steps_planned": 7600,
+    "steps_executed": 7600,
+    "episode_complete": true,
+    "timestep": 0.0005,
+    "physics_seconds_wall": 1.1676497499865945,
+    "gates": {
+      "finite": true,
+      "episode_complete": true,
+      "no_warnings": true,
+      "limit_excursion<=0.01": true,
+      "coupling<=0.01": true,
+      "ctrl_in_bounds": true,
+      "penetration<=0.001": true,
+      "pad_force<=5N_all_pad_contacts": true,
+      "no_negative_normal_force": true,
+      "no_unintended_or_edge_contact": true,
+      "initial_clearance>=0.3s": true,
+      "final_clearance>=0.3s": true,
+      "sustained_contact>=0.3s@>=0.05N": true,
+      "slide_displacement>=5mm": true,
+      "hold_tracking<=0.10_unblocked": true,
+      "pad_static": true,
+      "touch_stream_continuous": true
+    },
+    "device_press_thresholds": {
+      "press_threshold_1N_crossed": true,
+      "press_peak_n": 1.0543156536410327,
+      "release<=0.6N_after_contact": true,
+      "force_at_trace_end_n": 0.0
+    },
+    "checks": {
+      "max_limit_excursion_rad": 0.0,
+      "max_coupling_error_rad": 0.005006709749377114,
+      "max_penetration_m": 0.00012480095630569693,
+      "max_pad_normal_force_all_n": 1.0543156536410327,
+      "max_pad_normal_force_tip_eligible_n": 1.0543156536410327,
+      "max_unintended_force_n": 0.0,
+      "max_negative_normal_force_n": 0.0,
+      "warnings": {},
+      "unintended_contact_steps": 0,
+      "unintended_contact_events": 0,
+      "unintended_contact_kinds": {},
+      "pad_geom_max_deviation_m": 0.0,
+      "hold_tracking_free_rad": {
+        "index_mcps": 0.010681964889840731,
+        "index_mcpf": 0.041321648243447175,
+        "index_dip": 0.04615266405596369,
+        "middle_mcps": 2.3098480697466722e-07,
+        "middle_mcpf": 0.04171014055437326,
+        "middle_dip": 0.007130320011155641,
+        "ring_mcps": 2.3040707553036104e-07,
+        "ring_mcpf": 0.04162031193094907,
+        "ring_dip": 0.007118809534447788,
+        "pinky_mcps": 1.228245508093757e-06,
+        "pinky_mcpf": 0.04120365446327502,
+        "pinky_dip": 0.007057664843385901,
+        "thumb_mcps": 1.451060102792345e-07,
+        "thumb_mcpf": 0.02578328548932797,
+        "thumb_ip": 0.0025573446325524232,
+        "palm_thumb": 0.011969798499405531,
+        "palm_4_finger": 0.04415832001120754
+      },
+      "hold_tracking_blocked_rad": {
+        "index_mcps": 0.00021310677131377168,
+        "index_mcpf": 0.05054570657054619,
+        "index_dip": 0.07472677380371329
+      },
+      "initial_clearance": {
+        "window_s": [
+          0.0,
+          0.3
+        ],
+        "samples": 600,
+        "expected_samples": 601,
+        "coverage_complete": true,
+        "contact_free": true,
+        "ok": true
+      },
+      "final_clearance": {
+        "window_s": [
+          3.5,
+          3.8
+        ],
+        "samples": 601,
+        "expected_samples": 601,
+        "coverage_complete": true,
+        "contact_free": true,
+        "ok": true
+      },
+      "touch_stream": {
+        "frames": 105,
+        "monotonic": true,
+        "max_frame_interval_s": 0.0500000000000167,
+        "bounded_interval_ok": true,
+        "covers_episode": true,
+        "empty_frames": 54
+      }
+    },
+    "contact": {
+      "press_finger": "index",
+      "max_sustained_s_ge_0.05N": 1.8145000000001716,
+      "sustain_windows_steps": [
+        [
+          1995,
+          2042
+        ],
+        [
+          2044,
+          5672
+        ],
+        [
+          5674,
+          5686
+        ],
+        [
+          5689,
+          5695
+        ],
+        [
+          5698,
+          5702
+        ],
+        [
+          5705,
+          5707
+        ],
+        [
+          5710,
+          5712
+        ],
+        [
+          5714,
+          5714
+        ],
+        [
+          5716,
+          5716
+        ],
+        [
+          5718,
+          5718
+        ],
+        [
+          5720,
+          5720
+        ],
+        [
+          5722,
+          5722
+        ],
+        [
+          5725,
+          5726
+        ],
+        [
+          5732,
+          5732
+        ],
+        [
+          5736,
+          5736
+        ]
+      ],
+      "slide_net_displacement_m": 0.005130208998792952,
+      "slide_path_length_m": 0.038623917407896766,
+      "press_peak_n": 1.0543156536410327,
+      "contact_steps": 3717,
+      "touch_frames": 105
+    }
+  },
+  "implementation_artifacts": [
+    {
+      "path": "src/embodied_trackpad/leap_sim/pad_env.py",
+      "sha256": "0006012a5d692aad181df09426ca6a4b4ddf5d9ff1146b9af7ef4b1d324ceb00"
+    },
+    {
+      "path": "tools/leap_pad_probe.py",
+      "sha256": "4174d9eb5ca64872450081286a74611f8d4c5885bb9f3900f92123b32858a4ea"
+    },
+    {
+      "path": "tests/test_leap_pad.py",
+      "sha256": "b51f84f79d0e19646d18bc2136dc15aa31195232d724fd5e3907984d86f5f754"
+    },
+    {
+      "path": "docs/leap-pad.md",
+      "sha256": "29ecd4b3ba2c37c2b6b5f3732783e71753a765ea228391dd79a1ec8ce82e91d2"
+    }
+  ],
+  "independent_review": {
+    "reviewed_utc": "2026-10-30T22:35:52.687121+00:00",
+    "source_hash_matches_run": true,
+    "gates_all_pass": true,
+    "raw_force_finite": true,
+    "raw_contact_events_unintended": 0,
+    "reconstructed_peak_all_pad_force_n": 1.0543156536410327,
+    "all_105_touch_frames_reconstructed_from_raw_contacts": true,
+    "failures": [],
+    "images_reviewed": [
+      "press_side.png",
+      "initial_side.png from earlier failed smoke"
+    ],
+    "input_hashes": {
+      "metrics.json": "7e7ade10d4c2490d9727fb3231201477bec16622c01da07cad209ad13cdcac2a",
+      "touch-v1.json": "773db6feaba6ccdd43260ba796ed5f1a5bec4775ed277d8e9ac21641bfa37105",
+      "trace.npz": "fbb025a7a24bf6d75579251c0e00511482254eece7f2a67e741bf1374d61382e",
+      "raw-contacts.json": "a82c2caedd18f620e06baa311ccb3c44700724a252692951fc53032db0411296"
+    },
+    "acceptance": "bounded_single_finger_pad_contact_accepted_no_GUI_or_policy"
+  },
+  "tests": {
+    "focused_pad_passed": 13,
+    "focused_pad_skipped": 0,
+    "existing_hand_tests_passed": 5,
+    "repository_tests_passed_excluding_missing_schema_dependency": 176,
+    "excluded": "test_schemas.py: jsonschema absent in reused simulation venv; no installation performed",
+    "evidence": "Actual pytest summaries inspected in worker raw output:13 passed,5 passed,145 passed and31 passed. Broad repository tests include the previously implemented native-app tests, not a physics-to-GUI bridge.",
+    "earlier_failed_tests": 2,
+    "earlier_failure_note": "Two new test defects were corrected before the focused13-test pass."
+  },
+  "budget_accounting": {
+    "full_candidate_episodes": 2,
+    "measured_physics_wall_seconds": 3.8104456,
+    "earlier_tiny_smoke_wall_seconds": "unknown, failed before reporting",
+    "limit_full_candidates": 16,
+    "limit_physics_wall_seconds": 300
+  },
+  "limitations": [
+    "One fixed-mount scripted index-finger cycle, repeated deterministically twice. No randomization/generalization or learned policy.",
+    "Small margins: peak force exceeds1N by0.0543N, slide exceeds5mm by0.1302mm. This is not robust task or hardware acceptance.",
+    "The measured contact centroid path length is38.624mm while net displacement is5.130mm; smooth contact/cursor behavior needs separate evaluation.",
+    "17 channels and21 joints retained; palm references/other fingers held during this contact task.",
+    "Forces depend on uncalibrated CAD/servo/contact approximations.",
+    "Native GUI bridge and policy training are not part of this result; diagnostic traces remain training_eligible=false."
+  ]
+}

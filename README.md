@@ -6,7 +6,7 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** the LEAP v2 Advanced adapter now runs the complete 17-motor/21-joint hand in MuJoCo CPU. Its 7-second scripted motion passed 34 focused asset/physics checks and 14,000-step numerical, contact and pose-recovery gates, with independent source/trace/image review. This is fixed-base hand motion; pad/GUI integration and policy training remain pending. The foundation (89 prior tests), confined native Mac GUI (47 additional real-app tests and 18 smoke checks), and earlier Allegro H800 replay (43/43 checks) are separate evidence. See [STATUS.md](STATUS.md).
+**Status:** the LEAP v2 Advanced adapter now runs the complete 17-motor/21-joint hand in MuJoCo CPU. Its 7-second scripted motion passed 34 focused asset/physics checks and 14,000-step numerical, contact and pose-recovery gates, with independent source/trace/image review. A subsequent fixed-base pad cycle passed7,600-step checks:1.81s sustained contact,5.13mm net slide,1.05N peak force and full lift. Its105 device-contact frames were independently reconstructed from raw physics. Native GUI integration and policy training remain pending. The foundation (89 prior tests), confined native Mac GUI (47 additional real-app tests and 18 smoke checks), and earlier Allegro H800 replay (43/43 checks) are separate evidence. See [STATUS.md](STATUS.md).
 
 ## Run the foundation
 
@@ -24,7 +24,7 @@ Use a fresh output directory for each episode. This generates a **mock software 
 
 ## Run the LEAP adapter
 
-The [model guide](docs/leap-model.md) describes the pinned asset downloader, optional CPU dependencies, runtime probe and calibration limits. Models remain in an ignored cache; the published code does not bundle meshes. [Measured results and failed candidates](experiments/records/leap-v2-cpu-20261031.json) retain the distinction between a scripted diagnostic and an autonomous learned task.
+The [pad-contact guide](docs/leap-pad.md) and [acceptance record](experiments/records/leap-pad-contact-20261031.json) document the first scripted fingertip cycle. The [model guide](docs/leap-model.md) describes the pinned asset downloader, optional CPU dependencies, runtime probe and calibration limits. Models remain in an ignored cache; the published code does not bundle meshes. [Measured results and failed candidates](experiments/records/leap-v2-cpu-20261031.json) retain the distinction between a scripted diagnostic and an autonomous learned task.
 
 ## Design
 
