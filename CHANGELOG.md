@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Preserved a600-second Kimi correction timeout with saved viewer/contact source, no deployment acceptance and no second GPU job; confirmed the scheduler queue is empty.
+
 - Expanded hand pricing beyond official pages with 37 price records, domestic interviews, retail configurations, historical costs and public used-market coverage. Added RMB reference conversions and practical budget tiers; preserved original research and unresolved stock/unit differences.
 - Recorded the first full-hand H800 contact-classification failure at 1/32 worlds and independent viewing of the corrected CPU source after manual reload; stale-image false-LIVE behavior returned to Kimi.
 

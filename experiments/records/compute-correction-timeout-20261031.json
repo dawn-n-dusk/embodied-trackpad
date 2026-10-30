@@ -1,0 +1,69 @@
+{
+  "record_version": "1.0",
+  "id": "compute-correction-timeout-20261031",
+  "timestamp_utc": "2026-10-30T17:57:34.433531+00:00",
+  "kind": "delegation_checkpoint",
+  "status": "partial_source_saved_not_deployed_or_accepted",
+  "source_commit": "9cf8b15aa6b7bc4f6716799c051d22d5846bb7da",
+  "invocation": {
+    "status": "timeout",
+    "exit_code": 124,
+    "elapsed_seconds": 600.2,
+    "recorded_usage": {
+      "records": 23,
+      "input_uncached": 41248,
+      "input_cached": 6224640,
+      "input_cache_write": 0,
+      "output": 13578,
+      "total": 6279466
+    },
+    "usage_note": "Recorded provider usage; cache reads included separately. Missing/interrupted requests may not report usage; not a billing total."
+  },
+  "saved_source": [
+    {
+      "worker_relative_path": "tools/compute_h800_batch.py",
+      "sha256": "f2977094b02d683d15dd55fae8c28b0707c3e78cb5a2ae411fef0ecea4353626"
+    },
+    {
+      "worker_relative_path": "tools/live_view_server.py",
+      "sha256": "587d2aa2b7bde7bf8fbc7298e1c64de3351d1f95187ec42fd419bd9b88d1a586"
+    },
+    {
+      "worker_relative_path": "web/live/index.html",
+      "sha256": "ec82577285ca05047f2d6db7642895b6a95d0efe32e4e8ecf7b64eeb048530ea"
+    },
+    {
+      "worker_relative_path": "web/live/client.js",
+      "sha256": "aeb5434b178c0ee0f11a84c3aa45f918c28ea03289e9deceea2bdad532e60fb0"
+    },
+    {
+      "worker_relative_path": "web/live/liveness.js",
+      "sha256": "38a4ec3cd705b698cdeaf537b89323f504329e8b6737cb520cecd184a3e734cd"
+    },
+    {
+      "worker_relative_path": "tests/test_live_server.py",
+      "sha256": "776afcf13af0180ba6f7a2db5576a3ede855648cbb7d211da0b55eb7514f4864"
+    },
+    {
+      "worker_relative_path": "tests/test_live_liveness_js.py",
+      "sha256": "990e9a0cc00a4cfe9d0ce2bd11da44e3cd5668f8ca0a81a28dd83afcc5a28377"
+    },
+    {
+      "worker_relative_path": "tests/liveness_scenarios.js",
+      "sha256": "4616b8ef79fb05d0e72aef9867e27bd14221000a9a1faa8e9d3c349cb83c6c07"
+    }
+  ],
+  "coordinator_observations": [
+    "Atomic frame endpoint and displayed-frame liveness/reconnect source and focused test files are saved in the worker branch.",
+    "ID-based contact classification source is saved; GPU diagnostic implementation and root-cause verification remain incomplete.",
+    "The bounded call timed out at600.2s; no structured final completion report. Provider generated work, so this is not an authentication/call-availability failure.",
+    "Worker raw output reported15 passing focused tests; coordinator has not accepted that as complete frontend/GPU behavior verification.",
+    "Independent scheduler query after timeout: queue empty; only first full-hand job exists,FAILED exit1,elapsed2m32s,1GPU/8CPU; second allowance unconsumed."
+  ],
+  "next": "Resume from a short scoped checkpoint, finish raw GPU contact-ID diagnosis and real viewer deployment/validation; no duplicate job or concurrent writer.",
+  "limitations": [
+    "No new H800 acceptance, no extra submitted GPU job and no training.",
+    "Existing viewer remains the previously reviewed version; automatic stale-frame repair has not been deployed or independently accepted.",
+    "Unreviewed implementation files are kept outside the published main branch."
+  ]
+}
