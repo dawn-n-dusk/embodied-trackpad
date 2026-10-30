@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Added exact humanoid/hand compatibility evidence, including official G1 support, H2 dealer-only configurations, Dex5-S power/physical-layer constraints, and wheel-based Linker platform distinctions. Kept hardware fit separate from policy transfer and real acceptance.
+
 - Preserved a600-second Kimi correction timeout with saved viewer/contact source, no deployment acceptance and no second GPU job; confirmed the scheduler queue is empty.
 
 - Expanded hand pricing beyond official pages with 37 price records, domestic interviews, retail configurations, historical costs and public used-market coverage. Added RMB reference conversions and practical budget tiers; preserved original research and unresolved stock/unit differences.

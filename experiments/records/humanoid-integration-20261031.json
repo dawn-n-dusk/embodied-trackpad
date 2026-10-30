@@ -1,0 +1,61 @@
+{
+  "record_version": "1.0",
+  "id": "humanoid-integration-20261031",
+  "timestamp_utc": "2026-10-30T18:21:29.540129+00:00",
+  "kind": "research_review",
+  "status": "reviewed_no_hardware_selection_or_installation",
+  "source_commit": "07b0d75179b1535f827ebb2445aeaf97ea2da97a",
+  "checks": {
+    "source_snapshots_verified": 10,
+    "independent_current_sources": [
+      {
+        "key": "brainco-g1",
+        "url": "https://raw.githubusercontent.com/unitreerobotics/brainco_hand_service/main/README.md",
+        "retrieved_utc": "2026-10-30T18:19:12.094737+00:00",
+        "sha256": "ce1b639e9131fcc2e3e16057aa3979929403db11d6e140728382306fab2f3ea4"
+      },
+      {
+        "key": "tesollo-s",
+        "url": "https://www.tesollo.com/products/grippers/dg-5f-s",
+        "retrieved_utc": "2026-10-30T18:19:12.765720+00:00",
+        "sha256": "2344fe5c3e38e9498c7fcfe1e0ab52bef4edfbee78ce3a91b42fb1430f20fa39"
+      },
+      {
+        "key": "dex5-s",
+        "url": "https://www.unitree.com/Dex5-S",
+        "retrieved_utc": "2026-10-30T18:19:15.560936+00:00",
+        "sha256": "e44ccc778c14c4da989c99d2a0deece1d1d5be61bf3a0c09470b7753644bdf58"
+      },
+      {
+        "key": "h2",
+        "url": "https://www.unitree.com/H2",
+        "retrieved_utc": "2026-10-30T18:19:15.713620+00:00",
+        "sha256": "f64fbebfb7cf323870af43776c8b9c4614a4d5bda75b52c69f77ac82feb85407"
+      }
+    ],
+    "model_boundaries": [
+      "G1+Revo2 official six-actuator service is not Revo3 support",
+      "Independent body and hand lists do not establish every pair",
+      "H2 official generic options are distinct from dealer exact configurations",
+      "Dex5-S1000BASE-T1/T1s is not automatically an ordinary RJ45 connection",
+      "Linker Humanoid V2 wheel-based platform is not biped mounting proof"
+    ],
+    "documentation_checks": "JSON, source checksums, current official spot checks; no new runtime test or hardware operation"
+  },
+  "artifacts": [
+    {
+      "path": "docs/research/2026-10-31-humanoid-integration.zh-CN.md",
+      "sha256": "c3efab1c238a87be787e499a84446ba9f862a9bcf4b6b5ac47fcd599185ae6d9"
+    },
+    {
+      "path": "docs/research/2026-10-31-humanoid-integration-evidence.json",
+      "sha256": "20025138443b3a841ea564d53e5982fedfbe0b455ac6f21636c393a203d618e3"
+    }
+  ],
+  "limitations": [
+    "All physical installations and real Mac trackpad compatibility remain unverified.",
+    "Cross-platform ranking is an engineering recommendation, not a measured hardware benchmark.",
+    "No alternative hand asset imported; existing Allegro baseline retained.",
+    "SDK CPU architecture, complete electrical/mounting specification and firmware versions require exact-order verification."
+  ]
+}

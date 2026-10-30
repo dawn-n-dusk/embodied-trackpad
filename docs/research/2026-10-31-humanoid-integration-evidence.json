@@ -1,0 +1,116 @@
+{
+  "date": "2026-10-31",
+  "created_utc": "2026-10-30T18:18:55.755711+00:00",
+  "scope": "public read-only focused humanoid integration verification",
+  "records": [
+    {
+      "id": "g1_revo2",
+      "level": "official_exact_pair",
+      "robot": "G1",
+      "hand": "Revo2",
+      "url": "https://github.com/unitreerobotics/brainco_hand_service",
+      "quote": "The G1 can be equipped with ... Revo2 Dexterous Hand, which features 6 degrees of freedom.",
+      "sha256": "ce1b639e9131fcc2e3e16057aa3979929403db11d6e140728382306fab2f3ea4",
+      "private_snapshot_basename": "integration_brainco_service.txt"
+    },
+    {
+      "id": "g1_inspire",
+      "level": "official_exact_pair",
+      "robot": "G1",
+      "hand": "DFX / FTP",
+      "url": "https://github.com/unitreerobotics/xr_teleoperate",
+      "quote": "For G1 robot with Inspire DFX hand ... FTP dexterous hand is now supported.",
+      "sha256": "654372b6db502b83af2422142c2ba402497467008638651d0b2dcb6e06ba4999",
+      "private_snapshot_basename": "integration_xr_readme.txt"
+    },
+    {
+      "id": "g1_dex3",
+      "level": "official_exact_pair",
+      "robot": "G1 EDU",
+      "hand": "Dex3-1",
+      "url": "https://www.unitree.com/g1",
+      "quote": "Three-fingered dexterous hand Dex3-1 Parameter",
+      "sha256": "ce097cc96df784dcb768203db0eab4929f5aefeaab10b8c2e3877ecd8cd12dcb",
+      "private_snapshot_basename": "integration_g1.txt"
+    },
+    {
+      "id": "h2_generic",
+      "level": "official_generic_option",
+      "robot": "H2 EDU",
+      "hand": "multiple unspecified hand models",
+      "url": "https://www.unitree.com/H2",
+      "quote": "Dexterous Hand (Multiple Model Options)",
+      "sha256": "f38e86083b1286486ceedd3bfd3218a23ccc93b884fb6243c95f8079100ac54a",
+      "private_snapshot_basename": "integration_h2_actual.txt"
+    },
+    {
+      "id": "h2_revo3_dex5",
+      "level": "dealer_configuration",
+      "robot": "H2/H2 EDU/H2 EDU PLUS",
+      "hand": "Dex5-1/P and Revo3 U21/T/V",
+      "url": "https://www.robotlab.com/store/unitree-humanoid-hands/",
+      "quote": "H2 Dex5-1 ... H2 EDU-BrainCo Revo 3 U21T",
+      "sha256": "ebed7d61db6832ff9df8fcc859080fc366823e6a1a51200cb0677ea92a194460",
+      "private_snapshot_basename": "market_robotlab.txt"
+    },
+    {
+      "id": "dex5s",
+      "level": "official_hand_only",
+      "robot": "not named",
+      "hand": "Dex5-S / Pro",
+      "url": "https://www.unitree.com/Dex5-S",
+      "quote": "Weight 620g; Supply Voltage 15V~65V; Peak Power 200W",
+      "sha256": "9f11366462c4a1e30e0643914246bc195ee5051834f7d9aaf03e5972a15ba034",
+      "private_snapshot_basename": "integration_dex5s_actual.txt"
+    },
+    {
+      "id": "tesollo_s",
+      "level": "official_humanoid_design",
+      "robot": "not named",
+      "hand": "DG-5F-S 20DoF",
+      "url": "https://www.tesollo.com/products/grippers/dg-5f-s",
+      "quote": "SDK and ROS 2 integration support ... 24 V ... Ethernet (TCP/IP), Modbus (TCP)",
+      "sha256": "c55e9674a53c9c1e5042045a129a9055310ac12eb22d76185375962e11e33d0e",
+      "private_snapshot_basename": "tesollo_small.txt"
+    },
+    {
+      "id": "tesollo_m",
+      "level": "official_generic_integration",
+      "robot": "not named",
+      "hand": "DG-5F-M",
+      "url": "https://www.tesollo.com/products/grippers/dg-5f-m",
+      "quote": "SDK and ROS 2 integration ... ros2_control, MoveIt 2, Gazebo",
+      "sha256": "4c47595e7d82c2f9d7d8a2e68bcd6ac854e9ad96e171bd0488f72e6daa55cc01",
+      "private_snapshot_basename": "tesollo.txt"
+    },
+    {
+      "id": "linker_o6",
+      "level": "official_generic_same_vendor_compatibility",
+      "robot": "Linker Humanoid V2",
+      "hand": "all own hand models including O6",
+      "url": "https://www.linkerbot.cn/details/LinkerHumanoid",
+      "quote": "型号 Linker Humanoid V2 ... 灵巧手 适配所有型号灵巧手",
+      "sha256": "41e4cc77b12b3d0e36811c4da0d7e11ca4511958863e3c4a5e5743a0bbcff45c",
+      "private_snapshot_basename": "integration_linkerhumanoid.txt"
+    },
+    {
+      "id": "o6_specs",
+      "level": "official_hand_specs",
+      "robot": "R1 only dealer configuration verified",
+      "hand": "O6",
+      "url": "https://www.linkerbot.cn/details/LinkerHandO6",
+      "quote": "6个主自由度 + 5个被动自由度 ... 重量 360g ... 工作电压 24V-48V",
+      "sha256": "c600b10b37ce2b6ff7460055b977d33ef206c4b719cb24784a3619fa4c8d730e",
+      "private_snapshot_basename": "integration_o6_actual.txt"
+    }
+  ],
+  "not_confirmed": [
+    "Revo3 with named humanoid from an official exact-version source",
+    "Dex5-1/P or Dex5-S named G1/H2 official mounting or software validation",
+    "named humanoid with exact Tesollo S/M or Allegro/LEAP version"
+  ],
+  "critical_rule": "Separate official exact combination, generic manufacturer support, dealer configuration and actual independent hardware validation. Independent lists do not establish their Cartesian product.",
+  "reused_parameter_evidence": "2026-10-31-hand-candidates-evidence.json; same-day official sources, with exact version limitations retained.",
+  "coordinator_reviewed_utc": "2026-10-30T18:21:29.540129+00:00",
+  "public_export_note": "Raw third-party sources retained privately; no private account, connection or hardware evidence published."
+}
