@@ -1,0 +1,119 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-input-acceptance-20261031",
+  "timestamp_utc": "2026-10-31T13:33:29.120435+00:00",
+  "kind": "independently_tested_visual_input_module",
+  "status": "input_utilities_accepted_only",
+  "source_commit": "f8216cfe20e9160455fa6036c6d0dd8c26de66c1",
+  "worker_checkpoint": "8399ee5",
+  "files": [
+    {
+      "path": "src/embodied_trackpad/leap_v1/visual_servo.py",
+      "sha256": "5fef378fb3847aa9956dbcb36b12beeccde2cfb72c10a150a73d6e4cf83d9d35"
+    },
+    {
+      "path": "tests/test_leap_v1_visual_utils.py",
+      "sha256": "140ca858905efbcc8337d85d63a0be2e2e114c52734712282f98ced6efc3c3ff"
+    }
+  ],
+  "scope": [
+    "RGB/RGBA PNG decoder, five PNG filters, bounded complete zlib stream and CRC validation",
+    "Fixed-palette cursor/target extraction from pixels",
+    "Capture-clock reconciliation with uncertainty and stale/future/nonfinite/shape rejection"
+  ],
+  "validation": {
+    "focused_tests": {
+      "passed": 35,
+      "failed": 0,
+      "independently_rerun_in_worker_and_integrated_checkout": true
+    },
+    "saved_actual_native_images": {
+      "source_sha256": "5fef378fb3847aa9956dbcb36b12beeccde2cfb72c10a150a73d6e4cf83d9d35",
+      "samples": [
+        {
+          "png_sha256": "426c38217080f5c2578c55dad0aae8bcb71b44ce8148c260cd0d7b33afa7e33f",
+          "shape": [
+            600,
+            800,
+            3
+          ],
+          "cursor_col": 399.5,
+          "cursor_row": 299.5,
+          "cursor_confidence": 0.9666666666666667,
+          "target_found": true,
+          "target_confidence": 1.0,
+          "decode_ms": 74.3709999951534,
+          "extract_ms": 3.929707978386432
+        },
+        {
+          "png_sha256": "018fe44e61f2535f6c819a76e0165fa3db29d6de77e3c7ec721d3aa9d86d43d6",
+          "shape": [
+            600,
+            800,
+            3
+          ],
+          "cursor_col": 439.5,
+          "cursor_row": 275.5,
+          "cursor_confidence": 0.9666666666666667,
+          "target_found": true,
+          "target_confidence": 1.0,
+          "decode_ms": 74.97929100645706,
+          "extract_ms": 2.694791997782886
+        }
+      ],
+      "offline_only": true,
+      "native_app_launched": false
+    },
+    "cursor_displacement_image_pixels": [
+      40.0,
+      -24.0
+    ],
+    "new_native_capture_during_review": false,
+    "numpy_absent_ci": "Worker checked import-blocked collection: one skipped module, zero collection errors; dependency-light CI does not exercise these 35 tests."
+  },
+  "review_corrections": [
+    "Initial33 tests passed but an independently constructed complete-PNG/truncated-zlib counterexample was accepted; EOF and trailing-stream guards plus regressions were added.",
+    "Direct numpy test import would break dependency-light CI; optional-dependency skip was added.",
+    "Worker progress contained an erroneous future time and old base. Later metadata records its correction; wrapper receipts and independently checked Git/hash values govern this acceptance."
+  ],
+  "delegation_calls": [
+    {
+      "status": "reported",
+      "elapsed_seconds": 431.3,
+      "recorded_usage": {
+        "records": 14,
+        "input_uncached": 33471,
+        "input_cached": 645120,
+        "input_cache_write": 0,
+        "output": 22057,
+        "total": 700648
+      }
+    },
+    {
+      "status": "reported",
+      "elapsed_seconds": 219.9,
+      "recorded_usage": {
+        "records": 14,
+        "input_uncached": 47314,
+        "input_cached": 899840,
+        "input_cache_write": 0,
+        "output": 9620,
+        "total": 956774
+      }
+    }
+  ],
+  "elapsed_seconds_sum": 651.2,
+  "usage_note": "Provider-recorded counts are not subscription costs or a savings estimate. Earlier timed-out attempts are retained in the separate recovery record.",
+  "next_stage": {
+    "physics_core": "Saved implementation did not pass independent checks:8passed,1failed,3skipped,1deselected. Exact worker session resumed for corrections; no runtime acceptance.",
+    "native_near_profile": "Dispatched to Kimi after input utility review; named deterministic benchmark layout, not a robot episode or policy."
+  },
+  "limitations": [
+    "This module is only observation preparation; no motor/controller/CLI/recorded visual episode implemented or accepted by this record.",
+    "Offline inspection of two saved own-window PNGs is not online feedback or autonomous task success.",
+    "Colour thresholds are specific to this test GUI; arbitrary software, themes and occlusions are untested.",
+    "Current two-image decode costs around75ms, already exceeding a50ms/20Hz cycle before capture/physics.20Hz remains a ceiling, not measured closed-loop speed.",
+    "Clock uncertainty must be wired explicitly into the future runner gate.",
+    "No accepted D1 dataset, optimizer training or hardware result."
+  ]
+}

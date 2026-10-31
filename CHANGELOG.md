@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Integrated reviewed visual input utilities: complete PNG stream validation, fixed-palette localisation, clock uncertainty and frame checks. Independently passed35 focused tests and verified cursor displacement in two saved native PNGs. Recorded the measured decode cost and kept controller/data/training claims separate.
+
 - Preserved three visual-implementation timeouts and their available usage, checkpointed incomplete source privately, and split recovery into fresh, disjoint Kimi utility and physics-core tasks. No completed controller or learning result is claimed.
 
 - Verified the new P1 live producer, advancing actual images, process identities and per-step contact telemetry. Recorded its two-hour deadline and preserved the previous stream as history; it remains a scripted diagnostic.
