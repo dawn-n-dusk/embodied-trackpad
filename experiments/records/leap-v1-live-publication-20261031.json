@@ -1,0 +1,37 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-live-publication-20261031",
+  "timestamp_utc": "2026-10-31T09:51:22.623567+00:00",
+  "kind": "public_release_verification",
+  "status": "published_ci_passed",
+  "source_commit": "be663b18dcc152491ff753f495a60ffc3e9b69b8",
+  "implementation_commit": "83ea70075949b04ef72ec2ab7cb4eaec4ae48748",
+  "github_ci": {
+    "run_id": 41189945848,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41189945848",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "python": "3.10",
+        "conclusion": "success"
+      },
+      {
+        "python": "3.11",
+        "conclusion": "success"
+      },
+      {
+        "python": "3.12",
+        "conclusion": "success"
+      },
+      {
+        "python": "3.13",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "limitations": [
+    "CI does not cover optional physics/GPU or native macOS runtime.",
+    "Current local native capture resolution assertion failure is recorded separately; it has not been fixed by this release.",
+    "No learned policy or training-attached stream accepted."
+  ]
+}

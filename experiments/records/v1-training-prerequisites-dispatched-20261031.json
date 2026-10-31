@@ -1,0 +1,56 @@
+{
+  "record_version": "1.0",
+  "id": "v1-training-prerequisites-dispatched-20261031",
+  "timestamp_utc": "2026-10-31T09:49:11.058846+00:00",
+  "kind": "bounded_kimi_dispatch",
+  "status": "running_not_accepted",
+  "source_commit": "be663b18dcc152491ff753f495a60ffc3e9b69b8",
+  "configuration": {
+    "isolated_workers": 3,
+    "pad": {
+      "wrapper_timeout_s": 900,
+      "cpu_physics_seconds_max": 300,
+      "threads_max": 2,
+      "training": false
+    },
+    "gpu_runtime": {
+      "wrapper_timeout_s": 900,
+      "download_gib_max": 12,
+      "disk_gib_max": 20,
+      "gpu_jobs_max": 1,
+      "gpus_per_job": 1,
+      "job_wall_minutes_max": 20,
+      "worlds": [
+        1,
+        32
+      ],
+      "project_policy_training": false
+    },
+    "monitor": {
+      "wrapper_timeout_s": 600,
+      "local_validation_server_seconds_max": 600,
+      "port_preferred": 8770,
+      "actual_training_source_attached": false
+    }
+  },
+  "private_task_hashes": [
+    {
+      "label": "v1-pad-prereq.md",
+      "sha256": "2da6e098fa9555cfde17a52d68304395cb7cb288c3d213c9656b6ca739beba76"
+    },
+    {
+      "label": "v1-gpu-runtime.md",
+      "sha256": "512984371d9ac2288af5290d4d20fa535a3048524b45941ba970adf5ee43500d"
+    },
+    {
+      "label": "training-monitor.md",
+      "sha256": "099ea62ca2ea8b0e4a1f60954b3622ad4139824ae67f79f1a3d3807febd98c2b"
+    }
+  ],
+  "limitations": [
+    "Dispatch only; no pad/GPU runtime/monitor acceptance inferred.",
+    "8192 capacity benchmark deferred at user request.",
+    "No project policy training or full fine-tuning is launched by these tasks.",
+    "Conventional isolated Git worktrees used because managed-worktree API previously rejected the nested repository."
+  ]
+}
