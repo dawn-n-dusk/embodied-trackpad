@@ -1,0 +1,91 @@
+{
+  "record_version": "1.0",
+  "id": "v1-force-governed-source-20261031",
+  "timestamp_utc": "2026-10-31T16:22:44.185752+00:00",
+  "kind": "independent_force_governor_math_and_probe_integration_review",
+  "status": "source_accepted_one_fixed_episode_dispatched",
+  "source_commit": "04ec6af009c7ec4b225788eb9eef181914c91047",
+  "helper_prior_commit": "0d80ce51cebbba4dc9af1cb62cb34d36b51010c7",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/force_governor.py": "ba0209cd367ab5b82fed276be9a2079960bc4faebf36a3de895e3994508106b6",
+    "tests/test_leap_v1_force_governor.py": "91293c0db253268419b8b00b455a8be653b97fad5c86e7dbcaf745f1f1957313",
+    "tools/leap_v1_near_probe.py": "d83f587dbad8aa27485a1201fe3f5ef539e6545e27dd2b962de9d770cad6b8c8",
+    "tests/test_leap_v1_near_probe.py": "8131911133097e356c5033ecc7397035d062a62c6280af6362ebbb98540ab72d"
+  },
+  "independent_tests": {
+    "governor": 10,
+    "force": 19,
+    "normal": 13,
+    "probe": 27,
+    "visual_input": 35,
+    "physics_static_stub": 17,
+    "passed": 121,
+    "skipped": 0,
+    "failed": 0,
+    "elapsed_s": 0.52
+  },
+  "pure_helper_review": {
+    "unit_passed": 42,
+    "elapsed_s": 0.07,
+    "governor_cases": 10,
+    "force_cases": 19,
+    "normal_cases": 13,
+    "randomized_cases": 4000,
+    "random_seed": 17,
+    "named_channel_permutations_and_all_bounds_checked": true,
+    "physics_steps": 0,
+    "scope": "Randomized checks cover the unchanged composition formula; integration later adds strict positive-integer validation for the fixed25-substep config."
+  },
+  "method": {
+    "frame_reference": "Previous actual command; no jump to nominal endpoint.",
+    "normal_component": "Existing bounded admittance from prior actual contact.",
+    "tangent_component": "Nominal frame delta divided by25 and multiplied by clip((1.1-F)/(1.1-0.8),0,1).",
+    "priority": "Accept bounded normal component first; common scaling applies only to the remaining tangent.",
+    "missing_contact": "Hold current reference; unchanged0.1s loss guard.",
+    "no_catchup": true,
+    "per_substep_total_joint_cap_rad": 0.0002,
+    "per_cycle_envelope_rad": 0.005
+  },
+  "review": [
+    "Source now starts each frame from previous actual command, applies previous actual force correction, then gated distributed tangent.",
+    "No full nominal jump or catchup; missing contact holds current command.",
+    "Actual combined command and separate normal result are recorded, with same physics/cleanup safety path.",
+    "Fixed integer25 validated; previous4000 randomized bounds/permutations cover unchanged composition math."
+  ],
+  "kimi_accounting": [
+    {
+      "scope": "v1-force-governor-helper",
+      "elapsed_s": 263.7,
+      "exit_code": 0,
+      "usage": {
+        "records": 21,
+        "input_uncached": 39000,
+        "input_cached": 3489280,
+        "input_cache_write": 0,
+        "output": 19042,
+        "total": 3547322
+      }
+    },
+    {
+      "scope": "v1-force-governed-integration",
+      "elapsed_s": 285.0,
+      "exit_code": 0,
+      "usage": {
+        "records": 26,
+        "input_uncached": 176741,
+        "input_cached": 4635392,
+        "input_cache_write": 0,
+        "output": 12788,
+        "total": 4824921
+      }
+    }
+  ],
+  "limitations": [
+    "121passing tests are source/pure/static/mock checks; they do not establish safe contact or target success.",
+    "4000random cases test algebraic bounds, not4000physics environments or episodes.",
+    "Teacher reads privileged simulated contact force/Jacobian; no physical FSR or learned actor.",
+    "Original DLS,normal-priority andforce-admittance modes remain available with failed evidence preserved.",
+    "P1 and physics/success/resource limits unchanged; one seed2 runtime requires separate evidence review.",
+    "No dataset acceptance, policy training/checkpoint, H800 policy job or active stream."
+  ]
+}

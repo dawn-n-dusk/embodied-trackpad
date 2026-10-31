@@ -22,6 +22,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from tools import leap_v1_near_probe as probe  # noqa: E402
+from embodied_trackpad.leap_v1 import force_governor as fgv  # noqa: E402
 from embodied_trackpad.leap_v1 import visual_physics as vp  # noqa: E402
 from embodied_trackpad.leap_v1.visual_servo import (  # noqa: E402
     ClockReconciler, FrameGate, FrameGateConfig, PixelEstimate, VisualEstimate,
@@ -808,3 +809,212 @@ def test_force_mode_contact_update_static_stub(monkeypatch):
     bad["contacts"] = [dict(rec["contacts"][0]),
                        {**dict(rec["contacts"][1]), "body1": "mf_ds"}]
     assert probe.force_mode_contact_update(env, bad) is None
+
+
+# --- force-governed mode mock checks -----------------------------------------
+
+
+def test_force_governed_dispatches_chain_and_uses_prior_record(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    monkeypatch.setattr(vp, "make_env", lambda: fake_env())
+    monkeypatch.setattr(vp, "reset_open", lambda env: None)
+
+    def fake_prep(R):
+        R["z_hold"] = 0.1
+        R["last_record"] = {"step_index": 0, "sim_time_s": 1.0, "contacts": [], "aggregate": {}}
+
+    monkeypatch.setattr(probe, "prep_phase", fake_prep)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i), est, 5.0)
+                for i, est in enumerate([make_est(20.0, 0.0), make_est(2.0, 0.0),
+                                         make_est(2.0, 0.0), make_est(2.0, 0.0)], 1)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: None)
+    contact_calls = []
+    monkeypatch.setattr(probe, "force_mode_contact_update",
+                        lambda env, rec: contact_calls.append(rec.get("step_index")) or
+                        (np.array([1.0, 0.0, 0.0, 0.0]), 1.0, [0.07, 0.0, 0.1]))
+    normal_calls = []
+    real_admittance = probe.fsv.normal_force_admittance
+
+    def fake_admittance(ctrl, anchor, row, force, dt, mapping, cfg):
+        normal_calls.append((ctrl[0], force))
+        return real_admittance(ctrl, anchor, row, force, dt, mapping, cfg)
+
+    monkeypatch.setattr(probe.fsv, "normal_force_admittance", fake_admittance)
+    gov_calls = []
+    real_compose = probe.fgv.compose_governed_substep
+
+    def fake_compose(current, normal, frame_delta, anchor, force, mapping, cfg):
+        gov_calls.append((current[0], normal[0], frame_delta[0], force))
+        combined = np.array(current, dtype=float)
+        combined[0] += 0.00005  # deterministic small combined step
+        info = {"teacher_only": True, "gate": 0.5, "common_scale": 1.0,
+                "bound_limited": [], "requested_tangent": [0.00005, 0, 0, 0],
+                "applied_tangent": [0.00005, 0, 0, 0],
+                "normal_delta": [0.0, 0, 0, 0], "total_delta": [0.00005, 0, 0, 0]}
+        return combined, info
+
+    monkeypatch.setattr(probe.fgv, "compose_governed_substep", fake_compose)
+    stepped_ctrls = []
+
+    def fake_step(R, ctrl, fid, phase):
+        R["step_index"] += 1
+        R["last_record"] = {"step_index": R["step_index"], "sim_time_s": 1.0 + 0.002 * R["step_index"],
+                            "contacts": [], "aggregate": {"index": {"normal_force_n": 1.0}}}
+        stepped_ctrls.append(np.array(ctrl, dtype=float))
+        return SimpleNamespace(aggregate=R["last_record"]["aggregate"])
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    summary = probe.run(1, tmp_path / "out", planner_kind="force-governed")
+    assert summary["planner_kind"] == "force-governed"
+    # Each substep consumed the prior record (step_index before increment).
+    assert contact_calls == list(range(0, 3 * probe.VISUAL_SUBSTEPS))
+    assert len(normal_calls) == 3 * probe.VISUAL_SUBSTEPS
+    assert len(gov_calls) == 3 * probe.VISUAL_SUBSTEPS
+    assert len(stepped_ctrls) == 3 * probe.VISUAL_SUBSTEPS
+    # First stepped ctrl is near prev, not the nominal endpoint jump.
+    actor = read_lines(tmp_path / "out" / "actor.jsonl")
+    plans = [a for a in actor if a["phase"] == "visual_step"]
+    assert plans and all(p["next_ctrl_is_nominal"] is True for p in plans)
+    nominal_first = np.array(plans[0]["next_ctrl"], dtype=float)
+    assert not np.allclose(nominal_first, stepped_ctrls[0])
+    # Teacher StepRecords prove execution matches intent.
+    intents = [e for e in read_lines(tmp_path / "out" / "planner.jsonl")
+               if e["kind"] == "force_substep_intent"]
+    assert len(intents) == 3 * probe.VISUAL_SUBSTEPS
+    assert all("governor_info" in e and "nominal_frame_delta" in e for e in intents)
+    # The actual stepped control equals the intent's corrected_ctrl.
+    for intent, stepped in zip(intents, stepped_ctrls):
+        assert np.allclose(stepped, intent["corrected_ctrl"])
+
+
+def test_force_governed_high_force_zeroes_tangent(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    monkeypatch.setattr(vp, "make_env", lambda: fake_env())
+    monkeypatch.setattr(vp, "reset_open", lambda env: None)
+
+    def fake_prep(R):
+        R["z_hold"] = 0.1
+        R["last_record"] = {"step_index": 0, "sim_time_s": 1.0, "contacts": [], "aggregate": {}}
+
+    monkeypatch.setattr(probe, "prep_phase", fake_prep)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    captures = [(make_frame(1, 1000.0, 1), make_est(20.0, 0.0), 5.0)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: None)
+    # High force -> gate should be 0.
+    monkeypatch.setattr(probe, "force_mode_contact_update",
+                        lambda env, rec: (np.array([1.0, 0.0, 0.0, 0.0]), 1.2, [0.07, 0.0, 0.1]))
+
+    def fake_step(R, ctrl, fid, phase):
+        R["step_index"] += 1
+        R["last_record"] = {"step_index": R["step_index"], "sim_time_s": 1.0 + 0.002 * R["step_index"],
+                            "contacts": [], "aggregate": {"index": {"normal_force_n": 1.2}}}
+        return SimpleNamespace(aggregate=R["last_record"]["aggregate"])
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    probe.run(1, tmp_path / "out", planner_kind="force-governed")
+    intents = [e for e in read_lines(tmp_path / "out" / "planner.jsonl")
+               if e["kind"] == "force_substep_intent"]
+    assert intents
+    for intent in intents:
+        assert intent["governor_info"]["gate"] == pytest.approx(0.0)
+        assert intent["governor_info"]["applied_tangent"] == pytest.approx([0.0, 0.0, 0.0, 0.0])
+
+
+def test_force_governed_missing_contact_holds_ctrl_and_guard_stops(tmp_path, monkeypatch):
+    R = make_R(tmp_path, env=fake_env())
+    R["planner_kind"] = "force-governed"
+    R["last_record"] = {"step_index": 0, "sim_time_s": 1.0, "contacts": [], "aggregate": {}}
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i), make_est(20.0, 0.0), 5.0)
+                for i in range(1, 8)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: None)
+    contact_calls = []
+    monkeypatch.setattr(probe, "force_mode_contact_update",
+                        lambda env, rec: contact_calls.append(1) or None)
+    gov_calls = []
+    monkeypatch.setattr(probe.fgv, "compose_governed_substep",
+                        lambda *a, **k: gov_calls.append(1) or (a[0], {}))
+    steps = []
+
+    def fake_step(R, ctrl, fid, phase):
+        steps.append(1)
+        R["step_index"] += 1
+        agg = {"index": {"normal_force_n": 0.5}} if len(steps) <= 10 else {}
+        R["last_record"] = {"step_index": R["step_index"], "sim_time_s": 1.0 + 0.002 * R["step_index"],
+                            "contacts": [], "aggregate": agg}
+        return SimpleNamespace(aggregate=agg)
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    reason = probe.visual_phase(R)
+    close_R(R)
+    assert reason == "contact_loss"
+    assert len(contact_calls) == 60
+    assert gov_calls == []  # no force/tangent invented when contact missing
+    assert len(steps) == 60
+    events = read_lines(tmp_path / "planner.jsonl")
+    assert not any(e["kind"] == "force_substep_intent" for e in events)
+    stop = [e for e in events if e["kind"] == "guard_stop"]
+    assert len(stop) == 1 and stop[0]["planner_kind"] == "force-governed"
+
+
+def test_force_governed_no_full_nominal_jump_at_frame_start(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    monkeypatch.setattr(vp, "make_env", lambda: fake_env())
+    monkeypatch.setattr(vp, "reset_open", lambda env: None)
+
+    def fake_prep(R):
+        R["z_hold"] = 0.1
+        R["last_record"] = {"step_index": 0, "sim_time_s": 1.0, "contacts": [], "aggregate": {}}
+
+    monkeypatch.setattr(probe, "prep_phase", fake_prep)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    captures = [(make_frame(1, 1000.0, 1), make_est(20.0, 0.0), 5.0)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: None)
+    monkeypatch.setattr(probe, "force_mode_contact_update",
+                        lambda env, rec: (np.array([1.0, 0.0, 0.0, 0.0]), 1.0, [0.07, 0.0, 0.1]))
+    first_stepped = []
+
+    def fake_step(R, ctrl, fid, phase):
+        R["step_index"] += 1
+        R["last_record"] = {"step_index": R["step_index"], "sim_time_s": 1.0 + 0.002 * R["step_index"],
+                            "contacts": [], "aggregate": {"index": {"normal_force_n": 1.0}}}
+        if not first_stepped:
+            first_stepped.append(np.array(ctrl, dtype=float))
+        return SimpleNamespace(aggregate=R["last_record"]["aggregate"])
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    probe.run(1, tmp_path / "out", planner_kind="force-governed")
+    actor = read_lines(tmp_path / "out" / "actor.jsonl")
+    plan = [a for a in actor if a["phase"] == "visual_step"][0]
+    nominal_jump = np.linalg.norm(np.array(plan["next_ctrl"], dtype=float) -
+                                  np.array(plan["prev_ctrl"], dtype=float))
+    actual_first = np.linalg.norm(first_stepped[0] - np.array(plan["prev_ctrl"], dtype=float))
+    # Governed mode first substep is much smaller than the full nominal frame jump.
+    assert actual_first < nominal_jump
+    assert actual_first <= 0.0002 + 1e-12  # per-substep cap

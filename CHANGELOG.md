@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Added a force-governed teacher mode that distributes planar increments over25substeps and preserves the normal correction before bounding tangential motion. Independently passed121source checks and4000pure randomized boundary cases; retained previous modes and fixed safety criteria. One actual seed2 episode then passed: error24.32→1.67px,2700causal visual substeps,5.4scontact,0.714mmmaximum penetration and measured safe release. Three additional directions dispatched; no data/training acceptance inferred.
+
 - Added privileged per-substep force admittance to the visual teacher, with prior-record causality and actual-command logging. Independently passed 107 pure/static/mock checks. Preserved two timeouts and a separately stopped attempt; fixed a floating-point envelope validation defect and corrected a historical source line count. One actual force-feedback episode then failed the unchanged 1 mm penetration limit after136visualsteps. All136 corrected commands were executed;101 reached the normal-speed cap. Preserved trace and delegated static dynamics diagnosis before another controller change.
 
 - Added a normal-priority visual teacher with common-vector bound scaling and a per-substep contact-loss stop. Independently passed 83 pure/static/mock checks; preserved the legacy DLS option and failed episode. The actual diagnostic then failed the unchanged 1 mm penetration limit despite maintaining contact for 302 visual substeps; preserved the failed trace and stopped all physics at the first breach. Reviewed four saved-state reconstructions after a diagnostic timeout, identifying commanded/actual motion mismatch; delegated a separate bounded normal-force feedback helper before further dynamics.

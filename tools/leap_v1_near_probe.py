@@ -55,6 +55,7 @@ if str(REPO_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "src"))
 
 import mujoco  # noqa: E402
+from embodied_trackpad.leap_v1 import force_governor as fgv  # noqa: E402
 from embodied_trackpad.leap_v1 import force_servo as fsv  # noqa: E402
 from embodied_trackpad.leap_v1 import normal_priority as npp  # noqa: E402
 from embodied_trackpad.leap_v1 import pad_env as _pad  # noqa: E402
@@ -81,9 +82,10 @@ INITIAL_ERROR_MIN_PX, SUCCESS_PX, SUCCESS_FRAMES, SUCCESS_REDUCTION = 10.0, 3.0,
 RELEASE_WINDOW_S = 0.5
 PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
                             max_z_step_m=0.0002, damping=0.05, px_per_m=4000.0)
-# Fixed uncalibrated force-admittance gains; NOT a calibrated controller.
+# Fixed uncalibrated force-admittance and force-governor gains; NOT calibrated.
 FORCE_CFG = fsv.NormalForceConfig()
-PLANNER_KINDS = ("dls", "normal-priority", "force-admittance")  # default preserves historical behavior
+FORCE_GOV_CFG = fgv.ForceGovernorConfig()
+PLANNER_KINDS = ("dls", "normal-priority", "force-admittance", "force-governed")  # default preserves historical behavior
 
 
 class ResourceStop(RuntimeError):
@@ -318,9 +320,9 @@ def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
 def visual_phase(R: dict) -> str:
     env = R["env"]
     kind = R.get("planner_kind", "dls")
-    # Privileged diagnostic gate applies to both non-DLS candidates in visual
+    # Privileged diagnostic gate applies to all non-DLS candidates in visual
     # phase only; DLS keeps historical open-loop behavior.
-    guard = npp.ContactLossGuard() if kind in ("normal-priority", "force-admittance") else None
+    guard = npp.ContactLossGuard() if kind in ("normal-priority", "force-admittance", "force-governed") else None
     for R["cycle"] in range(1, MAX_CYCLES + 1):
         check_budgets(R)
         t_cycle = time.monotonic()
@@ -351,6 +353,7 @@ def visual_phase(R: dict) -> str:
         jac = site_jacobian(env)
         z_err = R["z_hold"] - tip_z(env)
         prev = np.array(R["ctrl"], dtype=float)
+        frame_delta = None
         if kind == "normal-priority":
             nxt, info = npp.plan_normal_priority((ex, ey), z_err, jac, prev,
                                                  env.index_map, PLAN_CFG)
@@ -359,7 +362,7 @@ def visual_phase(R: dict) -> str:
                           "common_scale": info["common_scale"],
                           "dq": info["dq"]}
             log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True)
-        elif kind == "force-admittance":
+        elif kind in ("force-admittance", "force-governed"):
             # Nominal planar endpoint: height feedback is replaced by per-substep
             # force feedback, so z_error is held at 0 for the nominal plan.
             nxt, info = npp.plan_normal_priority((ex, ey), 0.0, jac, prev,
@@ -369,9 +372,19 @@ def visual_phase(R: dict) -> str:
                           "predicted_task": info["predicted_task"],
                           "common_scale": info["common_scale"],
                           "dq": info["dq"]}
-            log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True,
-                        next_ctrl_is_nominal=True)
-            R["ctrl"] = np.array(nxt, dtype=float)
+            if kind == "force-governed":
+                frame_delta = nxt - prev
+                plan_extra["nominal_frame_delta"] = [float(v) for v in frame_delta]
+                log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True,
+                            next_ctrl_is_nominal=True)
+                # Governed mode starts the frame from the previous actual ctrl and
+                # distributes the nominal planar delta across substeps; it does NOT
+                # jump to the nominal endpoint at frame start.
+                R["ctrl"] = np.array(prev, dtype=float)
+            else:
+                log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True,
+                            next_ctrl_is_nominal=True)
+                R["ctrl"] = np.array(nxt, dtype=float)
         else:
             nxt, info = vp.plan_index_correction((ex, ey), z_err, jac, prev,
                                                  env.index_map, PLAN_CFG)
@@ -384,39 +397,61 @@ def visual_phase(R: dict) -> str:
              "jac_3x4": [[float(v) for v in row] for row in jac], **plan_extra},
             allow_nan=False) + "\n")
         R["planner"].flush()
-        if kind != "force-admittance":
+        if kind not in ("force-admittance", "force-governed"):
             R["ctrl"] = nxt
         for _ in range(VISUAL_SUBSTEPS):
-            if kind == "force-admittance":
+            if kind in ("force-admittance", "force-governed"):
                 update = force_mode_contact_update(env, R.get("last_record") or {})
                 if update is not None:
                     normal_row, force_n, point_world = update
                     intended_step = R["step_index"] + 1
-                    corrected, force_info = fsv.normal_force_admittance(
+                    normal_ctrl, force_info = fsv.normal_force_admittance(
                         R["ctrl"], prev, normal_row, force_n, TIMESTEP_S,
                         env.index_map, FORCE_CFG)
-                    R["planner"].write(json.dumps(
-                        {"kind": "force_substep_intent",
-                         "planner_kind": kind,
-                         "cycle": R["cycle"],
-                         "frame_id": frame["frame_id"],
-                         "consumed_record_step_index": R["last_record"]["step_index"],
-                         "consumed_record_sim_time_s": R["last_record"]["sim_time_s"],
-                         "intended_next_step_index": intended_step,
-                         "measured_force_n": force_n,
-                         "contact_point_world_m": point_world,
-                         "normal_row": [float(v) for v in normal_row],
-                         "prior_ctrl": [float(v) for v in R["ctrl"]],
-                         "corrected_ctrl": [float(v) for v in corrected],
-                         "helper_info": {"force_error_n": force_info["force_error_n"],
-                                         "requested_normal_speed_m_s": force_info["requested_normal_speed_m_s"],
-                                         "requested_dz_m": force_info["requested_dz_m"],
-                                         "common_scale": force_info["common_scale"],
-                                         "bound_limited": force_info["bound_limited"],
-                                         "predicted_normal_dz_m": force_info["predicted_normal_dz_m"]}},
-                        allow_nan=False) + "\n")
+                    if kind == "force-governed":
+                        corrected, gov_info = fgv.compose_governed_substep(
+                            R["ctrl"], normal_ctrl, frame_delta, prev,
+                            force_n, env.index_map, FORCE_GOV_CFG)
+                    else:
+                        corrected = normal_ctrl
+                        gov_info = None
+                    intent_line = {
+                        "kind": "force_substep_intent",
+                        "planner_kind": kind,
+                        "cycle": R["cycle"],
+                        "frame_id": frame["frame_id"],
+                        "consumed_record_step_index": R["last_record"]["step_index"],
+                        "consumed_record_sim_time_s": R["last_record"]["sim_time_s"],
+                        "intended_next_step_index": intended_step,
+                        "measured_force_n": force_n,
+                        "contact_point_world_m": point_world,
+                        "normal_row": [float(v) for v in normal_row],
+                        "prior_ctrl": [float(v) for v in R["ctrl"]],
+                        "normal_ctrl": [float(v) for v in normal_ctrl],
+                        "corrected_ctrl": [float(v) for v in corrected],
+                        "helper_info": {"force_error_n": force_info["force_error_n"],
+                                        "requested_normal_speed_m_s": force_info["requested_normal_speed_m_s"],
+                                        "requested_dz_m": force_info["requested_dz_m"],
+                                        "common_scale": force_info["common_scale"],
+                                        "bound_limited": force_info["bound_limited"],
+                                        "predicted_normal_dz_m": force_info["predicted_normal_dz_m"]}}
+                    if gov_info is not None:
+                        intent_line["governor_info"] = {
+                            "gate": gov_info["gate"],
+                            "common_scale": gov_info["common_scale"],
+                            "bound_limited": gov_info["bound_limited"],
+                            "requested_tangent": gov_info["requested_tangent"],
+                            "applied_tangent": gov_info["applied_tangent"],
+                            "normal_delta": gov_info["normal_delta"],
+                            "total_delta": gov_info["total_delta"],
+                        }
+                        intent_line["nominal_frame_delta"] = [float(v) for v in frame_delta]
+                    R["planner"].write(json.dumps(intent_line, allow_nan=False) + "\n")
                     R["planner"].flush()
                     R["ctrl"] = corrected
+                # If no actual index contact, hold current command: no force or
+                # tangential increment is invented. The contact-loss guard decides
+                # when to stop.
             rec = step(R, R["ctrl"], frame["frame_id"], "visual")
             if guard is not None:
                 entry = rec.aggregate.get("index")  # teacher aggregate only
@@ -495,7 +530,14 @@ def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
                                    "max_normal_speed_m_s": FORCE_CFG.max_normal_speed_m_s,
                                    "max_joint_step_rad": FORCE_CFG.max_joint_step_rad,
                                    "max_cycle_delta_rad": FORCE_CFG.max_cycle_delta_rad}}
-                                  if planner_kind == "force-admittance" else {})},
+                                  if planner_kind in ("force-admittance", "force-governed") else {}),
+                               **({"force_governor_config": {
+                                   "substeps_per_frame": FORCE_GOV_CFG.substeps_per_frame,
+                                   "target_force_n": FORCE_GOV_CFG.target_force_n,
+                                   "tangential_stop_force_n": FORCE_GOV_CFG.tangential_stop_force_n,
+                                   "per_substep_total_joint_delta_cap_rad": FORCE_GOV_CFG.per_substep_total_joint_delta_cap_rad,
+                                   "max_cycle_delta_rad": FORCE_GOV_CFG.max_cycle_delta_rad}}
+                                  if planner_kind == "force-governed" else {})},
                    "files": ["teacher.jsonl", "actor.jsonl", "planner.jsonl",
                              "touch.jsonl", "summary.json"]}, fh, indent=2)
     stop_reason, unsafe, release, cleaned = "not_started", False, False, False
@@ -611,7 +653,8 @@ def main(argv=None) -> int:
     ap.add_argument("--out", required=True, help="NEW output directory (must not exist)")
     ap.add_argument("--planner", choices=PLANNER_KINDS, default="dls",
                     help="dls=historical default; normal-priority=exact-normal candidate; "
-                         "force-admittance=force feedback with nominal planar endpoint")
+                         "force-admittance=force feedback with nominal planar endpoint; "
+                         "force-governed=force priority + gated distributed tangential step")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")

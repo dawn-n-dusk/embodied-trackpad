@@ -1,0 +1,105 @@
+{
+  "record_version": "1.0",
+  "id": "v1-governed-seed2-runtime-20261031",
+  "timestamp_utc": "2026-10-31T16:28:25.766107+00:00",
+  "kind": "independent_actual_force_governed_pointing_episode_acceptance",
+  "status": "single_target_visual_pointing_and_safe_release_accepted",
+  "source_commit": "04ec6af009c7ec4b225788eb9eef181914c91047",
+  "source_acceptance": "experiments/records/v1-force-governed-source-20261031.json",
+  "observed": {
+    "teacher_records": 5250,
+    "accepted_frames": 109,
+    "visual_steps": 2700,
+    "visual_action_groups": 108,
+    "wire_samples": 153,
+    "force_governed_intents": 2700,
+    "terminal_errors_px": [
+      2.3937504974882584,
+      2.0928693411942203,
+      1.6694146324492116
+    ],
+    "peak_pad_force_n": 1.085599414021634,
+    "peak_penetration_mm": 0.7142951238270356,
+    "visual_longest_contact_sample_duration_s": 5.4,
+    "visual_lowforce_steps": 0,
+    "warnings": 0,
+    "governor_gate": {
+      "min": 0.04800195326122006,
+      "max": 1.0,
+      "median": 0.07798812253176912,
+      "zero_steps": 0,
+      "tangent_additional_scale_limited_steps": 0
+    },
+    "max_actual_visual_substep_delta_rad": 9.763768142129203e-05,
+    "simulation_total_s": 10.500000000000176,
+    "cleanup_records": 1100,
+    "output_bytes_at_audit": 17753053
+  },
+  "episode": {
+    "seed": 2,
+    "started_utc": "2026-10-31T16:22:40.578555+00:00",
+    "completed_utc": "2026-10-31T16:22:53.133151+00:00",
+    "near_pointing_success": true,
+    "episode_safe_complete_released": true,
+    "release_measured": true,
+    "physics_unsafe": false,
+    "initial_error_px": 24.321276595744678,
+    "final_error_px": 1.6694146324492116,
+    "accepted_frames": 109,
+    "steps": 5250,
+    "wall_s": 12.554,
+    "stop_reason": "success",
+    "planner_kind": "force-governed",
+    "controller_kind": "privileged_visual_teacher",
+    "training_eligible": false,
+    "child_returncode": 0,
+    "child_reaped": true
+  },
+  "independent_checks": {
+    "source_model_native_hashes": true,
+    "contiguous_step_ids_sim_time": true,
+    "all_actual_physics_safety_checks": true,
+    "intent_execution_causality": true,
+    "consumed_force_matches_actual_previous": true,
+    "one_intent_each_visual_step": true,
+    "governor_equations_and_executed_bounds": true,
+    "frame_action_groups_no_nominal_jump": true,
+    "all_png_hashes_and_pixel_errors": true,
+    "success_three_fresh_frames": true,
+    "terminal_frame_requests_no_action": true,
+    "all_touch_payloads_acks_match_actual_physics": true,
+    "measured_contiguous_final_clearance": true,
+    "app_pid_absent_after_reap": true,
+    "terminal_saved_gui_image_visually_reviewed": true
+  },
+  "raw_artifact_sha256": {
+    "teacher.jsonl": "ff414d7b3e5cac97485c7756351a115b8183c4e9b17aa310e8dfe091aa3b90f9",
+    "actor.jsonl": "3685da5dc98e55e5ea5cf97934c654f0a7bbad98490334cc2b2f5cd85bafc93e",
+    "planner.jsonl": "e93d775ff63f784eba6be49211789707c2ec98b215f3d068b134bb6af6d8355d",
+    "touch.jsonl": "73946fcc325b06e2fbf8e1ed0e54bf2d1708fd464b1f83c436f8278fcb3c45f6",
+    "metadata.json": "36e57d4b9d9334da68746d33e81c6545df184f2979ff8aa94b271e35325f63f6",
+    "summary.json": "8770b7ee42c51b4b68f130d2c6aea3261545cdb0e1a8f24768067f4b9e1a4029"
+  },
+  "png_manifest_sha256": "1dfea95d394a508d8047d06dac0a5222029e5f0eea9e5269fa4a165b668ea6f8",
+  "kimi_accounting": {
+    "elapsed_s": 98.0,
+    "usage": {
+      "records": 9,
+      "input_uncached": 26705,
+      "input_cached": 1760512,
+      "input_cache_write": 0,
+      "output": 3763,
+      "total": 1790980
+    },
+    "note": "Preflight, one actual episode and report; not billing."
+  },
+  "next_condition": "Exactly three frozen direction diagnostics (seeds5,8,11) are separately dispatched before data acceptance or small-policy training.",
+  "limitations": [
+    "One successful fixed near-target scene and initial state; not broad2D robustness, multi-finger gestures or long-horizon task success.",
+    "Privileged visual teacher with image-derived error, simulator contact force and Jacobian; no learned policy or physical FSR.",
+    "Success means pixel-based near pointing, not click/drag completion or arbitrary real-Mac use.",
+    "All raw artifacts remain training_eligible=false pending dataset schema/provenance/quality/split audit.",
+    "5.4s contact is sampled duration2700*2ms; solver/reference/backend and physical calibration limits remain.",
+    "No new H800 policy job, policy optimizer/checkpoint or active live stream."
+  ]
+}
