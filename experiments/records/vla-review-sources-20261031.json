@@ -1,0 +1,399 @@
+{
+  "record_version": "1.0",
+  "id": "vla-review-sources-20261031",
+  "recorded_utc": "2026-10-31T08:39:24.831919+00:00",
+  "scope": "Public-source metadata and independently calculated statistics; no training or hardware evidence. Full source text and media are not redistributed.",
+  "sources": [
+    {
+      "key": "dream-pi05",
+      "url": "https://dream-machines.eu/blog/pi05-fine-tuning",
+      "final_url": "https://dream-machines.eu/blog/pi05-fine-tuning",
+      "retrieved_utc": "2026-10-31T08:15:48.497884+00:00",
+      "status": 200,
+      "sha256": "f10472b01d6a3c44abca9ae964aae50bfc662f31feebc7c5cd0b06bfdaf28ab1"
+    },
+    {
+      "key": "pi05",
+      "url": "https://www.pi.website/blog/pi05",
+      "final_url": "https://www.pi.website/blog/pi05",
+      "retrieved_utc": "2026-10-31T08:11:48.865793+00:00",
+      "status": 200,
+      "sha256": "4559faf37a4f8f7a7a93628f4f4e14ec8f6fc285fd46cd9d6fd7d4ec30258de1"
+    },
+    {
+      "key": "openpi",
+      "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md",
+      "final_url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/main/README.md",
+      "retrieved_utc": "2026-10-31T08:11:48.866201+00:00",
+      "status": 200,
+      "sha256": "567fc57766bd736664f50126cab8145af4071ca16cc5e238f2b11e369169c3b5"
+    },
+    {
+      "key": "groot",
+      "url": "https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/main/README.md",
+      "final_url": "https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/main/README.md",
+      "retrieved_utc": "2026-10-31T08:11:48.866427+00:00",
+      "status": 200,
+      "sha256": "eaf44fef44fe63e02403d1d81aab8175debbcc4a8e7f36bbd574475e836eaeac"
+    },
+    {
+      "key": "leap",
+      "url": "https://leaphand.com/",
+      "final_url": "https://v1.leaphand.com/",
+      "retrieved_utc": "2026-10-31T08:11:49.196920+00:00",
+      "status": 200,
+      "sha256": "275262cd432dbdf24079359d095aa061a3c4feaad20d38f5e164f38a993abb61"
+    },
+    {
+      "key": "leap-hardware",
+      "url": "https://leaphand.com/hardware",
+      "retrieved_utc": "2026-10-31T08:11:49.202453+00:00",
+      "error": "HTTP Error 404: NOT FOUND"
+    },
+    {
+      "key": "lingbot2",
+      "url": "https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/main/README.md",
+      "final_url": "https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/main/README.md",
+      "retrieved_utc": "2026-10-31T08:12:46.038406+00:00",
+      "status": 200,
+      "sha256": "43e526e942c5c9b0a7302dc2181229ce00b31f06da754d033110c3aafdc72712"
+    },
+    {
+      "key": "groot-card",
+      "url": "https://huggingface.co/nvidia/GR00T-N1.7-3B/raw/main/README.md",
+      "final_url": "https://huggingface.co/nvidia/GR00T-N1.7-3B/raw/main/README.md",
+      "retrieved_utc": "2026-10-31T08:12:46.038783+00:00",
+      "status": 200,
+      "sha256": "7d0a4423a5a5bc7ac35f9ab4c1f64eb3f74f7592418a8dc5c80702b48455c788"
+    },
+    {
+      "key": "leap-parts",
+      "url": "https://v1.leaphand.com/parts",
+      "final_url": "https://v1.leaphand.com/parts",
+      "retrieved_utc": "2026-10-31T08:12:46.038928+00:00",
+      "status": 200,
+      "sha256": "9e0032a7eb3ad6a8845d634466b190a60f060dccaf1280d273ac549a09658009"
+    },
+    {
+      "key": "xc330",
+      "url": "https://emanual.robotis.com/docs/en/dxl/x/xc330-m288/",
+      "final_url": "https://emanual.robotis.com/docs/en/dxl/x/xc330-m288/",
+      "retrieved_utc": "2026-10-31T08:12:46.039023+00:00",
+      "status": 200,
+      "sha256": "c70b353ef9ee9091b290b14c307210dad3075e281818975e999278e145fc644d"
+    },
+    {
+      "key": "recap",
+      "url": "https://www.pi.website/blog/pistar06",
+      "final_url": "https://www.pi.website/blog/pistar06",
+      "retrieved_utc": "2026-10-31T08:12:46.039111+00:00",
+      "status": 200,
+      "sha256": "ad8cd6c8af9dcb90eb0f67892a8b1dac8140e4d3c68365b994b95ad084279fb6"
+    },
+    {
+      "key": "rtc",
+      "url": "https://www.pi.website/research/real_time_chunking",
+      "final_url": "https://www.pi.website/research/real_time_chunking",
+      "retrieved_utc": "2026-10-31T08:12:46.165170+00:00",
+      "status": 200,
+      "sha256": "147f46ca9ca97956c7dc63814d5a4e4cc2103619d9a4569139f0a2fb9c2c512c"
+    },
+    {
+      "key": "apple-pressure",
+      "url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsevent/stage.json",
+      "final_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsevent/stage.json",
+      "retrieved_utc": "2026-10-31T08:12:46.408754+00:00",
+      "status": 200,
+      "sha256": "4e4213eaceb18700cbbd79b9cacb10eced4d1a465b7c17b08fde7eeb0d31ce0a"
+    },
+    {
+      "key": "apple-magnify",
+      "url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsevent/magnification.json",
+      "final_url": "https://developer.apple.com/tutorials/data/documentation/appkit/nsevent/magnification.json",
+      "retrieved_utc": "2026-10-31T08:12:46.512304+00:00",
+      "status": 200,
+      "sha256": "df5b0bd3edca9bd423aaaa6b4b7597204ab7077a41c553c3c9d4d389a1c8b2d8"
+    },
+    {
+      "key": "groot-deployment",
+      "url": "https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/main/scripts/deployment/README.md",
+      "final_url": "https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/main/scripts/deployment/README.md",
+      "retrieved_utc": "2026-10-31T08:13:43.331542+00:00",
+      "status": 200,
+      "sha256": "a2657a360c8752e71896686fb0873721330b555dbed24a023971ca7732605751"
+    },
+    {
+      "key": "lingbot2-paper",
+      "url": "https://arxiv.org/html/2607.06403v1",
+      "final_url": "https://arxiv.org/html/2607.06403v1",
+      "retrieved_utc": "2026-10-31T08:13:43.331849+00:00",
+      "status": 200,
+      "sha256": "5440402acf30200fbf73a5f666f2b801f2b08112d5e50482f87b2e141e46c85e"
+    },
+    {
+      "key": "lingbot2-card",
+      "url": "https://huggingface.co/robbyant/lingbot-vla-v2-6b/raw/main/README.md",
+      "final_url": "https://huggingface.co/robbyant/lingbot-vla-v2-6b/raw/main/README.md",
+      "retrieved_utc": "2026-10-31T08:13:43.331986+00:00",
+      "status": 200,
+      "sha256": "020648405f7fad7673aeae022b38d2630b02f491d734dac1882534cef78ba4dd"
+    },
+    {
+      "key": "pi05-paper",
+      "url": "https://arxiv.org/html/2504.16054v1",
+      "final_url": "https://arxiv.org/html/2504.16054v1",
+      "retrieved_utc": "2026-10-31T08:13:43.332114+00:00",
+      "status": 200,
+      "sha256": "c7a1b886d8ce67370d31d0beebe5f9fb8176b4266a29330ca69923d58f387171"
+    },
+    {
+      "key": "ki",
+      "url": "https://www.pi.website/research/knowledge_insulation",
+      "final_url": "https://www.pi.website/research/knowledge_insulation",
+      "retrieved_utc": "2026-10-31T08:13:43.332211+00:00",
+      "status": 200,
+      "sha256": "c5c94979dcc53b92a94a68a66633014d3a1e3704413b370d6baf52cee28a1629"
+    },
+    {
+      "key": "rlpd",
+      "url": "https://arxiv.org/html/2302.02948v3",
+      "final_url": "https://arxiv.org/html/2302.02948v3",
+      "retrieved_utc": "2026-10-31T08:13:43.332308+00:00",
+      "status": 200,
+      "sha256": "6595f214b36f35df6b224b02714206ba7887564e952c1521b015d6e839660ede"
+    },
+    {
+      "key": "leap-api",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_API/main/python/main.py",
+      "final_url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_API/main/python/main.py",
+      "retrieved_utc": "2026-10-31T08:13:43.428621+00:00",
+      "status": 200,
+      "sha256": "ab45f2994521c8e04d950a6175f5c9626483a9c7494ed3ce4c7e54dcd6e8ac7d"
+    },
+    {
+      "key": "qwen3vl4",
+      "url": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/raw/main/README.md",
+      "final_url": "https://huggingface.co/Qwen/Qwen3-VL-4B-Instruct/raw/main/README.md",
+      "retrieved_utc": "2026-10-31T08:13:43.748539+00:00",
+      "status": 200,
+      "sha256": "a884e5e78f7d6f7bfe237f909dbc41a126542e259dc79d8ab33cc8980580ff79"
+    },
+    {
+      "key": "fsr400",
+      "url": "https://www.interlinkelectronics.com/fsr-400-series",
+      "final_url": "https://www.interlinkelectronics.com/fsr-400-series",
+      "retrieved_utc": "2026-10-31T08:17:54.363256+00:00",
+      "status": 200,
+      "sha256": "284fcb221892c08611929d160fb11a0b8f70bee26a2f529a638165f2ff66c126"
+    },
+    {
+      "key": "flexiforce",
+      "url": "https://www.tekscan.com/products-solutions/force-sensors/a201",
+      "final_url": "https://www.tekscan.com/products-solutions/force-sensors/a201",
+      "retrieved_utc": "2026-10-31T08:17:54.363642+00:00",
+      "status": 200,
+      "sha256": "c9911f5d66e95717ad58863d5d7e0e978c0e83ee75a0bb5c537cae31bd4f1c9c"
+    },
+    {
+      "key": "ads1115",
+      "url": "https://www.ti.com/product/ADS1115",
+      "final_url": "https://www.ti.com/product/ADS1115",
+      "retrieved_utc": "2026-10-31T08:17:54.363807+00:00",
+      "status": 200,
+      "sha256": "c76b0d34e972d71d9cd87538b311e27bfd360b8cb8369f8d359aaa83dc03f21d"
+    },
+    {
+      "key": "rp2040",
+      "url": "https://www.raspberrypi.com/documentation/microcontrollers/rp2040.html",
+      "retrieved_utc": "2026-10-31T08:17:54.363908+00:00",
+      "error": "HTTP Error 403: Forbidden"
+    },
+    {
+      "key": "dream-hf",
+      "url": "https://huggingface.co/api/datasets/DreamMachines/actuator_unboxing_20h_345_v2",
+      "final_url": "https://huggingface.co/api/datasets/DreamMachines/actuator_unboxing_20h_345_v2",
+      "retrieved_utc": "2026-10-31T08:17:54.364013+00:00",
+      "status": 200,
+      "sha256": "2ecd5e72b943313bb4d3e8d9315caec2b374c509a38d8612587db7bc9e9d5da3"
+    },
+    {
+      "key": "dream-hf-hq",
+      "url": "https://huggingface.co/datasets/DreamMachines/actuator_unboxing_1h_HQ/raw/main/meta/info.json",
+      "final_url": "https://huggingface.co/datasets/DreamMachines/actuator_unboxing_1h_HQ/raw/main/meta/info.json",
+      "retrieved_utc": "2026-10-31T08:17:55.000460+00:00",
+      "status": 200,
+      "sha256": "3ea19bebf8ad2609c9199320a76ce62e7274453d5384af8ce6ff7ef9b184de54"
+    }
+  ],
+  "verified_pinned_content": [
+    {
+      "key": "openpi",
+      "revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+      "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/README.md",
+      "sha256": "567fc57766bd736664f50126cab8145af4071ca16cc5e238f2b11e369169c3b5",
+      "matches_reviewed_content": true
+    },
+    {
+      "key": "groot",
+      "revision": "c56f54128d92f743889b7e4cecfc1ceafd88739e",
+      "url": "https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/c56f54128d92f743889b7e4cecfc1ceafd88739e/README.md",
+      "sha256": "eaf44fef44fe63e02403d1d81aab8175debbcc4a8e7f36bbd574475e836eaeac",
+      "matches_reviewed_content": true
+    },
+    {
+      "key": "lingbot2",
+      "revision": "be969b8fd117fb70550c5d4bf4bc328211b5b1b6",
+      "url": "https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/be969b8fd117fb70550c5d4bf4bc328211b5b1b6/README.md",
+      "sha256": "43e526e942c5c9b0a7302dc2181229ce00b31f06da754d033110c3aafdc72712",
+      "matches_reviewed_content": true
+    },
+    {
+      "key": "leap-api",
+      "revision": "b0d00c881d0119077b2cab771a6de44f5aaec904",
+      "url": "https://raw.githubusercontent.com/leap-hand/LEAP_Hand_API/b0d00c881d0119077b2cab771a6de44f5aaec904/python/main.py",
+      "sha256": "ab45f2994521c8e04d950a6175f5c9626483a9c7494ed3ce4c7e54dcd6e8ac7d",
+      "matches_reviewed_content": true
+    }
+  ],
+  "dream_dataset_metadata": [
+    {
+      "dataset": "DreamMachines/actuator_unboxing_20h_345_v2",
+      "url": "https://huggingface.co/datasets/DreamMachines/actuator_unboxing_20h_345_v2/raw/main/meta/info.json",
+      "retrieval_date_utc": "2026-10-31",
+      "retrieved_utc": null,
+      "retrieval_time_note": "Exact per-request timestamp not retained for all three metadata reads. Date is the research session date.",
+      "cached_response_sha256": "e47f8cd5e0e8bde4488f130701a75c830da532400fa2b4acde526c624f52a950",
+      "total_episodes": 7271,
+      "total_frames": 3782725,
+      "fps": 50,
+      "robot_type": "bi_dk1_follower",
+      "duration_hours_from_frames": 21.015138888888888,
+      "episode_semantics": "Stored segments; correction dataset segments are not independent rollouts."
+    },
+    {
+      "dataset": "DreamMachines/actuator_unboxing_1h_HQ",
+      "url": "https://huggingface.co/datasets/DreamMachines/actuator_unboxing_1h_HQ/raw/main/meta/info.json",
+      "retrieval_date_utc": "2026-10-31",
+      "retrieved_utc": null,
+      "retrieval_time_note": "Exact per-request timestamp not retained for all three metadata reads. Date is the research session date.",
+      "cached_response_sha256": "3ea19bebf8ad2609c9199320a76ce62e7274453d5384af8ce6ff7ef9b184de54",
+      "total_episodes": 198,
+      "total_frames": 174308,
+      "fps": 50,
+      "robot_type": "bi_dk1_follower",
+      "duration_hours_from_frames": 0.9683777777777778,
+      "episode_semantics": "Stored segments; correction dataset segments are not independent rollouts."
+    },
+    {
+      "dataset": "DreamMachines/actuator_unboxing_1h_HQ_dagger_intv",
+      "url": "https://huggingface.co/datasets/DreamMachines/actuator_unboxing_1h_HQ_dagger_intv/raw/main/meta/info.json",
+      "retrieval_date_utc": "2026-10-31",
+      "retrieved_utc": null,
+      "retrieval_time_note": "Exact per-request timestamp not retained for all three metadata reads. Date is the research session date.",
+      "cached_response_sha256": "dcde8583c53742ebc7e88c9ab877ce5f4ee2963d930e5c538a16031351bcd20c",
+      "total_episodes": 512,
+      "total_frames": 304002,
+      "fps": 50,
+      "robot_type": "bi_dk1_follower",
+      "duration_hours_from_frames": 1.6889,
+      "episode_semantics": "Stored segments; correction dataset segments are not independent rollouts."
+    }
+  ],
+  "independent_statistics": {
+    "method": "Two-sided Wilson interval z=1.95996 calculated from published counts; IID binomial assumption, not training-seed uncertainty.",
+    "results": [
+      {
+        "label": "21h baseline",
+        "successes": 91,
+        "trials": 120,
+        "success_pct": 75.83,
+        "wilson95_pct": [
+          67.45,
+          82.61
+        ]
+      },
+      {
+        "label": "21h best RTC",
+        "successes": 74,
+        "trials": 80,
+        "success_pct": 92.5,
+        "wilson95_pct": [
+          84.59,
+          96.52
+        ]
+      },
+      {
+        "label": "21h+1h best RTC",
+        "successes": 39,
+        "trials": 40,
+        "success_pct": 97.5,
+        "wilson95_pct": [
+          87.12,
+          99.56
+        ]
+      },
+      {
+        "label": "1h base",
+        "successes": 11,
+        "trials": 40,
+        "success_pct": 27.5,
+        "wilson95_pct": [
+          16.11,
+          42.83
+        ]
+      },
+      {
+        "label": "1h+corrections base",
+        "successes": 35,
+        "trials": 40,
+        "success_pct": 87.5,
+        "wilson95_pct": [
+          73.89,
+          94.54
+        ]
+      },
+      {
+        "label": "1h+corrections varied",
+        "successes": 19,
+        "trials": 40,
+        "success_pct": 47.5,
+        "wilson95_pct": [
+          32.94,
+          62.5
+        ]
+      },
+      {
+        "label": "LoRA256",
+        "successes": 21,
+        "trials": 40,
+        "success_pct": 52.5,
+        "wilson95_pct": [
+          37.5,
+          67.06
+        ]
+      },
+      {
+        "label": "without robot pretraining",
+        "successes": 0,
+        "trials": 40,
+        "success_pct": 0.0,
+        "wilson95_pct": [
+          0.0,
+          8.76
+        ]
+      }
+    ],
+    "conditional_50_step_success_at_p0_975": 0.2819881023409169,
+    "lora_samples": {
+      "full": 12800000,
+      "r256": 6400000
+    },
+    "baseline_training_frame_exposures_approx": 3.386243386243386
+  },
+  "limitations": [
+    "Remote datasets and model weights were not downloaded or executed.",
+    "Pinned content verification covers the listed files, not a code audit of each repository.",
+    "HTTP failures are retained; they are not evidence of absent hardware capabilities.",
+    "Published success counts describe the authors manufacturing task, not LEAP trackpad performance."
+  ]
+}

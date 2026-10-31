@@ -1,0 +1,108 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-learning-review-20261031",
+  "timestamp_utc": "2026-10-31T08:40:37.716526+00:00",
+  "kind": "source_review_and_design_decision",
+  "status": "reviewed_design_not_implemented",
+  "source_commit": "5528b1b888dd739fa7a9686f78e2294847b474a0",
+  "seed": null,
+  "configuration": {
+    "hardware_target": "LEAP v1 Full, 4 fingers, 16 XC330-M288-T motors",
+    "learning_candidate": "Pretrained pi0.5 full fine-tuning plus RTC, with small-policy engineering baselines",
+    "rl_route": "User-confirmed conditional middle/later-stage improvement if agreed task performance remains insufficient",
+    "fsr": "Optional removable index/middle fingertip design; not built"
+  },
+  "review_methods": [
+    "Read public article, appendices, official model/implementation documentation and manufacturer specifications.",
+    "Read public demonstration dataset metadata without downloading videos or model weights.",
+    "Verify raw source hashes and exact pinned-file matches.",
+    "Independently recalculate eight binomial Wilson intervals and the illustrative long-sequence product.",
+    "Check changed Markdown local links, JSON parsing, private-path/token patterns, unchanged historical task/decision and append-only ledger.",
+    "Run git diff --check."
+  ],
+  "checks": {
+    "changed_files_checked": 13,
+    "markdown_local_links_checked": 75,
+    "missing_links": 0,
+    "sensitive_pattern_matches": 0,
+    "independent_statistics_cases": 8,
+    "historical_task_and_decision_unchanged": true,
+    "ledger_unchanged_before_append": true,
+    "diff_check": "passed",
+    "runtime_tests": "not_run_documentation_only"
+  },
+  "operations_this_review": {
+    "kimi_dispatches": 0,
+    "ssh_sessions": 0,
+    "gpu_jobs": 0,
+    "robot_operations": 0,
+    "vm_operations": 0,
+    "model_training_runs": 0,
+    "sensor_installations": 0
+  },
+  "artifacts": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "01f808ca73d0e1ad0525a2799b364a6415720f319cce34bb5c7423ff5a7becb0"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "ca1ac48d69be27987af60d77c6bda3406a398e3877fdb349a235634b9e9b4c38"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b172b18e212b9f1441505a0e0b44a4c519b850909b447f222c8e5e9b3db34c86"
+    },
+    {
+      "path": "STATUS.md",
+      "sha256": "ca6d981caab46a9611e02a8b189aae1fe58b9e75529daa11a3590df797447b1a"
+    },
+    {
+      "path": "docs/architecture.zh-CN.md",
+      "sha256": "7c2d31c3e64aac75090fe18adc717629b3841b877137c1c3b58df7f657a90f3e"
+    },
+    {
+      "path": "docs/data-plan.zh-CN.md",
+      "sha256": "baf527de6c012e5204ce54da647fd834a864443f76c9a19ae40d9db5dfcb1efe"
+    },
+    {
+      "path": "docs/decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md",
+      "sha256": "b319901d901f5cd5d7334ab19847d73bb35f2658bca575a8216c9cfd2e1a9a52"
+    },
+    {
+      "path": "docs/hardware/leap-v1-fsr.zh-CN.md",
+      "sha256": "90bea3cde3541104602563866cecb4bc0f92f3624103ae90d31c8b889691c69b"
+    },
+    {
+      "path": "docs/implementation-plan.zh-CN.md",
+      "sha256": "9a47e6d89031296436d038717640f644d11acd672483fae1e6d35ad142655d0b"
+    },
+    {
+      "path": "docs/research/2026-10-31-pi05-finetuning-review.zh-CN.md",
+      "sha256": "3694c21a38a10d58bc67605bd693d2141aa733b6ebf844d2a40b18115a57d9d8"
+    },
+    {
+      "path": "docs/research/2026-10-31-vla-architecture-review.zh-CN.md",
+      "sha256": "9953266b4426959a899f2472f7f45c96d4360a1da226ea8644e6bd1070ba464a"
+    },
+    {
+      "path": "docs/tasks/leap-v1-full-rebaseline.zh-CN.md",
+      "sha256": "8580ca8641b42daf429718038b178801c48e53a0d7f93ccfeb4f8eef8a8aecf1"
+    },
+    {
+      "path": "experiments/records/vla-review-sources-20261031.json",
+      "sha256": "fede5a0d453db9966f557e179100fd797ae2f5a214d5f0562962537d687c4e5f"
+    }
+  ],
+  "supersedes_for_future_work": [
+    "ADR 0006 current hardware target only; historical results retained.",
+    "leap-online-pilot-prepared-20261031 future dispatch; prepare a new v1-specific feedback task after rebaseline."
+  ],
+  "limitations": [
+    "Source review and design only; no v1 runtime import, FSR installation/calibration, GPU allocation, policy training or real robot operation.",
+    "Prior v2 and Allegro results remain assigned to their original embodiments.",
+    "The prepared v1 task is not dispatched; exact file scope and source revision must be frozen at dispatch.",
+    "External manufacturing-task success rates do not establish LEAP, GUI or long-horizon performance.",
+    "Source availability and reviewed file pins are not a complete license or reproducibility audit of third-party models."
+  ]
+}

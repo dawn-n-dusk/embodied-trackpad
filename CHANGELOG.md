@@ -2,6 +2,9 @@
 
 ## Unreleased — 2026-10-31
 
+- Recorded the user's final LEAP v1 Full hardware choice (four fingers / 16 XC330 motors), preserving all v2 measurements as v2. Added source-grounded pi0.5 empirical fine-tuning analysis, GR00T N1.7 / LingBot-VLA 2.0 architecture tradeoffs, optional FSR fingertip design and a prepared v1 rebaseline contract. No model migration, hardware modification, GPU allocation or training occurred.
+- Retained RL as the user-confirmed conditional middle/later-stage path: use it for remaining performance limitations if demonstration learning, corrections and execution tuning are insufficient; omit it if task criteria are met.
+
 - Integrated Kimi's executed LEAP contact-to-native-GUI replay: 105 frames accepted in each role, four actual window captures, verified press/release and cursor displacement. Independent source/hash/pixel review passed. Preserved actor/evaluator isolation, two prior dispatch timeouts and offline-only limitations; added the next online-feedback pilot contract.
 
 - Validated the unchanged full LEAP hand on H800 at1/32/128/512 worlds:42/42 checks. Added the reproducible batch harness and exact backend-representation reset audit, preserving the failed first reset-hash attempt and sampled-coverage/timing limitations.

@@ -1,6 +1,6 @@
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
-> 2026-10-31 最新选型：[ADR 0006](decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md)采用 LEAP v2 Advanced 完整高配目标，取代先前 v1 选择；17 电机与 21 运动关节分开建模，金属硬件参数未校准。当前先验收固定掌部的完整手，再组合机械臂；动作宽度按实际执行器映射确定。下文明确标注的 Allegro 23 维例子仅为历史协议示例。
+> 2026-10-31 当前覆盖决策：[ADR 0007](decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md)按用户最终选择采用 **LEAP v1 Full 四指/16 电机**。后续算法优先级见 [VLA 架构评审](research/2026-10-31-vla-architecture-review.zh-CN.md)与 [π0.5 微调报告评审](research/2026-10-31-pi05-finetuning-review.zh-CN.md)：小策略基线＋完整预训练 π0.5/RTC 候选，纠错优先，RL 按失败原因后置。下文保留 v2 设计内容及当时的模型/频率候选，存在冲突时以上述新决策为准；已运行 v2 的成绩保持 v2 归属。尚无 v1 接入或策略训练成绩。
 
 **机器人触控板项目：后端架构修订 v2**
 

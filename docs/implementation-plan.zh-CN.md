@@ -1,6 +1,6 @@
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
-> 2026-10-31 更新：机构选型以 [ADR 0006](decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md)为准，当前目标为 LEAP v2 Advanced 完整配置。旧 v1 任务书已被取代；实际 Kimi 接入、运行与验收状态见 STATUS.md 和台账。下方总体分包仍适用，不能把历史 Allegro/H800 结果归到 LEAP。
+> 2026-10-31 最新更新：机构以 [ADR 0007](decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md)为准，用户已确定 **LEAP v1 Full**。下一任务为新建的 [v1 独立基线](tasks/leap-v1-full-rebaseline.zh-CN.md)，目前尚未派发。下文保留上一版分包设计；原 v1 任务书、v2 任务书及旧远程执行命令不能直接复用。当前学习建议见 [架构评审](research/2026-10-31-vla-architecture-review.zh-CN.md)，所有旧 Allegro/v2/GPU 成绩保留原归属。
 
 **Kimi 实施任务书 v2：灵巧手、视觉闭环与长程记忆**
 

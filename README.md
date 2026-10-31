@@ -6,7 +6,9 @@ Research software for a robot that operates a computer through physical trackpad
 
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
-**Status:** LEAP v2 Advanced runs the complete 17-motor/21-joint hand in MuJoCo CPU and in 1/32/128/512-world H800 diagnostics. One scripted pad cycle achieved 1.81 s sustained contact, 5.13 mm net slide, 1.05 N peak force and full lift. Its 105 physics-derived contact frames were replayed into the confined native Mac GUI: all accepted, with visible cursor motion and press/release verified independently. This is offline replay; online visual control, a training dataset and policy learning remain pending. See [STATUS.md](STATUS.md) and the [native bridge report](docs/leap-native-bridge.md).
+**Current target:** the user has selected **LEAP v1 Full**, four fingers and 16 independent motor channels. Its new baseline is prepared, not implemented. [ADR 0007](docs/decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md) records the change and the revised learning priorities.
+
+**Measured status:** the previous LEAP v2 Advanced model ran in MuJoCo CPU and in 1/32/128/512-world H800 diagnostics. One scripted pad cycle and its 105-frame native Mac contact replay passed bounded checks. These remain v2 results. Online visual control, D1 data, learning and v1 acceptance are still pending. See [STATUS.md](STATUS.md) and the [native bridge report](docs/leap-native-bridge.md).
 
 ## Run the foundation
 
@@ -28,13 +30,13 @@ The [pad-contact guide](docs/leap-pad.md) and [acceptance record](experiments/re
 
 ## Design
 
-- LEAP v2 Advanced is the selected five-finger research target: 17 motor channels, 21 articulated joints and an uncalibrated Metal hardware target. Existing Allegro results remain a separate regression reference. Independently articulated two-finger hardware is a later comparison.
+- LEAP v1 Full is the selected four-finger research target, using 16 XC330 motor channels. Optional [FSR fingertips](docs/hardware/leap-v1-fsr.zh-CN.md) are designed but not built. Existing v2 and Allegro results remain separate regression references. Independently articulated two-finger hardware is a later comparison.
 - MuJoCo CPU reference and NVIDIA GPU batch simulation through MuJoCo Warp, subject to backend validation.
 - Visual task reasoning, evidence-backed long-term memory, and continuous motor control with short action chunks.
 - Synthetic interactive GUI demonstrations, corrective trajectories, then simulated-hand/real-Mac paired data.
 - Current test host: an M5 Mac, starting with a confined native test GUI; a full macOS guest is a separate stage. The M1 remains an optional later testbed. GPU servers handle learning and model inference.
 
-The [latest-model decision](docs/decisions/0006-latest-leap-and-hardware-readiness.zh-CN.md) supersedes the earlier v1 selection with the user's latest/highest-configuration requirement and keeps software simulation independent of hardware arrival. It records coupling, inertial-marker and Metal-calibration qualifications, plus future MacBook/external-Trackpad interfaces. G1/H2 mounting remains custom integration. Earlier [selection research](docs/research/2026-10-31-hand-selection.zh-CN.md), [market prices](docs/research/2026-10-31-hand-market-prices.zh-CN.md) and [humanoid evidence](docs/research/2026-10-31-humanoid-integration.zh-CN.md) remain available as context.
+The [current decision](docs/decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md) follows the user's final v1 Full choice. The [VLA architecture review](docs/research/2026-10-31-vla-architecture-review.zh-CN.md) compares pi0.5, GR00T N1.7 and LingBot-VLA 2.0; the [pi0.5 empirical review](docs/research/2026-10-31-pi05-finetuning-review.zh-CN.md) explains pretrained full fine-tuning, corrective data and RTC priorities. The older v2 decision and all results retain their original meaning. G1/H2 mounting remains custom integration; prior [selection](docs/research/2026-10-31-hand-selection.zh-CN.md), [prices](docs/research/2026-10-31-hand-market-prices.zh-CN.md) and [humanoid evidence](docs/research/2026-10-31-humanoid-integration.zh-CN.md) remain context.
 
 Read the [architecture](docs/architecture.zh-CN.md), [implementation plan](docs/implementation-plan.zh-CN.md), [data plan](docs/data-plan.zh-CN.md), and [Mac setup plan](docs/mac-testbed.zh-CN.md). Earlier designs are retained in [docs/history](docs/history) and are explicitly superseded.
 
@@ -42,7 +44,7 @@ The [LEAP H800 validation](docs/leap-h800.md) now covers1/32/128/512 repeated wo
 
 The [initial H800 probe report](docs/experiments/2026-10-30-h800-probe.md) preserves the tiny-scene baseline. The [full-hand H800 report](docs/experiments/2026-10-31-h800-fullhand.zh-CN.md) records the contact-readback correction, actual completed allocation, complete-cycle timing and coverage limits. At 512 repeated worlds this harness reached 67,070 aggregate world-steps/s, about 1.23 times its single-CPU-world reference; this is not an end-to-end training speedup or a comparison with a CPU batch implementation.
 
-The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. A separately reviewed [LEAP contact replay](docs/leap-native-bridge.md) now connects recorded articulated-hand physics to that GUI. It does not yet close the visual feedback loop. The [next online pilot contract](docs/tasks/leap-online-pilot.zh-CN.md) defines the remaining gate before collecting D1 training demonstrations.
+The [native Mac test GUI](docs/mac-sandbox.md) accepts pad-contact frames and returns only its own window pixels. A separately reviewed [v2 contact replay](docs/leap-native-bridge.md) connects recorded articulated-hand physics to that GUI. It does not yet close the visual feedback loop. The current next task is the [v1 Full rebaseline](docs/tasks/leap-v1-full-rebaseline.zh-CN.md); online feedback remains a gate before D1 collection.
 
 ## Reproducibility and responsibilities
 
