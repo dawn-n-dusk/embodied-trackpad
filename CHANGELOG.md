@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Restored a bounded LEAP v1 Full hand-and-pad diagnostic stream and verified actual motion in the browser. Kept DEMO labels and unresolved contact losses explicit. Enabled periodic project continuation, documented bounded resources, and resumed Kimi contact-stability diagnostics; no policy training claim.
+
 - Added the reviewed bounded frame publisher and loopback training-monitor viewer, with monotonic identities, PNG verification, displayed-frame freshness and terminal shutdown. Inspected a finite TEST-source sequence in the browser; no actual training source attached. Preserved failed v1 contact diagnostics and prepared the next contact-stability investigation.
 
 - Fixed Retina capture scaling in the confined native GUI: actual PNGs are normalized to 800×600 and cursor pixel movement matches logical coordinates. Independently passed 48 native tests and inspected two real app images; no host desktop capture or physical robot operation.

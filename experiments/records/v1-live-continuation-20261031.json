@@ -1,0 +1,88 @@
+{
+  "record_version": "1.0",
+  "id": "v1-live-continuation-20261031",
+  "timestamp_utc": "2026-10-31T12:24:40.450472+00:00",
+  "kind": "current_simulation_stream_and_continuation",
+  "status": "scripted_diagnostic_stream_browser_verified",
+  "source_commit": "15b64b31ca59c93164f90f3b6014f75c6ebd093c",
+  "embodiment": "LEAP v1 Full, four fingers, 16 independent channels",
+  "runtime": {
+    "source_kind": "scripted_diagnostic",
+    "policy_kind": "scripted",
+    "training_active": false,
+    "train_step": null,
+    "gradient_updates": null,
+    "checkpoint": null,
+    "simulation_backend": "MuJoCo CPU",
+    "width": 640,
+    "height": 480,
+    "fps_cap": 8,
+    "observed_effective_fps": 7.925,
+    "start_utc": "2026-10-31T12:20:46.455362Z",
+    "deadline_utc": "2026-10-31T13:05:46.267401Z",
+    "max_wall_s": 2700,
+    "physics_dt_s": 0.002,
+    "numeric_threads": 2,
+    "storage_limit_mib": 100,
+    "transport": "loopback HTTP latest-frame monitor",
+    "producer_script_sha256": "ca7b037752a941292804d5436e413c43a7017809acd98f5e0e0de4d79adc15c2",
+    "pad_module_sha256": "867629cf8c2643e6bc265041d4b35e9e47127ff3681175b6c42c1618a59bc0ff",
+    "pad_profile": {
+      "priority": 1,
+      "solref": [
+        0.02,
+        1.0
+      ],
+      "solref_original": [
+        0.0001,
+        1.0
+      ],
+      "priority_original": 0,
+      "dt_s": 0.002,
+      "note": "DECLARED uncalibrated pad-only profile; solimp/friction/geometry/collision/gains unchanged"
+    }
+  },
+  "independent_review": {
+    "actual_browser_observations": [
+      {
+        "frame_seq": 690,
+        "physics_step": 43499,
+        "sim_time_s": 87.0,
+        "displayed_frame_age_s": 0.75,
+        "status": "DEMO"
+      },
+      {
+        "frame_seq": 894,
+        "physics_step": 56372,
+        "sim_time_s": 112.74,
+        "displayed_frame_age_s": 0.25,
+        "status": "DEMO"
+      }
+    ],
+    "visible": "full hand, static pad, fingertip down then lifted; motion and decoded frame identity advanced",
+    "source_path_review": "Only episode reset assigns qpos; all motion is actuator ctrl -> mj_step -> actual Renderer. Fresh simulation each episode, no video or state replay.",
+    "process_identity": "Producer and observer PID/starttime checked independently; private receipts retained.",
+    "initial_ui": "Initial STOPPED/connecting display recovered to DEMO without reloading.",
+    "read_rejections": 3,
+    "rejections_note": "Occasional latest-image/metadata read mismatch is rejected. No invalid image is accepted; count is not zero."
+  },
+  "continuation": {
+    "heartbeat_created": true,
+    "heartbeat_active": true,
+    "interval_minutes": 15,
+    "target": "current conversation",
+    "task_contract": "docs/tasks/continuous-training.zh-CN.md",
+    "contact_task": "dispatched to exact existing Kimi session; results pending",
+    "implementation_owner": "Kimi",
+    "review_and_publication_owner": "coordinator"
+  },
+  "limitations": [
+    "Scripted contact diagnostic, not a learned policy or training stream.",
+    "The known intermittent-contact defect is preserved; v1 continuous sliding is not accepted.",
+    "No D1 data, screen-dependent motor task, H800 policy training, physical FSR or real Apple trackpad validation.",
+    "Private harness and unaccepted pad module are not integrated into production code.",
+    "Stream is bounded by its declared deadline; status here is a timestamped observation, not a perpetual availability claim.",
+    "Teacher repeats a fixed task schedule; images and dynamics are recomputed rather than replayed.",
+    "Normal force telemetry is sampled at render times and is not reward or a complete force-safety audit."
+  ]
+}
