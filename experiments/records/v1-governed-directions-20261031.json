@@ -1,0 +1,284 @@
+{
+  "record_version": "1.0",
+  "id": "v1-governed-directions-20261031",
+  "timestamp_utc": "2026-10-31T16:35:53.136956+00:00",
+  "kind": "independent_three_direction_visual_teacher_acceptance",
+  "status": "all_three_directions_passed_prospective_pilot_collection_dispatched",
+  "source_commit": "04ec6af009c7ec4b225788eb9eef181914c91047",
+  "source_native_hashes_verified": true,
+  "results": [
+    {
+      "seed": 5,
+      "checks": {
+        "contiguous_steps_sim_time": true,
+        "physics_checks_all_passed": true,
+        "each_intent_and_actual_ctrl_causal": true,
+        "nominal_frames_no_jump": true,
+        "governor_equations_and_all_bounds": true,
+        "all_png_hashes_pixel_errors": true,
+        "success_three_fresh_frames": true,
+        "terminal_no_action": true,
+        "all_touch_ack_payloads": true,
+        "measured_final_clearance": true,
+        "app_pid_absent_after_reap": true,
+        "terminal_saved_gui_image_visually_reviewed": true
+      },
+      "teacher_steps": 3425,
+      "frames": 36,
+      "visual_steps": 875,
+      "action_groups": 35,
+      "wire_samples": 80,
+      "terminal_errors_px": [
+        2.7531682041262076,
+        1.5597245869795962,
+        0.7647467957960518
+      ],
+      "peak_pad_force_n": 1.4635781004387747,
+      "peak_penetration_mm": 0.7006811242398769,
+      "visual_longest_contact_sample_duration_s": 1.75,
+      "visual_lowforce_steps": 0,
+      "warnings": 0,
+      "simulation_total_s": 6.849999999999468,
+      "max_actual_substep_delta_rad": 0.00011963125021924315,
+      "file_hashes": {
+        "teacher.jsonl": "7e6f83609f4eeb450606136bb8469e04fae28b9a2f787baba8fab6946aba2951",
+        "actor.jsonl": "ba98c882c26becd3d5213868333a901cd4ae6e30ad4a9643b498d7054f9f7ac5",
+        "planner.jsonl": "ae4166f9e18795b72144e0f38efe5482d20204b73a03086c0ac51bdae13c8a8a",
+        "touch.jsonl": "628a7231de03d33159486b205f69e293f93bc83050035cb78f77ebad7daaa016",
+        "metadata.json": "b05dbbc2d2f9625326c146940d98954a0f4bdc2531308ae775ae6bbb0e9fada4",
+        "summary.json": "7c874fdee3b490aea8ce03c4c52da8d4424bc6587529f9a42ade98a9302293c9"
+      },
+      "episode": {
+        "seed": 5,
+        "started_utc": "2026-10-31T16:27:15.894522+00:00",
+        "completed_utc": "2026-10-31T16:27:20.435431+00:00",
+        "near_pointing_success": true,
+        "episode_safe_complete_released": true,
+        "release_measured": true,
+        "physics_unsafe": false,
+        "initial_error_px": 24.321276595744678,
+        "final_error_px": 0.7647467957960518,
+        "accepted_frames": 36,
+        "steps": 3425,
+        "wall_s": 4.541,
+        "stop_reason": "success",
+        "planner_kind": "force-governed",
+        "controller_kind": "privileged_visual_teacher",
+        "training_eligible": false,
+        "child_returncode": 0,
+        "child_reaped": true
+      }
+    },
+    {
+      "seed": 8,
+      "checks": {
+        "contiguous_steps_sim_time": true,
+        "physics_checks_all_passed": true,
+        "each_intent_and_actual_ctrl_causal": true,
+        "nominal_frames_no_jump": true,
+        "governor_equations_and_all_bounds": true,
+        "all_png_hashes_pixel_errors": true,
+        "success_three_fresh_frames": true,
+        "terminal_no_action": true,
+        "all_touch_ack_payloads": true,
+        "measured_final_clearance": true,
+        "app_pid_absent_after_reap": true,
+        "terminal_saved_gui_image_visually_reviewed": true
+      },
+      "teacher_steps": 3875,
+      "frames": 54,
+      "visual_steps": 1325,
+      "action_groups": 53,
+      "wire_samples": 98,
+      "terminal_errors_px": [
+        2.61540058886116,
+        0.9589620457079849,
+        0.7202229261018794
+      ],
+      "peak_pad_force_n": 1.0766153619779142,
+      "peak_penetration_mm": 0.7072966820983045,
+      "visual_longest_contact_sample_duration_s": 2.65,
+      "visual_lowforce_steps": 0,
+      "warnings": 0,
+      "simulation_total_s": 7.7499999999993685,
+      "max_actual_substep_delta_rad": 0.0001857162846202326,
+      "file_hashes": {
+        "teacher.jsonl": "876f1c06d25e6e1a7d0d09bcbb63ec71cebe11aa8f5e1332e2173f7b5b48c410",
+        "actor.jsonl": "488845dc005ff66c094fe1cc580a3dfdcac5cdd0e99ed9683c7091d969af0bf7",
+        "planner.jsonl": "34b02446ac9f7f9b176b0c8238fa9cda37d1a8538741b892ec67d7bf5d7192bd",
+        "touch.jsonl": "06dcc6f4ea9a65a837f3e02848194ccb4c0c3816906525ad1fe37c26dc440078",
+        "metadata.json": "fe4243d209f68820bb359376f1e849f9e86ad0d207c0ef63fbc37133ac4fe099",
+        "summary.json": "549c2c3a924d297fc86fe3ce4d02823a5b23350f9fea60a8fb844903d571bba4"
+      },
+      "episode": {
+        "seed": 8,
+        "started_utc": "2026-10-31T16:27:30.888368+00:00",
+        "completed_utc": "2026-10-31T16:27:37.359111+00:00",
+        "near_pointing_success": true,
+        "episode_safe_complete_released": true,
+        "release_measured": true,
+        "physics_unsafe": false,
+        "initial_error_px": 24.321276595744678,
+        "final_error_px": 0.7202229261018794,
+        "accepted_frames": 54,
+        "steps": 3875,
+        "wall_s": 6.471,
+        "stop_reason": "success",
+        "planner_kind": "force-governed",
+        "controller_kind": "privileged_visual_teacher",
+        "training_eligible": false,
+        "child_returncode": 0,
+        "child_reaped": true
+      }
+    },
+    {
+      "seed": 11,
+      "checks": {
+        "contiguous_steps_sim_time": true,
+        "physics_checks_all_passed": true,
+        "each_intent_and_actual_ctrl_causal": true,
+        "nominal_frames_no_jump": true,
+        "governor_equations_and_all_bounds": true,
+        "all_png_hashes_pixel_errors": true,
+        "success_three_fresh_frames": true,
+        "terminal_no_action": true,
+        "all_touch_ack_payloads": true,
+        "measured_final_clearance": true,
+        "app_pid_absent_after_reap": true,
+        "terminal_saved_gui_image_visually_reviewed": true
+      },
+      "teacher_steps": 4200,
+      "frames": 67,
+      "visual_steps": 1650,
+      "action_groups": 66,
+      "wire_samples": 111,
+      "terminal_errors_px": [
+        2.9723287479366722,
+        2.9723287479366722,
+        2.8836678002990674
+      ],
+      "peak_pad_force_n": 1.1219350087574216,
+      "peak_penetration_mm": 0.706493086623225,
+      "visual_longest_contact_sample_duration_s": 3.3000000000000003,
+      "visual_lowforce_steps": 0,
+      "warnings": 0,
+      "simulation_total_s": 8.399999999999475,
+      "max_actual_substep_delta_rad": 0.00020000000000000573,
+      "file_hashes": {
+        "teacher.jsonl": "02fee6a9915e884058d542b8a35437088cb0011045a2c84ff8b5df9ad0aefb50",
+        "actor.jsonl": "db993fccac20384988929aa2b7e1b3cc2574416bde36d2b910cc14e1a6bda8a7",
+        "planner.jsonl": "930cc4a268aa4e9cd931f6719a867535f315e3ba0e96736d643c0c4cf442a885",
+        "touch.jsonl": "09ec18d8ad6a2053984d8864d9063a40359722a98c06b65a7ce60934c1b16d20",
+        "metadata.json": "054fbef63aea566ebb3ba496576aa5cc88ff78e88f523f9f1dacde1008e8bde2",
+        "summary.json": "68c82f98c96248f07e1b83046647970c7e0ec678b027cc0f122dd5396c4d784d"
+      },
+      "episode": {
+        "seed": 11,
+        "started_utc": "2026-10-31T16:27:48.003217+00:00",
+        "completed_utc": "2026-10-31T16:27:55.987258+00:00",
+        "near_pointing_success": true,
+        "episode_safe_complete_released": true,
+        "release_measured": true,
+        "physics_unsafe": false,
+        "initial_error_px": 24.321276595744678,
+        "final_error_px": 2.8836678002990674,
+        "accepted_frames": 67,
+        "steps": 4200,
+        "wall_s": 7.984,
+        "stop_reason": "success",
+        "planner_kind": "force-governed",
+        "controller_kind": "privileged_visual_teacher",
+        "training_eligible": false,
+        "child_returncode": 0,
+        "child_reaped": true
+      }
+    }
+  ],
+  "batch_actual": {
+    "episodes": 3,
+    "successful": 3,
+    "retries": 0,
+    "episode_wall_s_sum": 18.996000000000002,
+    "simulation_s_sum": 22.99999999999831,
+    "visual_steps_sum": 3850,
+    "frames_sum": 157,
+    "touch_messages_sum": 289
+  },
+  "kimi_accounting": {
+    "elapsed_s": 107.3,
+    "usage": {
+      "records": 11,
+      "input_uncached": 17561,
+      "input_cached": 2257408,
+      "input_cache_write": 0,
+      "output": 3167,
+      "total": 2278136
+    }
+  },
+  "public_source_ci": {
+    "commit": "587f1112f88976dadda11ee8249e311fd1da8c65",
+    "run_id": 41219874292,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41219874292",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "next_pilot": {
+    "state": "dispatched_not_yet_accepted",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "prospective_split": {
+      "group_key": "near_pointing_v1 target_offset_class = seed modulo12, not individualframes or seed alone",
+      "train": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "validation": [
+        1,
+        7
+      ],
+      "test": [
+        4,
+        10
+      ],
+      "previous_diagnostic_episodes": "development/calibration only; do not silently concatenate into these fresh episodes",
+      "fixed_actor_features_allowed": "pixels, q, qvel, previous executed control, missing-sensor mask; no simulator force/Jacobian/oracle coordinates",
+      "raw_training_eligible": false
+    },
+    "split_sha256": "a17e02fab80b6020d865647083a995f09428e1a5616cff33ced93b03f00b3c56",
+    "batch_budget": {
+      "task_wall_s": 600,
+      "collection_wall_s": 400,
+      "episode_wall_s": 120,
+      "total_episode_sim_s": 120,
+      "per_episode_cap_bytes": 62914560,
+      "batch_cap_bytes": 268435456,
+      "numerical_threads": 2,
+      "min_remaining_collection_wall_to_start_episode_s": 125
+    }
+  },
+  "limitations": [
+    "Together with the separate seed2 result, four fixed24px cardinal targets passed. This is not a random robustness success-rate estimate.",
+    "Same scene, hand mount, initial pose, physics/contact/native profile and uncalibrated privileged teacher; no multi-finger/click/drag/long-horizon or physical-hardware result.",
+    "Raw candidate data remain training_eligible=false until independent format/provenance/alignment/split audit.",
+    "Fresh pilot targets at12/18/24px use targetclass grouping; original diagnostics remain development-only.",
+    "No policy optimizer/checkpoint, new H800 training allocation or active live stream."
+  ]
+}
