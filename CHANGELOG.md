@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Reviewed the first LEAP v1 Full continuous-contact profile (P1): 8.994 mm actual fingertip sliding, 2.558 s continuous contact, 1.583 N peak and 0.734 mm penetration; repeated and 1 ms checks passed. Preserved all failed candidates, cumulative-budget correction and uncalibrated limits. Visual controller remains under review; no learning result.
+
 - Restored a bounded LEAP v1 Full hand-and-pad diagnostic stream and verified actual motion in the browser. Kept DEMO labels and unresolved contact losses explicit. Enabled periodic project continuation, documented bounded resources, and resumed Kimi contact-stability diagnostics; no policy training claim.
 
 - Added the reviewed bounded frame publisher and loopback training-monitor viewer, with monotonic identities, PNG verification, displayed-frame freshness and terminal shutdown. Inspected a finite TEST-source sequence in the browser; no actual training source attached. Preserved failed v1 contact diagnostics and prepared the next contact-stability investigation.

@@ -1,0 +1,257 @@
+{
+  "record_version": "1.0",
+  "id": "v1-contact-stability-review-20261031",
+  "timestamp_utc": "2026-10-31T12:32:52.502596+00:00",
+  "kind": "independent_failed_contact_stability_review",
+  "status": "six_candidates_failed_followup_contact_profile_dispatched",
+  "source_commit": "655dd36f315543ce06d4352b9336cbcad95c1ead",
+  "worker_source_sha256": "6823012f502b20d694cbaaf0019a1aa1236c0b563c32b1371e47c0555c703233",
+  "worker_report_sha256": "4e2243660baffbb24db4899fcb2146c1dff8281c298376c4cf10fce181487c19",
+  "candidates": [
+    {
+      "candidate": "s01-rot-baseline",
+      "verdict": "FAIL",
+      "actual_steps": 2950,
+      "actual_sim_s": 5.9,
+      "force_peak_n": 3.3028543455467254,
+      "max_penetration_mm": 0.248025257826065,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 11,
+      "window_with_max_tip": {
+        "duration_s": 0.03599999999999626,
+        "centroid_mm": 1.1476392949901162,
+        "tip_mm": 0.9914341263485319
+      },
+      "passing_windows": 0,
+      "offline_plan": null,
+      "early_stop": null,
+      "trace_sha256": "c037942163a3223ccd061b5d9030dc9e62baf6f51dce4b906e9bbe8309bdeca9"
+    },
+    {
+      "candidate": "s02-coord-x",
+      "verdict": "FAIL",
+      "actual_steps": 2950,
+      "actual_sim_s": 5.9,
+      "force_peak_n": 3.5138248863894175,
+      "max_penetration_mm": 0.31573934658384045,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 12,
+      "window_with_max_tip": {
+        "duration_s": 0.14199999999998458,
+        "centroid_mm": 2.395162783465086,
+        "tip_mm": 1.525304162583299
+      },
+      "passing_windows": 0,
+      "offline_plan": {
+        "z_const_mm": 2.0837148395624894e-05,
+        "net_displacement_mm": 9.999999999836245,
+        "path_err_max_mm": 0.00010012306492798301,
+        "start_site": [
+          0.06976265711735657,
+          0.008079696329542075,
+          0.11563710499211935
+        ],
+        "end_site": [
+          0.059762657118021555,
+          0.008079796451914218,
+          0.11563710499044848
+        ]
+      },
+      "early_stop": null,
+      "trace_sha256": "34fb8040f3a921e5220f8b7527c0b23bf367d7b51e3d0be1c9d83754289ce598"
+    },
+    {
+      "candidate": "s03-coord-x-fb",
+      "verdict": "FAIL",
+      "actual_steps": 2950,
+      "actual_sim_s": 5.9,
+      "force_peak_n": 3.279489430637624,
+      "max_penetration_mm": 0.32064880866908285,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 16,
+      "window_with_max_tip": {
+        "duration_s": 0.22199999999997577,
+        "centroid_mm": 2.329534887570767,
+        "tip_mm": 1.4135228007355587
+      },
+      "passing_windows": 0,
+      "offline_plan": {
+        "z_const_mm": 2.0837148395624894e-05,
+        "net_displacement_mm": 9.999999999836245,
+        "path_err_max_mm": 0.00010012306492798301,
+        "start_site": [
+          0.06976265711735657,
+          0.008079696329542075,
+          0.11563710499211935
+        ],
+        "end_site": [
+          0.059762657118021555,
+          0.008079796451914218,
+          0.11563710499044848
+        ]
+      },
+      "early_stop": null,
+      "trace_sha256": "f1703d2c2cd49fa54aafd6be44a6f3b874fe5cdd1f4dbe53040c5ec18b1ee906"
+    },
+    {
+      "candidate": "s04-coord-y",
+      "verdict": "FAIL",
+      "actual_steps": 1634,
+      "actual_sim_s": 3.2680000000000002,
+      "force_peak_n": 5.15698034617184,
+      "max_penetration_mm": 0.355092998483103,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 4,
+      "window_with_max_tip": {
+        "duration_s": 0.07599999999999185,
+        "centroid_mm": 0.4285043053010704,
+        "tip_mm": 0.6032377889666708
+      },
+      "passing_windows": 0,
+      "offline_plan": {
+        "z_const_mm": 9.787411135719903e-05,
+        "net_displacement_mm": 0.00041259156110099604,
+        "path_err_max_mm": 9.999617107795377,
+        "start_site": [
+          0.06976265711735657,
+          0.008079696329542075,
+          0.11563710499211935
+        ],
+        "end_site": [
+          0.06976252736200002,
+          0.008079313436156184,
+          0.11563718738143162
+        ]
+      },
+      "early_stop": "pad_force>5N at t=3.268",
+      "trace_sha256": "1e053fd469268fe7048ac0f6ae43da6f41094735a1b987b260d2a05bb26f68c6"
+    },
+    {
+      "candidate": "s05-coord-x-slow",
+      "verdict": "FAIL",
+      "actual_steps": 3450,
+      "actual_sim_s": 6.9,
+      "force_peak_n": 4.277592452849094,
+      "max_penetration_mm": 0.3216510876085238,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 17,
+      "window_with_max_tip": {
+        "duration_s": 0.237999999999974,
+        "centroid_mm": 2.4103121304434576,
+        "tip_mm": 1.5336579745840764
+      },
+      "passing_windows": 0,
+      "offline_plan": {
+        "z_const_mm": 2.0837148395624894e-05,
+        "net_displacement_mm": 9.999999999836245,
+        "path_err_max_mm": 0.00010012306492798301,
+        "start_site": [
+          0.06976265711735657,
+          0.008079696329542075,
+          0.11563710499211935
+        ],
+        "end_site": [
+          0.059762657118021555,
+          0.008079796451914218,
+          0.11563710499044848
+        ]
+      },
+      "early_stop": null,
+      "trace_sha256": "49e52bb689883ed21182f9ee83a90ce8e1d7c8e92badba7d26356308a56171b5"
+    },
+    {
+      "candidate": "s06-coord-y-fb",
+      "verdict": "FAIL",
+      "actual_steps": 1634,
+      "actual_sim_s": 3.2680000000000002,
+      "force_peak_n": 5.176801928975302,
+      "max_penetration_mm": 0.5596450465151643,
+      "max_limit_excursion_rad": 0.0,
+      "windows_examined": 4,
+      "window_with_max_tip": {
+        "duration_s": 0.07599999999999185,
+        "centroid_mm": 0.5328350117947445,
+        "tip_mm": 0.6826154077849083
+      },
+      "passing_windows": 0,
+      "offline_plan": {
+        "z_const_mm": 9.787411135719903e-05,
+        "net_displacement_mm": 0.00041259156110099604,
+        "path_err_max_mm": 9.999617107795377,
+        "start_site": [
+          0.06976265711735657,
+          0.008079696329542075,
+          0.11563710499211935
+        ],
+        "end_site": [
+          0.06976252736200002,
+          0.008079313436156184,
+          0.11563718738143162
+        ]
+      },
+      "early_stop": "pad_force>5N at t=3.268",
+      "trace_sha256": "782bc144fd11af68f0e94718113608a149923b3e8bab38a932dbc73a1ad387ee"
+    }
+  ],
+  "interpretation": [
+    "Raw recorded contact rows disappear at the short gaps; this is not a streaming frame loss or a pure force-threshold classification change.",
+    "Stick-slip or facet/numerical unloading is a mechanism hypothesis, not calibrated real-contact evidence or an established separation of numerical and physical causes.",
+    "All continuous windows were independently reconstructed, not only the longest-duration window; no candidate satisfies >=0.3s with both >=5mm centroid and actual-tip displacement."
+  ],
+  "corrections": [
+    "The -y IK plans use only three flexion joints and have approximately10mm path error; these two failures are retained but do not establish a feasible lateral-motion comparison.",
+    "Worker finite=false on force-triggered early stops does not establish a non-finite state. Force stop and numerical state must be reported separately.",
+    "Worker sim_seconds fields use planned duration for early-stopped episodes; actual candidate duration is reconstructed from saved row counts and dt.",
+    "Valid completed candidates include the slower4.278N peak, so the worker summary <=3.51N is incomplete."
+  ],
+  "resources": {
+    "candidate_actual_sim_s": 31.136000000000003,
+    "additional_best_rerun_sim_s": 5.9,
+    "additional_audit_sim_s": 6.6,
+    "physics_wall_s_reported": 1.0292642079875804,
+    "threads": 2,
+    "gpu_jobs": 0
+  },
+  "next": {
+    "contact_profile": "Six explicit pad-only solref/solimp candidates plus at most two verification cycles; same geometry/friction/gains, raw gates preserved. Dispatched in isolated worker.",
+    "visual_loop": "Separate Kimi implementation task dispatched; robot episodes and training require independently accepted contact manifest."
+  },
+  "delegation": {
+    "calls": [
+      {
+        "task": "live initial implementation",
+        "status": "timeout",
+        "elapsed_s": 300.1,
+        "usage": null
+      },
+      {
+        "task": "live exact-session recovery",
+        "status": "reported_reviewed",
+        "elapsed_s": 222.8,
+        "input_uncached": 74956,
+        "input_cached": 975360,
+        "output": 7328
+      },
+      {
+        "task": "contact stability",
+        "status": "reported_reviewed_failed",
+        "elapsed_s": 548.4,
+        "input_uncached": 341538,
+        "input_cached": 1819904,
+        "output": 25106
+      }
+    ],
+    "summed_elapsed_s": 1071.3,
+    "usage_note": "Known provider counts only; the interrupted first call has unknown usage. Sum of dispatch durations includes concurrency and is not wall-clock elapsed or billing."
+  },
+  "publication": {
+    "previous_docs_commit": "655dd36f315543ce06d4352b9336cbcad95c1ead",
+    "previous_docs_ci": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41201115869",
+    "previous_docs_ci_conclusion": "success"
+  },
+  "limitations": [
+    "No accepted v1 continuous slide, D1 dataset or learned policy.",
+    "New contact-profile and visual-loop tasks are dispatched, not accepted.",
+    "Live source remains a separate scripted diagnostic; it does not display candidate search or optimizer steps."
+  ]
+}

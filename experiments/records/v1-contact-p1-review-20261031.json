@@ -1,0 +1,947 @@
+{
+  "record_version": "1.0",
+  "id": "v1-contact-p1-review-20261031",
+  "timestamp_utc": "2026-10-31T12:50:17.894890+00:00",
+  "kind": "independent_parameterized_contact_diagnostic_acceptance",
+  "status": "P1_accepted_for_bounded_visual_validation_only",
+  "source_commit": "655dd36f315543ce06d4352b9336cbcad95c1ead",
+  "runtime": {
+    "mujoco": "3.17.0",
+    "numpy": "2.2.6",
+    "backend": "CPU",
+    "threads": 2,
+    "gpu_jobs": 0
+  },
+  "frozen_profile": {
+    "id": "P1",
+    "priority": 1,
+    "solref": [
+      0.02,
+      1.0
+    ],
+    "solimp": [
+      0.9,
+      0.95,
+      0.001,
+      0.5,
+      2.0
+    ],
+    "dt_s": 0.002,
+    "calibrated": false,
+    "unchanged": [
+      "full16-channel hand",
+      "geometry",
+      "friction",
+      "masses/inertias",
+      "joint ranges",
+      "actuator gains",
+      "collision rules"
+    ],
+    "trajectory": {
+      "phases_s": {
+        "clear1": [
+          0.0,
+          0.6
+        ],
+        "approach": [
+          0.6,
+          2.4
+        ],
+        "hold": [
+          2.4,
+          2.9
+        ],
+        "slide": [
+          2.9,
+          4.4
+        ],
+        "lift": [
+          4.4,
+          5.2
+        ],
+        "rot_return": [
+          5.2,
+          5.9
+        ],
+        "clear2": [
+          5.9,
+          6.6
+        ]
+      },
+      "press": {
+        "if_mcp": 0.6,
+        "if_pip": 0.3,
+        "if_dip": 0.3
+      },
+      "slide_rot": 0.12,
+      "shape": "minimum-jerk 10t^3-15t^4+6t^5",
+      "t_end_s": 6.6
+    }
+  },
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pad_env.py": "867629cf8c2643e6bc265041d4b35e9e47127ff3681175b6c42c1618a59bc0ff",
+    "src/embodied_trackpad/leap_v1/model.py": "574f29f4c8ad99ae03acff0ff6b34fd074b815e9f6749026952f8c75e3386abc",
+    "src/embodied_trackpad/leap_sim/pad_env.py": "0006012a5d692aad181df09426ca6a4b4ddf5d9ff1146b9af7ef4b1d324ceb00"
+  },
+  "script_sha256": "e90dbc9e9d3587f5f36ffdffec302f461d8d04fbf07a8b639ce031573787aae6",
+  "asset_manifest_sha256": "0611062027da64234b03af14e3f06a1be5ee6dbe913ad6dd8007097928ee2ac7",
+  "assets_independently_verified": true,
+  "final_report_sha256": "ff6eb9c182f247655434132d3285a0a4efed47c7410b4d24f620f69967cac4d6",
+  "checks": [
+    {
+      "label": "P0-baseline",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "FAIL",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 1.462,
+          "centroid_slide_mm": 0.8230026869257704,
+          "actual_tip_slide_mm": 0.4571949808137614
+        },
+        {
+          "duration_s": 0.084,
+          "centroid_slide_mm": 1.0117894009520723,
+          "actual_tip_slide_mm": 0.909715564749842
+        },
+        {
+          "duration_s": 0.094,
+          "centroid_slide_mm": 0.9633934576820862,
+          "actual_tip_slide_mm": 0.8641749331084693
+        },
+        {
+          "duration_s": 0.058,
+          "centroid_slide_mm": 1.0822207962542876,
+          "actual_tip_slide_mm": 0.9642387536927258
+        },
+        {
+          "duration_s": 0.122,
+          "centroid_slide_mm": 0.9505445616630686,
+          "actual_tip_slide_mm": 0.8123011681161825
+        },
+        {
+          "duration_s": 0.036000000000000004,
+          "centroid_slide_mm": 1.1476392950037446,
+          "actual_tip_slide_mm": 0.9914341263581328
+        },
+        {
+          "duration_s": 0.20600000000000002,
+          "centroid_slide_mm": 1.1220330645616243,
+          "actual_tip_slide_mm": 0.886732937907352
+        },
+        {
+          "duration_s": 0.028,
+          "centroid_slide_mm": 1.0861167687771958,
+          "actual_tip_slide_mm": 0.8942215027644205
+        },
+        {
+          "duration_s": 0.41000000000000003,
+          "centroid_slide_mm": 1.0948376991322226,
+          "actual_tip_slide_mm": 0.861861587563553
+        },
+        {
+          "duration_s": 0.01,
+          "centroid_slide_mm": 0.4177654390725083,
+          "actual_tip_slide_mm": 0.27802813664903797
+        },
+        {
+          "duration_s": 0.01,
+          "centroid_slide_mm": 0.3167614121448898,
+          "actual_tip_slide_mm": 0.2461172480186851
+        },
+        {
+          "duration_s": 0.014,
+          "centroid_slide_mm": 0.2747055995886779,
+          "actual_tip_slide_mm": 0.24226914158581703
+        }
+      ],
+      "passing_continuous_windows": 0,
+      "peak_all_pad_normal_n": 3.3028543455480825,
+      "max_penetration_mm": 0.24802525782523233,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 0.9893475366178429,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": true,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": false,
+        "slide_5mm_tip_and_centroid_same_window": false,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "actual_contact_solimp_max": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1270
+      },
+      "trace_sha256": "b21aca08b9a1da84b7cf6082ec175e39e186ff9e017ceb4624c4e29e51a28907"
+    },
+    {
+      "label": "P1",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "PASS",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.5580000000000003,
+          "centroid_slide_mm": 10.062021588837425,
+          "actual_tip_slide_mm": 8.99394444055357
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.5831828685937206,
+      "max_penetration_mm": 0.7340311560555118,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": true,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1785
+      },
+      "trace_sha256": "32f8d180ac5405fead0d265043d6d7e3d23ea2f9c59ed1f24d0c117d7833ea53"
+    },
+    {
+      "label": "P2",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "FAIL",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.564,
+          "centroid_slide_mm": 10.323148465248087,
+          "actual_tip_slide_mm": 9.230891661057269
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.6048041294315287,
+      "max_penetration_mm": 1.6473866768313417,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": false,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          2.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          2.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          2.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1824
+      },
+      "trace_sha256": "db33badf40adccc167562fffd58148b5dab9e39e99a911bdde9269d8f0a3b3ef"
+    },
+    {
+      "label": "P3",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "FAIL",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.562,
+          "centroid_slide_mm": 10.385963880194032,
+          "actual_tip_slide_mm": 9.282828694326794
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.537168574921913,
+      "max_penetration_mm": 1.7842842308198048,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": false,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.04,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.04,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.04,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1829
+      },
+      "trace_sha256": "a4257fa047ba1981ea2ef49c1ae155d72f1a34131c0dc03551c0726ef7975a7f"
+    },
+    {
+      "label": "P4",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "FAIL",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.564,
+          "centroid_slide_mm": 10.556913992272866,
+          "actual_tip_slide_mm": 9.43685626542434
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 0.9162704415479248,
+      "max_penetration_mm": 3.117528329569061,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": false,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.04,
+          2.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.04,
+          2.0
+        ],
+        "actual_contact_solref_max": [
+          0.04,
+          2.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1874
+      },
+      "trace_sha256": "000d0801ba9c3f24794a72daac6d9804e05d6c63a1766062684a656f8a7406dd"
+    },
+    {
+      "label": "P5",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "PASS",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.552,
+          "centroid_slide_mm": 9.816656225859047,
+          "actual_tip_slide_mm": 8.771050182658529
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.6236876259539479,
+      "max_penetration_mm": 0.465033287993466,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": true,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.95,
+          0.99,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1458
+      },
+      "trace_sha256": "1318333a90edba8d8533c02cbbfec67cde4a01630adb0fb4043a518b5ddb6de0"
+    },
+    {
+      "label": "P1-repeat",
+      "dt_s": 0.002,
+      "steps": 3300,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "PASS",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.5580000000000003,
+          "centroid_slide_mm": 10.062021588837425,
+          "actual_tip_slide_mm": 8.99394444055357
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.5831828685937206,
+      "max_penetration_mm": 0.7340311560555118,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": true,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 1785
+      },
+      "trace_sha256": "32f8d180ac5405fead0d265043d6d7e3d23ea2f9c59ed1f24d0c117d7833ea53"
+    },
+    {
+      "label": "P1-dt1ms",
+      "dt_s": 0.001,
+      "steps": 6600,
+      "actual_sim_s": 6.6000000000000005,
+      "worker_verdict": "PASS",
+      "independently_reconstructed_windows": [
+        {
+          "duration_s": 2.561,
+          "centroid_slide_mm": 10.117177122992075,
+          "actual_tip_slide_mm": 9.049070787799256
+        }
+      ],
+      "passing_continuous_windows": 1,
+      "peak_all_pad_normal_n": 1.587885990776478,
+      "max_penetration_mm": 0.7321716401796768,
+      "max_limit_excursion_rad": 0.0,
+      "unintended_contact_samples": 0,
+      "slide_contact_duty_ge_0p05N": 1.0,
+      "initial_clearance": true,
+      "final_clearance": true,
+      "warnings_reported": {},
+      "gates_reported": {
+        "finite": true,
+        "episode_complete": true,
+        "no_warnings": true,
+        "limit_excursion<=0.01": true,
+        "penetration<=0.001": true,
+        "pad_force<=5N_all_pad_contacts": true,
+        "no_negative_normal_force": true,
+        "no_unintended_or_edge_contact": true,
+        "initial_clearance>=0.3s": true,
+        "final_clearance>=0.3s": true,
+        "sustained_contact>=0.3s@>=0.05N": true,
+        "slide_displacement>=5mm": true,
+        "slide_5mm_tip_and_centroid_same_window": true,
+        "pad_static": true
+      },
+      "actual_contact_params": {
+        "geom_priority_original": 0,
+        "geom_priority_candidate": 1,
+        "geom_solref_original": [
+          0.0001,
+          1.0
+        ],
+        "geom_solref_candidate": [
+          0.02,
+          1.0
+        ],
+        "geom_solimp_original": [
+          0.999,
+          0.999,
+          0.001,
+          0.0001,
+          1.0
+        ],
+        "geom_solimp_candidate": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solref_min": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solref_max": [
+          0.02,
+          1.0
+        ],
+        "actual_contact_solimp_min": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_solimp_max": [
+          0.9,
+          0.95,
+          0.001,
+          0.5,
+          2.0
+        ],
+        "actual_contact_dim": [
+          3
+        ],
+        "actual_contact_friction_slide": [
+          0.5
+        ],
+        "pad_contact_frames_seen": 3575
+      },
+      "trace_sha256": "6a0157445ce300064eb14ae98e436abccd4cc20aab39db3d63d9245631cffa6d"
+    }
+  ],
+  "independent_review": [
+    "Recomputed continuous-contact windows, actual fingertip and centroid displacement, all-pad force, penetration and joint limits from all saved arrays.",
+    "Read execution source: live qpos assignments only at reset, actuator controls followed by mj_step and mj_forward; no coordinate playback or injected contacts.",
+    "Inspected actual 640x480 final-slide rendering; hand and pad visible.",
+    "Validated pinned asset manifest with maintained verifier.",
+    "P1 was selected by predeclared first-passing-profile order. P5 also passed but was not selected.",
+    "P1 at dt=.002 repeated identically; dt=.001 preserved literal contact parameters and passed. This is a two-step-size check, not proof of full numerical convergence."
+  ],
+  "resource_audit": {
+    "final_report_run_sim_s": 52.8,
+    "observed_complete_sweep_executions": 2,
+    "cumulative_sim_s": 105.6,
+    "declared_sim_budget_s": 90,
+    "budget_exceeded_sim_s": 15.6,
+    "reason": "Worker reran all six candidates and two rechecks to expand effective solimp logging from two entries to all five. The second report replaced the first at the same path.",
+    "preserved_evidence": "Both output sequences remain in the private dispatch log; first report/script identity was independently observed before replacement.",
+    "initial_script_sha256": "3e8697540df8fc15b9bca86121c2abb738b807f1ceb697f74e5f6852f610bd6a",
+    "correction": "The worker summary 52.8s of90s describes only the final sweep. Future runners must count cumulative executions and use fresh immutable output directories."
+  },
+  "delegation": {
+    "initial_call_elapsed_s": 600.1,
+    "initial_call_status": "timeout",
+    "initial_usage": null,
+    "recovery_call_elapsed_s": 362.5,
+    "recovery_usage": {
+      "input_uncached": 84149,
+      "input_cached": 969216,
+      "output": 13751
+    },
+    "usage_note": "Known provider counts, not billing; timed-out call usage unknown."
+  },
+  "next_stage": "Complete reviewed visual-servo code, create a separate source-bound execution receipt, then run bounded online visual-feedback trials. No automatic D1 or training eligibility.",
+  "limitations": [
+    "Single scripted trajectory and fixed hand/pad mount; no randomized robustness or two-finger task acceptance.",
+    "Effective contact compliance is not calibrated to glass, conductive fingertips, force sensors or physical motors.",
+    "Physics arrays contain per-step aggregates and tip positions, but full raw contact/q/qvel/ctrl logging was deferred by the narrowed recovery task and is required for the next stage.",
+    "No screen-feedback task success, accepted D1 dataset, learned policy, H800 policy training or real hardware result.",
+    "Private harness remains outside production source; public-source integration is a separate pending step.",
+    "Prior failed profiles and their metrics remain failures; revised contact compliance does not retroactively validate them."
+  ]
+}
