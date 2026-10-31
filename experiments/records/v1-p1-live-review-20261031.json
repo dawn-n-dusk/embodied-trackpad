@@ -1,0 +1,102 @@
+{
+  "record_version": "1.0",
+  "id": "v1-p1-live-review-20261031",
+  "timestamp_utc": "2026-10-31T13:11:09.422391+00:00",
+  "kind": "independent_live_p1_physics_review",
+  "status": "producer_frames_and_identity_verified",
+  "source_commit": "431c28c1ffc06ba6731859ec60e29297214d8f39",
+  "runtime": {
+    "source_kind": "scripted_diagnostic",
+    "policy_kind": "scripted",
+    "training_active": false,
+    "train_step": null,
+    "gradient_updates": null,
+    "checkpoint": null,
+    "simulation_backend": "MuJoCo CPU",
+    "run_id": "leap-v1-pad-live-20261031T125532Z",
+    "width": 640,
+    "height": 480,
+    "observed_effective_fps": 7.915,
+    "numeric_threads": 2,
+    "start_utc": "2026-10-31T12:55:32.763565Z",
+    "deadline_utc": "2026-10-31T14:55:32.559957Z",
+    "producer_terminal_lead_s": 60,
+    "viewer_terminal_grace_s": 30,
+    "max_wall_s": 7200,
+    "storage_limit_mib": 100,
+    "producer_script_sha256": "9b5cb6440b5a61fa3018ef4cfb947bafdb32fd6b673b7180d00bf218b24c1118",
+    "pad_module_sha256": "867629cf8c2643e6bc265041d4b35e9e47127ff3681175b6c42c1618a59bc0ff",
+    "pad_profile": {
+      "name": "P1",
+      "priority": 1,
+      "solref": [
+        0.02,
+        1.0
+      ],
+      "solimp": [
+        0.9,
+        0.95,
+        0.001,
+        0.5,
+        2.0
+      ],
+      "solref_original": [
+        0.0001,
+        1.0
+      ],
+      "solimp_original": [
+        0.999,
+        0.999,
+        0.001,
+        0.0001,
+        1.0
+      ],
+      "priority_original": 0,
+      "dt_s": 0.002,
+      "note": "DECLARED uncalibrated pad-only profile; friction/geometry/collision/gains unchanged"
+    }
+  },
+  "independent_review": {
+    "process_identity": "Both producer and viewer PID/starttime matched the private start receipt; they were still running at review. No duplicate stream started.",
+    "samples": [
+      {
+        "source_utc": "2026-10-31T13:09:35.826167Z",
+        "frame_seq": 6673,
+        "physics_step": 421551,
+        "sim_time_s": 843.101999993887,
+        "frame_sha256": "5950b3170486b047c2569e9b0d52306696eb584b5777bc69d1226fc774dbb581"
+      },
+      {
+        "source_utc": "2026-10-31T13:10:10.329979Z",
+        "frame_seq": 6946,
+        "physics_step": 438811,
+        "sim_time_s": 877.6219999930707,
+        "frame_sha256": "b36cb3bb66618bfde74a3b5ad9ac09243444eb4a6959aca1f831ac56f5991924"
+      }
+    ],
+    "actual_images_inspected": "Two current 640x480 renders visibly contain the full hand and pad with changed finger pose; image bytes match publisher hashes.",
+    "current_browser_refresh": "Unavailable through the current UI automation binding; this review uses current producer artifacts, not a new browser acceptance claim.",
+    "previous_browser_review": "The preceding continuation inspected the new P1 page; its observation remains timestamped history.",
+    "telemetry_utc": "2026-10-31T13:09:35.827473Z",
+    "per_step_safety": {
+      "checked_every_physics_step": true,
+      "gates": {
+        "finite_state": true,
+        "pad_force_all<= 5.0N": true,
+        "penetration<= 0.001m": true,
+        "zero_unintended_contacts": true
+      },
+      "max_pad_force_all_n_so_far": 1.5831828685734062,
+      "max_penetration_m_so_far": 0.0007340311559666385,
+      "unintended_contact_steps_so_far": 0
+    },
+    "current_gpu_scope": "The project hand-only smoke remains completed. Jobs belonging to another project are not counted as trackpad training; no new job submitted."
+  },
+  "limitations": [
+    "DEMO is a repeating fixed motor schedule with fresh physics/rendering, not optimizer training.",
+    "No accepted screenshot-dependent controller, D1 dataset or learned policy.",
+    "Effective P1 compliance is uncalibrated to physical hardware.",
+    "Bounded live run ends at its declared deadline; no unlimited restart authorized.",
+    "Private pad/live implementation is not yet integrated as public production source."
+  ]
+}

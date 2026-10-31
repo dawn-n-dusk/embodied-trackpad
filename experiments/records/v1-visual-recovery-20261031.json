@@ -1,0 +1,70 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-recovery-20261031",
+  "timestamp_utc": "2026-10-31T13:17:56.389457+00:00",
+  "kind": "incomplete_implementation_recovery",
+  "status": "three_timeouts_preserved_fresh_bounded_modules_dispatched",
+  "source_commit": "431c28c1ffc06ba6731859ec60e29297214d8f39",
+  "private_checkpoint_commit": "477b752",
+  "observed_implementation": {
+    "visual_module_lines": 439,
+    "present": [
+      "PNG decoding",
+      "colour extraction",
+      "clock reconciliation draft",
+      "frame gate draft"
+    ],
+    "missing": [
+      "reviewed tests",
+      "physics and safety stepping core",
+      "controller and episode runner",
+      "native reset extension",
+      "CLI",
+      "accepted screenshot-dependent episodes"
+    ]
+  },
+  "calls": [
+    {
+      "status": "timeout",
+      "elapsed_seconds": 600.0,
+      "recorded_usage": null
+    },
+    {
+      "status": "timeout",
+      "elapsed_seconds": 900.1,
+      "recorded_usage": {
+        "records": 4,
+        "input_uncached": 12669,
+        "input_cached": 466864,
+        "input_cache_write": 0,
+        "output": 11635,
+        "total": 491168
+      }
+    },
+    {
+      "status": "timeout",
+      "elapsed_seconds": 360.1,
+      "recorded_usage": {
+        "records": 1,
+        "input_uncached": 24164,
+        "input_cached": 112896,
+        "input_cache_write": 0,
+        "output": 2861,
+        "total": 139921
+      }
+    }
+  ],
+  "usage_scope": "First dispatch usage is unknown. Subsequent recorded counts are not billing totals or a measured delegation saving. Fresh worker costs are pending.",
+  "recovery": {
+    "old_worker_process_group": "Ended; no duplicate old worker observed before new dispatch.",
+    "utilities": "Fresh session: minimal utility fixes and focused pure tests, 480 second wrapper.",
+    "physics_core": "Separate clean branch: new contact stepping and named-joint planning module plus focused tests, 600 second wrapper. No physics episode/native app/GPU execution in this implementation call.",
+    "ownership": "Disjoint Kimi workers implement; coordinator reviews and integrates. Incomplete source checkpoint is private, not published as accepted production code."
+  },
+  "limitations": [
+    "No accepted D1 dataset, visual controller or optimizer training.",
+    "Source comments describing unimplemented functionality are not evidence; the utilities correction must remove them.",
+    "New calls are dispatched, not completed or accepted.",
+    "P1 scripted streaming remains independent of the visual implementation and learning pipeline."
+  ]
+}

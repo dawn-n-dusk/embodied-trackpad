@@ -4,6 +4,10 @@
 
 ## Unreleased — 2026-10-31
 
+- Preserved three visual-implementation timeouts and their available usage, checkpointed incomplete source privately, and split recovery into fresh, disjoint Kimi utility and physics-core tasks. No completed controller or learning result is claimed.
+
+- Verified the new P1 live producer, advancing actual images, process identities and per-step contact telemetry. Recorded its two-hour deadline and preserved the previous stream as history; it remains a scripted diagnostic.
+
 - Reviewed the first LEAP v1 Full continuous-contact profile (P1): 8.994 mm actual fingertip sliding, 2.558 s continuous contact, 1.583 N peak and 0.734 mm penetration; repeated and 1 ms checks passed. Preserved all failed candidates, cumulative-budget correction and uncalibrated limits. Visual controller remains under review; no learning result.
 
 - Restored a bounded LEAP v1 Full hand-and-pad diagnostic stream and verified actual motion in the browser. Kept DEMO labels and unresolved contact losses explicit. Enabled periodic project continuation, documented bounded resources, and resumed Kimi contact-stability diagnostics; no policy training claim.
