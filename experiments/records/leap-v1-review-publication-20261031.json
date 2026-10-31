@@ -1,0 +1,46 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-review-publication-20261031",
+  "timestamp_utc": "2026-10-31T08:42:55.788023+00:00",
+  "kind": "public_release_verification",
+  "status": "published_ci_passed",
+  "source_commit": "7b41d6988670c91035a51711525991da7f87c5a0",
+  "remote_branch": "main",
+  "remote_head_verified": "7b41d6988670c91035a51711525991da7f87c5a0",
+  "ci": {
+    "run_id": 41185624986,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41185624986",
+    "head_sha": "7b41d6988670c91035a51711525991da7f87c5a0",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "test (3.13)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.11)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.12)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.10)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "checks": [
+    "Explicit 15-file staging; no private research downloads, credentials, host/account details, raw sessions or model weights published.",
+    "Remote main exactly matched the research/design revision.",
+    "All four Python 3.10-3.13 foundation CI jobs passed.",
+    "Documentation local links, JSON syntax, source/artifact hashes and append-only ledger verified before publication."
+  ],
+  "limitations": [
+    "Documentation/design release only; CI does not validate LEAP v1 physics, Mac feedback, FSR, VLA fine-tuning or real-world RL.",
+    "The v1 rebaseline task remains prepared and not dispatched.",
+    "This receipt records the named revision, not later documentation commits."
+  ]
+}
