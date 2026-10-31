@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Recorded a600s generic visual-runner timeout with no source delivered. Delegated a smaller fixed-parameter experiment script in a fresh Kimi session, retaining per-step evidence and external source-bound execution review. No robot episode or learning result is claimed.
+
 - Integrated the reviewed P1 scene/contact library and per-substep physics core, with17 static/stub checks and52 integrated input/physics checks. Added the confined native near-pointing reset profile,54 executed native tests and independent saved-image review. Preserved failed attempts and kept actual visual robot episodes/data/training pending.
 
 - Integrated reviewed visual input utilities: complete PNG stream validation, fixed-palette localisation, clock uncertainty and frame checks. Independently passed35 focused tests and verified cursor displacement in two saved native PNGs. Recorded the measured decode cost and kept controller/data/training claims separate.

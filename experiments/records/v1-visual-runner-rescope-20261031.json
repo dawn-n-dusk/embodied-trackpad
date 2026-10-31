@@ -1,0 +1,44 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-runner-rescope-20261031",
+  "timestamp_utc": "2026-10-31T14:18:06.353111+00:00",
+  "kind": "implementation_timeout_and_bounded_recovery",
+  "status": "no_runner_delivered_fixed_probe_dispatched",
+  "source_commit": "0a79904e9a79f6984dee6196ceff2e8adcd1f8d0",
+  "worker_base": "11640f490485485af8137a71f4f420bb52e06ec5",
+  "failed_call": {
+    "status": "timeout",
+    "elapsed_seconds": 600.1,
+    "source_written": false,
+    "tests_executed": false,
+    "physics_or_native_episode_executed": false,
+    "recorded_usage": {
+      "input_uncached": 58489,
+      "input_cached": 683776,
+      "output": 15442
+    },
+    "usage_note": "Provider-reported token counts; not monetary cost or savings."
+  },
+  "recovery": {
+    "fresh_session": true,
+    "scope": "One fixed-parameter procedural near-target diagnostic plus focused mock tests",
+    "removed_from_task": [
+      "Generic configuration framework",
+      "In-process source acceptance manifest parser",
+      "Batch runner abstraction"
+    ],
+    "preserved": [
+      "Reviewed P1 profile and per-substep safety/records",
+      "Pixel-only target and cursor inputs; isolated actor/teacher evidence",
+      "External coordinator source/model/config/binary hash freeze before execution",
+      "Finite wall/simulation/output budget and verified cleanup"
+    ],
+    "execution_authorized_by_dispatch": false,
+    "code_accepted": false
+  },
+  "limitations": [
+    "No visual robot episode, D1 dataset, learned policy or optimizer training.",
+    "A dispatch is not implementation acceptance; next task must return actual source and executable checks.",
+    "Existing stream is an independently running scripted diagnostic with its previously declared deadline."
+  ]
+}
