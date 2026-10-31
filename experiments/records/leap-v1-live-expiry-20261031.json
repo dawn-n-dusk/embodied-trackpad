@@ -1,0 +1,30 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-live-expiry-20261031",
+  "timestamp_utc": "2026-10-31T09:57:37.212736+00:00",
+  "kind": "runtime_lifecycle_verification",
+  "status": "deadline_shutdown_and_port_release_verified",
+  "source_commit": "83ea70075949b04ef72ec2ab7cb4eaec4ae48748",
+  "run": {
+    "started_utc": "2026-10-31T09:39:00.315592Z",
+    "deadline_utc": "2026-10-31T09:55:44.343144Z",
+    "stopped_utc": "2026-10-31T09:55:44.606909Z",
+    "stop_reason": "lifetime_expired",
+    "lifetime_s": 1004.027694940567,
+    "frames_rendered": 7946,
+    "episodes_completed": 45,
+    "sim_time_total_s": 1000.682,
+    "measured_fps_final": 7.936
+  },
+  "independent_checks": {
+    "process_exited": true,
+    "port8768_listener_absent": true,
+    "http_no_longer_served": true
+  },
+  "private_shutdown_receipt_sha256": "0c88a0560bb9962bda72f30958801543b1d87056255c2bf5b2573b9acd58cc80",
+  "limitations": [
+    "Scripted hand-only diagnostic; no policy training.",
+    "GUI stopped-state was not independently captured after expiry.",
+    "Future training-attached monitor has a separate source/lifecycle contract."
+  ]
+}

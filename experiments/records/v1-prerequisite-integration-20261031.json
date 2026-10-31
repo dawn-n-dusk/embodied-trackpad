@@ -1,0 +1,231 @@
+{
+  "record_version": "1.0",
+  "id": "v1-prerequisite-integration-20261031",
+  "timestamp_utc": "2026-10-31T10:46:43.204627+00:00",
+  "status": "local_integration_review_passed_publication_pending",
+  "source_base_commit": "7385a5807f07f5ae88c28cf0bf58b0a8d7f52839",
+  "integrated_file_sha256": {
+    "docs/experiments/2026-10-31-v1-training-prerequisites.zh-CN.md": "69941613d93672461822699fc8981ab25345d426ccf3753b0092c92adcc6c37b",
+    "docs/leap-v1-gpu-runtime.md": "e87ca557b18d62cf1174968c5949dcaf7a31351b70c236f5515343a705cbaefe",
+    "docs/native-capture-resolution.md": "eb3da84199d43a3841595a1afc647c747bfbcbdd9dd2b704efed97033e049c0c",
+    "docs/tasks/v1-contact-stability-next.zh-CN.md": "ee793f7a2c12834ed84926a09376a88a62117235d5105a27af43ceee91475ae6",
+    "docs/training-monitor.zh-CN.md": "ad569454b0cff67551c9e6f426e33ff8aae7d339805355247ca9b12492640485",
+    "env/leap-v1-gpu-runtime.txt": "520be9e50cb5d0b01c463017fa369675ce211850a58f02fd10daa3220de91b7a",
+    "experiments/records/leap-v1-h800-runtime-20261031.json": "7d02a9120403ed337fcc9ef7225e4d4de15cad9f7ade72350c86f91c7b7d3884",
+    "experiments/records/leap-v1-live-expiry-20261031.json": "adf1532e54700d8ade7506b9d5145cc4b5732c3e49b8c95000f96982bbe761f3",
+    "experiments/records/leap-v1-pad-diagnostics-20261031.json": "1b90bfa94d2dcf60b423644503c1c3834dbdffa8eb5995681debbfe99c1cf5c9",
+    "experiments/records/native-capture-normalization-20261031.json": "249a35c585c0fde5ca92cc24e084a323e4699631e771d3bd23a7aca209d29bcd",
+    "experiments/records/training-monitor-interface-20261031.json": "70d14024cbc65fad4171a9f5e3f9e8c11e4b53b7b431e756abd34c3753e17f2c",
+    "src/embodied_trackpad/monitor/__init__.py": "d703970486f466b420c390221f90f53d8e56eaa13632d6fb2083e9f70d614c82",
+    "src/embodied_trackpad/monitor/protocol.py": "57794516e621e1118d2278e69d862bf55131867ac7e39f1eeb8dc61408fa6b96",
+    "src/embodied_trackpad/monitor/publisher.py": "a9ec6d8d2ae90a858b6f8a1bce823daeb03968790771eb178ff6daa46b4186c1",
+    "tests/test_leap_v1_gpu_contract.py": "719f8736653e28c1686cf4ca68ad302dc497ac592b443bc61f95f2b105efe525",
+    "tests/test_training_monitor.py": "210dc3a8b1f02f6e265d49dd6775091ae19b3d4263c70396afa448c240c3126f",
+    "tools/leap_v1_gpu_smoke.py": "ede52bc344b1acd2d2ba155a3ab1979b2148f955a18e3da9dbb6f97eca01386f",
+    "tools/leap_v1_gpu_smoke.sbatch": "e360b43907d2dbea157bc8f89c37ad17b3c8cfdeab9d42361e8e69a254818e71",
+    "tools/training_live_view.py": "34915f588258738fc172bcac3a23607c36e8609fc061393d9c694ae9233cb3d3",
+    "CHANGELOG.md": "46ff944597bc34f5aacb557ab989bd260b38dd95887ed7a3d2013cfc5f54e99e",
+    "README.md": "949b68a2b445d7b22dfaa547787c0cecd292a05c1be60ac45467b17593e4b4a3",
+    "STATUS.md": "2b63fd1fc1ba50a4e63bbfa77d66c96f901d080f4cbe9da9fa3a96b086ad5850",
+    "docs/mac-sandbox.md": "0323d81f46565b66a2a853131baa853a7c6669d01f6654fc68493d2c132665f5",
+    "macos/TrackpadSandbox/Sources/main.swift": "d94ec53cc29a699952626b65b4fc87f531c7d37eb26f7dab546459cf486be1d8",
+    "tests/test_mac_sandbox_protocol.py": "af3f8f0051d9074215fa21182d5c2076cc996f8b8e41a9db4aa09bf0c821e8f4"
+  },
+  "verification": {
+    "full_local_suite": {
+      "passed": 302,
+      "skipped": 18,
+      "failed": 0,
+      "seconds": 15.14,
+      "command": "PYTHONPATH=src OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 <frozen-existing-python> -m pytest -q",
+      "skip_note": "Skipped optional tests are not accepted coverage; no GPU or policy training is inferred from this suite."
+    },
+    "focused_independent": {
+      "gpu_contract_tests": 23,
+      "native_real_app_tests": 48,
+      "monitor_final_tests_in_full_suite": 64
+    },
+    "native_main_build": {
+      "built_by": "Kimi",
+      "exit_code": 0,
+      "main_swift_sha256": "d94ec53cc29a699952626b65b4fc87f531c7d37eb26f7dab546459cf486be1d8",
+      "binary_sha256": "ad5a5dc97ffb07897072a66b26e4d4b04843a771bcebf07a0937a9d2ef7de0e0",
+      "only_app_sandbox_entitlement": true
+    },
+    "git_diff_check": "pass"
+  },
+  "kimi_delegation": {
+    "usage_by_worker_role": {
+      "gpu_implementation": {
+        "records": 73,
+        "input_uncached": 223106,
+        "input_cached": 7392768,
+        "input_cache_write": 0,
+        "output": 56638,
+        "total": 7672512
+      },
+      "gpu_operation": {
+        "records": 34,
+        "input_uncached": 71191,
+        "input_cached": 1679872,
+        "input_cache_write": 0,
+        "output": 14022,
+        "total": 1765085
+      },
+      "pad": {
+        "records": 44,
+        "input_uncached": 292773,
+        "input_cached": 4980736,
+        "input_cache_write": 0,
+        "output": 86316,
+        "total": 5359825
+      },
+      "monitor_initial": {
+        "records": 15,
+        "input_uncached": 62249,
+        "input_cached": 885248,
+        "input_cache_write": 0,
+        "output": 38543,
+        "total": 986040
+      },
+      "monitor_correction": {
+        "records": 72,
+        "input_uncached": 169430,
+        "input_cached": 5965312,
+        "input_cache_write": 0,
+        "output": 48368,
+        "total": 6183110
+      },
+      "native_capture": {
+        "records": 41,
+        "input_uncached": 122338,
+        "input_cached": 2769979,
+        "input_cache_write": 0,
+        "output": 22639,
+        "total": 2914956
+      }
+    },
+    "combined_recorded_usage": {
+      "records": 279,
+      "input_uncached": 941087,
+      "input_cached": 23673915,
+      "input_cache_write": 0,
+      "output": 266526,
+      "total": 24881528
+    },
+    "dispatches": [
+      {
+        "task_receipt": "training-monitor-finish2-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 400.9,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-pad-finish-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-gpu-runtime-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 900.1,
+        "usage_missing_in_original_receipt": true
+      },
+      {
+        "task_receipt": "v1-pad-feedback-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 255.4,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "training-monitor-fresh-fix-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "usage_missing_in_original_receipt": true
+      },
+      {
+        "task_receipt": "v1-pad-convergence-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 360.1,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-gpu-runtime-finish-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 600.1,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-gpu-execute-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 173.8,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "training-monitor-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 600.0,
+        "usage_missing_in_original_receipt": true
+      },
+      {
+        "task_receipt": "native-capture-normalization-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 419.0,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "native-main-build-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 63.2,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-gpu-collect-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 104.0,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-pad-dispatch-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 900.1,
+        "usage_missing_in_original_receipt": true
+      },
+      {
+        "task_receipt": "training-monitor-fix-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 420.1,
+        "usage_missing_in_original_receipt": true
+      },
+      {
+        "task_receipt": "training-monitor-error-receipt-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 97.2,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "v1-pad-compliance-receipt.json",
+        "status": "reported",
+        "elapsed_seconds": 311.9,
+        "usage_missing_in_original_receipt": false
+      },
+      {
+        "task_receipt": "training-monitor-gui-final-receipt.json",
+        "status": "timeout",
+        "elapsed_seconds": 360.1,
+        "usage_missing_in_original_receipt": false
+      }
+    ],
+    "summed_dispatch_wall_seconds": 7166.2,
+    "wall_time_note": "Summed concurrent dispatch durations; not elapsed real-world time. Earlier hand-only live/model tasks excluded.",
+    "usage_note": "Provider-recorded tokens, cached input separated; not monetary cost or subscription usage. Session-level audit recovered records absent in some timed-out receipts; interrupted requests may still be unreported.",
+    "rework": "Preserved initial planning timeouts, monitor boundary/lifecycle corrections, native Retina mismatch and all failed pad diagnostics. No efficiency savings claim."
+  },
+  "limitations": [
+    "Training-attached robot video, visual closed-loop policy, D1 dataset and full fine-tuning are not complete or running.",
+    "All diagnostic GPU jobs and finite local viewers in this batch have ended.",
+    "Pad contact implementation remains unaccepted and is excluded from production source integration.",
+    "CI for this integration revision is checked after publication and recorded separately."
+  ]
+}

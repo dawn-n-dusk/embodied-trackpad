@@ -5,7 +5,10 @@ import Foundation
 // It is NOT Finder, NOT whole-macOS, and NOT a VM. It renders its own task
 // surface (virtual cursor, click target, drag target/destination, scroll
 // content), accepts touch.v1 JSONL contacts only on inherited stdin, and emits
-// JSONL responses plus base64 PNGs of its own content view on stdout.
+// JSONL responses plus base64 PNGs of its own content view on stdout. Capture
+// is a normalized observation: a fixed 800x600 pixel render of the app's own
+// view (1 logical unit = 1 pixel), independent of the host Retina backing
+// scale; it is not a native-resolution screen capture.
 // It performs no CGEvent posting, no system-pointer moves, no AppleScript,
 // no AX automation, no network, and no file access outside its container.
 
@@ -161,7 +164,7 @@ final class Controller: NSObject, NSApplicationDelegate {
         window.contentView = view
         window.center()
         window.makeKeyAndOrderFront(nil)
-        emit(["type": "hello", "app": "TrackpadSandbox", "version": "0.3.0",
+        emit(["type": "hello", "app": "TrackpadSandbox", "version": "0.4.0",
               "diagnostics": diagnosticsEnabled, "evaluator": evaluatorEnabled,
               "content_size": ["w": Double(CONTENT_W), "h": Double(CONTENT_H)]])
         // Host monotonic watchdog: a stalled transport (no touch frames for
@@ -359,13 +362,31 @@ final class Controller: NSObject, NSApplicationDelegate {
         }
     }
 
+    // Normalized observation: the app's OWN content view is rendered to a
+    // fixed 800x600 PIXEL bitmap, independent of the host Retina backing
+    // scale. One logical unit maps to exactly one output pixel, so declared
+    // width/height always equal the PNG IHDR dimensions and the virtual
+    // cursor/target placement in image pixels matches logical coordinates.
+    // This is deliberately NOT a native full-resolution screen capture; no
+    // host/global capture exists.
     func capture() {
         frameId += 1
         view.displayIfNeeded()
-        guard let rep = view.bitmapImageRepForCachingDisplay(in: view.bounds) else {
+        guard let rep = NSBitmapImageRep(
+            bitmapDataPlanes: nil, pixelsWide: Int(CONTENT_W), pixelsHigh: Int(CONTENT_H),
+            bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false,
+            colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0) else {
             emitError("capture_failed", "no bitmap rep"); return
         }
-        view.cacheDisplay(in: view.bounds, to: rep)
+        rep.size = NSSize(width: CONTENT_W, height: CONTENT_H) // 1 logical unit = 1 pixel
+        guard let ctx = NSGraphicsContext(bitmapImageRep: rep) else {
+            emitError("capture_failed", "no graphics context"); return
+        }
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = ctx
+        view.draw(view.bounds)
+        ctx.flushGraphics()
+        NSGraphicsContext.restoreGraphicsState()
         guard let png = rep.representation(using: .png, properties: [:]) else {
             emitError("capture_failed", "png encoding failed"); return
         }

@@ -1,0 +1,22 @@
+# LEAP v1 GPU runtime (user-owned SuperPOD account), pinned 2026-10-31.
+#
+# MuJoCo/Warp/numpy pins are reused unchanged from env/probe-requirements.txt:
+# they were verified in the 2026-10-30 single-H800 probe (driver 580.173.02,
+# CUDA driver 13.0) and numpy 2.2.6 is compatible with both mujoco 3.17 and
+# the torch pin below.
+mujoco==3.17.0
+mujoco-warp==3.17.0
+warp-lang==1.18.0
+numpy==2.2.6
+#
+# torch 2.8.0: mainstream stable release; the PyPI linux x86_64 wheel is the
+# CUDA 12.8 build, which supports sm_90 (H800) and requires driver >= 555.42.
+# Driver compatibility currently rests on HISTORICAL probe evidence (the
+# 2026-10-30 probe measured driver 580.173.02 / CUDA driver 13.0 on the
+# site's H800 nodes); it is NOT a measurement of this task's allocated node
+# and must be re-verified at job time (the smoke records the actual node
+# driver/device). Selected toward pi0.5-era torch-based prerequisites
+# (torch >= 2.6) without pinning to the site CUDA 12.2 toolkit module.
+# This is a runtime-smoke pin only: not a validated pi0.5 training stack;
+# no pi0.5 weights are downloaded and no policy training is performed.
+torch==2.8.0

@@ -1,0 +1,312 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-h800-runtime-20261031",
+  "timestamp_utc": "2026-10-31T10:29:52.273081+00:00",
+  "status": "bounded_hand_only_runtime_verified",
+  "source_base_commit": "be663b18dcc152491ff753f495a60ffc3e9b69b8",
+  "source_note": "This is the public base commit, not a clean-source execution claim. The harness was added as uncommitted worker code; exact executed files and bundle hashes identify it. The later private WIP checkpoint is not a published release.",
+  "source_sha256": {
+    "env/leap-v1-gpu-runtime.txt": "520be9e50cb5d0b01c463017fa369675ce211850a58f02fd10daa3220de91b7a",
+    "tools/leap_v1_gpu_smoke.py": "ede52bc344b1acd2d2ba155a3ab1979b2148f955a18e3da9dbb6f97eca01386f",
+    "tools/leap_v1_gpu_smoke.sbatch": "e360b43907d2dbea157bc8f89c37ad17b3c8cfdeab9d42361e8e69a254818e71",
+    "tests/test_leap_v1_gpu_contract.py": "719f8736653e28c1686cf4ca68ad302dc497ac592b443bc61f95f2b105efe525",
+    "docs/leap-v1-gpu-runtime.md": "9373284bb08f7c87536f7e555e6cc86ef9db197245b393dedb02384e4daa4686"
+  },
+  "raw_result_sha256": "3a18a4695ae45cc4162bc0b54950981ffa829944a3c7db9b0578d28927c2b1c0",
+  "execution": {
+    "start_utc": "2026-10-31T10:21:59.938194+00:00",
+    "end_utc": "2026-10-31T10:24:26.963587+00:00",
+    "scheduler_state": "COMPLETED",
+    "scheduler_exit_code": "0:0",
+    "scheduler_wall_seconds": 150,
+    "gpus": 1,
+    "gpu_name": "NVIDIA H800",
+    "driver": "580.173.02",
+    "allocated_cpus": 28,
+    "numerical_threads": 1,
+    "scheduler_gpu_memory_reported": "962M",
+    "scheduler_gpu_memory_note": "Scheduler-sampled value; not guaranteed instantaneous peak.",
+    "resources_released": true
+  },
+  "packages": {
+    "mujoco": "3.17.0",
+    "mujoco-warp": "3.17.0",
+    "numpy": "2.2.6",
+    "torch": "2.8.0",
+    "warp-lang": "1.18.0"
+  },
+  "torch_smoke": {
+    "bf16_supported": true,
+    "cuda_available": true,
+    "cuda_memory_allocated_mib": 64,
+    "cuda_memory_reserved_mib": 66,
+    "device_capability": [
+      9,
+      0
+    ],
+    "device_name": "NVIDIA H800",
+    "device_total_memory_mib": 81079,
+    "grad_finite": true,
+    "label": "runtime smoke: numeric/training-stack check on a diagnostic linear model; NOT project policy training; no model weights downloaded or loaded",
+    "loss": 1.2734375,
+    "model": "torch.nn.Linear(128, 64) bf16, batch 32, AdamW lr=0.0001, seed 20261031",
+    "threads": 1,
+    "torch_cuda_build": "12.8",
+    "torch_version": "2.8.0+cu128",
+    "weight_max_abs_update": 0.0001220703125
+  },
+  "scene": {
+    "calibration_id": "uncalibrated_upstream_defaults_v1",
+    "canonical_reset_state_sha256": "3132a4bc650e8a041d9f571c7df7d68caf206db26671f343e888f0dd6a8183e3",
+    "embodiment_id": "leap_v1_full_right_menagerie_v1",
+    "hashes": {
+      "diagnostics_py_sha256": "16d4a4a489012626e6ddf1b4e65361f0be8a12c3fc8d8c4c7d3d99797006d302",
+      "manifest_sha256": "0611062027da64234b03af14e3f06a1be5ee6dbe913ad6dd8007097928ee2ac7",
+      "model_py_sha256": "574f29f4c8ad99ae03acff0ff6b34fd074b815e9f6749026952f8c75e3386abc",
+      "this_smoke_sha256": "ede52bc344b1acd2d2ba155a3ab1979b2148f955a18e3da9dbb6f97eca01386f"
+    },
+    "model": "LEAP Hand v1 Full right hand, fixed palm, hand-only scene (16 independent channels, no coupling equalities)",
+    "njnt": 16,
+    "nq": 16,
+    "nu": 16,
+    "nv": 16,
+    "sampling": {
+      "allworld_state_every_steps": 100,
+      "plus_final": true,
+      "world0_contacts_joints_every_steps": 20
+    },
+    "schedule": {
+      "applied": "row i at step i on CPU and on every GPU world",
+      "backend_representation": "device ctrl dtype float32 on mujoco-warp 3.17: each frozen float64 row is converted by warp assign at every step; float64 precision is NOT claimed on the GPU",
+      "derivation": "diagnostics.build_script filtered to sweep channels ('if_mcp', 'if_pip') plus spread/flex/open phases, gaps removed (durations and motion content unchanged); contains contact-free single-finger movement AND spread/flex phases that may produce self-contact",
+      "kind": "frozen_open_loop_time_indexed_from_accepted_v1_diagnostics",
+      "max_f64_to_f32_conversion_delta": 5.912780798311701e-08,
+      "nu": 16,
+      "phase_spans": [
+        [
+          "open_settle",
+          0.0,
+          0.2
+        ],
+        [
+          "sweep_if_mcp_ramp",
+          0.2,
+          0.6000000000000001
+        ],
+        [
+          "sweep_if_mcp_hold",
+          0.6000000000000001,
+          0.9000000000000001
+        ],
+        [
+          "sweep_if_mcp_return",
+          0.9000000000000001,
+          1.3000000000000003
+        ],
+        [
+          "sweep_if_pip_ramp",
+          1.3000000000000003,
+          1.7000000000000002
+        ],
+        [
+          "sweep_if_pip_hold",
+          1.7000000000000002,
+          2.0
+        ],
+        [
+          "sweep_if_pip_return",
+          2.0,
+          2.4
+        ],
+        [
+          "spread_ramp",
+          2.4,
+          2.9
+        ],
+        [
+          "spread_hold",
+          2.9,
+          3.2999999999999985
+        ],
+        [
+          "spread_close",
+          3.2999999999999985,
+          3.7999999999999985
+        ],
+        [
+          "flex_ramp",
+          3.7999999999999985,
+          4.6
+        ],
+        [
+          "flex_hold",
+          4.6,
+          5.1
+        ],
+        [
+          "flex_return",
+          5.1,
+          5.9
+        ],
+        [
+          "open_final",
+          5.9,
+          6.6
+        ]
+      ],
+      "rows": 3300,
+      "sha256": "6a6fe8d74f0e4e1f44b5e04d6f102d66eca5ae6814a6b76c41e6e256919fbade",
+      "sha256_dtype": "float64 (canonical)",
+      "validation_problems": []
+    },
+    "stage_plan": {
+      "order": "1->32 (fixed smoke set)",
+      "requested": [
+        1,
+        32
+      ]
+    },
+    "steps": 3300,
+    "timestep_s": 0.002,
+    "tolerances": {
+      "cpu_gpu_final_qpos_rad": 0.01,
+      "final_open_rad": 0.05,
+      "limit_excursion_rad": 0.01,
+      "penetration_m_reference_reported_not_gated": 0.001
+    },
+    "world_variation": "repeated_identical (backend diagnostic only; NOT randomized task generalization or training speedup)"
+  },
+  "gpu_stages": [
+    {
+      "worlds": 1,
+      "steps_per_world": 3300,
+      "whole_loop_seconds": 19.590764208696783,
+      "whole_loop_world_steps_per_second": 168.44672136552262,
+      "isolated_compile_warmup_seconds": 92.9669742421247,
+      "checks": {
+        "contact_phases_world0_sampled": {
+          "flex_hold": 1,
+          "flex_ramp": 1,
+          "flex_return": 1,
+          "spread_close": 2,
+          "spread_hold": 2,
+          "spread_ramp": 2
+        },
+        "cpu_gpu_final_max_abs_dq_world0": 7.747409800501481e-09,
+        "cpu_gpu_final_max_abs_dv_world0": 8.96235646024543e-08,
+        "cross_world_final_max_abs_dq": 0.0,
+        "cross_world_final_max_abs_dv": 0.0,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.025566300377249718,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 2,
+        "max_penetration_m_world0_sampled": 0.0005992660881020129,
+        "transient_nonfinite_step": null
+      },
+      "reset_exact_all_worlds": true,
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 100) + final",
+        "nacon_peak_sampled": 2,
+        "naconmax_alloc": 256,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 22,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 2<=256 (aggregate), nefc 22<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit sampled every 100 steps + final (33 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (165 samples); NOT every-step, NOT all-world"
+      }
+    },
+    {
+      "worlds": 32,
+      "steps_per_world": 3300,
+      "whole_loop_seconds": 19.78443163027987,
+      "whole_loop_world_steps_per_second": 5337.530133460104,
+      "isolated_compile_warmup_seconds": 0.015597130637615919,
+      "checks": {
+        "contact_phases_world0_sampled": {
+          "flex_hold": 1,
+          "flex_ramp": 1,
+          "flex_return": 1,
+          "spread_close": 2,
+          "spread_hold": 2,
+          "spread_ramp": 2
+        },
+        "cpu_gpu_final_max_abs_dq_world0": 7.747409800501481e-09,
+        "cpu_gpu_final_max_abs_dv_world0": 8.962459488942116e-08,
+        "cross_world_final_max_abs_dq": 4.656612873077393e-10,
+        "cross_world_final_max_abs_dv": 3.190736563851715e-08,
+        "final_finite_all_worlds": true,
+        "final_open_pose_error_rad_world0": 0.025566300377249718,
+        "max_limit_excursion_rad_allworld_sampled": 0.0,
+        "max_limit_excursion_rad_world0_sampled": 0.0,
+        "max_ncon_world0_sampled": 2,
+        "max_penetration_m_world0_sampled": 0.0007736061234027147,
+        "transient_nonfinite_step": null
+      },
+      "reset_exact_all_worlds": true,
+      "capacity": {
+        "coverage": "nacon/nefc peaks at every observation sample (world0 every 20, all-world every 100) + final",
+        "nacon_peak_sampled": 64,
+        "naconmax_alloc": 384,
+        "nconmax_per_world": 64,
+        "nefc_peak_per_world_sampled": 22,
+        "njmax_per_world": 1024,
+        "overflow_observed": false,
+        "units": "nconmax per-world hint; naconmax AGGREGATE hard cap; njmax PER-WORLD hard cap (mujoco-warp 3.17 verified)",
+        "verdict": "pass",
+        "verdict_detail": "sampled peaks within capacity: nacon 64<=384 (aggregate), nefc 22<=1024 (per-world); sampled evidence only, not a never-overflow proof"
+      },
+      "coverage": {
+        "allworld_state": "all-world qpos/qvel finite/limit sampled every 100 steps + final (33 samples)",
+        "contact_evaluation_instant": "solver-step (start-of-step, pre-integration) evaluation stored by that mjw.step; NOT refreshed to the post-integration state on GPU. CPU reference contacts were refreshed via mj_forward after stepping, so CPU/GPU contact samples are at different instants by construction; no alignment is fabricated",
+        "contacts_channel": "get_data_into readback; geom IDs from contact.geom[0]/geom[1] (deprecated geom1/geom2 are stale in mujoco-warp 3.17 and never used)",
+        "state_evaluation_instant": "POST-integration: device qpos/qvel after each completed mjw.step",
+        "world0_contacts_joints": "world0 sampled every 20 steps + final (165 samples); NOT every-step, NOT all-world"
+      }
+    }
+  ],
+  "cpu_whole_loop_steps_per_second": 19897.587909366735,
+  "verification": {
+    "recorded_checks_passed": 28,
+    "recorded_checks_failed": 0,
+    "focused_tests_independent": {
+      "passed": 23,
+      "command": "PYTHONPATH=src <existing-physics-python> -m pytest -q tests/test_leap_v1_gpu_contract.py"
+    },
+    "source_and_asset_files_after_job": {
+      "total_bundle_files": 62,
+      "unchanged_non_generated_files": 48,
+      "changed_generated_bytecode_files": 14,
+      "note": "Post-job remote verification found only __pycache__/*.pyc differences; all source/assets and raw result hashes match. Future bundles must exclude generated bytecode."
+    }
+  },
+  "install": {
+    "cache_bytes_on_disk": 4118491208,
+    "environment_bytes_on_disk": 7404227169,
+    "combined_bytes": 11522718377,
+    "combined_limit_bytes": 21474836480,
+    "network_download_bytes": null,
+    "network_download_budget_verified": false
+  },
+  "limitations": [
+    "Hand-only repeated identical worlds; no pad, GUI, policy training, model fine-tuning, randomized generalization or 8192 capacity acceptance.",
+    "PyTorch diagnostic Linear forward/backward/update is runtime verification, not embodied-trackpad learning.",
+    "GPU contacts and joints sampled world0 every20steps; all-world states every100steps; final samples included. No every-step all-world guarantee.",
+    "GPU solver warnings unavailable; not equivalent to zero warnings. CPU and GPU contact evaluation instants differ.",
+    "Self-contact penetration is reported, not a pass/fail gate; 28 recorded checks include disclosure-only entries.",
+    "Whole-loop 32-world throughput is ~5338 world-steps/s; worker quoted ~5549 by excluding observation time. The latter is not whole-loop throughput.",
+    "Cache size does not measure cumulative network downloads. The12GiB download budget could not be independently verified.",
+    "Local task-private macOS venv was created beyond the requested remote installation scope, preserved and frozen; subsequent review used existing runtimes.",
+    "Installation completed before fail-fast script correction; actual install success was checked from receipts and allocated-node runtime.",
+    "No further GPU job was submitted."
+  ]
+}

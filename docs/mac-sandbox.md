@@ -28,6 +28,11 @@ separate task; this app is independent of it.
   report's handwritten ts was future/wrong-zone; its exact execution UTC is
   unknown within the runner window and the original is preserved privately as
   superseded). 47 protocol tests, 136-test full suite, 18-check smoke.
+- v0.4 (2026-10-31): capture normalized — the observation is rendered to a
+  fixed 800x600 pixel bitmap (1 logical unit = 1 pixel) independent of the
+  host Retina backing scale; previously the PNG carried backing-store pixels
+  (1600x1200 at 2x) while coordinates stayed logical. See
+  [native-capture-resolution](native-capture-resolution.md).
 
 ## What it is
 
@@ -101,7 +106,11 @@ release, cancel, stop, and reset.
 - Actor observation (`capture`) is only PNG pixels of the app's own content
   view (never a host desktop capture), plus `frame_id`, `width`, `height`, a
   declared monotonic capture clock (`monotonic_time_s`), and the separate
-  `simulation_time_s`.
+  `simulation_time_s`. The bitmap is a deliberately **normalized** fixed
+  800x600 observation: 1 logical unit = 1 image pixel regardless of host
+  backing scale, so PNG IHDR dimensions always equal the declared
+  width/height and cursor/target placement in pixels matches logical
+  coordinates. It is not a native full-resolution screen capture.
 - Evaluator state is a separate explicitly `privileged: true` `state`
   query, gated by the launch-only `--evaluator` role flag; a normal actor
   launch is rejected with `evaluator_required`. This is an enforced protocol
@@ -156,7 +165,9 @@ Declared: only `com.apple.security.app-sandbox=true` (ad-hoc signature,
 - Synthetic contacts only; no physical touchpad hardware in the loop. These
   are software/protocol semantics tests, not physical robot evidence. Does
   not implement or imply Apple native multitouch.
-- Capture renders only the app's own view; no desktop capture exists.
+- Capture renders only the app's own view, normalized to a fixed 800x600
+  pixel observation; no desktop capture exists and it is not a native
+  full-resolution screen capture.
 - Click semantics are force-hysteresis only; no separate tap gesture.
 
 ## Reviewed image

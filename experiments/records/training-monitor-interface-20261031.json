@@ -1,0 +1,241 @@
+{
+  "record_version": "1.0",
+  "id": "training-monitor-interface-20261031",
+  "timestamp_utc": "2026-10-31T10:44:36.440593+00:00",
+  "status": "publisher_viewer_interface_reviewed_test_source_only",
+  "source_base_commit": "be663b18dcc152491ff753f495a60ffc3e9b69b8",
+  "source_sha256": {
+    "src/embodied_trackpad/monitor/__init__.py": "d703970486f466b420c390221f90f53d8e56eaa13632d6fb2083e9f70d614c82",
+    "src/embodied_trackpad/monitor/protocol.py": "57794516e621e1118d2278e69d862bf55131867ac7e39f1eeb8dc61408fa6b96",
+    "src/embodied_trackpad/monitor/publisher.py": "a9ec6d8d2ae90a858b6f8a1bce823daeb03968790771eb178ff6daa46b4186c1",
+    "tools/training_live_view.py": "34915f588258738fc172bcac3a23607c36e8609fc061393d9c694ae9233cb3d3",
+    "tests/test_training_monitor.py": "210dc3a8b1f02f6e265d49dd6775091ae19b3d4263c70396afa448c240c3126f",
+    "docs/training-monitor.zh-CN.md": "9a155b82b08528840589cda62afd7c90f4c0af42d00324ee5c1d7a3c9e3c467f"
+  },
+  "interface": {
+    "training_source_attached": false,
+    "source_kind": "test_fixture",
+    "null_training_metrics": true,
+    "storage": "bounded latest PNG + JSON, static metadata, capped log",
+    "transport": "loopback GET-only HTTP",
+    "identity": "run_id + frame_seq, actual PNG hash/dimensions verified",
+    "default_lifetime_s": 600,
+    "explicit_lifetime_cap_s": 86400,
+    "terminal_grace_s": 30
+  },
+  "reviewed_boundaries": [
+    "Strict monotonic per-run frame sequence, no same-sequence mutation",
+    "Distinct TEST/DEMO/REPLAY/WAITING and terminal labels",
+    "Future heartbeat/render rejection beyond5s",
+    "PNG dimensions/hash and bounded record/frame reads",
+    "Symlink escape rejection",
+    "Decoded-frame freshness; metadata fetch cannot refresh the displayed frame",
+    "STOPPED clears training flag; internal failure retains error stop reason"
+  ],
+  "independent_tests_before_last_two_corrections": {
+    "passed": 62,
+    "failed": 0
+  },
+  "worker_reported_final_tests": {
+    "passed": 64
+  },
+  "browser_observations": [
+    {
+      "status": "WAITING",
+      "source": "none",
+      "training_steps": null
+    },
+    {
+      "status": "TEST",
+      "displayed_frame": 23,
+      "sha256_prefix": "57bc7ba141e2",
+      "training_steps": null
+    },
+    {
+      "status": "STALLED",
+      "displayed_frame": 35,
+      "displayed_age_s": 13.25,
+      "badge": "TEST"
+    },
+    {
+      "status": "ENDED",
+      "displayed_frame": 71,
+      "sha256_prefix": "57bc7ba141e2",
+      "badge": "TEST"
+    },
+    {
+      "status": "STOPPED",
+      "displayed_frame": 71,
+      "badge": "TEST"
+    }
+  ],
+  "test_source_phases": {
+    "note": "finite TEST fixture; source_kind=test_fixture; train_step/gradient_updates=null; lifecycle enum has no neutral active value: 'evaluating' used so the fixture is never labelled training; display must show TEST badge and never LIVE/training; identical PNG bytes re-published under new frame_seq",
+    "started_utc": "2026-10-31T10:38:18Z",
+    "events": [
+      {
+        "event": "publisher_open",
+        "utc": "2026-10-31T10:38:18Z",
+        "unix": 1793443098.898597
+      },
+      {
+        "event": "phase_A_end_35s_1hz",
+        "utc": "2026-10-31T10:38:53Z",
+        "unix": 1793443133.933951,
+        "observed": {
+          "status": "TEST",
+          "activity": "test",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 35
+        }
+      },
+      {
+        "event": "pause_begin_15s",
+        "utc": "2026-10-31T10:38:53Z",
+        "unix": 1793443133.934269
+      },
+      {
+        "event": "pause_end_expect_STALLED",
+        "utc": "2026-10-31T10:39:08Z",
+        "unix": 1793443148.946433,
+        "observed": {
+          "status": "STALLED",
+          "activity": "test",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 35
+        }
+      },
+      {
+        "event": "phase_B_end_35s",
+        "utc": "2026-10-31T10:39:43Z",
+        "unix": 1793443183.953745,
+        "observed": {
+          "status": "TEST",
+          "activity": "test",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 70
+        }
+      },
+      {
+        "event": "completed_published_expect_ENDED",
+        "utc": "2026-10-31T10:39:43Z",
+        "unix": 1793443183.956619,
+        "observed": {
+          "status": "TEST",
+          "activity": "test",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 70
+        }
+      },
+      {
+        "event": "post_terminal_sample_0",
+        "utc": "2026-10-31T10:39:48Z",
+        "unix": 1793443188.968092,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "post_terminal_sample_1",
+        "utc": "2026-10-31T10:39:53Z",
+        "unix": 1793443193.975107,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "post_terminal_sample_2",
+        "utc": "2026-10-31T10:39:58Z",
+        "unix": 1793443198.9809542,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "post_terminal_sample_3",
+        "utc": "2026-10-31T10:40:03Z",
+        "unix": 1793443203.991434,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "post_terminal_sample_4",
+        "utc": "2026-10-31T10:40:09Z",
+        "unix": 1793443209.0020869,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "post_terminal_sample_5",
+        "utc": "2026-10-31T10:40:14Z",
+        "unix": 1793443214.008561,
+        "observed": {
+          "status": "ENDED",
+          "activity": "ended",
+          "badge": "TEST",
+          "training_active": false,
+          "frame_seq": 71
+        }
+      },
+      {
+        "event": "fixture_done",
+        "utc": "2026-10-31T10:40:14Z",
+        "unix": 1793443214.0094888
+      }
+    ]
+  },
+  "shutdown": {
+    "started_utc": "2026-10-31T10:36:54.586956Z",
+    "deadline_utc": "2026-10-31T10:40:50.086865Z",
+    "stopped_utc": "2026-10-31T10:40:14.412392Z",
+    "stop_reason": "terminal_state",
+    "max_wall_s": 235.5,
+    "terminal_grace_s": 30.0,
+    "counters": {
+      "reads_total": 394,
+      "reads_rejected": 0,
+      "records_accepted": 71,
+      "frames_served": 460,
+      "last_error": null
+    },
+    "final_status": "STOPPED",
+    "final_activity": "ended",
+    "final_frame_seq": 71
+  },
+  "process_exited_and_port_released_verified": true,
+  "limitations": [
+    "Reusable interface only; no actual trainer, policy checkpoint, robot trajectory or training-attached video was accepted.",
+    "Browser fixture deliberately repeats a synthetic PNG; this is transport/display evidence, not simulated hand behavior.",
+    "The recovered TEST phase was reported by the producer HTTP probe; independent browser observations bracketed it with STALLED and ENDED and confirmed frame advancement to71.",
+    "Final two small stop-receipt/state corrections happened after browser validation and are covered by focused tests, without re-running the unchanged visual sequence.",
+    "Last visual-validation CLI timed out after saving code and running the finite fixture; shutdown receipt and actual browser states were independently reviewed.",
+    "Validation server has stopped; no current live-monitor URL is offered.",
+    "No hung transport was injected while metadata continued; client watchdog has source/contract coverage plus producer-pause browser evidence."
+  ]
+}

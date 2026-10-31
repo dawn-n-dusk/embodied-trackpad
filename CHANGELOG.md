@@ -4,6 +4,12 @@
 
 ## Unreleased — 2026-10-31
 
+- Added the reviewed bounded frame publisher and loopback training-monitor viewer, with monotonic identities, PNG verification, displayed-frame freshness and terminal shutdown. Inspected a finite TEST-source sequence in the browser; no actual training source attached. Preserved failed v1 contact diagnostics and prepared the next contact-stability investigation.
+
+- Fixed Retina capture scaling in the confined native GUI: actual PNGs are normalized to 800×600 and cursor pixel movement matches logical coordinates. Independently passed 48 native tests and inspected two real app images; no host desktop capture or physical robot operation.
+
+- Verified a separately installed LEAP v1 H800 runtime at 1/32 worlds and a PyTorch BF16 diagnostic update; published source/hash, sampling and budget limits. The one-GPU job completed in 150 seconds. Recorded automatic expiry of the earlier hand-only live demo. No project policy training or 8192-world acceptance.
+
 - Integrated Kimi's independent LEAP v1 Full hand-only baseline and 14-file pinned asset manifest. Reviewed 16-channel motion over 11,000 steps, actual renders and raw traces; retained self-contact and tracking limitations. Corrected eager optional-dependency imports after independent review; 19 focused worker checks passed. V1 pad contact, online feedback and training remain pending.
 
 - Confirmed full fine-tuning on allocated H800/other compute and simulation-first validation, with physical FSR/conductive-fingertip checks deferred. Documented the current physics-contact-to-device pipeline, idealized recognition assumptions and missing gesture support.

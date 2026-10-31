@@ -1,0 +1,328 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-pad-diagnostics-20261031",
+  "timestamp_utc": "2026-10-31T10:43:04.745838+00:00",
+  "status": "not_accepted_continuous_slide_failed",
+  "source_base_commit": "be663b18dcc152491ff753f495a60ffc3e9b69b8",
+  "source_sha256": {
+    "src/embodied_trackpad/leap_v1/pad_env.py": "867629cf8c2643e6bc265041d4b35e9e47127ff3681175b6c42c1618a59bc0ff",
+    "tools/leap_v1_pad_probe.py": "6b7a071fc871f65b3cc6ec8b6a08562d0d5a1aa4f1a840eb82d32f7d2e39fd50"
+  },
+  "script_sha256": "4f60f16194dc5a13e12fb242601346fef59b40980f6149f3b2b75ef666e8eb1b",
+  "scene": {
+    "hand": "LEAP v1 Full four-finger sixteen-channel",
+    "palm_position_m": [
+      0,
+      0,
+      0.225
+    ],
+    "palm_quaternion_wxyz": [
+      1,
+      0,
+      0,
+      0
+    ],
+    "pad_size_m": [
+      0.16,
+      0.11,
+      0.01
+    ],
+    "pad_top_z_m": 0.1,
+    "friction": [
+      0.5,
+      0.005,
+      0.0001
+    ],
+    "hardware_calibrated": false
+  },
+  "stages": {
+    "original_probe": {
+      "candidates": 8,
+      "all_failed": true,
+      "peak_pad_force_range_n": [
+        6.19,
+        7.35
+      ],
+      "continuous_slide_range_mm": [
+        0.304,
+        0.517
+      ],
+      "note": "Worker summaries; representative original trace reviewed separately."
+    },
+    "smooth_profile": {
+      "utc": "2026-10-31T10:28:44.195560+00:00",
+      "trace_sha256": "3331efc63bb8b1f6b0475e23e5a7cecf63a0711cb77ecf173ed13915f8270039",
+      "steps": 3300,
+      "force_max_n": 4.396228808156935,
+      "penetration_max_m": 7.654305524672222e-05,
+      "longest_contact_s": 1.1839999999998698,
+      "longest_contact_net_slide_m": 0.00014813462125461447,
+      "commanded_slide_net_m": 0.008214621821110326,
+      "slide_positive_duty": 0.9454061251664447,
+      "slide_ge_005n_duty": 0.9454061251664447,
+      "positive_sample_gap_s": 0.0039999999999995595,
+      "unintended_contact_steps": 0,
+      "joint_limit_max_rad": 0.0,
+      "verdict": "FAIL_CONTINUOUS_SLIDE",
+      "limitations": [
+        "Only saved best diag2 trace independently reconstructed; other candidates summary only.",
+        "s04/s05 rot=.15 labels are wrong: code used global.12; duplicate runs.",
+        "dt changes with stiff solref are confounded by refsafety clamp, not accepted convergence."
+      ]
+    },
+    "declared_compliance_grid": {
+      "profile": "pad priority1; solref tau10/20ms with damping1; dt2/1/0.5ms; original solimp/friction unchanged",
+      "independent_trace_review": {
+        "timestamp_utc": "2026-10-31T10:37:21.100375+00:00",
+        "independently_reconstructed": [
+          {
+            "candidate": "p-tau10ms-dt2p00ms",
+            "force_max_n": 3.58404485169133,
+            "penetration_m": 0.00015883055372784002,
+            "continuous_slide_m": 0.00037424237390236285,
+            "continuous_contact_s": 1.3299999999998535,
+            "trace_sha256": "d164e9cb47fb6da64529cbde44ecbf2d43db610f3d1b7d1eec76dabe01af4790",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          },
+          {
+            "candidate": "p-tau10ms-dt1p00ms",
+            "force_max_n": 2.5562482573044107,
+            "penetration_m": 0.00010777618907838182,
+            "continuous_slide_m": 0.00031229637958996075,
+            "continuous_contact_s": 1.2779999999998592,
+            "trace_sha256": "955bcf3666883af982467f1227668b3085b6e4f7b46e04bc77a7d7c8afb12dfc",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          },
+          {
+            "candidate": "p-tau10ms-dt0p50ms",
+            "force_max_n": 2.445308006345571,
+            "penetration_m": 0.00010391639767617923,
+            "continuous_slide_m": 0.00029854818268205686,
+            "continuous_contact_s": 1.2150000000004055,
+            "trace_sha256": "6d5605eabf2922432cc83737132c0471184903e029fe655b7cf048e50d6a3ff0",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          },
+          {
+            "candidate": "p-tau20ms-dt2p00ms",
+            "force_max_n": 3.3028543455480825,
+            "penetration_m": 0.0002480252578252323,
+            "continuous_slide_m": 0.0008230026869257704,
+            "continuous_contact_s": 1.461999999999839,
+            "trace_sha256": "6a7b6fbaecad70cb3b3167221f1d7d4ae3d5f9b83105f610530520a252e47c7e",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          },
+          {
+            "candidate": "p-tau20ms-dt1p00ms",
+            "force_max_n": 2.732254312516833,
+            "penetration_m": 0.0002231182715525526,
+            "continuous_slide_m": 0.0006527837131657329,
+            "continuous_contact_s": 1.4309999999998424,
+            "trace_sha256": "24aa7e0cc103254c5dee5e12550cbc2a96c7ccb573d0ef935321263e41d4cbb7",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          },
+          {
+            "candidate": "p-tau20ms-dt0p50ms",
+            "force_max_n": 2.4411611393629435,
+            "penetration_m": 0.00021693360951016705,
+            "continuous_slide_m": 0.0005751242199650502,
+            "continuous_contact_s": 1.4045000000004688,
+            "trace_sha256": "f27df88f6c060a423a87faacd543c3028499a341d9a2a43a84e43730e6e90ad3",
+            "verdict": "FAIL_CONTINUOUS_SLIDE"
+          }
+        ],
+        "all_six_match_worker": true,
+        "source_hash_matches": true,
+        "policy_training": false
+      }
+    },
+    "causal_force_teacher": {
+      "started_utc": "2026-10-31T10:38:52.204749Z",
+      "finished_utc": "2026-10-31T10:38:53.384302Z",
+      "profile": {
+        "pad_solref": [
+          0.02,
+          1
+        ],
+        "pad_priority": 1,
+        "dt_s": 0.002
+      },
+      "candidates": [
+        {
+          "candidate": "fb1-F0p6-Ki0p01",
+          "teacher": {
+            "type": "integral normal-force feedback on if_mcp (privileged force, causal)",
+            "f_target_n": 0.6,
+            "ki_rad_per_Ns": 0.01,
+            "offset_clamp_rad": 0.08,
+            "step_clamp_rad": 0.0005,
+            "active_window": "first valid contact -> lift start; disabled at lift",
+            "uncalibrated_teacher_settings": true
+          },
+          "peak_all_pad_force_n": 3.3345053482705027,
+          "peak_penetration_m": 0.00021505889951431434,
+          "longest_contact_window": {
+            "net_slide_m": 0.000842337198848999,
+            "duration_s": 1.3759999999998487,
+            "start_s": 2.0159999999999996,
+            "end_s": 3.3899999999998482
+          },
+          "largest_displacement_in_any_continuous_window_m": 0.0009271293876642978,
+          "commanded_phase_displacement_m": 0.008934411621959704,
+          "slide_contact_duty": 0.9853528628495339,
+          "longest_missing_contact_run_s": 0.002,
+          "all_original_gates": {
+            "finite": true,
+            "episode_complete": true,
+            "no_warnings": true,
+            "limit_excursion<=0.01": true,
+            "penetration<=0.001": true,
+            "pad_force<=5N_all_pad_contacts": true,
+            "no_negative_normal_force": true,
+            "no_unintended_or_edge_contact": true,
+            "initial_clearance>=0.3s": true,
+            "final_clearance>=0.3s": true,
+            "sustained_contact>=0.3s@>=0.05N": true,
+            "slide_displacement>=5mm": false,
+            "pad_static": true
+          },
+          "trace_sha256": "29102f469ecc3e43485feb9c74c014195677e6dc7c7cbd8c75d5bd1bbb1e82be"
+        },
+        {
+          "candidate": "fb2-F0p6-Ki0p03",
+          "teacher": {
+            "type": "integral normal-force feedback on if_mcp (privileged force, causal)",
+            "f_target_n": 0.6,
+            "ki_rad_per_Ns": 0.03,
+            "offset_clamp_rad": 0.08,
+            "step_clamp_rad": 0.0005,
+            "active_window": "first valid contact -> lift start; disabled at lift",
+            "uncalibrated_teacher_settings": true
+          },
+          "peak_all_pad_force_n": 3.1642490019015757,
+          "peak_penetration_m": 0.00021505889951431434,
+          "longest_contact_window": {
+            "net_slide_m": 0.0008494545459411809,
+            "duration_s": 1.2839999999998588,
+            "start_s": 2.0159999999999996,
+            "end_s": 3.2979999999998584
+          },
+          "largest_displacement_in_any_continuous_window_m": 0.0009125458646495358,
+          "commanded_phase_displacement_m": 0.009827248530709511,
+          "slide_contact_duty": 0.9747003994673769,
+          "longest_missing_contact_run_s": 0.004,
+          "all_original_gates": {
+            "finite": true,
+            "episode_complete": true,
+            "no_warnings": true,
+            "limit_excursion<=0.01": true,
+            "penetration<=0.001": true,
+            "pad_force<=5N_all_pad_contacts": true,
+            "no_negative_normal_force": true,
+            "no_unintended_or_edge_contact": true,
+            "initial_clearance>=0.3s": true,
+            "final_clearance>=0.3s": true,
+            "sustained_contact>=0.3s@>=0.05N": true,
+            "slide_displacement>=5mm": false,
+            "pad_static": true
+          },
+          "trace_sha256": "5a711c35a2d5703cfbb675d9980934bc699c912fddc987921fa769528adde3fd"
+        },
+        {
+          "candidate": "fb3-F1p0-Ki0p01",
+          "teacher": {
+            "type": "integral normal-force feedback on if_mcp (privileged force, causal)",
+            "f_target_n": 1.0,
+            "ki_rad_per_Ns": 0.01,
+            "offset_clamp_rad": 0.08,
+            "step_clamp_rad": 0.0005,
+            "active_window": "first valid contact -> lift start; disabled at lift",
+            "uncalibrated_teacher_settings": true
+          },
+          "peak_all_pad_force_n": 3.4192268847067817,
+          "peak_penetration_m": 0.00021505889951431434,
+          "longest_contact_window": {
+            "net_slide_m": 0.0008379426660450964,
+            "duration_s": 1.3959999999998465,
+            "start_s": 2.0159999999999996,
+            "end_s": 3.409999999999846
+          },
+          "largest_displacement_in_any_continuous_window_m": 0.0010302867406863157,
+          "commanded_phase_displacement_m": 0.009571309035030477,
+          "slide_contact_duty": 0.9853528628495339,
+          "longest_missing_contact_run_s": 0.002,
+          "all_original_gates": {
+            "finite": true,
+            "episode_complete": true,
+            "no_warnings": true,
+            "limit_excursion<=0.01": true,
+            "penetration<=0.001": true,
+            "pad_force<=5N_all_pad_contacts": true,
+            "no_negative_normal_force": true,
+            "no_unintended_or_edge_contact": true,
+            "initial_clearance>=0.3s": true,
+            "final_clearance>=0.3s": true,
+            "sustained_contact>=0.3s@>=0.05N": true,
+            "slide_displacement>=5mm": false,
+            "pad_static": true
+          },
+          "trace_sha256": "24247335c42cd6ce78d522decdbbad5b6d98bd0260e22c9ca95ed96c5c60b213"
+        },
+        {
+          "candidate": "fb4-F1p0-Ki0p03",
+          "teacher": {
+            "type": "integral normal-force feedback on if_mcp (privileged force, causal)",
+            "f_target_n": 1.0,
+            "ki_rad_per_Ns": 0.03,
+            "offset_clamp_rad": 0.08,
+            "step_clamp_rad": 0.0005,
+            "active_window": "first valid contact -> lift start; disabled at lift",
+            "uncalibrated_teacher_settings": true
+          },
+          "peak_all_pad_force_n": 3.070933421180557,
+          "peak_penetration_m": 0.00021505889951431434,
+          "longest_contact_window": {
+            "net_slide_m": 0.0008429474059633267,
+            "duration_s": 1.3339999999998533,
+            "start_s": 2.0159999999999996,
+            "end_s": 3.347999999999853
+          },
+          "largest_displacement_in_any_continuous_window_m": 0.0008429474059633267,
+          "commanded_phase_displacement_m": 0.009100125851729382,
+          "slide_contact_duty": 0.9826897470039947,
+          "longest_missing_contact_run_s": 0.002,
+          "all_original_gates": {
+            "finite": true,
+            "episode_complete": true,
+            "no_warnings": true,
+            "limit_excursion<=0.01": true,
+            "penetration<=0.001": true,
+            "pad_force<=5N_all_pad_contacts": true,
+            "no_negative_normal_force": true,
+            "no_unintended_or_edge_contact": true,
+            "initial_clearance>=0.3s": true,
+            "final_clearance>=0.3s": true,
+            "sustained_contact>=0.3s@>=0.05N": true,
+            "slide_displacement>=5mm": false,
+            "pad_static": true
+          },
+          "trace_sha256": "198c82f30a09354bfaa4745daeb24b3cae194072f2e56232237550155d842f40"
+        }
+      ],
+      "all_failed": true,
+      "extra_best_render_rerun": true
+    }
+  },
+  "corrections": [
+    "The diag2 .15rad labels were wrong: the code used the global .12rad. Those two runs are duplicates, not distinct experiments.",
+    "The original .0001s solref is subject to timestep-dependent refsafety clipping; its dt sweep does not establish convergence.",
+    "Commanded-phase displacement across gaps is not continuous-contact displacement. All continuous windows were also checked; none reaches5mm.",
+    "Reported contact dips are measured; whether numerical/contact-geometry effects or physical stick-slip dominate remains unresolved.",
+    "The worker performed one deterministic best-case render rerun after all feedback candidates failed; this is additional measured execution, not a passing candidate."
+  ],
+  "limitations": [
+    "No v1 pad acceptance, D1 data, visual feedback controller or policy training.",
+    "Unaccepted pad implementation remains in an isolated worker checkout; no failed controller is integrated as an accepted production environment.",
+    "Fingertip FSR, conductive-pad recognition and real Apple trackpad behavior are not simulated or physically validated.",
+    "Current evidence does not justify silently relaxing the5mm continuous-contact gate or deleting loss-of-contact samples."
+  ]
+}

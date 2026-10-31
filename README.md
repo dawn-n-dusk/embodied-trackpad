@@ -8,7 +8,7 @@ The intended action path is **policy → robot dynamics → touch contacts → d
 
 **Current target:** the user has selected **LEAP v1 Full**, four fingers and 16 independent motor channels. Its [hand-only CPU baseline](docs/leap-v1-model.md) has been implemented and reviewed: 11,000 steps / 22 simulated seconds, with explicit collision/tracking limitations. V1 pad contact and visual control remain pending. [ADR 0007](docs/decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md) records the hardware choice. [ADR 0008](docs/decisions/0008-full-finetuning-and-simulation-first.zh-CN.md) confirms full fine-tuning and simulation-first validation, with physical FSR/conductive-fingertip checks deferred.
 
-**Measured status:** the previous LEAP v2 Advanced model ran in MuJoCo CPU and in 1/32/128/512-world H800 diagnostics. One scripted pad cycle and its 105-frame native Mac contact replay passed bounded checks. These remain v2 results. Online visual control, D1 data, learning and v1 pad/GPU validation are still pending. See [STATUS.md](STATUS.md) and the [native bridge report](docs/leap-native-bridge.md).
+**Measured status:** LEAP v1 now has a separately reviewed [1/32-world H800 runtime smoke](docs/leap-v1-gpu-runtime.md), including a diagnostic PyTorch BF16 update. This is hand-only runtime verification, not policy training. V1 pad contact, online visual control, D1 data and learning remain pending. The earlier v2 1/32/128/512-world diagnostics, scripted pad cycle and 105-frame native replay retain their original v2 attribution. See [STATUS.md](STATUS.md).
 
 ## Run the foundation
 
@@ -28,7 +28,7 @@ Use a fresh output directory for each episode. This generates a **mock software 
 
 The new [v1 model guide](docs/leap-v1-model.md) describes the separate 16-channel model, asset fetcher and CPU probe. It retains upstream simulation dynamics and has not been calibrated to physical XC330 motors. The following earlier pad/GPU/native results belong to v2.
 
-The [local live viewer](docs/leap-v1-live.md) shows freshly rendered v1 physics, with displayed-frame freshness and a bounded runtime. Its [browser acceptance record](experiments/records/leap-v1-live-20261031.json) covers actual moving images and a responsive layout. This current viewer runs a diagnostic script; training-attached monitoring is the next integration stage.
+The [local live viewer](docs/leap-v1-live.md) renders v1 physics with displayed-frame freshness and a bounded runtime. Its reviewed demonstration has ended. The new [training monitor interface](docs/training-monitor.zh-CN.md) reads producer-published frames and metadata, separates test/demo/evaluation/training sources, and follows declared job lifetime. Its finite TEST-source browser checks passed; actual training attachment remains pending.
 
 The [pad-contact guide](docs/leap-pad.md) and [acceptance record](experiments/records/leap-pad-contact-20261031.json) document the first scripted fingertip cycle. The [model guide](docs/leap-model.md) describes the pinned asset downloader, optional CPU dependencies, runtime probe and calibration limits. Models remain in an ignored cache; the published code does not bundle meshes. [Measured results and failed candidates](experiments/records/leap-v2-cpu-20261031.json) retain the distinction between a scripted diagnostic and an autonomous learned task.
 

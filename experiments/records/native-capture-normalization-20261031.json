@@ -1,0 +1,69 @@
+{
+  "record_version": "1.0",
+  "id": "native-capture-normalization-20261031",
+  "timestamp_utc": "2026-10-31T10:36:53.108966+00:00",
+  "status": "own_view_normalized_capture_reviewed",
+  "source_base_commit": "7385a5807f07f5ae88c28cf0bf58b0a8d7f52839",
+  "source_sha256": {
+    "macos/TrackpadSandbox/Sources/main.swift": "d94ec53cc29a699952626b65b4fc87f531c7d37eb26f7dab546459cf486be1d8",
+    "tests/test_mac_sandbox_protocol.py": "af3f8f0051d9074215fa21182d5c2076cc996f8b8e41a9db4aa09bf0c821e8f4",
+    "docs/mac-sandbox.md": "0323d81f46565b66a2a853131baa853a7c6669d01f6654fc68493d2c132665f5",
+    "docs/native-capture-resolution.md": "eb3da84199d43a3841595a1afc647c747bfbcbdd9dd2b704efed97033e049c0c"
+  },
+  "worker_binary_sha256": "ed456f8edd382c478d0970f5407b2c00a2196ab784cb96da5ba009382f476d13",
+  "app_version": "0.4.0",
+  "decision": "Keep the actor observation at actual800x600pixels, matching logicalcoordinates; render only this sandbox app contentview.",
+  "independent_review": {
+    "timestamp_utc": "2026-10-31T10:35:47.848820+00:00",
+    "images": [
+      {
+        "name": "evidence-A-center.png",
+        "shape": [
+          800,
+          600
+        ],
+        "centroid": [
+          399.5,
+          299.5
+        ],
+        "sha256": "426c38217080f5c2578c55dad0aae8bcb71b44ce8148c260cd0d7b33afa7e33f"
+      },
+      {
+        "name": "evidence-B-moved.png",
+        "shape": [
+          800,
+          600
+        ],
+        "centroid": [
+          439.5,
+          275.5
+        ],
+        "sha256": "018fe44e61f2535f6c819a76e0165fa3db29d6de77e3c7ec721d3aa9d86d43d6"
+      }
+    ],
+    "measured_delta_px": [
+      40.0,
+      -24.0
+    ],
+    "source_hash_matches": true,
+    "independent_native_tests": {
+      "passed": 48,
+      "failed": 0
+    },
+    "inspection": "Both actual own-view PNGs visually inspected; cursor relocation and readable UI confirmed.",
+    "limit": "Synthetic touch protocol in confined app only; other display scale hosts not tested."
+  },
+  "worker_reported_tests": {
+    "native": 48,
+    "full_suite_passed": 176,
+    "full_suite_skipped": 8,
+    "smoke": 18,
+    "image_checks": 8
+  },
+  "limitations": [
+    "Synthetic contacts in own sandbox GUI, not robot policy or physical Mac trackpad input.",
+    "Tested on M5 Retina host; other backing-scale hosts not exercised.",
+    "Unchanged DeviceModel/touch/actor-evaluator separation and sandbox entitlements checked in source diff.",
+    "Worker full-suite counts are separate from independent48-test native verification."
+  ]
+}

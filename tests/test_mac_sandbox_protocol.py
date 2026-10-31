@@ -8,9 +8,11 @@ semantics, watchdog behavior, and capture shape run against the live GUI.
 import json
 import os
 import stat
+import struct
 import subprocess
 import sys
 import time
+import zlib
 
 import pytest
 
@@ -406,6 +408,74 @@ def test_drag_completes_by_object_placement(client):
 
 
 # ---- channel separation ---------------------------------------------------------
+def _png_ihdr(png):
+    """Actual PNG IHDR (width, height), decoded independently of the app."""
+    assert png[:8] == b"\x89PNG\r\n\x1a\n"
+    length, ctype = struct.unpack(">I4s", png[8:16])
+    assert ctype == b"IHDR" and length == 13
+    return struct.unpack(">II", png[16:24])
+
+
+def _png_rows(png):
+    """Unfilter an 8-bit RGB/RGBA PNG to raw scanline bytes (stdlib only)."""
+    w, h = _png_ihdr(png)
+    bit_depth, color_type, interlace = png[24], png[25], png[28]
+    assert bit_depth == 8 and color_type in (2, 6) and interlace == 0
+    ch = 3 if color_type == 2 else 4
+    idat = b""
+    off = 8
+    while off < len(png):
+        ln, typ = struct.unpack(">I4s", png[off:off + 8])
+        if typ == b"IDAT":
+            idat += png[off + 8:off + 8 + ln]
+        off += 12 + ln
+    raw = zlib.decompress(idat)
+    stride = w * ch
+    rows, prev, pos = [], bytearray(stride), 0
+    for _ in range(h):
+        filt = raw[pos]
+        pos += 1
+        line = bytearray(raw[pos:pos + stride])
+        pos += stride
+        for i in range(stride):
+            a = line[i - ch] if i >= ch else 0
+            b = prev[i]
+            cc = prev[i - ch] if i >= ch else 0
+            if filt == 1:
+                line[i] = (line[i] + a) & 0xFF
+            elif filt == 2:
+                line[i] = (line[i] + b) & 0xFF
+            elif filt == 3:
+                line[i] = (line[i] + (a + b) // 2) & 0xFF
+            elif filt == 4:
+                p = a + b - cc
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - cc)
+                line[i] = (line[i] + (a if pa <= pb and pa <= pc
+                                      else (b if pb <= pc else cc))) & 0xFF
+        rows.append(line)
+        prev = line
+    return w, h, ch, rows
+
+
+def _cursor_centroid(png):
+    """Centroid (col, row) of the red virtual-cursor pixels in the image.
+
+    Only the cursor uses saturated red (systemRed); targets/rows are blue,
+    orange, purple, green, or pastel, so a strict threshold isolates it.
+    """
+    w, h, ch, rows = _png_rows(png)
+    cols, rws = [], []
+    for y in range(h):
+        row = rows[y]
+        for x in range(w):
+            i = x * ch
+            if row[i] > 200 and row[i + 1] < 90 and row[i + 2] < 90:
+                cols.append(x)
+                rws.append(y)
+    assert cols, "no red cursor pixels found in capture"
+    return sum(cols) / len(cols), sum(rws) / len(rws)
+
+
 def test_touch_ack_carries_no_truth(client):
     r = client.touch([("a", 0.0, 0.0, 0.2)])
     assert r["type"] == "touch_ok"
@@ -417,13 +487,39 @@ def test_touch_ack_carries_no_truth(client):
 def test_capture_shape(client):
     r1 = client.capture()
     r2 = client.capture()
+    # Declared observation dimensions are the normalized logical size...
     assert r1["width"] == 800 and r1["height"] == 600
+    assert r2["width"] == 800 and r2["height"] == 600
+    # ...and the ACTUAL PNG IHDR matches them (not Retina backing pixels).
+    assert _png_ihdr(r1["png"]) == (800, 600)
+    assert _png_ihdr(r2["png"]) == (800, 600)
     assert r2["frame_id"] == r1["frame_id"] + 1
     assert r2["monotonic_time_s"] >= r1["monotonic_time_s"]  # declared clock
     assert r1["png"][:8] == b"\x89PNG\r\n\x1a\n"
     for key in ("cursor", "release_count", "target_hits", "drag_done",
                 "scroll_offset_px", "click_target"):
         assert key not in r1
+
+
+def test_capture_cursor_pixels_track_logical_movement(client):
+    # Real bitmap/coordinate behavior: a known logical cursor move shifts the
+    # rendered cursor by the same delta in image pixels (1 logical px = 1
+    # image px; PNG rows run top-down against the y-up view).
+    client.reset(seed=1)
+    cap0 = client.capture()
+    c0 = _cursor_centroid(cap0["png"])
+    st0 = client.state()["cursor"]
+    client.touch([("a", 0.0, 0.0, 0.2)])  # origin contact: no teleport
+    for i in range(1, 9):                 # light hover, below press force
+        client.touch([("a", i * 0.001, i * 0.0005, 0.2)])
+    client.touch([])
+    st1 = client.state()["cursor"]
+    cap1 = client.capture()
+    c1 = _cursor_centroid(cap1["png"])
+    dx, dy = st1["x"] - st0["x"], st1["y"] - st0["y"]
+    assert (dx, dy) == (32.0, 16.0)  # 4000 px/m device gain, 8 frames
+    assert abs((c1[0] - c0[0]) - dx) < 2.0
+    assert abs((c1[1] - c0[1]) + dy) < 2.0  # row axis is inverted vs view y
 
 
 def test_state_query_is_explicitly_privileged(client):
