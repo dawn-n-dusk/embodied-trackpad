@@ -43,8 +43,35 @@ func layoutForSeed(_ seed: UInt64) -> Layout {
     )
 }
 
+// Named fixed benchmark reset profile "near_pointing_v1": the click target
+// becomes a 32x32 blue square whose centre sits at a FIXED offset from the
+// existing reset cursor position (400,300). Exactly 12 offsets exist,
+// selected reproducibly by seed % 12. Published exact order (logical px,
+// +x right / +y up):
+//   0:(+12,0) 1:(+18,0) 2:(+24,0) 3:(-12,0) 4:(-18,0) 5:(-24,0)
+//   6:(0,+12) 7:(0,+18) 8:(0,+24) 9:(0,-12) 10:(0,-18) 11:(0,-24)
+// The target is placed once at reset and NEVER follows the cursor; distances
+// are never reduced during an episode. No text is drawn over this small
+// target, so the fixed-colour pixel extractor keeps >=200 visible blue
+// pixels even when the pressed red cursor ring overlaps the target centre.
+let NEAR_PROFILE_ID = "near_pointing_v1"
+let DEFAULT_PROFILE_ID = "default"
+let NEAR_OFFSETS: [(dx: CGFloat, dy: CGFloat)] = [
+    (12, 0), (18, 0), (24, 0),
+    (-12, 0), (-18, 0), (-24, 0),
+    (0, 12), (0, 18), (0, 24),
+    (0, -12), (0, -18), (0, -24),
+]
+
+func nearTargetForSeed(_ seed: UInt64) -> CGRect {
+    let off = NEAR_OFFSETS[Int(seed % 12)]
+    return CGRect(x: CONTENT_W / 2 + off.dx - 16, y: CONTENT_H / 2 + off.dy - 16,
+                  width: 32, height: 32)
+}
+
 final class SandboxView: NSView {
     var layout = layoutForSeed(1)
+    var taskProfile = DEFAULT_PROFILE_ID
     var cursorX: CGFloat = CONTENT_W / 2
     var cursorY: CGFloat = CONTENT_H / 2
     var buttonDown = false
@@ -91,12 +118,16 @@ final class SandboxView: NSView {
         NSColor.darkGray.setStroke()
         NSBezierPath(rect: scrollFrame).stroke()
 
-        // Click target (green flash after a completed click on it).
+        // Click target (green flash after a completed click on it). The
+        // near_pointing_v1 profile draws NO text over its 32x32 target so
+        // the fixed-colour extractor keeps an unobstructed blue marker.
         let flashing = CACurrentMediaTime() < clickFlashUntil
         (flashing ? NSColor.systemGreen : NSColor.systemBlue).setFill()
         NSBezierPath(roundedRect: layout.clickTarget, xRadius: 8, yRadius: 8).fill()
-        ("click target" as NSString).draw(at: NSPoint(x: layout.clickTarget.minX + 6, y: layout.clickTarget.midY - 8),
-            withAttributes: [.font: NSFont.systemFont(ofSize: 12), .foregroundColor: NSColor.white])
+        if taskProfile != NEAR_PROFILE_ID {
+            ("click target" as NSString).draw(at: NSPoint(x: layout.clickTarget.minX + 6, y: layout.clickTarget.midY - 8),
+                withAttributes: [.font: NSFont.systemFont(ofSize: 12), .foregroundColor: NSColor.white])
+        }
 
         // Drag source outline (original position marker) and the draggable
         // object itself at its live position.
@@ -130,6 +161,7 @@ final class Controller: NSObject, NSApplicationDelegate {
     var view: SandboxView!
     var processor: TouchProcessor!
     var seed: UInt64 = 1
+    var taskProfile = DEFAULT_PROFILE_ID
     var frameId: UInt64 = 0
     var lastSimTimeS: Double = 0
     var releaseCount = 0
@@ -164,7 +196,7 @@ final class Controller: NSObject, NSApplicationDelegate {
         window.contentView = view
         window.center()
         window.makeKeyAndOrderFront(nil)
-        emit(["type": "hello", "app": "TrackpadSandbox", "version": "0.4.0",
+        emit(["type": "hello", "app": "TrackpadSandbox", "version": "0.5.0",
               "diagnostics": diagnosticsEnabled, "evaluator": evaluatorEnabled,
               "content_size": ["w": Double(CONTENT_W), "h": Double(CONTENT_H)]])
         // Host monotonic watchdog: a stalled transport (no touch frames for
@@ -227,8 +259,25 @@ final class Controller: NSObject, NSApplicationDelegate {
             guard let sv = msg["seed"], !TouchProcessor.isBoolValue(sv), let seedVal = sv as? Int, seedVal >= 0 else {
                 emitError("bad_seed", "seed must be a non-negative int"); return
             }
+            // Optional named fixed benchmark profile. Validated BEFORE any
+            // state changes so an unknown/invalid profile fails atomically
+            // without resetting the existing episode state.
+            var profile = DEFAULT_PROFILE_ID
+            if let pv = msg["task_profile"], !(pv is NSNull) {
+                guard let p = pv as? String, p == NEAR_PROFILE_ID else {
+                    emitError("bad_task_profile",
+                              "unknown task_profile; only \"\(NEAR_PROFILE_ID)\" is defined"); return
+                }
+                profile = p
+            }
             seed = UInt64(seedVal)
+            taskProfile = profile
+            view.taskProfile = profile
             view.layout = layoutForSeed(seed)
+            if profile == NEAR_PROFILE_ID {
+                // Fixed placement before any action; never follows the cursor.
+                view.layout.clickTarget = nearTargetForSeed(seed)
+            }
             view.targetHits = 0; view.dragDone = false
             view.resetObject()
             dragging = false; releaseCount = 0; targetHits = 0
@@ -236,7 +285,9 @@ final class Controller: NSObject, NSApplicationDelegate {
             lastInputWall = nil
             processor.resetCursor()
             syncView()
-            emit(["type": "reset_ok", "seed": seedVal])
+            // The echo names the profile only; it carries no target/cursor/
+            // layout truth (that stays in the privileged evaluator state).
+            emit(["type": "reset_ok", "seed": seedVal, "profile": profile])
         case "touch":
             for key in msg.keys where !["cmd", "schema_version", "sequence", "simulation_time_s", "contacts"].contains(key) {
                 emitError("unknown_field", key); return
@@ -276,7 +327,8 @@ final class Controller: NSObject, NSApplicationDelegate {
                   "release_count": releaseCount, "target_hits": targetHits,
                   "drag_done": view.dragDone,
                   "drag_object": ["x": Double(view.dragObjectPos.x), "y": Double(view.dragObjectPos.y)],
-                  "seed": Int(seed), "last_simulation_time_s": lastSimTimeS,
+                  "seed": Int(seed), "task_profile": taskProfile,
+                  "last_simulation_time_s": lastSimTimeS,
                   "click_target": rectDict(view.layout.clickTarget),
                   "drag_source": rectDict(view.layout.dragSource),
                   "drag_destination": rectDict(view.layout.dragDestination)])

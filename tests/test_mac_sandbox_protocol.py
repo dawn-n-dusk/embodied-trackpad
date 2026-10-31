@@ -16,7 +16,14 @@ import zlib
 
 import pytest
 
-from tools.mac_sandbox_client import APP_BINARY, SandboxClient, SandboxError, _slide_to
+from tools.mac_sandbox_client import (
+    APP_BINARY,
+    NEAR_PROFILE_ID,
+    SandboxClient,
+    SandboxError,
+    _slide_to,
+    near_target_rect,
+)
 
 # These are real AppKit integration tests: they compile and launch the signed
 # native app, so they can only run on macOS. Repository CI (Ubuntu) collects
@@ -538,6 +545,131 @@ def test_reset_seed_deterministic_layout(client):
 
 def test_clean_exit_on_eof(client):
     assert client.quit() == 0
+
+
+# ---- near_pointing_v1 fixed reset profile -----------------------------------
+def _blue_stats(png):
+    """(count, centroid col, centroid row) of strict systemBlue-mask pixels,
+    matching the fixed-threshold extractor thresholds in
+    embodied_trackpad.leap_v1.visual_servo (_colour_mask target_blue)."""
+    w, h, ch, rows = _png_rows(png)
+    n, sx, sy = 0, 0.0, 0.0
+    for y in range(h):
+        row = rows[y]
+        for x in range(w):
+            i = x * ch
+            r, g, b = row[i], row[i + 1], row[i + 2]
+            if b >= 220 and r <= 100 and 60 <= g <= 190 and b - r >= 130 and b - g >= 50:
+                n += 1
+                sx += x
+                sy += y
+    return n, (sx / n if n else None), (sy / n if n else None)
+
+
+def _red_count(png):
+    """Strict systemRed-mask pixel count (visual_servo _colour_mask cursor_red)."""
+    w, h, ch, rows = _png_rows(png)
+    n = 0
+    for y in range(h):
+        row = rows[y]
+        for x in range(w):
+            i = x * ch
+            r, g, b = row[i], row[i + 1], row[i + 2]
+            if r >= 200 and g <= 120 and b <= 120 and r - g >= 110 and r - b >= 110:
+                n += 1
+    return n
+
+
+def test_near_profile_deterministic_offsets(client):
+    # All 12 published offsets land exactly, reproducibly, by seed % 12.
+    for seed in range(12):
+        r = client.reset(seed=seed, task_profile=NEAR_PROFILE_ID)
+        assert r["profile"] == NEAR_PROFILE_ID
+        st = client.state()
+        assert st["task_profile"] == NEAR_PROFILE_ID
+        assert st["click_target"] == near_target_rect(seed), f"seed {seed}"
+    # Wraparound: seed 12 selects the same offset as seed 0.
+    client.reset(seed=12, task_profile=NEAR_PROFILE_ID)
+    assert client.state()["click_target"] == near_target_rect(0)
+    # Same seed twice: identical fixed placement (never drifts between resets).
+    client.reset(seed=5, task_profile=NEAR_PROFILE_ID)
+    a = client.state()["click_target"]
+    client.reset(seed=5, task_profile=NEAR_PROFILE_ID)
+    assert client.state()["click_target"] == a
+
+
+def test_near_profile_does_not_leak_into_default_reset(client):
+    client.reset(seed=42)
+    default_a = client.state()["click_target"]
+    assert (default_a["w"], default_a["h"]) == (90.0, 60.0)  # existing layout
+    client.reset(seed=7, task_profile=NEAR_PROFILE_ID)
+    assert client.state()["click_target"] == near_target_rect(7)
+    # A later plain reset restores the exact default layout and profile.
+    client.reset(seed=42)
+    st = client.state()
+    assert st["click_target"] == default_a
+    assert st["task_profile"] == "default"
+
+
+def test_near_profile_invalid_fails_atomically(client):
+    client.reset(seed=7)
+    before = client.state()
+    for bad in ("teleport_please", "", 123, True, 12.5):
+        r = client.raw({"cmd": "reset", "seed": 9, "task_profile": bad})
+        assert r["type"] == "error" and r["code"] == "bad_task_profile", r
+    after = client.state()
+    # Nothing was reset: seed, layout, cursor and counters are untouched.
+    assert after["seed"] == before["seed"] == 7
+    assert after["click_target"] == before["click_target"]
+    assert after["cursor"] == before["cursor"]
+    assert after["release_count"] == before["release_count"]
+
+
+def test_near_profile_actor_role_stays_bounded():
+    with SandboxClient() as actor:  # normal actor launch, no evaluator role
+        r = actor.reset(seed=3, task_profile=NEAR_PROFILE_ID)
+        assert r["type"] == "reset_ok" and r["profile"] == NEAR_PROFILE_ID
+        for key in ("cursor", "click_target", "layout", "drag_source"):
+            assert key not in r
+        r = actor.raw({"cmd": "state"})  # actor still cannot query truth
+        assert r["type"] == "error" and r["code"] == "evaluator_required"
+        cap = actor.capture()  # capture stays the actual 800x600 own-window PNG
+        assert (cap["width"], cap["height"]) == (800, 600)
+        assert _png_ihdr(cap["png"]) == (800, 600)
+        actor.quit()
+
+
+def test_near_profile_target_never_follows_cursor(client):
+    client.reset(seed=0, task_profile=NEAR_PROFILE_ID)  # offset (+12, 0)
+    rect0 = client.state()["click_target"]
+    _slide_to(client, 200.0, 450.0)  # hover far away from the target
+    assert client.state()["click_target"] == rect0  # fixed, not following
+    cap = client.capture()
+    n, col, row = _blue_stats(cap["png"])
+    # Pixel-derived centre stays at the fixed target centre: image col = x,
+    # image row = 600 - logical y (y-up view, top-down PNG rows).
+    assert n >= 200
+    assert abs(col - (rect0["x"] + rect0["w"] / 2)) < 2.0
+    assert abs(row - (600 - (rect0["y"] + rect0["h"] / 2))) < 2.0
+
+
+def test_near_profile_marker_extractable_under_pressed_cursor(client):
+    client.reset(seed=1, task_profile=NEAR_PROFILE_ID)  # offset (+18, 0)
+    cap = client.capture()
+    n_open, _, _ = _blue_stats(cap["png"])
+    assert n_open >= 800  # unobstructed 32x32 marker (rounded corners + AA)
+    rect = client.state()["click_target"]
+    _slide_to(client, rect["x"] + rect["w"] / 2, rect["y"] + rect["h"] / 2)
+    client.touch([("a", 0.0, 0.0, 1.5)])  # pressed red ring over the centre
+    pressed = client.capture()
+    n_under, col, row = _blue_stats(pressed["png"])
+    # Marker stays extractable: >=200 blue pixels survive the pressed ring,
+    # and the red cursor itself remains clearly visible.
+    assert n_under >= 200, f"only {n_under} blue pixels under pressed ring"
+    assert _red_count(pressed["png"]) >= 24
+    assert abs(col - (rect["x"] + rect["w"] / 2)) < 2.0
+    assert abs(row - (600 - (rect["y"] + rect["h"] / 2))) < 2.0
+    client.touch([])
 
 
 # ---- diagnostics gating ---------------------------------------------------------

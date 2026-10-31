@@ -15,6 +15,10 @@ Boundary contract:
     contacts without scripted click coordinates.
   - touch acknowledgements carry acceptance/sequence only - never cursor,
     layout, or task-success truth.
+  - reset(seed, task_profile=None) optionally selects one NAMED fixed
+    benchmark profile ("near_pointing_v1": fixed 32x32 target at one of 12
+    published offsets from the reset cursor). Names only, never coordinates;
+    the ack echoes the profile name but no layout/cursor truth.
   - Observation: {"type":"observation","frame_id":int,"width":int,"height":int,
     "monotonic_time_s":float,"simulation_time_s":float,"png_base64":str} -
     pixels of the app's own content view only, a declared monotonic capture
@@ -45,6 +49,31 @@ CANARY_NAME = "sandbox-canary.txt"
 PAD_HALF_W = 0.08      # 0.16 m pad, pad-centered coordinates
 PAD_HALF_H = 0.055     # 0.11 m pad
 GAIN = 4000.0          # px per meter
+
+# Named fixed benchmark reset profile (see macos/TrackpadSandbox/Sources/
+# main.swift): the click target becomes a 32x32 blue square centred at a
+# FIXED offset from the reset cursor (400,300), selected by seed % 12 in
+# exactly this published order (logical px, +x right / +y up). The target
+# never follows the cursor and distances never shrink during an episode.
+NEAR_PROFILE_ID = "near_pointing_v1"
+NEAR_OFFSETS_PX = (
+    (12, 0), (18, 0), (24, 0),
+    (-12, 0), (-18, 0), (-24, 0),
+    (0, 12), (0, 18), (0, 24),
+    (0, -12), (0, -18), (0, -24),
+)
+NEAR_TARGET_SIZE = 32
+RESET_CURSOR_PX = (400.0, 300.0)
+
+
+def near_target_rect(seed):
+    """Expected privileged click_target rect (x, y, w, h) for a near seed."""
+    dx, dy = NEAR_OFFSETS_PX[seed % 12]
+    return {
+        "x": RESET_CURSOR_PX[0] + dx - NEAR_TARGET_SIZE / 2,
+        "y": RESET_CURSOR_PX[1] + dy - NEAR_TARGET_SIZE / 2,
+        "w": float(NEAR_TARGET_SIZE), "h": float(NEAR_TARGET_SIZE),
+    }
 
 
 class SandboxError(RuntimeError):
@@ -139,8 +168,18 @@ class SandboxClient:
         self.proc.stdin.flush()
         return self._read(timeout=timeout)
 
-    def reset(self, seed=1):
-        r = self._send({"cmd": "reset", "seed": seed})
+    def reset(self, seed=1, task_profile=None):
+        """Reset the episode; optionally select a named fixed benchmark profile.
+
+        task_profile is a profile NAME only (currently "near_pointing_v1"),
+        never caller-provided coordinates. Unknown profiles are rejected by
+        the app atomically before any state is reset. The acknowledgement
+        echoes the profile name but carries no layout/cursor truth.
+        """
+        msg = {"cmd": "reset", "seed": seed}
+        if task_profile is not None:
+            msg["task_profile"] = task_profile
+        r = self._send(msg)
         assert r["type"] == "reset_ok", r
         return r
 
