@@ -1,0 +1,42 @@
+{
+  "record_version": "1.0",
+  "id": "v1-prerequisite-publication-20261031",
+  "timestamp_utc": "2026-10-31T10:49:41.160470+00:00",
+  "status": "published_implementation_ci_passed",
+  "implementation_commit": "c9260ccdc35b9b70bbdac8bda76759025b41c327",
+  "remote_main_verified_at_review": "c9260ccdc35b9b70bbdac8bda76759025b41c327",
+  "ci": {
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41194189626",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "test (3.12)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.10)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.11)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.13)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "local_tests": {
+    "passed": 302,
+    "skipped": 18,
+    "failed": 0
+  },
+  "followup_documentation_only": "Update STATUS CI evidence and runtime-driver comments from historical qualification to this task measured driver; dependency version pins and executable code unchanged.",
+  "limitations": [
+    "Ubuntu CI omits native Mac execution and optional GPU/physics coverage; their independent receipts remain separate.",
+    "No v1 pad acceptance or policy training.",
+    "Temporary monitoring validation ended; no active training-attached video."
+  ]
+}

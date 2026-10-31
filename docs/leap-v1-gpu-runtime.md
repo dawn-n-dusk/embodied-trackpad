@@ -55,12 +55,12 @@ in private config; nothing in the tracked files names them.
 - `mujoco==3.17.0`, `mujoco-warp==3.17.0`, `warp-lang==1.18.0`,
   `numpy==2.2.6` — reused unchanged from `env/probe-requirements.txt`
   (verified in the 2026-10-30 single-H800 probe).
-- `torch==2.8.0` — mainstream stable; PyPI linux x86_64 wheel is the CUDA
-  12.8 build (sm_90 covers H800, needs driver ≥ 555.42). Driver compatibility
-  currently rests on **historical** probe evidence (2026-10-30: driver
-  580.173.02 / CUDA driver 13.0 on site H800 nodes), not on a measurement of
-  this task's allocated node; the smoke re-verifies and records the actual
-  node driver/device. Chosen toward pi0.5-era torch-based prerequisites
+- `torch==2.8.0` — selected runtime pin; the installed linux x86_64 wheel
+  is `2.8.0+cu128`. Compatibility was initially inferred from historical
+  H800 diagnostics, then measured in this task on driver `580.173.02`:
+  CUDA allocation, BF16 forward/backward and an optimizer update passed.
+  This does not certify compatibility with every other driver. Chosen
+  toward pi0.5-era torch-based prerequisites
   (torch ≥ 2.6), not the site's CUDA 12.2 toolkit module. This pin is a
   runtime-smoke pin only, not a validated pi0.5 training stack; no pi0.5
   weights are fetched.
