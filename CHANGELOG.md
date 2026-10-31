@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Added a normal-priority visual teacher with common-vector bound scaling and a per-substep contact-loss stop. Independently passed 83 pure/static/mock checks; preserved the legacy DLS option and failed episode. The actual diagnostic then failed the unchanged 1 mm penetration limit despite maintaining contact for 302 visual substeps; preserved the failed trace and stopped all physics at the first breach. Saved-state diagnosis follows before another run.
+
 - Executed and independently reviewed the first actual near-target visual robot episode:120 frame/control groups,5550 physics substeps,165 actual touch messages. Precision failed after contact loss (24.32→14.89px), with safe final clearance and app exit. Preserved raw evidence, diagnosed the normal-motion error and delegated a constrained teacher correction; no unchanged retry or learning claim.
 
 - Integrated a source-reviewed fixed-parameter near-pointing probe with65 independently passing input/physics/probe checks. Fixed finalization, input acknowledgement, release timing and evidence-label defects, preserving two timeouts and the original counterexamples. Froze source/model/native hashes and delegated one bounded actual episode; its outcome requires separate runtime review.

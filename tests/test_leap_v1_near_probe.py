@@ -456,14 +456,157 @@ def test_cli_exit_requires_success_release_and_reaping(tmp_path, monkeypatch):
             "episode_safe_complete_released": True, "child_reaped": True}
     calls = []
     monkeypatch.setattr(probe, "run",
-                        lambda seed, out: calls.append((seed, out)) or dict(base))
+                        lambda seed, out, planner_kind="dls":
+                        calls.append((seed, out)) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a")]) == 0
     for field in base:
         monkeypatch.setattr(probe, "run",
-                            lambda seed, out, f=field: {**base, f: False})
+                            lambda seed, out, planner_kind="dls", f=field:
+                            {**base, f: False})
         assert probe.main(["--seed", "1", "--out",
                            str(tmp_path / f"b_{field}")]) == 1
     calls.clear()
     with pytest.raises(SystemExit):
         probe.main(["--seed", "-1", "--out", str(tmp_path / "neg")])
     assert calls == []  # negative seed rejected before env/app work
+
+
+# --- 12. planner selection: default dls preserved, normal-priority wired -----
+
+def test_default_planner_kind_is_dls(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    patch_run_env(monkeypatch)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    summary = probe.run(1, tmp_path / "out")
+    assert summary["planner_kind"] == "dls"
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["planner"]["planner_kind"] == "dls"
+
+
+def test_invalid_planner_kind_rejected_before_output(tmp_path, monkeypatch):
+    with pytest.raises(ValueError, match="planner_kind"):
+        probe.run(1, tmp_path / "nope", planner_kind="bogus")
+    assert not (tmp_path / "nope").exists()  # no output/app work happened
+    calls = []
+    monkeypatch.setattr(probe, "run",
+                        lambda seed, out, planner_kind="dls": calls.append(1) or {})
+    with pytest.raises(SystemExit):
+        probe.main(["--seed", "1", "--out", str(tmp_path / "c"), "--planner", "bogus"])
+    assert calls == [] and not (tmp_path / "c").exists()
+
+
+def test_cli_planner_option_passed_through(tmp_path, monkeypatch):
+    base = {"near_pointing_success": True,
+            "episode_safe_complete_released": True, "child_reaped": True}
+    seen = []
+    monkeypatch.setattr(probe, "run",
+                        lambda seed, out, planner_kind="dls": seen.append(planner_kind)
+                        or dict(base))
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
+                       "--planner", "normal-priority"]) == 0
+    assert seen == ["normal-priority"]
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "b")]) == 0
+    assert seen == ["normal-priority", "dls"]
+
+
+def test_normal_priority_calls_new_planner_and_logs(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    monkeypatch.setattr(vp, "make_env", lambda: fake_env())
+    monkeypatch.setattr(vp, "reset_open", lambda env: None)
+
+    def fake_prep(R):
+        R["z_hold"] = 0.1
+        R["last_record"] = {"aggregate": {}}
+
+    monkeypatch.setattr(probe, "prep_phase", fake_prep)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i), est, 5.0)
+                for i, est in enumerate([make_est(20.0, 0.0), make_est(2.0, 0.0),
+                                         make_est(2.0, 0.0), make_est(2.0, 0.0)], 1)]
+    spy = []
+    real_plan = probe.npp.plan_normal_priority
+
+    def wrapped(*a, **kw):
+        out, info = real_plan(*a, **kw)
+        spy.append(info)
+        return out, info
+
+    monkeypatch.setattr(probe.npp, "plan_normal_priority", wrapped)
+    steps, sends = [], []
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: sends.append(agg))
+    monkeypatch.setattr(probe, "step",
+                        lambda R, ctrl, fid, phase: steps.append(1) or
+                        SimpleNamespace(aggregate={"index": {"normal_force_n": 0.5}}))
+    summary = probe.run(1, tmp_path / "out", planner_kind="normal-priority")
+    assert len(spy) == 3  # terminal success frame requests no action
+    assert len(steps) == 3 * probe.VISUAL_SUBSTEPS
+    assert summary["planner_kind"] == "normal-priority"
+    assert summary["near_pointing_success"] is True
+    plans = [p for p in read_lines(tmp_path / "out" / "planner.jsonl")
+             if p["kind"] == "plan"]
+    assert plans and all(p["planner_kind"] == "normal-priority" for p in plans)
+    for p in plans:
+        assert {"requested_task", "predicted_task", "common_scale", "dq",
+                "jac_3x4", "frame_id"} <= set(p)
+        assert p["predicted_task"][2] == pytest.approx(p["requested_task"][2])
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["planner"]["planner_kind"] == "normal-priority"
+
+
+def test_contact_loss_guard_stops_midcycle_normal_priority_only(tmp_path, monkeypatch):
+    R = make_R(tmp_path, env=fake_env())
+    R["planner_kind"] = "normal-priority"
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i), make_est(20.0, 0.0), 5.0)
+                for i in range(1, 8)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    sends = []
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: sends.append(agg))
+    steps = []
+
+    def fake_step(R, ctrl, fid, phase):
+        steps.append(1)
+        R["step_index"] += 1  # mirror the real step() bookkeeping
+        # valid index contact for the first 10 substeps, then contact lost
+        agg = {"index": {"normal_force_n": 0.5}} if len(steps) <= 10 else {}
+        return SimpleNamespace(aggregate=agg)
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    reason = probe.visual_phase(R)
+    close_R(R)
+    assert reason == "contact_loss"
+    # 10 valid (guard reset) + 50 lost x 2 ms = 0.1 s -> stop at substep 60,
+    # i.e. MID cycle 3 (cycle spans 51..75); no further visual step ran.
+    assert len(steps) == 60
+    assert len(sends) == 2  # cycles 1-2 sent; cycle 3 interrupted before send
+    events = read_lines(tmp_path / "planner.jsonl")
+    stop = [e for e in events if e["kind"] == "guard_stop"]
+    assert len(stop) == 1
+    assert stop[0]["cycle"] == 3 and stop[0]["step_index"] == 60
+    assert stop[0]["lost_s"] == pytest.approx(0.1)
+    assert "pre-action" in stop[0]["final_error_scope"]
+
+
+def test_dls_path_has_no_guard(tmp_path, monkeypatch):
+    R = make_R(tmp_path, env=fake_env())  # planner_kind defaults to dls
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i % 251), make_est(20.0, 0.0), 5.0)
+                for i in range(1, probe.MAX_CYCLES + 2)]
+    steps = stub_loop(R, monkeypatch, captures)  # aggregate always {}
+    reason = probe.visual_phase(R)
+    close_R(R)
+    assert reason == "max_cycles_exhausted"  # empty aggregate never triggers dls
+    assert len(steps) == probe.MAX_CYCLES * probe.VISUAL_SUBSTEPS
+    assert not any(e["kind"] == "guard_stop"
+                   for e in read_lines(tmp_path / "planner.jsonl"))

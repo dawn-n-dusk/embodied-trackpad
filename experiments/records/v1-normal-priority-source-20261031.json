@@ -1,0 +1,76 @@
+{
+  "record_version": "1.0",
+  "id": "v1-normal-priority-source-20261031",
+  "timestamp_utc": "2026-10-31T15:12:44.774987+00:00",
+  "kind": "independent_normal_priority_teacher_source_review",
+  "status": "accepted_for_one_bounded_visual_diagnostic",
+  "source_commit": "1022b5cc81cdfee3d0fd20657fcb99112469f377",
+  "worker_source_commit": "d6bfd39e589ba2c0ec4beddc7bc696c7956cea22",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/normal_priority.py": "906dc8ad4dd96ecff4cf1bf363563eba0b0e43640a547bfa6f46d33338b2fe0d",
+    "tests/test_leap_v1_normal_priority.py": "ed2f2072941fb4336ea4e371a7922d58a9d36c8b894c5985d0af1db06e9b5f05",
+    "tools/leap_v1_near_probe.py": "1d17d07bf558588c1848c648af9f74aa2c85dc9f0814ddafe86d1053f5de9916",
+    "tests/test_leap_v1_near_probe.py": "27bf9a62cdaef8f3fdbcc0c8003012514a457b86584730a401e7c81a370ab614"
+  },
+  "changes": [
+    "Exact first-order normal constraint with tangential null-space correction and common-vector bound scaling.",
+    "Reject out-of-range current references, invalid mappings and nonfinite contact-loss thresholds.",
+    "Explicit planner option preserves legacy DLS default; per-visual-substep contact-loss stop for candidate only."
+  ],
+  "independent_checks": {
+    "normal_priority_pure": 13,
+    "probe_pure_mock": 18,
+    "physics_static_stub": 17,
+    "visual_input": 35,
+    "passed": 83,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 0.41,
+    "actual_solver_steps": 0,
+    "native_app_launches": 0
+  },
+  "recorded_fixture_prediction_m": {
+    "cycle1_requested_normal": 0.0,
+    "cycle1_old_predicted_normal": 0.00019628121578594312,
+    "cycle1_candidate_predicted_normal_abs_tolerance": 1e-10,
+    "cycle20_requested_normal": -0.0002,
+    "cycle20_old_predicted_normal": 0.00012053207116254446,
+    "cycle20_candidate_predicted_normal": -0.0002
+  },
+  "runtime_gate": {
+    "allowed_episodes": 1,
+    "seed": 2,
+    "planner": "normal-priority",
+    "profile": "P1",
+    "sim_budget_s": 20,
+    "wall_budget_s": 120,
+    "max_cycles": 120,
+    "bytes_cap": 62914560,
+    "numerical_threads": 2,
+    "force_min_n": 0.05,
+    "max_continuous_loss_s": 0.1,
+    "pointing_success_px": 3,
+    "consecutive_frames": 3,
+    "relative_error_reduction": 0.5,
+    "source_native_model_hashes_frozen": true
+  },
+  "kimi_accounting": {
+    "dispatches": 3,
+    "elapsed_seconds_sum": 848.4,
+    "recorded_usage": {
+      "input_uncached": 270977,
+      "input_cached": 5117184,
+      "output": 27909,
+      "total": 5416070
+    },
+    "rework": "Two reproduced validation defects and a missing mapping-length check corrected; integration separately reviewed.",
+    "note": "Provider-recorded tokens, not billing or a measured delegation saving."
+  },
+  "limitations": [
+    "These tests prove algebra, validation and mocked execution boundaries only; actual contact and pointing are not established.",
+    "Normal constraint holds in the current Jacobian first-order approximation, not a guarantee about closed-loop dynamics.",
+    "Privileged teacher consumes simulator Jacobian and height; not a learned visual actor.",
+    "No accepted D1 dataset, policy optimizer update, new H800 policy allocation, real hardware or Apple trackpad validation.",
+    "One new seed2 runtime is dispatched separately; original failed DLS evidence is preserved."
+  ]
+}

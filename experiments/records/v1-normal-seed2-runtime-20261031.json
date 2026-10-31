@@ -1,0 +1,100 @@
+{
+  "record_version": "1.0",
+  "id": "v1-normal-seed2-runtime-20261031",
+  "timestamp_utc": "2026-10-31T15:20:32.516160+00:00",
+  "kind": "independent_actual_normal_priority_visual_diagnostic_review",
+  "status": "failed_penetration_limit_first_breach_stopped",
+  "source_commit": "1022b5cc81cdfee3d0fd20657fcb99112469f377",
+  "worker_source_commit": "d6bfd39e589ba2c0ec4beddc7bc696c7956cea22",
+  "source_acceptance": "experiments/records/v1-normal-priority-source-20261031.json",
+  "observed": {
+    "teacher_records": 1752,
+    "actor_frames": 13,
+    "visual_steps": 302,
+    "complete_action_groups": 12,
+    "partial_failed_action_group_steps": 2,
+    "wire_samples": 13,
+    "first_failure": {
+      "step": 1752,
+      "sim_time_s": 3.5039999999998357,
+      "phase": "visual",
+      "reasons": [
+        "penetration=0.001001m > 0.001m"
+      ]
+    },
+    "contact_kinds": [
+      "tip_pad_top"
+    ],
+    "peak_positive_all_contact_force_n": 1.8756176038087138,
+    "peak_penetration_mm": 1.0006705790110981,
+    "initial_visual_preload_force_n": 0.942364087260917,
+    "initial_visual_preload_penetration_mm": 0.6600221128319483,
+    "visual_longest_contact_s_sample_duration": 0.604,
+    "visual_below_005N_steps": 0,
+    "normal_prediction_abs_error_max_m": 2.710505431213761e-20,
+    "warnings": 0,
+    "actual_output_bytes_including_report": 3237446
+  },
+  "episode": {
+    "seed": 2,
+    "started_utc": "2026-10-31T15:13:18.468939+00:00",
+    "completed_utc": "2026-10-31T15:13:21.512315+00:00",
+    "planner_kind": "normal-priority",
+    "near_pointing_success": false,
+    "episode_safe_complete_released": false,
+    "release_measured": false,
+    "physics_unsafe": true,
+    "initial_error_px": 24.321276595744678,
+    "final_error_px": 24.633824529887036,
+    "accepted_frames": 13,
+    "steps": 1752,
+    "wall_s": 3.043,
+    "stop_reason": "physics_unsafe",
+    "controller_kind": "privileged_visual_teacher",
+    "training_eligible": false,
+    "child_returncode": 0,
+    "child_reaped": true
+  },
+  "independent_checks": {
+    "source_and_binary_hashes": true,
+    "strict_step_ids_and_time": true,
+    "first_failure_last_step_only": true,
+    "frame_ctrl_linkage": true,
+    "all_png_hashes_and_pixel_errors": true,
+    "all_wire_acks_and_payloads_match_physics": true,
+    "normal_algebra_matches_log": true,
+    "no_physics_after_failure": true,
+    "app_pid_absent_after_reap": true,
+    "final_saved_gui_image_visually_reviewed": true
+  },
+  "raw_artifact_sha256": {
+    "teacher.jsonl": "da39aec0fdcc52eaa74191f37a8a81fc1b3dddbcd7ea1c926aece2d1259e60ed",
+    "actor.jsonl": "407b6d2ff837df1e52a40f75f4b89d9944a6e3ad013d62fdc05ee25773b858c6",
+    "planner.jsonl": "2626da6ea3af89fbaecee7aa4d8a510f95231234f2170dfbd9a78987ba930b6b",
+    "touch.jsonl": "275851a60ef95b5d2165acd543fc5769a80574bebf97bba567ab9163060d31df",
+    "metadata.json": "d135143b3fa681780f3f54143a7edbdaa003ff5db549e84d46c0a655cc2073f1",
+    "summary.json": "e8c4c4d2a24e8bda0102eb81c749ca2ac72eaa6f302ce2e0ed5d80fa1faf5e5a"
+  },
+  "kimi_accounting": {
+    "elapsed_seconds": 192.5,
+    "recorded_usage": {
+      "records": 12,
+      "input_uncached": 39334,
+      "input_cached": 2123264,
+      "input_cache_write": 0,
+      "output": 4951,
+      "total": 2167549
+    },
+    "note": "Runtime dispatch includes preflight, exact native bundle provisioning, one episode and report. Provider counts are not billing."
+  },
+  "next_condition": "Analyze saved state, actual joint response and contact geometry before a different bounded controller test. Do not loosen the 1 mm limit or rerun this unchanged candidate.",
+  "limitations": [
+    "One failed near-target privileged teacher episode; no precision, D1 or policy-learning acceptance.",
+    "All 302 visual substeps retained >=0.05 N contact, but the run stopped after only 0.604 s of visual physics. This is not sustained-contact success.",
+    "Penetration rose from 0.660 mm to 1.001 mm; the 0.7 micrometre threshold overshoot is the first captured breach, not proof that the trend is safe.",
+    "The exact algebraic normal constraint applies to commanded increments; it did not guarantee actual height/contact or cursor movement.",
+    "Final error is the last pre-action screenshot estimate. No post-failure screenshot or improvement is inferred.",
+    "No cleanup physics was allowed after the unsafe step. The app exited and was reaped, but measured physical clearance was not achieved.",
+    "No new H800 job, training optimizer, real robot or physical Apple trackpad run. The prior DEMO stream remains ended."
+  ]
+}

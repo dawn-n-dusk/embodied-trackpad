@@ -5,8 +5,9 @@ ONE seed -> ONE fresh output directory. Fixed prep (0.6 s open, 1.8 s
 minimum-jerk to if_mcp=0.6/if_pip=0.3/if_dip=0.3, 0.5 s hold; physics only, no
 visual claim), then a pixel-only visual loop: decode the confined
 TrackpadSandbox's own-window PNG, gate it (freshness/uncertainty/confidence),
-map the cursor->target pixel error through the 3x4 damped least-squares index
-planner (bounds frozen in PLAN_CFG), apply 25 substeps (0.05 s) and stream the
+map the cursor->target pixel error through the selected index planner
+(--planner dls, the historical 3x4 DLS default, or --planner normal-priority,
+the exact-normal-constraint candidate; bounds frozen in PLAN_CFG for both), apply 25 substeps (0.05 s) and stream the
 ACTUAL aggregated contacts to the app as touch.v1. Success is <=3 px for 3 new
 frames plus >=50% error reduction, initial error >=10 px; evaluator/button
 flags are never consulted. Ends with a bounded cleanup (flex->0 over 0.8 s,
@@ -54,6 +55,7 @@ if str(REPO_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "src"))
 
 import mujoco  # noqa: E402
+from embodied_trackpad.leap_v1 import normal_priority as npp  # noqa: E402
 from embodied_trackpad.leap_v1 import pad_env as _pad  # noqa: E402
 from embodied_trackpad.leap_v1 import visual_physics as vp  # noqa: E402
 from embodied_trackpad.leap_v1.model import TIP_SITES  # noqa: E402
@@ -78,6 +80,7 @@ INITIAL_ERROR_MIN_PX, SUCCESS_PX, SUCCESS_FRAMES, SUCCESS_REDUCTION = 10.0, 3.0,
 RELEASE_WINDOW_S = 0.5
 PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
                             max_z_step_m=0.0002, damping=0.05, px_per_m=4000.0)
+PLANNER_KINDS = ("dls", "normal-priority")  # default preserves historical behavior
 
 
 class ResourceStop(RuntimeError):
@@ -257,6 +260,10 @@ def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
 
 def visual_phase(R: dict) -> str:
     env = R["env"]
+    kind = R.get("planner_kind", "dls")
+    # Privileged diagnostic gate (normal-priority candidate ONLY, visual phase
+    # ONLY — never prep/cleanup, never an actor input).
+    guard = npp.ContactLossGuard() if kind == "normal-priority" else None
     for R["cycle"] in range(1, MAX_CYCLES + 1):
         check_budgets(R)
         t_cycle = time.monotonic()
@@ -287,19 +294,45 @@ def visual_phase(R: dict) -> str:
         jac = site_jacobian(env)
         z_err = R["z_hold"] - tip_z(env)
         prev = np.array(R["ctrl"], dtype=float)
-        nxt, info = vp.plan_index_correction((ex, ey), z_err, jac, prev,
-                                             env.index_map, PLAN_CFG)
+        if kind == "normal-priority":
+            nxt, info = npp.plan_normal_priority((ex, ey), z_err, jac, prev,
+                                                 env.index_map, PLAN_CFG)
+            plan_extra = {"requested_task": info["requested_task"],
+                          "predicted_task": info["predicted_task"],
+                          "common_scale": info["common_scale"],
+                          "dq": info["dq"]}
+        else:
+            nxt, info = vp.plan_index_correction((ex, ey), z_err, jac, prev,
+                                                 env.index_map, PLAN_CFG)
+            plan_extra = {"task_m": info["task_m"], "dq_rad": info["dq_rad"]}
         log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True)
         R["planner"].write(json.dumps(
-            {"kind": "plan", "cycle": R["cycle"], "frame_id": frame["frame_id"],
+            {"kind": "plan", "planner_kind": kind, "cycle": R["cycle"],
+             "frame_id": frame["frame_id"],
              "error_px": [ex, ey], "z_error_m": float(z_err),
-             "jac_3x4": [[float(v) for v in row] for row in jac],
-             "task_m": info["task_m"], "dq_rad": info["dq_rad"]},
+             "jac_3x4": [[float(v) for v in row] for row in jac], **plan_extra},
             allow_nan=False) + "\n")
         R["planner"].flush()
         R["ctrl"] = nxt
         for _ in range(VISUAL_SUBSTEPS):
             rec = step(R, nxt, frame["frame_id"], "visual")
+            if guard is not None:
+                entry = rec.aggregate.get("index")  # teacher aggregate only
+                lost = guard.update(TIMESTEP_S, entry is not None,
+                                    None if entry is None else entry.get("normal_force_n"))
+                if lost:
+                    R["planner"].write(json.dumps(
+                        {"kind": "guard_stop", "planner_kind": kind,
+                         "cycle": R["cycle"], "frame_id": frame["frame_id"],
+                         "step_index": R["step_index"],
+                         "sim_time_s": float(env.data.time),
+                         "index_force_n": None if entry is None else entry.get("normal_force_n"),
+                         "lost_s": guard.lost_s,
+                         "final_error_scope": "final_error_px is the last "
+                            "pre-action observed pixel error; no post-stop "
+                            "improvement is claimed"}, allow_nan=False) + "\n")
+                    R["planner"].flush()
+                    return "contact_loss"  # stop NOW: no touch send, no more steps
         send_touch(R, rec.aggregate)
         dt = time.monotonic() - t_cycle
         if dt < CYCLE_MIN_WALL_S:
@@ -324,7 +357,9 @@ def cleanup_phase(R: dict) -> bool:
     return release_from_records(R["cleanup_records"])
 
 
-def run(seed: int, out_dir) -> dict:
+def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
+    if planner_kind not in PLANNER_KINDS:  # validated BEFORE output/app work
+        raise ValueError(f"unknown planner_kind {planner_kind!r}; choices {PLANNER_KINDS}")
     out = Path(out_dir)
     out.mkdir(parents=True)
     started_utc = datetime.now(timezone.utc).isoformat()  # actual start
@@ -332,7 +367,7 @@ def run(seed: int, out_dir) -> dict:
          "step_index": 0, "seq": 0, "cycle": 0, "ctrl": np.zeros(vp.NU),
          "z_hold": None, "initial_error": None, "final_error": None,
          "errors": [], "success": False, "cleanup_records": [],
-         "last_record": None}
+         "last_record": None, "planner_kind": planner_kind}
     with open(out / "metadata.json", "w") as fh:
         json.dump({"controller_kind": "privileged_visual_teacher",
                    "training_eligible": False, "seed": int(seed),
@@ -346,7 +381,8 @@ def run(seed: int, out_dir) -> dict:
                                "teardown_reserve_s": WALL_BUDGET_S - OPERATION_WALL_S,
                                "teardown_bounds_s": {"stop_send": 1.0, "quit_wait": 1.0,
                                                      "terminate": 3.0, "kill": 5.0}},
-                   "planner": {"max_joint_delta_rad": PLAN_CFG.max_joint_delta_rad,
+                   "planner": {"planner_kind": planner_kind,
+                               "max_joint_delta_rad": PLAN_CFG.max_joint_delta_rad,
                                "max_planar_step_m": PLAN_CFG.max_planar_step_m,
                                "max_z_step_m": PLAN_CFG.max_z_step_m,
                                "damping": PLAN_CFG.damping,
@@ -447,6 +483,7 @@ def run(seed: int, out_dir) -> dict:
             "accepted_frames": len(R["errors"]), "steps": R["step_index"],
             "wall_s": round(time.monotonic() - R["t0"], 3),
             "stop_reason": stop_reason, "bytes": dir_bytes(out),
+            "planner_kind": planner_kind,
             "controller_kind": "privileged_visual_teacher",
             "training_eligible": False,
             "clock_note": "touch simulation_time_s = physics env.data.time "
@@ -463,12 +500,14 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--out", required=True, help="NEW output directory (must not exist)")
+    ap.add_argument("--planner", choices=PLANNER_KINDS, default="dls",
+                    help="dls = historical default; normal-priority = candidate")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")
     if Path(args.out).exists():
         ap.error(f"--out must be a NEW directory, already exists: {args.out}")
-    summary = run(args.seed, args.out)
+    summary = run(args.seed, args.out, planner_kind=args.planner)
     print(json.dumps(summary, indent=2))
     ok = (summary["near_pointing_success"]
           and summary["episode_safe_complete_released"]
