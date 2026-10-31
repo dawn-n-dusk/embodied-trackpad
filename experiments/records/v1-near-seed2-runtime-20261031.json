@@ -1,0 +1,207 @@
+{
+  "record_version": "1.0",
+  "id": "v1-near-seed2-runtime-20261031",
+  "timestamp_utc": "2026-10-31T14:53:51.326891+00:00",
+  "kind": "independent_actual_visual_robot_diagnostic_review",
+  "status": "visual_action_chain_verified_pointing_failed_contact_lost",
+  "source_commit": "2f9fa2ece9af781274d6d8d4a0ca2229c807bb87",
+  "runtime_checkpoint": "fb37d1c7f253b40c3c86ecb2ccdf396555795e21",
+  "source_sha256": "166c609ff8503f676001390745dc27e1eaec394d4a75a75ccd6999becba4e3b4",
+  "task_profile": "near_pointing_v1",
+  "seed": 2,
+  "summary": {
+    "seed": 2,
+    "started_utc": "2026-10-31T14:44:28.989320+00:00",
+    "completed_utc": "2026-10-31T14:44:43.805792+00:00",
+    "near_pointing_success": false,
+    "episode_safe_complete_released": true,
+    "release_measured": true,
+    "physics_unsafe": false,
+    "initial_error_px": 24.321276595744678,
+    "final_error_px": 14.893326741634468,
+    "accepted_frames": 120,
+    "steps": 5550,
+    "wall_s": 14.816,
+    "stop_reason": "max_cycles_exhausted",
+    "bytes": 11834404,
+    "controller_kind": "privileged_visual_teacher",
+    "training_eligible": false,
+    "clock_note": "touch simulation_time_s = physics env.data.time (epoch: this episode's mj_resetData; relative sim clock)",
+    "child_returncode": 0,
+    "child_reaped": true,
+    "teardown": {
+      "stop_error": null,
+      "quit_error": null,
+      "send_timeout_s": 1.0,
+      "quit_timeout_s": 1.0,
+      "worst_case_s": 10.0
+    }
+  },
+  "independent_trace_checks": {
+    "all_steps_ok": true,
+    "strict_step_ids": true,
+    "timestamps_dt": true,
+    "all_png_hashes": true,
+    "all_action_groups_25_steps": true,
+    "ctrl_matches_intent": true,
+    "all_touch_acks_match": true,
+    "all_touch_payloads_match_physics": true
+  },
+  "counts": {
+    "teacher_substeps": 5550,
+    "visual_actor_frames": 120,
+    "wire_samples": 165,
+    "sim_end_s": 11.100000000000376
+  },
+  "safety": {
+    "peak_positive_pad_force_n": 1.496086482600611,
+    "peak_penetration_mm": 0.8259160368009055,
+    "new_warnings": 0,
+    "final_contact_free_span_s": 6.998000000000606
+  },
+  "visual_contact": {
+    "longest_at_least_005N_s": 1.1440000000000001,
+    "below_005N_or_empty_steps": 2420,
+    "total_visual_steps": 3000,
+    "last_positive_contact_sim_s": 4.1
+  },
+  "timing": {
+    "cycle_wall_median_s": 0.10481316701043397,
+    "cycle_wall_p95_s": 0.10841260807646905,
+    "native_episode_wall_s": 14.816
+  },
+  "independent_image_checks": [
+    {
+      "cycle": 1,
+      "cursor_xy": [
+        399.5,
+        300.5
+      ],
+      "target_xy": [
+        423.8212765957447,
+        300.5
+      ],
+      "error_xy": [
+        24.321276595744678,
+        0.0
+      ],
+      "error_matches_log": true
+    },
+    {
+      "cycle": 20,
+      "cursor_xy": [
+        405.6194690265487,
+        300.57522123893807
+      ],
+      "target_xy": [
+        424.3928170594837,
+        300.50729517396184
+      ],
+      "error_xy": [
+        18.77334803293502,
+        -0.0679260649762341
+      ],
+      "error_matches_log": true
+    },
+    {
+      "cycle": 24,
+      "cursor_xy": [
+        409.3805309734513,
+        300.65486725663715
+      ],
+      "target_xy": [
+        424.81529411764706,
+        300.5176470588235
+      ],
+      "error_xy": [
+        15.434763144195756,
+        -0.13722019781363315
+      ],
+      "error_matches_log": true
+    },
+    {
+      "cycle": 120,
+      "cursor_xy": [
+        410.009009009009,
+        300.72072072072075
+      ],
+      "target_xy": [
+        424.90095465393796,
+        300.51789976133654
+      ],
+      "error_xy": [
+        14.891945644928967,
+        -0.20282095938421207
+      ],
+      "error_matches_log": true
+    }
+  ],
+  "offline_counterfactual": {
+    "source": "horizontal flip of saved initial own-window PNG; offline fixture only",
+    "real_episode": false,
+    "frozen_same_J_ctrl_z": true,
+    "mapping": "broad interior bounds used; no clipping active in either comparison",
+    "first_error_xy": [
+      24.321276595744678,
+      0.0
+    ],
+    "flipped_error_xy": [
+      -24.321276595744678,
+      0.0
+    ],
+    "max_abs_command_difference_rad": 0.004317653225252016,
+    "joint_increments_reverse": true,
+    "training_eligible": false
+  },
+  "diagnosis": {
+    "cycle1_requested_z_m": 0.0,
+    "cycle1_predicted_z_m": 0.00019628121578594312,
+    "cycle20_requested_z_m": -0.0002,
+    "cycle20_predicted_z_m": 0.00012053207116254446,
+    "explanation": "Scalar damping permits unwanted normal motion while pursuing tangential request; later downward requests still predict upward z. Candidate must preserve normal constraint and detect contact loss."
+  },
+  "artifact_hashes": {
+    "metadata.json": "586a34916c242316830749f3f5ac4165b67ec27c8165df72381e3e5c9b240e2c",
+    "teacher.jsonl": "a82e3e7edcbd13baedee82a1b7da3d13968b10f6cdce01ddfc90ed3d14365c77",
+    "actor.jsonl": "67e99e784e90a88c25ce8411c74a6e7af13727426b5f5af3b73795d329999116",
+    "planner.jsonl": "7302d189e6715665f7ba29ba30c7c1be5a4571142513761b8cb0f39cc760ab8d",
+    "touch.jsonl": "3df9915335d03a195f0675d31a3e8e994d48bee3701c892bb160e153ea3e5233",
+    "summary.json": "43165a1774abb9664030cac63079ead643e223906b466671b87df77d37d88ed8"
+  },
+  "delegation": {
+    "status": "reported",
+    "elapsed_seconds": 205.4,
+    "recorded_usage": {
+      "records": 9,
+      "input_uncached": 22298,
+      "input_cached": 1142016,
+      "input_cache_write": 0,
+      "output": 5273,
+      "total": 1169587
+    }
+  },
+  "next": {
+    "action": "Normal-priority null-space teacher candidate and explicit contact-loss guard delegated to Kimi as pure math/tests only.",
+    "keep_frozen": [
+      "P1 geometry/contact parameters",
+      "actuator gains",
+      "original failed trace",
+      "original DLS controller source"
+    ],
+    "no_unchanged_retry": true,
+    "remaining_seeds_not_run": [
+      8,
+      11
+    ]
+  },
+  "limitations": [
+    "ONE failed near-target episode, not a learned policy or accepted D1 dataset.",
+    "Error decreased24.32->14.89px (38.8%), but3px precision and50% improvement gates were not met.",
+    "Visual phase lost meaningful contact after about1.14s; most later steps produced no cursor progress. Increasing cycles alone is not supported.",
+    "Actual causal trace verified all120 captured-frame intents against25 real substeps each,165 actual contact payloads and their acknowledgements. The image-flip counterfactual is separately offline, not a second live episode.",
+    "Colour-centroid target estimates shift slightly under cursor occlusion; pixel-derived errors are specific to this GUI.",
+    "Native sandbox/software device behavior is not real Apple trackpad or physical-hand validation.",
+    "Existing livestream remains a separate scripted DEMO; this actual episode was recorded, not attached to that livestream.",
+    "No optimizer training or new H800 policy allocation."
+  ]
+}

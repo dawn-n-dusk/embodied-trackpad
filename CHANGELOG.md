@@ -4,6 +4,10 @@
 
 ## Unreleased — 2026-10-31
 
+- Executed and independently reviewed the first actual near-target visual robot episode:120 frame/control groups,5550 physics substeps,165 actual touch messages. Precision failed after contact loss (24.32→14.89px), with safe final clearance and app exit. Preserved raw evidence, diagnosed the normal-motion error and delegated a constrained teacher correction; no unchanged retry or learning claim.
+
+- Integrated a source-reviewed fixed-parameter near-pointing probe with65 independently passing input/physics/probe checks. Fixed finalization, input acknowledgement, release timing and evidence-label defects, preserving two timeouts and the original counterexamples. Froze source/model/native hashes and delegated one bounded actual episode; its outcome requires separate runtime review.
+
 - Recorded a600s generic visual-runner timeout with no source delivered. Delegated a smaller fixed-parameter experiment script in a fresh Kimi session, retaining per-step evidence and external source-bound execution review. No robot episode or learning result is claimed.
 
 - Integrated the reviewed P1 scene/contact library and per-substep physics core, with17 static/stub checks and52 integrated input/physics checks. Added the confined native near-pointing reset profile,54 executed native tests and independent saved-image review. Preserved failed attempts and kept actual visual robot episodes/data/training pending.

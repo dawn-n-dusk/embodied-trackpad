@@ -1,0 +1,96 @@
+{
+  "record_version": "1.0",
+  "id": "v1-near-probe-source-20261031",
+  "timestamp_utc": "2026-10-31T14:44:41.802896+00:00",
+  "kind": "independent_procedural_visual_probe_source_review",
+  "status": "accepted_for_one_bounded_visual_diagnostic",
+  "source_commit": "2f9fa2ece9af781274d6d8d4a0ca2229c807bb87",
+  "worker_checkpoint": "fb37d1c7f253b40c3c86ecb2ccdf396555795e21",
+  "files": [
+    {
+      "path": "tools/leap_v1_near_probe.py",
+      "sha256": "166c609ff8503f676001390745dc27e1eaec394d4a75a75ccd6999becba4e3b4"
+    },
+    {
+      "path": "tests/test_leap_v1_near_probe.py",
+      "sha256": "7154d137b54895ef0e1b2bf523781548badefa0aa2a064aa5fa40c600046dfd4"
+    }
+  ],
+  "validation": {
+    "probe_mock_tests": 13,
+    "input_tests": 35,
+    "physics_static_stub_tests": 17,
+    "combined_passed": 65,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 0.37,
+    "independent": true,
+    "actual_native_or_robot_episodes_in_this_validation": 0,
+    "asset_files_verified": 14,
+    "native_binary_sha256": "7956984e15db4710d8ef4b3a5f42ebd84c15e5df560700ae5e234f40719256c2"
+  },
+  "resolved_findings": [
+    "Outer finalization covers setup/cleanup errors and preserves summary.",
+    "Every accepted/rejected/terminal capture is recorded; planner intent is not labeled completed execution.",
+    "Device touch acknowledgements checked for type and sequence after raw preservation.",
+    "Release requires finite monotonic contiguous timestamps spanning at least0.5s.",
+    "Cycle timing includes physics/send/pacing; actual start and completion timestamps separate.",
+    "Operation budget110s reserves10s within120s for bounded app teardown; projected physics step and output headroom checked.",
+    "CLI success requires pointing, safe measured release and child reaping."
+  ],
+  "failure_history": "Original357-line source and three independently reproduced counterexamples are retained in the preceding checkpoint record. Review call timed out after saving460-line script and375-line tests;11 tests independently passed before the final two fixes and two new regressions.",
+  "delegation_calls": [
+    {
+      "stage": "v1-near-probe-script",
+      "status": "timeout",
+      "elapsed_seconds": 600.1,
+      "recorded_usage": null
+    },
+    {
+      "stage": "v1-near-probe-review",
+      "status": "timeout",
+      "elapsed_seconds": 600.1,
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 84652,
+        "input_cached": 987648,
+        "input_cache_write": 0,
+        "output": 26678,
+        "total": 1098978
+      }
+    },
+    {
+      "stage": "v1-near-probe-finalize-review",
+      "status": "reported",
+      "elapsed_seconds": 205.2,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 41929,
+        "input_cached": 1034496,
+        "input_cache_write": 0,
+        "output": 7735,
+        "total": 1084160
+      }
+    }
+  ],
+  "elapsed_seconds_sum": 1405.4,
+  "usage_note": "Unknown initial interrupted usage is not zero; provider counts are not cost or savings. Earlier no-code generic runner timeout is recorded separately.",
+  "execution": {
+    "state": "one_seed2_episode_dispatched_to_Kimi",
+    "frozen_source_files": 25,
+    "max_episodes": 1,
+    "seed": 2,
+    "max_sim_s": 20,
+    "max_total_wall_s": 120,
+    "max_bytes": 62914560,
+    "numerical_threads": 2,
+    "source_hash_bound_manifest": true
+  },
+  "limitations": [
+    "No actual visual robot success is established by unit/static tests.",
+    "Privileged visual teacher with a fixed-colour extractor, fixed near-target GUI and uncalibrated P1 dynamics; not a learned policy.",
+    "Teardown worst-case bound follows tested timeout arguments and existing client constants; actual teardown remains separately measured.",
+    "No accepted D1 dataset, optimizer training or H800 policy job.",
+    "Manifest gate is coordinator-owned and external to this small diagnostic script; this is not a generic production runner."
+  ]
+}

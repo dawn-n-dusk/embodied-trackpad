@@ -1,0 +1,53 @@
+{
+  "record_version": "1.0",
+  "id": "v1-near-probe-checkpoint-20261031",
+  "timestamp_utc": "2026-10-31T14:32:00.918603+00:00",
+  "kind": "saved_incomplete_probe_and_independent_failure_review",
+  "status": "source_saved_not_accepted_corrections_dispatched",
+  "source_commit": "2f9fa2ece9af781274d6d8d4a0ca2229c807bb87",
+  "candidate": {
+    "path": "tools/leap_v1_near_probe.py",
+    "lines": 357,
+    "sha256": "7e48da052fbed62d047f21a5027ad25498dbca59163a5c78c43fa179f8922434",
+    "published": false,
+    "tests_saved": false
+  },
+  "worker_call": {
+    "elapsed_seconds": 600.1,
+    "status": "timeout",
+    "usage": null,
+    "usage_note": "Unknown interrupted-call usage is not zero."
+  },
+  "independent_checks": {
+    "source_sha256": "7e48da052fbed62d047f21a5027ad25498dbca59163a5c78c43fa179f8922434",
+    "native_app_started": false,
+    "real_physics_steps": 0,
+    "release_short_span": {
+      "span_s": 0.498,
+      "claimed_release": true,
+      "expected": false
+    },
+    "device_rejection": {
+      "exception": null,
+      "continued": true,
+      "expected": "stop"
+    },
+    "init_failure": {
+      "exception": "AttributeError",
+      "message": "'NoneType' object has no attribute 'index_map'",
+      "summary_saved": false
+    }
+  },
+  "additional_source_findings": [
+    "Success terminal frame returns before image/hash/action-evidence record.",
+    "Cycle wall metric excludes later physics/send/pacing.",
+    "started_utc actually captured at completion.",
+    "CLI success ignores cleanup/release failure."
+  ],
+  "next_action": "Resume exact worker session for code fixes and focused pure/mock tests; review source before freezing a single-episode execution manifest.",
+  "limitations": [
+    "These are source and mocked behavior checks only: no native app or real physics steps were run.",
+    "No accepted visual episode, D1 dataset, learned policy or policy checkpoint.",
+    "Saved357-line source is a recovery artifact, not a completed/accepted controller."
+  ]
+}
