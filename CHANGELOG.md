@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Added privileged per-substep force admittance to the visual teacher, with prior-record causality and actual-command logging. Independently passed 107 pure/static/mock checks. Preserved two timeouts and a separately stopped attempt; fixed a floating-point envelope validation defect and corrected a historical source line count. One actual force-feedback episode then failed the unchanged 1 mm penetration limit after136visualsteps. All136 corrected commands were executed;101 reached the normal-speed cap. Preserved trace and delegated static dynamics diagnosis before another controller change.
+
 - Added a normal-priority visual teacher with common-vector bound scaling and a per-substep contact-loss stop. Independently passed 83 pure/static/mock checks; preserved the legacy DLS option and failed episode. The actual diagnostic then failed the unchanged 1 mm penetration limit despite maintaining contact for 302 visual substeps; preserved the failed trace and stopped all physics at the first breach. Reviewed four saved-state reconstructions after a diagnostic timeout, identifying commanded/actual motion mismatch; delegated a separate bounded normal-force feedback helper before further dynamics.
 
 - Executed and independently reviewed the first actual near-target visual robot episode:120 frame/control groups,5550 physics substeps,165 actual touch messages. Precision failed after contact loss (24.32→14.89px), with safe final clearance and app exit. Preserved raw evidence, diagnosed the normal-motion error and delegated a constrained teacher correction; no unchanged retry or learning claim.

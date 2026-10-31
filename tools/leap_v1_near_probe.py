@@ -55,6 +55,7 @@ if str(REPO_ROOT / "src") not in sys.path:
     sys.path.insert(0, str(REPO_ROOT / "src"))
 
 import mujoco  # noqa: E402
+from embodied_trackpad.leap_v1 import force_servo as fsv  # noqa: E402
 from embodied_trackpad.leap_v1 import normal_priority as npp  # noqa: E402
 from embodied_trackpad.leap_v1 import pad_env as _pad  # noqa: E402
 from embodied_trackpad.leap_v1 import visual_physics as vp  # noqa: E402
@@ -80,7 +81,9 @@ INITIAL_ERROR_MIN_PX, SUCCESS_PX, SUCCESS_FRAMES, SUCCESS_REDUCTION = 10.0, 3.0,
 RELEASE_WINDOW_S = 0.5
 PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
                             max_z_step_m=0.0002, damping=0.05, px_per_m=4000.0)
-PLANNER_KINDS = ("dls", "normal-priority")  # default preserves historical behavior
+# Fixed uncalibrated force-admittance gains; NOT a calibrated controller.
+FORCE_CFG = fsv.NormalForceConfig()
+PLANNER_KINDS = ("dls", "normal-priority", "force-admittance")  # default preserves historical behavior
 
 
 class ResourceStop(RuntimeError):
@@ -160,6 +163,56 @@ def site_jacobian(env) -> np.ndarray:
     return jacp[:, list(env.index_map.dofadr)]
 
 
+def contact_jacobian_at_point(env, point_world: np.ndarray, body_id: int) -> np.ndarray:
+    """3x4 translational mj_jac for ``point_world`` attached to ``body_id``;
+    column k = env.index_map.joint_names[k]."""
+    jacp = np.zeros((3, env.model.nv))
+    mujoco.mj_jac(env.model, env.data, jacp, None, point_world, body_id)
+    return jacp[:, list(env.index_map.dofadr)]
+
+
+def force_mode_contact_update(env, last_record: dict):
+    """Use PRIOR actual record to identify the index tip-pad-top contact, then
+    compute the current contact-point normal Jacobian row in index-map order.
+    Returns ``(normal_row_4, total_force_n, contact_point_world_3)`` or None
+    if no matching positive top-face contact, inconsistent bodies, or a
+    non-finite force/position. Does NOT invent a zero force."""
+    scene = env.scene
+    tip_gids = set(scene.tip_geom_ids["index"])
+    pad_id = scene.pad_geom_id
+    hits = []
+    for c in last_record.get("contacts", []):
+        if c.get("kind") != "tip_pad_top":
+            continue
+        g1, g2 = int(c.get("geom1", -1)), int(c.get("geom2", -1))
+        if (g1 in tip_gids and g2 == pad_id) or (g2 in tip_gids and g1 == pad_id):
+            fn = c.get("normal_force_n")
+            if isinstance(fn, (int, float, np.integer, np.floating)) \
+                    and not isinstance(fn, (bool, np.bool_)) and math.isfinite(float(fn)) \
+                    and float(fn) > 0.0:
+                hits.append(c)
+    if not hits:
+        return None
+    # All matching contacts must belong to the same non-pad body.
+    bodies = []
+    for c in hits:
+        g1, g2 = int(c["geom1"]), int(c["geom2"])
+        bodies.append(c["body1"] if g1 in tip_gids else c["body2"])
+    if len(set(bodies)) != 1:
+        return None
+    total_force = sum(float(c["normal_force_n"]) for c in hits)
+    point_world = np.zeros(3)
+    for c in hits:
+        point_world += np.asarray(c["pos_world"], dtype=float) * float(c["normal_force_n"])
+    point_world /= total_force
+    body_id = int(env.model.geom_bodyid[next(iter(tip_gids))])
+    jac = contact_jacobian_at_point(env, point_world, body_id)
+    normal_row = np.asarray(jac[2, :], dtype=float)
+    if not np.all(np.isfinite(normal_row)):
+        return None
+    return normal_row, total_force, [float(v) for v in point_world]
+
+
 def step(R: dict, ctrl, frame_id, phase: str):
     """THE only physics path: budget check -> physics_step -> flushed record."""
     check_budgets(R)
@@ -234,14 +287,17 @@ def capture_estimate(R: dict):
 
 
 def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
-                err, prev, nxt, requested: bool) -> None:
+                err, prev, nxt, requested: bool,
+                next_ctrl_is_nominal: bool = False) -> None:
     """Actor-side record of ONE capture (accepted, rejected or terminal). Pixel
     ref/hash + frame time + error stay here; Jacobian/contacts stay teacher-side.
     Schema note: ``action_requested`` marks only planner INTENT — this record is
     written BEFORE the first physics substep, so it never claims completion;
     actual execution is established solely by the per-substep teacher.jsonl
     StepRecords carrying the causing frame_id. Terminal/rejected frames carry
-    action_requested=false with next_ctrl=null."""
+    action_requested=false with next_ctrl=null. In force-admittance mode
+    ``next_ctrl`` is the nominal planar endpoint and ``next_ctrl_is_nominal``
+    is true; per-substep teacher StepRecords hold the actual ctrl."""
     R["actor"].write(json.dumps(
         {"phase": phase, "cycle": R["cycle"],
          "png_ref": frame.get("path"),
@@ -254,6 +310,7 @@ def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
          "qvel": [float(v) for v in R["env"].data.qvel],
          "prev_ctrl": None if prev is None else [float(v) for v in prev],
          "next_ctrl": None if nxt is None else [float(v) for v in nxt],
+         "next_ctrl_is_nominal": bool(next_ctrl_is_nominal),
          "action_requested": bool(requested)}, allow_nan=False) + "\n")
     R["actor"].flush()
 
@@ -261,9 +318,9 @@ def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
 def visual_phase(R: dict) -> str:
     env = R["env"]
     kind = R.get("planner_kind", "dls")
-    # Privileged diagnostic gate (normal-priority candidate ONLY, visual phase
-    # ONLY — never prep/cleanup, never an actor input).
-    guard = npp.ContactLossGuard() if kind == "normal-priority" else None
+    # Privileged diagnostic gate applies to both non-DLS candidates in visual
+    # phase only; DLS keeps historical open-loop behavior.
+    guard = npp.ContactLossGuard() if kind in ("normal-priority", "force-admittance") else None
     for R["cycle"] in range(1, MAX_CYCLES + 1):
         check_budgets(R)
         t_cycle = time.monotonic()
@@ -301,11 +358,25 @@ def visual_phase(R: dict) -> str:
                           "predicted_task": info["predicted_task"],
                           "common_scale": info["common_scale"],
                           "dq": info["dq"]}
+            log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True)
+        elif kind == "force-admittance":
+            # Nominal planar endpoint: height feedback is replaced by per-substep
+            # force feedback, so z_error is held at 0 for the nominal plan.
+            nxt, info = npp.plan_normal_priority((ex, ey), 0.0, jac, prev,
+                                                 env.index_map, PLAN_CFG)
+            plan_extra = {"nominal_kind": "normal-priority-z0",
+                          "requested_task": info["requested_task"],
+                          "predicted_task": info["predicted_task"],
+                          "common_scale": info["common_scale"],
+                          "dq": info["dq"]}
+            log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True,
+                        next_ctrl_is_nominal=True)
+            R["ctrl"] = np.array(nxt, dtype=float)
         else:
             nxt, info = vp.plan_index_correction((ex, ey), z_err, jac, prev,
                                                  env.index_map, PLAN_CFG)
             plan_extra = {"task_m": info["task_m"], "dq_rad": info["dq_rad"]}
-        log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True)
+            log_capture(R, frame, est, age_ms, "visual_step", err, prev, nxt, True)
         R["planner"].write(json.dumps(
             {"kind": "plan", "planner_kind": kind, "cycle": R["cycle"],
              "frame_id": frame["frame_id"],
@@ -313,9 +384,40 @@ def visual_phase(R: dict) -> str:
              "jac_3x4": [[float(v) for v in row] for row in jac], **plan_extra},
             allow_nan=False) + "\n")
         R["planner"].flush()
-        R["ctrl"] = nxt
+        if kind != "force-admittance":
+            R["ctrl"] = nxt
         for _ in range(VISUAL_SUBSTEPS):
-            rec = step(R, nxt, frame["frame_id"], "visual")
+            if kind == "force-admittance":
+                update = force_mode_contact_update(env, R.get("last_record") or {})
+                if update is not None:
+                    normal_row, force_n, point_world = update
+                    intended_step = R["step_index"] + 1
+                    corrected, force_info = fsv.normal_force_admittance(
+                        R["ctrl"], prev, normal_row, force_n, TIMESTEP_S,
+                        env.index_map, FORCE_CFG)
+                    R["planner"].write(json.dumps(
+                        {"kind": "force_substep_intent",
+                         "planner_kind": kind,
+                         "cycle": R["cycle"],
+                         "frame_id": frame["frame_id"],
+                         "consumed_record_step_index": R["last_record"]["step_index"],
+                         "consumed_record_sim_time_s": R["last_record"]["sim_time_s"],
+                         "intended_next_step_index": intended_step,
+                         "measured_force_n": force_n,
+                         "contact_point_world_m": point_world,
+                         "normal_row": [float(v) for v in normal_row],
+                         "prior_ctrl": [float(v) for v in R["ctrl"]],
+                         "corrected_ctrl": [float(v) for v in corrected],
+                         "helper_info": {"force_error_n": force_info["force_error_n"],
+                                         "requested_normal_speed_m_s": force_info["requested_normal_speed_m_s"],
+                                         "requested_dz_m": force_info["requested_dz_m"],
+                                         "common_scale": force_info["common_scale"],
+                                         "bound_limited": force_info["bound_limited"],
+                                         "predicted_normal_dz_m": force_info["predicted_normal_dz_m"]}},
+                        allow_nan=False) + "\n")
+                    R["planner"].flush()
+                    R["ctrl"] = corrected
+            rec = step(R, R["ctrl"], frame["frame_id"], "visual")
             if guard is not None:
                 entry = rec.aggregate.get("index")  # teacher aggregate only
                 lost = guard.update(TIMESTEP_S, entry is not None,
@@ -386,7 +488,14 @@ def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
                                "max_planar_step_m": PLAN_CFG.max_planar_step_m,
                                "max_z_step_m": PLAN_CFG.max_z_step_m,
                                "damping": PLAN_CFG.damping,
-                               "px_per_m": PLAN_CFG.px_per_m},
+                               "px_per_m": PLAN_CFG.px_per_m,
+                               **({"force_config": {
+                                   "target_force_n": FORCE_CFG.target_force_n,
+                                   "gain_m_per_ns": FORCE_CFG.gain_m_per_ns,
+                                   "max_normal_speed_m_s": FORCE_CFG.max_normal_speed_m_s,
+                                   "max_joint_step_rad": FORCE_CFG.max_joint_step_rad,
+                                   "max_cycle_delta_rad": FORCE_CFG.max_cycle_delta_rad}}
+                                  if planner_kind == "force-admittance" else {})},
                    "files": ["teacher.jsonl", "actor.jsonl", "planner.jsonl",
                              "touch.jsonl", "summary.json"]}, fh, indent=2)
     stop_reason, unsafe, release, cleaned = "not_started", False, False, False
@@ -501,7 +610,8 @@ def main(argv=None) -> int:
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--out", required=True, help="NEW output directory (must not exist)")
     ap.add_argument("--planner", choices=PLANNER_KINDS, default="dls",
-                    help="dls = historical default; normal-priority = candidate")
+                    help="dls=historical default; normal-priority=exact-normal candidate; "
+                         "force-admittance=force feedback with nominal planar endpoint")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")

@@ -1,0 +1,256 @@
+{
+  "record_version": "1.0",
+  "id": "v1-force-seed2-runtime-20261031",
+  "timestamp_utc": "2026-10-31T16:06:22.089730+00:00",
+  "kind": "independent_actual_force_admittance_visual_diagnostic_review",
+  "status": "failed_penetration_limit_force_corrections_executed",
+  "source_commit": "4b379e021179537e69787bed89de2e08c18f8786",
+  "source_acceptance": "experiments/records/v1-force-servo-source-20261031.json",
+  "observed": {
+    "teacher_records": 1586,
+    "actor_frames": 6,
+    "visual_steps": 136,
+    "complete_action_groups": 5,
+    "partial_failed_action_group_steps": 11,
+    "wire_samples": 6,
+    "force_intents": 136,
+    "force_scale_zero_steps": 0,
+    "force_scale_limited_steps": 0,
+    "force_speed_saturation_steps": 101,
+    "peak_positive_pad_force_n": 1.9683402333971594,
+    "peak_penetration_mm": 1.0007072174765541,
+    "visual_below_005N_steps": 0,
+    "visual_contiguous_contact_sample_duration_s": 0.272,
+    "warnings": 0,
+    "first_failure": {
+      "step_index": 1586,
+      "sim_time_s": 3.1719999999998723,
+      "phase": "visual",
+      "failure_reasons": [
+        "penetration=0.001001m > 0.001m"
+      ]
+    },
+    "cycle_diagnostics": [
+      {
+        "cycle": 1,
+        "steps": 25,
+        "normal_correction_sum_mm": 0.07002148197634545,
+        "nominal_dq_index_rad": [
+          0.0014947407306227234,
+          -3.035962012221241e-05,
+          -0.0024256812270119776,
+          -0.002626430462988827
+        ],
+        "actual_dq_index_rad": [
+          0.0014948366000014923,
+          1.0075204102924544e-07,
+          -0.0008959349596832089,
+          -0.0008307788282193029
+        ],
+        "net_command_dq_index_rad": [
+          0.0007526854181741927,
+          -2.0471205035324037e-05,
+          -0.0027501991817159843,
+          -0.0027284481091275348
+        ],
+        "first_force_n": 0.942364087260917,
+        "last_force_n": 1.127721393274789,
+        "last_penetration_mm": 0.7371192775609546
+      },
+      {
+        "cycle": 2,
+        "steps": 25,
+        "normal_correction_sum_mm": 0.09792318658430221,
+        "nominal_dq_index_rad": [
+          0.0014934760609125464,
+          -3.0392213583725196e-05,
+          -0.0024217941531207154,
+          -0.002623260721834997
+        ],
+        "actual_dq_index_rad": [
+          0.0013346517894515797,
+          9.287422165212098e-07,
+          -0.0010503893333574932,
+          -0.0010906869024586152
+        ],
+        "net_command_dq_index_rad": [
+          0.00045576815141867844,
+          -1.6529385722882217e-05,
+          -0.002875986363923555,
+          -0.002766357332144198
+        ],
+        "first_force_n": 1.127721393274789,
+        "last_force_n": 1.276658243248003,
+        "last_penetration_mm": 0.7935871951446212
+      },
+      {
+        "cycle": 3,
+        "steps": 25,
+        "normal_correction_sum_mm": 0.09981326594598405,
+        "nominal_dq_index_rad": [
+          0.001491844817203325,
+          -3.0426781719933336e-05,
+          -0.0024159962261028345,
+          -0.0026180377301779356
+        ],
+        "actual_dq_index_rad": [
+          0.0013488079972500122,
+          1.2674113577596703e-06,
+          -0.001160101746985387,
+          -0.0011104114766271045
+        ],
+        "net_command_dq_index_rad": [
+          0.00043460366292491504,
+          -1.6273702178543465e-05,
+          -0.0028792657530954946,
+          -0.0027644281994614883
+        ],
+        "first_force_n": 1.276658243248003,
+        "last_force_n": 1.4233517927165578,
+        "last_penetration_mm": 0.8471075530114559
+      },
+      {
+        "cycle": 4,
+        "steps": 25,
+        "normal_correction_sum_mm": 0.10000000000000003,
+        "nominal_dq_index_rad": [
+          0.0014900239407646954,
+          -3.046348691247137e-05,
+          -0.0024094823461039416,
+          -0.002612427342334245
+        ],
+        "actual_dq_index_rad": [
+          0.0013703803544844462,
+          1.534078976894119e-06,
+          -0.001156341009017181,
+          -0.0011374446386973602
+        ],
+        "net_command_dq_index_rad": [
+          0.0004313396734718644,
+          -1.626128985898489e-05,
+          -0.0028739334779235848,
+          -0.0027596386864357503
+        ],
+        "first_force_n": 1.4233517927165578,
+        "last_force_n": 1.5643289243709857,
+        "last_penetration_mm": 0.9020463211873718
+      },
+      {
+        "cycle": 5,
+        "steps": 25,
+        "normal_correction_sum_mm": 0.10000000000000003,
+        "nominal_dq_index_rad": [
+          0.0014881785615623588,
+          -3.050264199539638e-05,
+          -0.002402953464621549,
+          -0.0026067109934796995
+        ],
+        "actual_dq_index_rad": [
+          0.0014191311508886528,
+          1.762786775807537e-06,
+          -0.001186726713262809,
+          -0.0011919676627604736
+        ],
+        "net_command_dq_index_rad": [
+          0.0004300293788889187,
+          -1.6276743771257736e-05,
+          -0.002867729162043031,
+          -0.0027544839921203046
+        ],
+        "first_force_n": 1.5643289243709857,
+        "last_force_n": 1.6956422817897565,
+        "last_penetration_mm": 0.9590487303072215
+      },
+      {
+        "cycle": 6,
+        "steps": 11,
+        "normal_correction_sum_mm": 0.044,
+        "nominal_dq_index_rad": [
+          0.0014862515965364809,
+          -3.0544522665498403e-05,
+          -0.0023961977313634586,
+          -0.0026007183975674253
+        ],
+        "actual_dq_index_rad": [
+          0.0008902507025587703,
+          5.883448158634116e-07,
+          -0.0006236940528722146,
+          -0.0005817776438677424
+        ],
+        "net_command_dq_index_rad": [
+          0.0010208629957544346,
+          -2.4278622807725694e-05,
+          -0.0026007949218476156,
+          -0.002665919903907521
+        ],
+        "first_force_n": 1.6956422817897565,
+        "last_force_n": 1.8765052303954934,
+        "last_penetration_mm": 1.0007072174765541
+      }
+    ],
+    "output_bytes_at_audit": 2818419
+  },
+  "episode": {
+    "seed": 2,
+    "started_utc": "2026-10-31T16:01:47.946358+00:00",
+    "completed_utc": "2026-10-31T16:01:49.048230+00:00",
+    "near_pointing_success": false,
+    "episode_safe_complete_released": false,
+    "release_measured": false,
+    "physics_unsafe": true,
+    "initial_error_px": 24.321276595744678,
+    "final_error_px": 24.999925037481262,
+    "accepted_frames": 6,
+    "steps": 1586,
+    "wall_s": 1.102,
+    "stop_reason": "physics_unsafe",
+    "planner_kind": "force-admittance",
+    "controller_kind": "privileged_visual_teacher",
+    "training_eligible": false,
+    "child_returncode": 0,
+    "child_reaped": true
+  },
+  "independent_checks": {
+    "source_and_binary_hashes": true,
+    "strict_step_ids_and_time": true,
+    "first_failure_last_step_only": true,
+    "intent_execution_causality": true,
+    "consumed_force_matches_prior_raw": true,
+    "actual_cmd_per_visual_step": true,
+    "normal_math_matches_intent": true,
+    "frame_to_nominal_to_actual": true,
+    "all_png_hashes_and_pixel_errors": true,
+    "all_touch_payloads_and_acks_match_physics": true,
+    "no_physics_after_failure": true,
+    "app_pid_absent_after_reap": true,
+    "last_saved_gui_image_visually_reviewed": true
+  },
+  "raw_artifact_sha256": {
+    "teacher.jsonl": "ec2e42aacaf22134d41f4f9ab1626f8621d3eff4153102db1214b8cc62ce4929",
+    "actor.jsonl": "e29236836f08239b937c9d503e228a0a399ebda734f59c1cd910c41d6a18974e",
+    "planner.jsonl": "208bcea43818286f2e5b5d87bb9c80215d65048075ed62c59025981e446249ed",
+    "touch.jsonl": "73d87bc92fc3e079a2e24e13fae2e43c542fe1a66e9ec5e6464f3430ea228347",
+    "metadata.json": "11269992d98bcb46f317455a2bf81908d6291bb722160a913f99145e67061351",
+    "summary.json": "0c2766d38a8a1084d7d26ee2f3434f3a8a31e013f4f3b8b2accdc13e1d906759"
+  },
+  "kimi_accounting": {
+    "elapsed_seconds": 152.4,
+    "recorded_usage": {
+      "records": 13,
+      "input_uncached": 127666,
+      "input_cached": 1553408,
+      "input_cache_write": 0,
+      "output": 5417,
+      "total": 1686491
+    },
+    "note": "Preflight, one episode and report; provider counts are not billing."
+  },
+  "next_condition": "Analyze command-versus-actual response and static contact dynamics from the preserved trace before a changed controller test. Keep the 1mm limit and P1 fixed.",
+  "limitations": [
+    "One failed privileged teacher episode. All136 force corrections were actually executed, but task precision and sustained safe contact failed.",
+    "The force speed limit was active101/136times; no common-vector range/envelope scaling limited the correction. This alone does not establish a successful replacement gain.",
+    "First breach at1.000707mm stopped every further physics step; no cleanup or measured clearance. App exited/reaped separately.",
+    "Last error25.00px is the final pre-action image, not a post-stop observation.",
+    "No learned policy, accepted D1 data, optimizer/checkpoint, new H800 job, live stream, real hardware or Apple trackpad validation."
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "record_version": "1.0",
+  "id": "v1-force-servo-source-20261031",
+  "timestamp_utc": "2026-10-31T16:01:35.785247+00:00",
+  "kind": "independent_force_servo_math_and_mock_integration_acceptance",
+  "status": "source_accepted_for_one_bounded_episode_dynamics_pending",
+  "source_commit": "4b379e021179537e69787bed89de2e08c18f8786",
+  "prior_source_commit": "e365859d366df24d5bc8eae3bcefb0b5fda9245b",
+  "source_hashes": {
+    "tools/leap_v1_near_probe.py": "68a054ab28362e2d741b6e57d43dc0001e953aba0a7b56b644cc9bf9369eaeb2",
+    "src/embodied_trackpad/leap_v1/force_servo.py": "471e875f3c8de309f3a796e38745fd321ff966dfdbd0a7f154b4e19e9d34c941",
+    "tests/test_leap_v1_force_servo.py": "eb8e0949c8c55de5904f268a9640b22feb545b6f860257df24699566c7726f1a",
+    "tests/test_leap_v1_near_probe.py": "4c0e8b33aa0f8e20767a1427a10bf99608072b9e289dedf3a9d2ead611af0570"
+  },
+  "test_result": {
+    "force_math": 19,
+    "normal_priority": 13,
+    "probe_pure_mock": 23,
+    "physics_static_stub": 17,
+    "visual_input": 35,
+    "combined_passed": 107,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 0.49
+  },
+  "test_command": "PYTHONPATH=src:. python -m pytest -q tests/test_leap_v1_force_servo.py tests/test_leap_v1_normal_priority.py tests/test_leap_v1_near_probe.py tests/test_leap_v1_visual_utils.py tests/test_leap_v1_visual_physics.py",
+  "boundary_fix": {
+    "validation_tolerance_rad": 1e-12,
+    "meaningful_violation_test_rad": 1e-09,
+    "outward_exhausted_bound_scale": 0,
+    "safety_thresholds_changed": false
+  },
+  "record_correction": {
+    "supersedes_field": "v1-force-helper-recovery-20261031.saved_source.lines",
+    "previous_value": 202,
+    "verified_value": 189,
+    "original_sha256": "59aca4dabae448711fb38c12c65f67858ab623b93d39037dddb95df7908373bc",
+    "reason": "Earlier recovery text used an unchecked line count. Count now verified from the preserved snapshot; original hash and failure remain unchanged.",
+    "fixed_helper_line_count": 195
+  },
+  "force_config": {
+    "target_force_n": 0.8,
+    "gain_m_per_ns": 0.004,
+    "max_normal_speed_m_s": 0.002,
+    "max_joint_step_rad": 0.0002,
+    "max_cycle_delta_rad": 0.005,
+    "dt_s": 0.002
+  },
+  "review": [
+    "Each correction consumes previous completed StepRecord; actual corrected command passed to sole guarded physics path.",
+    "Scene tip_geom_ids are constructed solely from the single distal body, so body selection is consistent with the pinned scene.",
+    "Summed positive raw tip-pad-top force matches existing aggregate_fingers by source inspection; no alternate force statistic.",
+    "Missing contact does not fabricate force; same 0.1s contact-loss stop and 1mm penetration stop retained.",
+    "Mock tests are causal/source checks, not dynamics acceptance.",
+    "Initial independent test command had incorrect test filenames and ran zero tests; corrected full command then passed107."
+  ],
+  "kimi_dispatches": [
+    {
+      "scope": "v1-normal-force-math",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "exit_code": 124,
+      "usage": {
+        "records": 10,
+        "input_uncached": 24434,
+        "input_cached": 371200,
+        "input_cache_write": 0,
+        "output": 10560,
+        "total": 406194
+      }
+    },
+    {
+      "scope": "v1-normal-force-finish",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "exit_code": 124,
+      "usage": {
+        "records": 1,
+        "input_uncached": 26475,
+        "input_cached": 27392,
+        "input_cache_write": 0,
+        "output": 1052,
+        "total": 54919
+      }
+    },
+    {
+      "scope": "v1-force-minimal-fix-tests",
+      "status": "coordinator_stopped",
+      "elapsed_s": 450.5,
+      "exit_code": 143,
+      "usage": {
+        "records": 1,
+        "input_uncached": 4511,
+        "input_cached": 53760,
+        "input_cache_write": 0,
+        "output": 507,
+        "total": 58778
+      }
+    },
+    {
+      "scope": "v1-force-highspeed-finish",
+      "status": "reported",
+      "elapsed_s": 109.5,
+      "exit_code": 0,
+      "usage": {
+        "records": 15,
+        "input_uncached": 71559,
+        "input_cached": 906240,
+        "input_cache_write": 0,
+        "output": 10842,
+        "total": 988641
+      }
+    },
+    {
+      "scope": "v1-force-probe-integration",
+      "status": "reported",
+      "elapsed_s": 256.6,
+      "exit_code": 0,
+      "usage": {
+        "records": 30,
+        "input_uncached": 103220,
+        "input_cached": 3038208,
+        "input_cache_write": 0,
+        "output": 21909,
+        "total": 3163337
+      }
+    }
+  ],
+  "model_recovery": "After repeated response stalls, resumed the exact task session with the already configured K2.7 Code Highspeed model for these invocations only. No global configuration changes.",
+  "limitations": [
+    "107 passing tests are pure/static/mock evidence; actual dynamic force response is not accepted by this record.",
+    "Force uses privileged simulator contact truth for this teacher; no installed FSR, learned actor or hidden GUI coordinate input is claimed.",
+    "Fixed P1, 1mm penetration limit, 3px success threshold and existing budgets are unchanged.",
+    "No accepted D1 dataset, policy training/checkpoint, new GPU allocation or live stream.",
+    "One actual seed2 force-feedback episode is separately authorized; its outcome requires raw evidence review.",
+    "Recorded provider token counts include cache reads and may omit interrupted requests; not a billing total."
+  ]
+}

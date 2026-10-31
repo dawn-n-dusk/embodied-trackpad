@@ -1,0 +1,50 @@
+{
+  "record_version": "1.0",
+  "id": "v1-force-helper-recovery-20261031",
+  "timestamp_utc": "2026-10-31T15:41:18.041126+00:00",
+  "kind": "incomplete_force_helper_delivery_and_boundary_review",
+  "status": "saved_source_unaccepted_minimal_correction_dispatched",
+  "source_commit": "fcbd5ca23841847e51ccdd6f0ec31e6eaef984d7",
+  "saved_source": {
+    "lines": 202,
+    "sha256": "59aca4dabae448711fb38c12c65f67858ab623b93d39037dddb95df7908373bc",
+    "focused_test_file_delivered": false,
+    "public_source_integrated": false
+  },
+  "independent_counterexample": {
+    "cycle_anchor_rad": 0.6,
+    "current_ctrl_rad": 0.605,
+    "max_cycle_delta_rad": 0.005,
+    "floating_difference_rad": 0.0050000000000000044,
+    "force_at_target_n": 0.8,
+    "observed": "ValueError rejects a mathematically valid boundary even with zero requested correction.",
+    "requested_fix": "Numerical input-bound tolerance no greater than1e-12 rad, meaningful1e-9 violations still rejected; retain single-vector bound scaling."
+  },
+  "kimi_accounting": {
+    "completed_dispatches": 2,
+    "statuses": [
+      "timeout",
+      "timeout"
+    ],
+    "elapsed_seconds_sum": 600.2,
+    "recorded_usage_sum": {
+      "input_uncached": 50909,
+      "input_cached": 398592,
+      "output": 11612,
+      "total": 461113
+    },
+    "first_usage_recovered_from_exact_task_session": true,
+    "note": "Original null-session receipt retained. Exact session matched to task marker before extracting usage; counts are not billing."
+  },
+  "timeout_diagnosis": "The second call saved no additional files. A model request remained without a recorded response until the timeout; no explicit authentication/approval/tool error was observed.",
+  "next_dispatch": {
+    "scope": "minimal existing boundary patch and six core pure-test functions",
+    "timeout_s": 600,
+    "actual_physics_or_app_allowed": false
+  },
+  "limitations": [
+    "Saved source and successful dispatch are not acceptance; the force helper is not integrated or dynamically validated.",
+    "No new visual episode, accepted dataset, optimizer update, policy checkpoint, GPU job or stream.",
+    "Timeouts preserve current files and usage; coordinator has not taken over implementation or operational execution."
+  ]
+}
