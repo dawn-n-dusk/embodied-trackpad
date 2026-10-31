@@ -1,0 +1,71 @@
+{
+  "record_version": "1.0",
+  "id": "full-ft-compute-ready-20261031",
+  "timestamp_utc": "2026-10-31T09:18:13.982958+00:00",
+  "kind": "read_only_compute_preflight_correction",
+  "status": "personal_access_and_modules_verified_runtime_install_pending",
+  "source_commit": "7bd00985b89d951d31ffb74206d579de5605bacc",
+  "supersedes_current_status": "full-ft-compute-preflight-20261031",
+  "observations": {
+    "personal_noninteractive_login": "verified_by_Kimi_after_readiness_notification",
+    "owned_directories": "present",
+    "modules_and_slurm": "verified_in_current_shell",
+    "available_python_module": "Anaconda3/2023.09-0, Python 3.11.5",
+    "pytorch_in_discovered_existing_runtimes": "absent",
+    "gpu_jobs_submitted": 0,
+    "policy_training_runs": 0,
+    "runtime_installation": "not_started",
+    "other_compute": "not_probed"
+  },
+  "correction": "An intermediate probe piped source/module load through head, losing shell environment changes. This was a probe defect. A corrected current-shell probe verified modules and Slurm; earlier raw evidence is preserved.",
+  "runtime_note": "A user-owned training runtime is required. PyTorch wheel selection must consider the allocated GPU node driver; it is not limited to the site nvcc toolkit versions. No CUDA work was run on the login node.",
+  "worker": {
+    "session": "session_ce9616ab-4b33-4548-b0aa-6eba465cbc97",
+    "status": "reported",
+    "elapsed_seconds": 128.1,
+    "usage": {
+      "records": 6,
+      "input_uncached": 23515,
+      "input_cached": 257536,
+      "input_cache_write": 0,
+      "output": 4415,
+      "total": 285466
+    }
+  },
+  "private_evidence": [
+    {
+      "label": "probe-remote.sh",
+      "sha256": "a935998ba29e316d3767b5a14ed444cbc26819d262ea13c97741b2d49818918f"
+    },
+    {
+      "label": "probe-raw.txt",
+      "sha256": "50dc5148718335fc451e37c36962a15660106015fb48fd39246bbb082f419673"
+    },
+    {
+      "label": "result.json",
+      "sha256": "a3aa092a45378ac813ab382c959eb8e5bdd0d1f22110ebd662688f5e2689fcc8"
+    },
+    {
+      "label": "module-fix-probe.sh",
+      "sha256": "e75630923fc9e31bfcc2bf4531fd4dc6df5695e7ae4dab6499b04e52335daf3d"
+    },
+    {
+      "label": "module-fix-raw.txt",
+      "sha256": "be3c9f7f0e73a2a3682aff3b99e6ba994f4b9ab319c557fba76637979d2a627f"
+    },
+    {
+      "label": "module-fix-result.json",
+      "sha256": "5751fd434890ad98fdef5ae81ad12bb4702d8c3b864c9552726e138d7b534173"
+    },
+    {
+      "label": "receipt-repin.json",
+      "sha256": "6865bde8e20427dcd532aa0ae8e67aa1a5bf88503e70426ac57e3b1986ba5ec2"
+    }
+  ],
+  "limitations": [
+    "Access and environment discovery are not H800 runtime, model compatibility or training acceptance.",
+    "No GPU allocation, installation, model download or training occurred.",
+    "Storage quota limits were not independently queried.",
+    "The authoritative account receipt changed during verification; current identity/acceptance was reread and re-pinned locally; prior full byte content was not retained."
+  ]
+}

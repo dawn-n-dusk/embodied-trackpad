@@ -1,0 +1,46 @@
+{
+  "record_version": "1.0",
+  "id": "full-ft-compute-preflight-20261031",
+  "timestamp_utc": "2026-10-31T09:00:25.419898+00:00",
+  "kind": "read_only_compute_preflight_review",
+  "status": "personal_authentication_failed_user_configuring",
+  "source_commit": "7bd00985b89d951d31ffb74206d579de5605bacc",
+  "scope": "Kimi-owned read-only access audit for future full pi0.5 fine-tuning; no GPU allocation or training.",
+  "observations": {
+    "noninteractive_login": "authentication_failed",
+    "ssh_exit_code": 255,
+    "authentication_error": "Permission denied (publickey,password,keyboard-interactive).",
+    "connection_attempts_observed": 1,
+    "remote_environment": "unknown",
+    "current_qos_and_quota": "unknown",
+    "gpu_allocation": null,
+    "training_started": false,
+    "fallback_identity_used": false
+  },
+  "worker_result": {
+    "wrapper_status": "timeout",
+    "wrapper_exit_code": 124,
+    "elapsed_seconds": 240.1,
+    "structured_report_received": false,
+    "recorded_usage": null,
+    "note": "Coordinator recovered the saved SSH evidence; authentication failure is observed, despite missing final worker report. Concurrent coordinator documentation accounts for dirty_after; no tracked worker edits were accepted from this audit."
+  },
+  "evidence": [
+    {
+      "role": "private_ssh_attempt_log",
+      "sha256": "65e283f0ae8d57939e22b89d20301b15b3a5ccbb33cebe44828236c12bb42d27",
+      "published": false
+    },
+    {
+      "role": "private_dispatch_receipt",
+      "sha256": "43b5cbe11c9a9646a427ee707aa3f27565f6b1e106bc454086583c5ad11bf59e",
+      "published": false
+    }
+  ],
+  "user_followup": "User is configuring personal access and will notify when ready. Do not retry SuperPOD before that notification; continue local simulation.",
+  "limitations": [
+    "The unsuccessful login does not establish current GPU quota, software readiness or scheduler access.",
+    "No borrowed identity fallback, GPU job, environment installation or policy training.",
+    "Other compute availability remains unverified by this probe."
+  ]
+}

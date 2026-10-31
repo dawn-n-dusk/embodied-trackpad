@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Confirmed full fine-tuning on allocated H800/other compute and simulation-first validation, with physical FSR/conductive-fingertip checks deferred. Documented the current physics-contact-to-device pipeline, idealized recognition assumptions and missing gesture support.
+
 - Recorded the user's final LEAP v1 Full hardware choice (four fingers / 16 XC330 motors), preserving all v2 measurements as v2. Added source-grounded pi0.5 empirical fine-tuning analysis, GR00T N1.7 / LingBot-VLA 2.0 architecture tradeoffs, optional FSR fingertip design and a prepared v1 rebaseline contract. No model migration, hardware modification, GPU allocation or training occurred.
 - Retained RL as the user-confirmed conditional middle/later-stage path: use it for remaining performance limitations if demonstration learning, corrections and execution tuning are insufficient; omit it if task criteria are met.
 
