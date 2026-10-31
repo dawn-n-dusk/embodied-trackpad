@@ -1,0 +1,26 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-prerequisites-publication-20261031",
+  "timestamp_utc": "2026-10-31T13:56:18.332143+00:00",
+  "kind": "public_release_and_next_validation_contract",
+  "status": "published_source_ci_passed",
+  "source_commit": "2d5ecfa6b128af5845b9e61ddf2671d845f92ef5",
+  "ci": {
+    "run_id": 41207557303,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41207557303",
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "next_contract": "docs/tasks/v1-near-pointing-validation.zh-CN.md",
+  "limits": [
+    "Dependency-light CI is not native Mac or real solver acceptance.",
+    "Runner implementation is in progress; this record does not authorize or claim completed visual episodes.",
+    "Source integration retained a nonsemantic trailing blank line in the frozen reviewed pad library; git whitespace check noted it."
+  ],
+  "training_active": false
+}
