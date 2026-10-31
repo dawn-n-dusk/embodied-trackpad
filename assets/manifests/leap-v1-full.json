@@ -1,0 +1,88 @@
+{
+  "schema_version": "leap-v1-full-assets.v1",
+  "selected_model": "LEAP Hand v1 Full, right hand (MuJoCo Menagerie leap_hand MJCF + OBJ meshes)",
+  "upstream": {
+    "repository": "https://github.com/google-deepmind/mujoco_menagerie",
+    "subdirectory": "leap_hand",
+    "pinned_commit": "a662de603224c47123b0783821c58ad4402ad3e3",
+    "commit_date_utc": "2026-10-31T00:08:38Z",
+    "resolved_from": "HEAD of main verified via GitHub API on 2026-10-31; historical locator pin f3b6013629c7b94f8ee93fd977b161fa8350f9bc (2026-10-23) carries byte-identical leap_hand content (verified via GitHub compare API: zero leap_hand file changes between the two revisions)"
+  },
+  "download_root": "assets/downloads/leap_v1_full (git-ignored, local only)",
+  "redistribution": "Meshes are NOT redistributed by this repository; they are fetched on demand into the ignored download root. The upstream MIT LICENSE is retained verbatim alongside the assets.",
+  "upstream_license": "MIT License, Copyright 2023 Ananye Agarwal (leap_hand/LICENSE at the pinned commit; verbatim copy retained as right_hand/LICENSE).",
+  "license_file": "right_hand/LICENSE (verbatim copy of leap_hand/LICENSE at the pinned commit)",
+  "note": "Right-hand v1 Full model only: right_hand.xml plus the 10 OBJ meshes it references. The left hand (left_hand.xml, palm_left/pip_left/thumb_mp_left), the scene wrappers, the mount mesh and the preview PNG are intentionally NOT downloaded. The noncommercial LEAP_Hand_API Python package is NOT used or copied anywhere in this baseline. MJCF actuator gains (kp=3.0, kv=0.01), joint damping/frictionloss, link masses and box-primitive collision geometry are UPSTREAM SIMULATION DEFAULTS: they are not XC330-M288-T motor calibrations and not measured hardware inertias.",
+  "files": [
+    {
+      "path": "right_hand/LICENSE",
+      "sha256": "5a91c3d709c2ee3a71f166b46e3208cebd83c0c7a870746c729b31a01f156984",
+      "bytes": 1062
+    },
+    {
+      "path": "right_hand/README.md",
+      "sha256": "ca21a2f308c24a66aff628441359dc405af069add20c604ce4341f9281b5d99a",
+      "bytes": 3788
+    },
+    {
+      "path": "right_hand/CHANGELOG.md",
+      "sha256": "da7f76c22a5207b7017129cdd94b44ec0c502fbd3448879ad07ee0b1e6ed6a39",
+      "bytes": 259
+    },
+    {
+      "path": "right_hand/right_hand.xml",
+      "sha256": "9d8f25c38bdb60617f378c07b7e71f97306471353c81bf281eb9943f3f2340d8",
+      "bytes": 22118
+    },
+    {
+      "path": "right_hand/assets/base.obj",
+      "sha256": "3d7194a6a33626ffcdfce78a0ca854e67b6b49f2e09a3bd62656f94515fdfbec",
+      "bytes": 1065471
+    },
+    {
+      "path": "right_hand/assets/distal.obj",
+      "sha256": "6bfa2afb2a06557ce0c54b03baec13522bfe561aabb576bd4701d4704f93ec0f",
+      "bytes": 359831
+    },
+    {
+      "path": "right_hand/assets/medial.obj",
+      "sha256": "472e054348c5a0e987829e721d5ba8486ddd47d867e416bb45d8d2a2ff917acf",
+      "bytes": 1013886
+    },
+    {
+      "path": "right_hand/assets/palm_right.obj",
+      "sha256": "839b2e58e69ce57e0feaa2f565f8124101a2ed81d99fb2c5d00372b245634ab8",
+      "bytes": 2978191
+    },
+    {
+      "path": "right_hand/assets/proximal.obj",
+      "sha256": "3fff19dc1f0100bb5f34eaf8a40fcf3db40f96fd7179bb7336e538b21ff8e067",
+      "bytes": 673869
+    },
+    {
+      "path": "right_hand/assets/thumb_base.obj",
+      "sha256": "d28876cc3b674323aa7d8a628a4240cda2757c61263b05e86a66280035a2689d",
+      "bytes": 294575
+    },
+    {
+      "path": "right_hand/assets/thumb_distal.obj",
+      "sha256": "4695d72a70285e8a0132ed4de49876cf99c813182e3a24b172b53631224890de",
+      "bytes": 734609
+    },
+    {
+      "path": "right_hand/assets/thumb_proximal.obj",
+      "sha256": "5b402876601f2b0b36631e6a54ad20588f88e74f52320b6c902a8bc694578689",
+      "bytes": 968312
+    },
+    {
+      "path": "right_hand/assets/thumb_tip.obj",
+      "sha256": "7987f2599efaa73a6d7ccf0dd26d9f9e06949c7c66c268c9f8989aac345822e0",
+      "bytes": 2919
+    },
+    {
+      "path": "right_hand/assets/tip.obj",
+      "sha256": "eb2f5157e29ace1e45c4bf2bd0cacb03cc276458b1c4a21c217e73d0bc4e95c7",
+      "bytes": 4060
+    }
+  ]
+}

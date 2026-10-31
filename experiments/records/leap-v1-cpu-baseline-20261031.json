@@ -1,0 +1,293 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-cpu-baseline-20261031",
+  "timestamp_utc": "2026-10-31T09:28:27.015971+00:00",
+  "kind": "independent_cpu_model_review",
+  "status": "hand_only_baseline_accepted_with_tracking_limits",
+  "source_commit": "7bd00985b89d951d31ffb74206d579de5605bacc",
+  "source_note": "Kimi changes were uncommitted in a dedicated worktree at execution; exact reviewed source hashes below identify the integrated files.",
+  "upstream_commit": "a662de603224c47123b0783821c58ad4402ad3e3",
+  "embodiment_id": "leap_v1_full_right_menagerie_v1",
+  "calibration_id": "uncalibrated_upstream_defaults_v1",
+  "seed": null,
+  "configuration": {
+    "nq": 16,
+    "nv": 16,
+    "nu": 16,
+    "joint_count": 16,
+    "actuator_mapping": "one-to-one, 16 unique joints",
+    "timestep_s": 0.002,
+    "fixed_palm": true,
+    "upstream_contact_exclusions": 18,
+    "adaptations": [
+      "4 massless fingertip sites (tip_index/tip_middle/tip_ring/tip_thumb) added on the distal bodies at the compiled frames of the upstream tip mesh geoms; no collision geometry touched",
+      "1 render light added",
+      "everything else verbatim upstream: joint ranges, implicitfast integrator, elliptic cone, impratio=100, 2 ms timestep, 18 contact exclusions, box-primitive collision geometry, 16 position actuators"
+    ],
+    "fsr_installed": false
+  },
+  "run": {
+    "started_utc": "2026-10-31T09:14:33.133477Z",
+    "finished_utc": "2026-10-31T09:14:34.400527Z",
+    "versions": {
+      "python": "3.12.14",
+      "mujoco": "3.17.0",
+      "numpy": "2.5.4"
+    },
+    "steps": 11000,
+    "simulated_seconds": 22.000000000000007,
+    "measured_probe_loop_wall_seconds": 0.7859112499863841,
+    "warning_counts": {},
+    "gates": {
+      "finite": true,
+      "episode_complete": true,
+      "no_warnings": true,
+      "limit_excursion<=0.01": true,
+      "ctrl_in_bounds": true,
+      "no_negative_normal_force": true
+    },
+    "reported": {
+      "held_tracking_max_rad": 0.2971763969655006,
+      "held_tracking_per_channel_rad": {
+        "if_mcp": 0.04352823096192027,
+        "if_rot": 0.2971763969655006,
+        "if_pip": 0.03639845560274391,
+        "if_dip": 0.035624357003501084,
+        "mf_mcp": 0.0502083967008069,
+        "mf_rot": 0.279157324549242,
+        "mf_pip": 0.031140546536667424,
+        "mf_dip": 0.03562435700350397,
+        "rf_mcp": 0.04352805303121232,
+        "rf_rot": 0.015272718758237103,
+        "rf_pip": 0.031140304081388015,
+        "rf_dip": 0.0301975174597926,
+        "th_cmc": 0.05260730466240626,
+        "th_axl": 0.03389063517312357,
+        "th_mcp": 0.06533541884591532,
+        "th_ipl": 0.03467247717816224
+      },
+      "held_tracking_free_rad": {
+        "if_mcp": 0.04352823096192027,
+        "if_rot": 0.01672824275660964,
+        "if_pip": 0.03639845560274391,
+        "if_dip": 0.035624357003501084,
+        "mf_mcp": 0.0502083967008069,
+        "mf_rot": 0.00012298963449817272,
+        "mf_pip": 0.031140546536667424,
+        "mf_dip": 0.03562435700350397,
+        "rf_mcp": 0.04352805303121232,
+        "rf_rot": 0.015272718758237103,
+        "rf_pip": 0.031140304081388015,
+        "rf_dip": 0.0301975174597926,
+        "th_cmc": 0.05260730466240626,
+        "th_axl": 0.032868478536509926,
+        "th_mcp": 0.06533541884591532,
+        "th_ipl": 0.03467247717816224
+      },
+      "held_tracking_blocked_rad": {
+        "if_rot": 0.2971763969655006,
+        "mf_rot": 0.279157324549242,
+        "th_mcp": 0.06514646168796445,
+        "if_mcp": 0.03663678948287097,
+        "if_pip": 0.008791476290074596,
+        "if_dip": 0.006829144687318545,
+        "th_cmc": 0.05256924646491634,
+        "th_axl": 0.03389063517312357,
+        "th_ipl": 0.032676819014031966
+      },
+      "held_tracking_free_max_rad": 0.06533541884591532,
+      "held_tracking_reference_tol_rad": 0.1,
+      "held_tracking_within_reference": false,
+      "held_tracking_free_within_reference": true,
+      "spread_index_middle_initial_m": 0.045412759049939855,
+      "spread_index_middle_final_m": 0.11138989654017088,
+      "spread_delta_m": 0.06597713749023103,
+      "recovered_open_error_rad": 0.025566293088488824,
+      "recovered_open_reference_tol_rad": 0.05,
+      "recovered_open_within_reference": true,
+      "self_contact_steps": 1769,
+      "self_contact_events": 3382,
+      "self_contact_pairs": {
+        "if_ds|mf_ds": 814,
+        "mf_ds|rf_ds": 2055,
+        "palm|th_ds": 229,
+        "if_md|th_ds": 284
+      },
+      "channel_tip_displacement_m": {
+        "if_mcp": 0.1512410573628474,
+        "if_rot": 0.028261333555424786,
+        "if_pip": 0.07214582078447973,
+        "if_dip": 0.03589529433997995,
+        "mf_mcp": 0.15124105736303078,
+        "mf_rot": 0.029641080787022312,
+        "mf_pip": 0.07214582078449336,
+        "mf_dip": 0.03589529433997995,
+        "rf_mcp": 0.15122877003261895,
+        "rf_rot": 0.05237685008525617,
+        "rf_pip": 0.07213536561444958,
+        "rf_dip": 0.035895608494434954,
+        "th_cmc": 0.1445272450373382,
+        "th_axl": 0.0028297590130741982,
+        "th_mcp": 0.12201529485055196,
+        "th_ipl": 0.04878421926856347
+      },
+      "max_negative_normal_force_n": 0.0
+    }
+  },
+  "independent_review": {
+    "asset_files_hash_verified": 14,
+    "pinned_xml_and_license_fetched_and_hash_verified": true,
+    "trace_samples_reviewed": 441,
+    "full_step_series_reviewed": 11000,
+    "max_limit_excursion_rad": 0.0,
+    "self_contact_steps": 1769,
+    "self_contact_events": 3382,
+    "actual_render_count": 20,
+    "selected_actual_renders_visually_reviewed": [
+      "overview_open.png",
+      "spread.png",
+      "returned.png"
+    ],
+    "all_output_manifest_hashes_checked": true,
+    "stdlib_only_import": {
+      "initial_result": "failed: eager optional MuJoCo dependency",
+      "correction": "Kimi lazy package imports, no physics changes",
+      "independent_python_no_sitepackages_import": "passed",
+      "independent_downloader_check_without_physics_dependencies": "passed"
+    },
+    "worker_focused_checks": {
+      "passed": 19,
+      "command": "pytest tests/test_leap_v1_assets.py tests/test_leap_v1_model.py -q",
+      "scope": "Asset and actual local model checks, not policy/task success"
+    }
+  },
+  "worker_dispatches": [
+    {
+      "status": "timeout",
+      "exit_code": 124,
+      "elapsed_seconds": 900.1,
+      "recorded_usage": null
+    },
+    {
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 520.6,
+      "recorded_usage": {
+        "records": 21,
+        "input_uncached": 117665,
+        "input_cached": 2564137,
+        "input_cache_write": 0,
+        "output": 16440,
+        "total": 2698242
+      }
+    },
+    {
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 168.2,
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 30913,
+        "input_cached": 1112320,
+        "input_cache_write": 0,
+        "output": 6029,
+        "total": 1149262
+      }
+    }
+  ],
+  "worker_session": "session_541ac984-32ed-4970-b715-12e70255f790",
+  "combined_session_usage": {
+    "records": 55,
+    "input_uncached": 265410,
+    "input_cached": 5682217,
+    "input_cache_write": 0,
+    "output": 54135,
+    "total": 6001762
+  },
+  "combined_dispatch_wall_seconds": 1588.9,
+  "usage_note": "Provider token counts include cache reads separately; not billing/quota estimates. First timeout usage recovered from the exact session archive when available.",
+  "source_artifacts": [
+    {
+      "path": "assets/manifests/leap-v1-full.json",
+      "sha256": "0611062027da64234b03af14e3f06a1be5ee6dbe913ad6dd8007097928ee2ac7"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_v1/__init__.py",
+      "sha256": "c563c9e635c4ab02057da86e26725146de517b109b4175fa759daf0a26dad721"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_v1/assets.py",
+      "sha256": "b10e04c26ab8c0c4c78bb3642ded66401e69b5a225603658d98231dd1c00b721"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_v1/diagnostics.py",
+      "sha256": "16d4a4a489012626e6ddf1b4e65361f0be8a12c3fc8d8c4c7d3d99797006d302"
+    },
+    {
+      "path": "src/embodied_trackpad/leap_v1/model.py",
+      "sha256": "574f29f4c8ad99ae03acff0ff6b34fd074b815e9f6749026952f8c75e3386abc"
+    },
+    {
+      "path": "tests/test_leap_v1_assets.py",
+      "sha256": "2db8ebed66090bbc6a29aa10e41db220a7f69acde9c5b69100656692b221c24c"
+    },
+    {
+      "path": "tests/test_leap_v1_model.py",
+      "sha256": "d82fd1c20e051c559c5a3588bfe343c009777a2a25127bcd488ad42d384cbd26"
+    },
+    {
+      "path": "tools/fetch_leap_v1_assets.py",
+      "sha256": "bc99fa8f8b88b0dcdd5b9ba12fd640cd7fc2e32074a29b85d69d5bbed64e0114"
+    },
+    {
+      "path": "tools/leap_v1_model_probe.py",
+      "sha256": "b231ccfeef0764d08154ae7dee83df8b5a6b6d53523d5dba6d02afa5f4bb429a"
+    }
+  ],
+  "private_run_artifacts": [
+    {
+      "label": "inventory.json",
+      "sha256": "0b465663cbfd40c395adbde7ce9f5ffd7837eb2d1a7a146d53fb3c75f04bc612"
+    },
+    {
+      "label": "motion-metrics.json",
+      "sha256": "6e851cd115a73a5c0b61167d1699066638e72c13d41706b3a10cf0886c518600"
+    },
+    {
+      "label": "trace.npz",
+      "sha256": "db40b5518a1eb739b164a1aa9d04cc2a0c4005604561319a1002566968074ebb"
+    },
+    {
+      "label": "self-contacts.json",
+      "sha256": "a2ed1406f2d21633d9df8c25a286124a8429489158e3413aa8f882ae69dd806d"
+    },
+    {
+      "label": "result.json",
+      "sha256": "cd38d8902333a393c8b55a940f699b69432b8166a5449f2aac9d4d343885b0b8"
+    }
+  ],
+  "public_renders": [
+    {
+      "path": "docs/assets/leap-v1-overview_open.png",
+      "sha256": "2dd7dda1ff43579d8837c939e119c80c4338c0551c7a36a299d1ae3e3799b15f"
+    },
+    {
+      "path": "docs/assets/leap-v1-spread.png",
+      "sha256": "5d6682a17e5cc80c62806cf17e86c2608b4e5105f60e155b527fe0e3fec6dec5"
+    },
+    {
+      "path": "docs/assets/leap-v1-returned.png",
+      "sha256": "6b1eb70b21a571ac792e6f239b4210302a201d6cf0f5689cfd1208e82ffabdb4"
+    }
+  ],
+  "limitations": [
+    "This is hand-only scripted dynamics, not trackpad contact, native GUI feedback, D1 data, VLA training or hardware validation.",
+    "All-channel held-tracking reference of 0.10 rad is NOT met: if_rot 0.297 and mf_rot 0.279 rad maxima coincide with recorded neighbour contacts; other 14 channel maxima are <=0.066 rad.",
+    "3382 self-contact events over1769steps are retained, not suppressed or relabeled successful touch.",
+    "Upstream gains/inertias/friction/collision primitives are not calibrated XC330 hardware parameters.",
+    "The renderer outputs20 PNGs; the worker report incorrectly called24 total output files24 renders.",
+    "The first worker timed out after900s; a scoped continuation completed measurements and an import-fix continuation corrected a separately found issue.",
+    "Initial draft progress used a placeholder midnight timestamp; Kimi preserved it as superseded and wrote actual UTC milestones.",
+    "No GPU allocation or physical robot action occurred in this CPU task."
+  ]
+}

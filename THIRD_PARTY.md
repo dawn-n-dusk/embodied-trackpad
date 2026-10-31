@@ -2,6 +2,8 @@
 
 No model weights, full papers, or hand meshes are bundled in the initial repository.
 
+The current LEAP v1 Full baseline uses MuJoCo Menagerie `leap_hand` at `a662de603224c47123b0783821c58ad4402ad3e3`, whose per-model license is MIT, Copyright 2023 Ananye Agarwal. The [manifest](assets/manifests/leap-v1-full.json) pins the right-hand XML, meshes and license; downloaded assets remain ignored. Project-authored diagnostic renders under `docs/assets/leap-v1-*` depict this attributed model. The official noncommercial LEAP hardware API is not incorporated. The [v1 guide](docs/leap-v1-model.md) discloses model adaptations and uncalibrated dynamics.
+
 Current LEAP v2 Advanced import uses a pinned official URDF/STL download manifest. The repository's nested `leap_v2/LICENSE` contains Apache-2.0, while its official CAD pages separately state CC BY-NC-SA. These are distinct sources; no blanket license claim is made for every CAD/mesh asset. Keep upstream models and converted model outputs in ignored caches with provenance; public project-authored adapters and reports do not relicense those assets. The [latest asset audit](docs/research/2026-10-31-leap-latest-assets.zh-CN.md) records both sources.
 
 - MuJoCo and MuJoCo Warp: follow their upstream licenses; pin runtime versions in experiments.

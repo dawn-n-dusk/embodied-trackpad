@@ -1,6 +1,10 @@
 # Changelog
 
+- Added a local LEAP v1 Full live physics viewer, independently inspected in the browser. Corrected displayed-frame freshness and narrow-panel fit; preserved timeout, restart and regression-test evidence. Training-attached monitoring remains a separate next stage.
+
 ## Unreleased — 2026-10-31
+
+- Integrated Kimi's independent LEAP v1 Full hand-only baseline and 14-file pinned asset manifest. Reviewed 16-channel motion over 11,000 steps, actual renders and raw traces; retained self-contact and tracking limitations. Corrected eager optional-dependency imports after independent review; 19 focused worker checks passed. V1 pad contact, online feedback and training remain pending.
 
 - Confirmed full fine-tuning on allocated H800/other compute and simulation-first validation, with physical FSR/conductive-fingertip checks deferred. Documented the current physics-contact-to-device pipeline, idealized recognition assumptions and missing gesture support.
 

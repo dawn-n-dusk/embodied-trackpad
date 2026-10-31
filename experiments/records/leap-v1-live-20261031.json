@@ -1,0 +1,173 @@
+{
+  "record_version": "1.0",
+  "id": "leap-v1-live-20261031",
+  "timestamp_utc": "2026-10-31T09:42:03.556817+00:00",
+  "kind": "independent_local_live_view_review",
+  "status": "hand_only_scripted_live_view_accepted",
+  "source_commit": "f9f9564943d59457c06571fe21f026b4bf9b9e18",
+  "source_note": "Uncommitted implementation identified by exact hashes; published with this record.",
+  "configuration": {
+    "hand": "LEAP v1 Full",
+    "actuators": 16,
+    "fingers": 4,
+    "backend": "MuJoCo CPU",
+    "bind": "127.0.0.1",
+    "resolution": [
+      640,
+      480
+    ],
+    "render_fps_cap": 8,
+    "numerical_threads_max": 2,
+    "lifetime_limit_s": 1200,
+    "active_run_started_utc": "2026-10-31T09:39:00.315592Z",
+    "deadline_utc": "2026-10-31T09:55:44.343144Z",
+    "policy": "scripted diagnostic only",
+    "trackpad_present": false,
+    "training": false
+  },
+  "worker_runtime_checks": {
+    "get_page_http_200": true,
+    "get_state_http_200": true,
+    "frame_t0": {
+      "frame_id": 120,
+      "sim_time_s": 15.004,
+      "sha256": "b72a025ab7d220d6f5cdb7f66cf286f99a860e89a9ca8afa0e18353fb4f78bf7",
+      "phase": "sweep_th_axl_hold"
+    },
+    "frame_t1": {
+      "frame_id": 160,
+      "sim_time_s": 20.046,
+      "sha256": "85c6107c8a703912ac1cbe73e3435b7d2a745d6c3096b6ae8f87ca5db1362e8a",
+      "phase": "flex_hold"
+    },
+    "frames_differ": true,
+    "frame_id_advanced": true,
+    "sim_time_advanced": true,
+    "status_live_both_samples": true,
+    "measured_fps": 7.93,
+    "stale_logic": "unit-tested (classify_frame_status boundaries incl. >2s STALLED, None frame, STOPPED) + client watchdog STALE_AFTER_MS=2000 asserted in HTML contract test; not tested against a hung live server",
+    "stream_route_removed_http_410": true,
+    "pytest": "PYTHONPATH=src python -m pytest tests/test_leap_v1_live_protocol.py -q -> 8 passed",
+    "bind": "127.0.0.1 only",
+    "lifetime": "server self-enforced 1200 s deadline; expiry monitor is deadline-based (does not rely on physics join)"
+  },
+  "coordinator_review": {
+    "actual_iab_screenshots_inspected": 3,
+    "visible_sample_pair": [
+      {
+        "frame": 715,
+        "sim_time_s": 89.99,
+        "fps": 7.9
+      },
+      {
+        "frame": 886,
+        "sim_time_s": 111.54,
+        "fps": 8.0
+      }
+    ],
+    "responsive_restart_sample": {
+      "frame": 990,
+      "sim_time_s": 124.67,
+      "display_age_s": 0.15,
+      "fps": 7.9
+    },
+    "responsive_fit": "full hand image fits 573 px panel after worker CSS correction",
+    "source_hash_matches_launch": true,
+    "process_start_and_loopback_listener_verified": true,
+    "viewer_tests": {
+      "passed": 8,
+      "seconds": 0.04
+    },
+    "integration_checks": {
+      "timestamp_utc": "2026-10-31T09:35:55.390119+00:00",
+      "source_head": "f9f9564943d59457c06571fe21f026b4bf9b9e18",
+      "focused_v1": {
+        "command": "PYTHONPATH=src <existing-physics-runtime>/python -m pytest tests/test_leap_v1_assets.py tests/test_leap_v1_model.py -q",
+        "passed": 19,
+        "seconds": 1.56
+      },
+      "broader_local_suite": {
+        "command": "PYTHONPATH=src <existing-foundation-runtime>/python -m pytest -q --ignore=tests/test_leap_v1_live_protocol.py",
+        "passed": 176,
+        "skipped": 5,
+        "failed": 1,
+        "seconds": 17.56,
+        "failure": "tests/test_mac_sandbox_protocol.py::test_capture_shape: expected width 800, returned 1600; assertion failed. Test and native capture code unchanged by this task. Resolution mismatch remains uncorrected."
+      },
+      "initial_suite_runtime_error": "Physics-only runtime lacks jsonschema; collection failed. Retried broader suite using existing foundation runtime without installing dependencies.",
+      "ledger_prefix_unchanged_from_head": true,
+      "baseline_source_and_render_hashes_verified": 12,
+      "scope": "Independent validation; does not establish policy learning or v1 pad contact."
+    }
+  },
+  "rework": [
+    "First 600 s Kimi dispatch timed out before launch.",
+    "Coordinator returned false-LIVE risk from independent image/metadata streams; Kimi replaced display with decoded-frame polling and freshness watchdog.",
+    "Coordinator found fixed-width image overflow in real browser; Kimi corrected responsive CSS and restarted only its verified child with the remaining original lifetime. Previous run receipts retained."
+  ],
+  "dispatches": [
+    {
+      "status": "timeout",
+      "exit_code": 124,
+      "elapsed_seconds": 600.1,
+      "recorded_usage": null
+    },
+    {
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 255.2,
+      "recorded_usage": {
+        "records": 18,
+        "input_uncached": 71718,
+        "input_cached": 1563027,
+        "input_cache_write": 0,
+        "output": 14920,
+        "total": 1649665
+      }
+    },
+    {
+      "status": "reported",
+      "exit_code": 0,
+      "elapsed_seconds": 76.5,
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 27054,
+        "input_cached": 694528,
+        "input_cache_write": 0,
+        "output": 3348,
+        "total": 724930
+      }
+    }
+  ],
+  "combined_dispatch_wall_seconds": 931.8,
+  "combined_session_usage": {
+    "records": 47,
+    "input_uncached": 148714,
+    "input_cached": 3536290,
+    "input_cache_write": 0,
+    "output": 44116,
+    "total": 3729120
+  },
+  "usage_note": "Provider token records, including cache reads separately; not billing or quota estimates.",
+  "artifacts": [
+    {
+      "path": "tools/leap_v1_live_view.py",
+      "sha256": "11b602284897c2bf10426fc78dd4b8cf1a8689fbe41ea567ba9419db9aca9ed2"
+    },
+    {
+      "path": "tests/test_leap_v1_live_protocol.py",
+      "sha256": "0dc15476cadedea0eb6b22c8e3a8527a11b0ba6293852ecc22888afb72f46a26"
+    },
+    {
+      "path": "docs/leap-v1-live.md",
+      "sha256": "31f5a367e14bb90c7f9ccc53d1239e86640e56ff305a2756f3c7d69c4fee452d"
+    }
+  ],
+  "limitations": [
+    "No trained policy, pad contact, GUI feedback or hardware validation in this viewer.",
+    "Client stale state has helper/code-contract coverage; a hung live transport was not injected in this acceptance.",
+    "Automatic deadline expiry was not awaited; graceful SIGTERM shutdown and port reuse were observed.",
+    "Broad local regression had one unchanged native-capture resolution assertion failure (1600 vs expected 800 pixels); this is separate from the live viewer.",
+    "Public CI omits optional MuJoCo/GPU/macOS runtime coverage."
+  ]
+}

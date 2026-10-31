@@ -2,7 +2,7 @@
 
 > 2026-10-31 后续确认：[ADR 0008](decisions/0008-full-finetuning-and-simulation-first.zh-CN.md)采用全量微调主线，先推进仿真与初步模型验证；FSR/导电指腹实测后置。当前[触控识别机制](simulation-touch-model.zh-CN.md)基于物理接触与软件设备状态机，尚未仿真 Apple 电容硬件。
 
-> 2026-10-31 当前覆盖决策：[ADR 0007](decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md)按用户最终选择采用 **LEAP v1 Full 四指/16 电机**。后续算法优先级见 [VLA 架构评审](research/2026-10-31-vla-architecture-review.zh-CN.md)与 [π0.5 微调报告评审](research/2026-10-31-pi05-finetuning-review.zh-CN.md)：小策略基线＋完整预训练 π0.5/RTC 候选，纠错优先，RL 按失败原因后置。下文保留 v2 设计内容及当时的模型/频率候选，存在冲突时以上述新决策为准；已运行 v2 的成绩保持 v2 归属。尚无 v1 接入或策略训练成绩。
+> 2026-10-31 当前覆盖决策：[ADR 0007](decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md)按用户最终选择采用 **LEAP v1 Full 四指/16 电机**。后续算法优先级见 [VLA 架构评审](research/2026-10-31-vla-architecture-review.zh-CN.md)与 [π0.5 微调报告评审](research/2026-10-31-pi05-finetuning-review.zh-CN.md)：小策略基线＋完整预训练 π0.5/RTC 候选，纠错优先，RL 按失败原因后置。下文保留 v2 设计内容及当时的模型/频率候选，存在冲突时以上述新决策为准；已运行 v2 的成绩保持 v2 归属。v1 [手部 CPU 基线](leap-v1-model.md)已完成并保留碰撞与跟踪误差；板面接触和策略训练尚未验收。
 
 **机器人触控板项目：后端架构修订 v2**
 
