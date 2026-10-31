@@ -1,0 +1,340 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pilot-raw-review-20261101",
+  "timestamp_utc": "2026-10-31T16:55:34.988245+00:00",
+  "kind": "independent_full_raw_pilot_review_and_auditor_rejection",
+  "status": "raw_evidence_passes_exporter_requires_repairs",
+  "source_commit": "04ec6af009c7ec4b225788eb9eef181914c91047",
+  "raw_checks": {
+    "all_physics_rows_order_finite_safety_and_numeric_contact_limits": true,
+    "all_force_intents_prior_state_and_actual_control": true,
+    "all_png_hash_dimensions_pixel_errors_including_terminal": true,
+    "all_actor_states_pre_action": true,
+    "all_touch_payload_ack_coordinates_and_forces": true,
+    "terminal_three_fresh_frames_success_no_fabricated_action": true,
+    "actual_final_clearance": true,
+    "raw_hashes_before_after_unchanged": true,
+    "saved_terminal_images_test_classes_4_and_10_visually_reviewed": true
+  },
+  "totals": {
+    "steps": 47450,
+    "frames": 686,
+    "action_samples": 674,
+    "visual_steps": 16850,
+    "touch_messages": 1214
+  },
+  "episodes": [
+    {
+      "seed": 0,
+      "steps": 4550,
+      "frames": 81,
+      "action_samples": 80,
+      "visual_steps": 2000,
+      "touch_messages": 125,
+      "initial_error_px": 13.330143540669837,
+      "final_error_px": 0.9616694949532935,
+      "terminal_errors_px": [
+        2.413158854649148,
+        2.0384047974479436,
+        0.9616694949532935
+      ],
+      "release_span_s": 2.0860000000002588,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7142951238270356,
+      "peak_pad_force_n": 1.085599414021634
+    },
+    {
+      "seed": 1,
+      "steps": 4850,
+      "frames": 93,
+      "action_samples": 92,
+      "visual_steps": 2300,
+      "touch_messages": 137,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 1.7492137107522012,
+      "terminal_errors_px": [
+        2.8258081150829044,
+        2.294410143730161,
+        1.7492137107522012
+      ],
+      "release_span_s": 2.0840000000005254,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7142951238270356,
+      "peak_pad_force_n": 1.085599414021634
+    },
+    {
+      "seed": 2,
+      "steps": 5250,
+      "frames": 109,
+      "action_samples": 108,
+      "visual_steps": 2700,
+      "touch_messages": 153,
+      "initial_error_px": 24.321276595744678,
+      "final_error_px": 1.6694146324492116,
+      "terminal_errors_px": [
+        2.3937504974882584,
+        2.0928693411942203,
+        1.6694146324492116
+      ],
+      "release_span_s": 2.0800000000006946,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7142951238270356,
+      "peak_pad_force_n": 1.085599414021634
+    },
+    {
+      "seed": 3,
+      "steps": 3075,
+      "frames": 22,
+      "action_samples": 21,
+      "visual_steps": 525,
+      "touch_messages": 66,
+      "initial_error_px": 13.330143540669837,
+      "final_error_px": 0.3594150244749739,
+      "terminal_errors_px": [
+        2.2312078226691585,
+        1.8217049684585491,
+        0.3594150244749739
+      ],
+      "release_span_s": 2.0179999999997777,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.694700133756332,
+      "peak_pad_force_n": 1.3139724611268127
+    },
+    {
+      "seed": 4,
+      "steps": 3275,
+      "frames": 30,
+      "action_samples": 29,
+      "visual_steps": 725,
+      "touch_messages": 74,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 0.5247603189612592,
+      "terminal_errors_px": [
+        1.7761346096152713,
+        1.2482034336615486,
+        0.5247603189612592
+      ],
+      "release_span_s": 2.0199999999997775,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6937137628911654,
+      "peak_pad_force_n": 1.380711759794067
+    },
+    {
+      "seed": 5,
+      "steps": 3425,
+      "frames": 36,
+      "action_samples": 35,
+      "visual_steps": 875,
+      "touch_messages": 80,
+      "initial_error_px": 24.321276595744678,
+      "final_error_px": 0.7647467957960518,
+      "terminal_errors_px": [
+        2.7531682041262076,
+        1.5597245869795962,
+        0.7647467957960518
+      ],
+      "release_span_s": 2.0199999999997775,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7006811242398769,
+      "peak_pad_force_n": 1.4635781004387747
+    },
+    {
+      "seed": 6,
+      "steps": 3700,
+      "frames": 47,
+      "action_samples": 46,
+      "visual_steps": 1150,
+      "touch_messages": 91,
+      "initial_error_px": 13.330143540669837,
+      "final_error_px": 1.8817587459729936,
+      "terminal_errors_px": [
+        1.5250473964643403,
+        1.0329257906088123,
+        1.8817587459729936
+      ],
+      "release_span_s": 2.0499999999997742,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7088840001319152,
+      "peak_pad_force_n": 1.0789419122589972
+    },
+    {
+      "seed": 7,
+      "steps": 3775,
+      "frames": 50,
+      "action_samples": 49,
+      "visual_steps": 1225,
+      "touch_messages": 94,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 1.0319132076129376,
+      "terminal_errors_px": [
+        2.2730821567398394,
+        0.5159163084633228,
+        1.0319132076129376
+      ],
+      "release_span_s": 2.0499999999997742,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7082614184093228,
+      "peak_pad_force_n": 1.0775084966045712
+    },
+    {
+      "seed": 8,
+      "steps": 3875,
+      "frames": 54,
+      "action_samples": 53,
+      "visual_steps": 1325,
+      "touch_messages": 98,
+      "initial_error_px": 24.321276595744678,
+      "final_error_px": 0.7202229261018794,
+      "terminal_errors_px": [
+        2.61540058886116,
+        0.9589620457079849,
+        0.7202229261018794
+      ],
+      "release_span_s": 2.0499999999997742,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7072966820983045,
+      "peak_pad_force_n": 1.0766153619779142
+    },
+    {
+      "seed": 9,
+      "steps": 3650,
+      "frames": 45,
+      "action_samples": 44,
+      "visual_steps": 1100,
+      "touch_messages": 89,
+      "initial_error_px": 13.330143540669837,
+      "final_error_px": 1.5441478626948582,
+      "terminal_errors_px": [
+        2.6413802801146504,
+        0.7412426686547957,
+        1.5441478626948582
+      ],
+      "release_span_s": 2.0499999999997742,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7081774440653721,
+      "peak_pad_force_n": 1.0783797889346207
+    },
+    {
+      "seed": 10,
+      "steps": 3825,
+      "frames": 52,
+      "action_samples": 51,
+      "visual_steps": 1275,
+      "touch_messages": 96,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 1.2055643879173203,
+      "terminal_errors_px": [
+        2.369889153660146,
+        0.9578251447872701,
+        1.2055643879173203
+      ],
+      "release_span_s": 2.0499999999997742,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7074129575523614,
+      "peak_pad_force_n": 1.0775728910018831
+    },
+    {
+      "seed": 11,
+      "steps": 4200,
+      "frames": 67,
+      "action_samples": 66,
+      "visual_steps": 1650,
+      "touch_messages": 111,
+      "initial_error_px": 24.321276595744678,
+      "final_error_px": 2.8836678002990674,
+      "terminal_errors_px": [
+        2.9723287479366722,
+        2.9723287479366722,
+        2.8836678002990674
+      ],
+      "release_span_s": 2.0639999999999503,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.706493086623225,
+      "peak_pad_force_n": 1.1219350087574216
+    }
+  ],
+  "independent_raw_review_elapsed_s": 52.02918025001418,
+  "auditor_source_sha256_rejected": "eb2c6c6632a63b47d6ab49b0767fbd583b15e5c0d454a811150840c58865a29e",
+  "auditor_original_tests": {
+    "independently_run_new_tests_passed": 25,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 0.23,
+    "does_not_cover_independent_counterexamples": true
+  },
+  "auditor_counterexamples": [
+    {
+      "case": "baseline",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "unsafe_step_hidden_by_summary",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "forged_touch_x",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "bad_ack_type",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "no_force_intents",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "no_terminal",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "backward_image_clock",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    },
+    {
+      "case": "forged_raw_error",
+      "accepted": true,
+      "samples": 2,
+      "issues": []
+    }
+  ],
+  "exporter_state": "unaccepted_preserved_new_bounded_correction_dispatched",
+  "kimi_accounting": {
+    "elapsed_s": 481.3,
+    "recorded_usage": {
+      "records": 49,
+      "input_uncached": 118892,
+      "input_cached": 5552640,
+      "input_cache_write": 0,
+      "output": 32557,
+      "total": 5704089
+    }
+  },
+  "scope_correction": "Worker added one unrequested ledger line; patch preserved privately and removed from worker checkout before the correction task. Coordinator creates this reviewed record.",
+  "clock_limit": "Native screenshot times strictly increase within their own domain. Offset and uncertainty are not saved; historical end-to-end frame-age accuracy is not independently certified.",
+  "public_ci": {
+    "commit": "e8407a43b828720fbc19950e08923157257fc929",
+    "run_id": 41221404240,
+    "conclusion": "success"
+  },
+  "limitations": [
+    "This record independently accepts the saved teacher evidence; candidate dataset/export schema and reusable auditor are not accepted yet.",
+    "Deterministic fixed12-target, one scene/pose, privileged teacher. 12/12 is not a random robustness estimate or learned-policy success.",
+    "Missing capture-clock offset/uncertainty prevents retrospective certification of cross-clock frame age. Within-clock order and causal step links were verified.",
+    "No policy optimizer, H800 training job, active project stream, physical hardware or arbitrary Mac input."
+  ]
+}

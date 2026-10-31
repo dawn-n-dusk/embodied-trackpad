@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Independently verified the complete12-episode raw pilot:47,450physics steps,686images,674action groups and1,214touch messages. All12 fixed-target teacher episodes passed. Rejected the first reusable auditor despite25passing tests after reproducing7false-acceptance counterexamples; preserved it and delegated bounded repairs. Added a gated small-policy BC/checkpoint/independent-evaluation contract.
+
 - Collected12 fresh fixed-target pilot episodes after four-direction teacher acceptance. Independently checked source hashes, row counts, raw byte inventory and exited application identities; full causal/pixel/data acceptance remains pending. Preserved prospective target-class splits and raw ineligibility, and corrected the collection report's byte-unit/wall-time interpretation.
 
 - Added a force-governed teacher mode that distributes planar increments over25substeps and preserves the normal correction before bounding tangential motion. Independently passed121source checks and4000pure randomized boundary cases; retained previous modes and fixed safety criteria. One actual seed2 episode then passed: error24.32→1.67px,2700causal visual substeps,5.4scontact,0.714mmmaximum penetration and measured safe release. Three additional directions dispatched; no data/training acceptance inferred.
