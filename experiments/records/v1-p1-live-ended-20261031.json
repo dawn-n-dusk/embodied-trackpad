@@ -1,0 +1,43 @@
+{
+  "record_version": "1.0",
+  "id": "v1-p1-live-ended-20261031",
+  "timestamp_utc": "2026-10-31T14:56:38.270944+00:00",
+  "kind": "independent_bounded_stream_shutdown_review",
+  "status": "scripted_demo_ended_processes_and_port_released",
+  "source_commit": "f968ef5e7e6f8f315fb04e7bb09d48f918549152",
+  "producer": {
+    "run_id": "leap-v1-pad-live-20261031T125532Z",
+    "stop_reason": "deadline",
+    "terminal_lifecycle": "completed",
+    "stopped_utc": "2026-10-31T14:54:32.904275Z",
+    "total_budget_s": 7200.0,
+    "live_run_s": 7140.0,
+    "episodes_completed": 1081,
+    "total_physics_step": 3570000,
+    "total_sim_time_s": 7140.00000053711,
+    "frames_published": 56502,
+    "effective_fps": 7.913,
+    "renderer_closed": true,
+    "exit_code": 0
+  },
+  "viewer": {
+    "deadline_utc": "2026-10-31T14:55:32.617953Z",
+    "stopped_utc": "2026-10-31T14:55:03.545694Z",
+    "stop_reason": "terminal_state",
+    "terminal_grace_s": 30.0,
+    "final_status": "STOPPED",
+    "final_activity": "ended",
+    "final_lifecycle": "completed",
+    "final_frame_seq": 56503
+  },
+  "independent_checks": {
+    "both_recorded_pid_starttime_identities_absent": true,
+    "loopback_port_closed_errno": 61,
+    "producer_and_viewer_receipts_reviewed": true
+  },
+  "limitations": [
+    "All repeated cycles were the same scripted diagnostic, not learned task success or optimizer training.",
+    "The separate actual visual seed2 episode was recorded and failed its pointing criterion; it was not this live source.",
+    "No stream restart or deadline extension was performed. Current numerical normal-priority implementation work is separate from simulation/live activity."
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-loop-publication-20261031",
+  "timestamp_utc": "2026-10-31T14:57:24.351710+00:00",
+  "kind": "public_source_release_verification",
+  "status": "published_visual_probe_and_actual_failed_episode_ci_passed",
+  "source_commit": "f968ef5e7e6f8f315fb04e7bb09d48f918549152",
+  "ci": {
+    "run_id": 41212308074,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41212308074",
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "limitations": [
+    "Dependency-light Ubuntu CI does not run native Mac or asset-backed physics. Local65 static/mock checks and actual seed2 raw evidence are separately recorded.",
+    "Pointing criterion failed; publication and CI do not establish precision or learning.",
+    "Only the reviewed fixed probe and tests are published; the normal-priority candidate remains delegated and unaccepted."
+  ]
+}
