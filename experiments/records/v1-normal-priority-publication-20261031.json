@@ -1,0 +1,37 @@
+{
+  "record_version": "1.0",
+  "id": "v1-normal-priority-publication-20261031",
+  "timestamp_utc": "2026-10-31T15:28:06.370853+00:00",
+  "kind": "public_source_and_runtime_evidence_release_verification",
+  "status": "published_source_and_failed_episode_ci_passed",
+  "source_commit": "4100952b12b0605e56b9dc93ee6fbaf5b66a2fb0",
+  "ci": {
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41214439373",
+    "head_sha": "4100952b12b0605e56b9dc93ee6fbaf5b66a2fb0",
+    "status": "completed",
+    "conclusion": "success",
+    "jobs": [
+      {
+        "name": "test (3.13)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.12)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.11)",
+        "conclusion": "success"
+      },
+      {
+        "name": "test (3.10)",
+        "conclusion": "success"
+      }
+    ]
+  },
+  "limitations": [
+    "Dependency-light CI does not establish actual native Mac or physics performance. Local83 pure/static/mock checks and the actual failed episode are separately documented.",
+    "The normal-priority runtime failed the unchanged penetration limit; publication is not precision or learning acceptance.",
+    "New force-feedback helper is delegated and remains outside accepted public source."
+  ]
+}

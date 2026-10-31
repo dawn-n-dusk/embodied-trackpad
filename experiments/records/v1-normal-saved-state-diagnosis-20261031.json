@@ -1,0 +1,101 @@
+{
+  "record_version": "1.0",
+  "id": "v1-normal-saved-state-diagnosis-20261031",
+  "timestamp_utc": "2026-10-31T15:27:24.867967+00:00",
+  "kind": "independent_review_of_saved_static_reconstruction_after_timeout",
+  "status": "four_static_states_reviewed_force_feedback_candidate_dispatched",
+  "source_commit": "4100952b12b0605e56b9dc93ee6fbaf5b66a2fb0",
+  "scope": {
+    "recorded_states": 4,
+    "new_dynamic_physics_steps": 0,
+    "new_native_app_episodes": 0,
+    "production_source_edits": 0,
+    "source_review": "Saved helper reconstructs qpos/qvel/ctrl and calls mj_forward/mj_jacSite/mj_jac; no mj_step or app calls."
+  },
+  "comparison": [
+    {
+      "cycle": 1,
+      "planned_site_dz_mm": 1.3552527156068805e-17,
+      "planned_contact_dz_mm": -0.005727766910666647,
+      "actual_q_linear_site_dz_mm": -0.08030030496456633,
+      "actual_site_height_delta_mm_from_next_frame": -0.080258027544855,
+      "first_joint_command_delta_rad": 0.0014947407306226946,
+      "first_joint_actual_delta_rad": 0.0015478826905979126,
+      "site_contact_height_separation_mm": 18.006489436426104,
+      "jacobian_reconstruction_abs_error": 0.0,
+      "static_contact_force_reconstruction_abs_error_n": 2.220446049250313e-16
+    },
+    {
+      "cycle": 5,
+      "planned_site_dz_mm": 0.1764434480758942,
+      "planned_contact_dz_mm": 0.16878473513550504,
+      "actual_q_linear_site_dz_mm": -0.0213677614117225,
+      "actual_site_height_delta_mm_from_next_frame": -0.02135782593722102,
+      "first_joint_command_delta_rad": -0.0009662688877173223,
+      "first_joint_actual_delta_rad": 0.0006226097702234368,
+      "site_contact_height_separation_mm": 17.920116423736587,
+      "jacobian_reconstruction_abs_error": 0.0,
+      "static_contact_force_reconstruction_abs_error_n": 2.220446049250313e-16
+    },
+    {
+      "cycle": 10,
+      "planned_site_dz_mm": 0.2,
+      "planned_contact_dz_mm": 0.19227192799395526,
+      "actual_q_linear_site_dz_mm": -0.01928492326951467,
+      "actual_site_height_delta_mm_from_next_frame": -0.019277841161444154,
+      "first_joint_command_delta_rad": -0.0012954702925723751,
+      "first_joint_actual_delta_rad": 0.0005419584610579786,
+      "site_contact_height_separation_mm": 17.87399581716195,
+      "jacobian_reconstruction_abs_error": 0.0,
+      "static_contact_force_reconstruction_abs_error_n": 2.220446049250313e-16
+    },
+    {
+      "cycle": 13,
+      "planned_site_dz_mm": 0.2,
+      "planned_contact_dz_mm": 0.19244447844007628,
+      "actual_q_linear_site_dz_mm": null,
+      "actual_site_height_delta_mm_from_next_frame": null,
+      "first_joint_command_delta_rad": -0.0012961037335239263,
+      "first_joint_actual_delta_rad": null,
+      "site_contact_height_separation_mm": 17.845761589664765,
+      "jacobian_reconstruction_abs_error": 0.0,
+      "static_contact_force_reconstruction_abs_error_n": 4.440892098500626e-16
+    }
+  ],
+  "private_artifact_hashes": {
+    "static_helper_sha256": "e0c00a0849427ebef503f5ea9a45ead59696283dff660797e0e4a386763de709",
+    "static_states_sha256": "54831988d9a46187392bfc88091c48eac652d75b55d6af497e47f7178ae7a777"
+  },
+  "kimi_accounting": {
+    "status": "timeout",
+    "elapsed_seconds": 300.1,
+    "exit_code": 124,
+    "recorded_usage": {
+      "records": 7,
+      "input_uncached": 21403,
+      "input_cached": 1310720,
+      "input_cache_write": 0,
+      "output": 7422,
+      "total": 1339545
+    },
+    "saved_outputs_reviewed_despite_no_final_report": true
+  },
+  "decision": "Use a separately tested, bounded privileged normal-force admittance helper as the next candidate. Actual force response, dynamic integration and another episode remain unaccepted. Keep the 1 mm safety threshold and P1 parameters.",
+  "next_task_scope": {
+    "pure_math_only": true,
+    "runtime_seconds_cap": 300,
+    "no_solver_or_app_launch": true,
+    "proposed_force_target_n": 0.8,
+    "proposed_gain_m_per_ns": 0.004,
+    "proposed_speed_cap_m_s": 0.002,
+    "proposed_substep_joint_cap_rad": 0.0002,
+    "proposed_cycle_joint_cap_rad": 0.005
+  },
+  "limitations": [
+    "Four saved-state reconstructions explain commanded-versus-actual mismatch but do not isolate every causal contribution of friction, gravity, geometry and servo response.",
+    "The contact-point Jacobian is instantaneous; the contact point can migrate during motion.",
+    "The CLI diagnosis timed out. Saved helper/data and numerical consistency were reviewed independently; no final worker completion is claimed.",
+    "Next force helper is only dispatched. Its gains are proposed, uncalibrated and not dynamically validated.",
+    "No accepted D1 data, policy training, new H800 allocation, ongoing stream or physical hardware result."
+  ]
+}
