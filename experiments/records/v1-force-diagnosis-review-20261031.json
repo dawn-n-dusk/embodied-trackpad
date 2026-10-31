@@ -1,0 +1,125 @@
+{
+  "record_version": "1.0",
+  "id": "v1-force-diagnosis-review-20261031",
+  "timestamp_utc": "2026-10-31T16:11:46.442197+00:00",
+  "kind": "independent_diagnostic_source_audit_and_publication_verification",
+  "status": "trace_findings_accepted_static_report_partially_rejected_new_pure_helper_dispatched",
+  "source_commit": "adf9a0fc9828aeb5f9fd44bae9a3356fcc40042b",
+  "worker_source_commit": "4b379e021179537e69787bed89de2e08c18f8786",
+  "ci": {
+    "run_id": 41218088705,
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/41218088705",
+    "head_sha": "adf9a0fc9828aeb5f9fd44bae9a3356fcc40042b",
+    "status": "completed",
+    "conclusion": "success",
+    "python_jobs_passed": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "independently_verified_trace": {
+    "speed_saturation_counts_by_cycle": [
+      0,
+      16,
+      24,
+      25,
+      25,
+      11
+    ],
+    "cycle_step_denominators": [
+      25,
+      25,
+      25,
+      25,
+      25,
+      11
+    ],
+    "cycle_net_mcp_command_delta_rad": [
+      0.0007526854181741927,
+      0.00045576815141867844,
+      0.00043460366292491504,
+      0.0004313396734718644,
+      0.0004300293788889187,
+      0.0010208629957544346
+    ],
+    "cycle_actual_mcp_delta_rad": [
+      0.0014948366000014923,
+      0.0013346517894515797,
+      0.0013488079972500122,
+      0.0013703803544844462,
+      0.0014191311508886528,
+      0.0008902507025587703
+    ]
+  },
+  "diagnosis_review": {
+    "reported_forward_count": 22,
+    "source_count_explicit_diagnosis_calls": 32,
+    "source_count_extra_model_setup_forward": 1,
+    "source_derived_total_forward_calls": 33,
+    "frozen_cap": 26,
+    "excess_calls": 7,
+    "count_scope": "Source-derived call graph: 2*(3*2 + 2 + 8), plus one _tip_site_offsets model-setup call. Not an instrumented runtime counter.",
+    "net_command_defect": "Worker subtracted the post-nominal starting command and incorrectly called the correction-only difference net command. Total command includes the nominal jump and remains positive for MCP in every cycle.",
+    "actual_dq_defect": "Worker used first post-step qpos, omitting the first substep. Coordinator uses the consumed pre-cycle record.",
+    "denominator_defect": "Cycle6 has11substeps, not25. Cycle1 saturation0/25 was correct; a later coordinator task misstated that as an error, and raw-log recomputation supersedes it.",
+    "force_jump_defect": "Reported0.3-0.4N overstates the saved differences, which are0.274659N and0.277884N. Rotational-channel finite-difference force response is negligible.",
+    "warmstart_limit": "No explicit reset/control of solver warmstart was recorded for repeated static evaluations; do not treat these as independently controlled causal trials.",
+    "next_action": "Preserve original helper/JSON/report and record an addendum; no additional static solves authorized."
+  },
+  "saved_static_outputs_with_limits": [
+    {
+      "recorded_step": 1450,
+      "reported_recorded_force_n": 0.9423640872609168,
+      "reported_nominal_force_n": 1.2170233032736508,
+      "reported_corrected_force_n": 1.2166923685818947,
+      "nominal_force_increase_n": 0.274659216012734,
+      "normal_acceleration_proxy_m_s2": {
+        "recorded": 6.920849379130057e-06,
+        "nominal": -0.5008701949110015,
+        "corrected": -0.5002666920818661
+      }
+    },
+    {
+      "recorded_step": 1525,
+      "reported_recorded_force_n": 1.4233517927165582,
+      "reported_nominal_force_n": 1.7012355816287839,
+      "reported_corrected_force_n": 1.70002196993761,
+      "nominal_force_increase_n": 0.27788378891222565,
+      "normal_acceleration_proxy_m_s2": {
+        "recorded": 0.014272616969033453,
+        "nominal": -0.41238516474274317,
+        "corrected": -0.4105218071354405
+      }
+    }
+  ],
+  "artifact_sha256": {
+    "diagnose_seed2_force.py": "853536988eeb3bc71aeac5117411544bb04595d629be1c77572452685a48fdd3",
+    "seed2_force_diagnosis.json": "74b82a1276a8b5a790dde36ec190da663382d8ddd512131119db5118a257272f",
+    "report.md": "57837055a7652c9ee743695ea91bdd89a5d6a4ac611395997b3d54eb430527e6"
+  },
+  "kimi_accounting": {
+    "elapsed_s": 111.7,
+    "usage": {
+      "records": 9,
+      "input_uncached": 32570,
+      "input_cached": 1281024,
+      "input_cache_write": 0,
+      "output": 7996,
+      "total": 1321590
+    }
+  },
+  "next_candidate": {
+    "state": "source_only_dispatched",
+    "method": "Distribute nominal planar delta over25substeps, reduce tangential movement as force rises from0.8to1.1N, preserve normal correction before bounding the tangential remainder.",
+    "dynamic_execution_authorized_by_this_record": false
+  },
+  "limitations": [
+    "Static diagnostic reporting is not wholly accepted; source audit found a call-budget overrun and metric mistakes, preserved explicitly.",
+    "Raw actual episode,136causal corrections and failed penetration result remain independently verified.",
+    "The new force governor is a proposed uncalibrated helper, not implemented or dynamically accepted by this record.",
+    "CI verifies dependency-light software; it does not establish native/physics success.",
+    "No D1 dataset, policy training/checkpoint, new GPU allocation or active live stream."
+  ]
+}
