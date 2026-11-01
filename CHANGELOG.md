@@ -1,5 +1,7 @@
 # Changelog
 
+- Verified the update core on the actual pinned JAX/Flax CPU runtime: a 4-second, 12-check synthetic test confirms real parameter changes and exact full-state preservation on NaN-gradient rejection. Complete-model gradients and disk restoration remain pending.
+
 - Added a reviewed full-parameter pi0.5 update core with finite-gradient rejection, stored RNG, AdamW and per-leaf diagnostics. Ten local software checks passed; one JAX behavior check is skipped, with an actual pinned-runtime CPU gate still required.
 
 - Accepted complete pi0.5 forward execution on two real image samples using one H800. Retained the failed probe assertion and extra submission outside its one-job handoff scope; rejected unbound GPU-memory telemetry. Gradients and optimizer updates remain pending.

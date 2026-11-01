@@ -1,0 +1,136 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-update-core-cpu-accepted-20261102",
+  "timestamp_utc": "2026-11-01T17:30:18.987779+00:00",
+  "kind": "independent_actual_pinned_jax_optimizer_mechanics_audit",
+  "status": "synthetic_tiny_cpu_update_rejection_passed_full_pi05_update_pending",
+  "source_revision": "79ac2df9da8b64481dec5a490dc31fb29a6ae0f2",
+  "source_sha256": "af37632cfd8ba3c95b917f21ef11d9985cf147cb8e7a6b7188647a1989ce9abd",
+  "probe_sha256": "621a07dc10510856a4c3941ead83433e9eb73d948ba09ea1eb836a23510320cc",
+  "launcher_sha256": "42e9d9798667e60499dcc7b2b78f6d713124810c9211ac2b23a4ac586aa7b944",
+  "raw_report_sha256": "16148189361408b4d522416631e16a08ce8028678baf0ec78b795f69d3c1b7fb",
+  "scheduler": {
+    "submit_utc": "2026-11-01T17:26:39Z",
+    "start_utc": "2026-11-01T17:26:48Z",
+    "end_utc": "2026-11-01T17:26:52Z",
+    "state": "COMPLETED",
+    "elapsed_s": 4,
+    "exit_code": "0:0",
+    "allocated_cpu": 2,
+    "gpu": 0,
+    "mem_requested_gib": 8
+  },
+  "runtime": {
+    "library_versions": {
+      "jax": "0.5.3",
+      "flax": "0.10.2",
+      "optax": "0.2.4"
+    },
+    "device": "CPU",
+    "synthetic_parameter_count": 20,
+    "parameter_leaves": 2,
+    "gradient_evaluations": 2,
+    "accepted_optimizer_updates": 1,
+    "rejected_nonfinite_updates": 1,
+    "checks_passed": 12,
+    "metrics_finite": {
+      "loss": 5.0625,
+      "accepted": 1.0,
+      "grad_norm": 5.031152725219727,
+      "update_norm": 4.47213533334434e-05,
+      "param_delta_norm": 4.476877074921504e-05,
+      "step": 1.0
+    }
+  },
+  "independent_checks": {
+    "remote_source_probe_launcher_report_hashes_match": true,
+    "loss_matches_analytic_tiny_model": true,
+    "gradient_norm_matches_analytic_tiny_model": true,
+    "delta_matches_fp32_rounded_update": true,
+    "all_state_fields_preserved_on_rejection": [
+      "params",
+      "opt_state",
+      "step",
+      "rng"
+    ],
+    "scope": "coordinator audited executable assertions and scheduler/results; raw full state arrays were not separately exported"
+  },
+  "resource_limits": {
+    "wall_seconds": 180,
+    "enforced_process_timeout_seconds": 150,
+    "kill_grace_seconds": 10,
+    "numeric_threads": 2,
+    "no_requeue": true,
+    "job_submissions": 1,
+    "output_budget_bytes": 1048576,
+    "output_budget_hard_enforcement": false
+  },
+  "source_review_corrections": [
+    "invalid XLA boolean flag corrected before execution",
+    "real module initialization and numeric thread limits added",
+    "host metrics captured before state donation to next step"
+  ],
+  "kimi_execution": [
+    {
+      "task": "v1-pi05-cpu-gate-only",
+      "status": "reported",
+      "elapsed_s": 79.6,
+      "recorded_usage": {
+        "records": 4,
+        "input_uncached": 10110,
+        "input_cached": 310016,
+        "input_cache_write": 0,
+        "output": 3080,
+        "total": 323206
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-launcher-fix",
+      "status": "reported",
+      "elapsed_s": 45.7,
+      "recorded_usage": {
+        "records": 4,
+        "input_uncached": 6983,
+        "input_cached": 324864,
+        "input_cache_write": 0,
+        "output": 1676,
+        "total": 333523
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-metrics-fix",
+      "status": "reported",
+      "elapsed_s": 51.4,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 5965,
+        "input_cached": 507136,
+        "input_cache_write": 0,
+        "output": 1721,
+        "total": 514822
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-submit-only",
+      "status": "unstructured",
+      "elapsed_s": 198.7,
+      "recorded_usage": {
+        "records": 15,
+        "input_uncached": 16263,
+        "input_cached": 556544,
+        "input_cache_write": 0,
+        "output": 5622,
+        "total": 578429
+      }
+    }
+  ],
+  "full_pi05_gradient_passes": 0,
+  "full_pi05_optimizer_updates": 0,
+  "disk_restore_verified": false,
+  "first_smoke_gpu_seconds_unchanged": 184,
+  "limits": [
+    "20-parameter synthetic machinery test only, not the complete pi0.5 model or a learned trackpad policy",
+    "Complete 3.35B gradient/update/disk-restore check still pending",
+    "No live stream, real hardware or desktop input"
+  ]
+}
