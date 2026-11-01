@@ -1,0 +1,37 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-base-weights-accepted-20261101",
+  "timestamp_utc": "2026-11-01T15:07:22.722853+00:00",
+  "status": "complete_checkpoint_cache_verified_model_not_loaded",
+  "checkpoint": "pi05_base",
+  "object_count": 29,
+  "verified_bytes": 12441749581,
+  "newly_downloaded_bytes": 135384742,
+  "object_versions": "frozen official generation-pinned inventory",
+  "checks": {
+    "all_object_sizes_crc32c_match_inventory": true,
+    "md5_compared_where_available": true,
+    "sha256_streamed_all_objects": true,
+    "previous_28_sha256_unchanged": true,
+    "one_mib_chunk_and_file_buffer": true,
+    "at_most_two_checksum_threads": true,
+    "deadline_checked_each_hash_chunk": true,
+    "remote_report_sha_matches_local": true,
+    "remote_helper_sha_matches_reviewed_source": true,
+    "helper_absent_after_completion": true,
+    "personal_slurm_queue_empty": true
+  },
+  "helper": {
+    "started_utc": "2026-11-01T15:03:36Z",
+    "ended_utc": "2026-11-01T15:04:16Z",
+    "elapsed_s": 40,
+    "exit_code": 0,
+    "sha256": "84a70cc7e1afbd97dd32a07f785e2dbeb71f0f2dc8b7df8d688e9d96859e38be"
+  },
+  "limits": [
+    "Weights retained in private cache, not redistributed",
+    "Complete checkpoint files do not prove successful restore into model",
+    "No CUDA import, pretrained forward, gradient or optimizer accepted",
+    "Earlier failures retained in preparation recovery record"
+  ]
+}

@@ -1,0 +1,90 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-smoke-preparation-recovery-20261101",
+  "timestamp_utc": "2026-11-01T15:04:48.601382+00:00",
+  "status": "native_jax_contract_frozen_workers_correcting_unaccepted_preparation",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "backend_decision": "native JAX checkpoint path for first full-model smoke; deployment backend undecided",
+  "contract": "docs/tasks/v1-pi05-jax-smoke.zh-CN.md",
+  "weight_state": {
+    "complete_accepted": false,
+    "verified_objects_prior": 28,
+    "expected_objects": 29,
+    "verified_bytes_prior": 11207457191,
+    "remaining_bytes": 135384742,
+    "first_staging_overran_caller_s": 182,
+    "first_helper_confirmed_exited": true,
+    "second_worker_timeout_s": 600.1,
+    "second_helper_failures": [
+      "Content-Range parser",
+      "string versus integer comparison"
+    ],
+    "independent_followup_findings": [
+      "bytes digest .hexdigest method error",
+      "checksum loop deadline and aggregate buffer limits"
+    ],
+    "recovery": "specific fixes and bounded resume; preserve verified objects and partial; never reload full cache",
+    "no_new_gpu_job": true
+  },
+  "normalization_state": {
+    "worker_timeout_s": 600.1,
+    "independent_tests_saved_draft": 30,
+    "accepted": false,
+    "required_corrections": [
+      "sample to corpus/hash binding",
+      "repeat normalization rejection",
+      "exact missing-view and valid-action masks"
+    ],
+    "independent_train_fit": {
+      "state_rows": 707,
+      "action_step_rows": 17675,
+      "per_corpus_train_rows": [
+        453,
+        254
+      ],
+      "constant_action_channels_zero_based": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "varying_action_channels_zero_based": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "train_normalized_abs_max_state": 1.4515372049295934,
+      "train_normalized_abs_max_actions": 1.4066248005122621,
+      "finite": true,
+      "fitting_used_validation_or_test": false
+    }
+  },
+  "usage_before_corrections": {
+    "weights": {
+      "uncached_input": 42824,
+      "cached_input": 902912,
+      "output": 22596
+    },
+    "normalization": {
+      "uncached_input": 68745,
+      "cached_input": 2016000,
+      "output": 37189
+    },
+    "basis": "recorded provider usage before correction dispatch; not billing or quota estimates"
+  },
+  "limits": [
+    "No large model loaded",
+    "No optimizer update",
+    "Twelve fixed action channels do not establish multifinger learning",
+    "Source-only smoke runner implementation is delegated, not accepted"
+  ]
+}
