@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): diagonal collection identity and policy-loader adaptation are independently accepted: 45 identity tests, 96 loader/trainer tests (2 conditional skips), and 26 independent checks. All 674 original sample features and the frozen index hash remain unchanged. CLI integration is still pending after another response timeout without edits. The user clarified that the next run should fine-tune the existing best policy, preserving its input normalizer; the explicit initialization entry point is the next training-code change. [Training contract](docs/tasks/v1-diagonal-retraining.zh-CN.md). The learned-policy diagonal baseline remains 2/8. No optimizer or live stream is active.
+Latest update (2026-11-01): the diagonal CLI and existing-policy fine-tuning entry point have been saved, but are not yet accepted. Both bounded workers reached their 600-second deadlines. Independent review found 85 passing tests, two test errors, and two conditional skips; CLI rejection handling, checkpoint initialization provenance, and resumed-run verification need corrections. Kimi is applying the focused fixes. The existing best policy and normalizer are preserved. [Review record](experiments/records/v1-finetune-source-review-20261101.json), [fine-tuning contract](docs/tasks/v1-diagonal-retraining.zh-CN.md). Learned performance remains two fixed axial passes and 2/8 diagonals. No optimizer or live stream is active.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 

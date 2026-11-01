@@ -1,5 +1,7 @@
 # Changelog
 
+- Saved and independently reviewed the initial diagonal CLI and whole-network fine-tuning changes. Retained both worker timeouts and failed checks; focused corrections are in progress, with no new optimizer run.
+
 - Accepted diagonal collection identity and profile-aware policy loading with 141 tests, 2 conditional skips and 26 independent checks; all 674 original feature vectors remain identical. Recorded user direction to fine-tune the existing policy with its original normalizer. CLI and warm-start training integration remain pending.
 
 - Preserved two CLI continuation timeouts with no source changes; event logs show pending model responses, with cause unresolved. Accepted teacher-configuration source passed all four CI Python versions.

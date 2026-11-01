@@ -1,0 +1,62 @@
+{
+  "record_version": "1.0",
+  "id": "v1-finetune-source-review-20261101",
+  "timestamp_utc": "2026-11-01T12:04:22.280936+00:00",
+  "kind": "saved_finetune_and_cli_source_independent_review",
+  "status": "changes_saved_review_corrections_in_progress_not_accepted",
+  "baseline_commit": "5e6ec201eeeedc1e772dadc6296f8f67217a1aad",
+  "workers": [
+    {
+      "task": "v1-diagonal-cli-fresh",
+      "status": "timeout",
+      "elapsed_s": 600.1,
+      "saved_source": true,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-small-policy-finetune",
+      "status": "timeout",
+      "elapsed_s": 600.1,
+      "saved_source": true,
+      "recorded_usage": {
+        "records": 37,
+        "input_uncached": 111330,
+        "input_cached": 4148480,
+        "input_cache_write": 0,
+        "output": 32509,
+        "total": 4292319
+      }
+    }
+  ],
+  "independent_review": {
+    "trainer_tests": {
+      "passed": 85,
+      "failed": 2,
+      "skipped": 2,
+      "wall_s": 0.31
+    },
+    "cli_legacy_index_unchanged": true,
+    "cli_valid_diagonal_fixture_passed": true,
+    "issues": [
+      "Negative collection configuration exposed missing touch_sequences on rejected episodes.",
+      "Diagonal CLI lacks batch artifact-hash parity checks.",
+      "Best-checkpoint save omits initialization metadata.",
+      "Per-class test reporting still uses axial class IDs.",
+      "External resume after step 100 needs an actual restored-next-step check.",
+      "New tests contain two fixture/assertion errors and a private path that must not be published."
+    ]
+  },
+  "next_action": "Bounded Kimi corrections, then independent source acceptance, fresh diagonal collection and existing-policy full fine-tuning.",
+  "optimizer_started": false,
+  "livestream_active": false,
+  "learned_diagonal_baseline": {
+    "passed": 2,
+    "attempted": 8
+  },
+  "limitations": [
+    "Saved source and worker timeouts do not establish acceptance.",
+    "Original model and index remain immutable.",
+    "No new physics collection or GPU job in this source review."
+  ],
+  "usage_note": "Provider-reported tokens are not billing or subscription quota. Missing usage is unknown."
+}
