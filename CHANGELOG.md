@@ -1,5 +1,7 @@
 # Changelog
 
+- Updated follow-up cadence to45minutes as requested; preserved a240.1s decoder-source timeout and scoped test completion. Saved code remains unaccepted until independent checks.
+
 - Accepted exact pixel/shape/dtype and extractor parity for six saved PNGs using Pillow12.0.0; same-batch median decode79.656→2.032ms. Dispatched an optional backend preserving strict validation; live pipeline unchanged.
 
 - Verified saved-PNG decode timing (median78.979ms, maximum350.226ms), retained missing live causal evidence, and dispatched a bounded Pillow parity/performance measurement. No freshness threshold or policy behavior changed.

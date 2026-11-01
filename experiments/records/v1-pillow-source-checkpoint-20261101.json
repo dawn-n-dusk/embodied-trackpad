@@ -1,0 +1,35 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-source-checkpoint-20261101",
+  "timestamp_utc": "2026-11-01T09:19:46.749163+00:00",
+  "kind": "worker_timeout_checkpoint_and_scoped_recovery",
+  "status": "saved_source_unaccepted_tests_incomplete",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "elapsed_s": 240.1,
+  "exit_code": 124,
+  "requested_model": "kimi-code/kimi-for-coding",
+  "recorded_usage": {
+    "records": 9,
+    "input_uncached": 24456,
+    "input_cached": 606208,
+    "input_cache_write": 0,
+    "output": 9067,
+    "total": 639731
+  },
+  "saved_files": [
+    "src/embodied_trackpad/leap_v1/visual_servo.py",
+    "tests/test_leap_v1_visual_utils.py",
+    "pyproject.toml"
+  ],
+  "evidence": "Independent source review found shared strict validation and optional decoder saved; tests only added an unused BACKENDS list. No completed test report.",
+  "next_task": {
+    "scope": "Complete existing PNG test parametrization and dependency metadata, execute focused tests",
+    "wall_s": 180,
+    "numerical_threads": 2
+  },
+  "limitations": [
+    "Saved source is not accepted or integrated.",
+    "No new GUI, physics, GPU job, optimizer or stream.",
+    "Current SSH refresh was reset by peer; live queue unknown. Existing checkpoint SHA unchanged."
+  ]
+}
