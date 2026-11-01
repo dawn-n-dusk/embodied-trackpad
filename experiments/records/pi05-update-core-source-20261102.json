@@ -1,0 +1,123 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-update-core-source-20261102",
+  "timestamp_utc": "2026-11-01T17:21:13.932839+00:00",
+  "kind": "independent_full_parameter_optimizer_core_source_review",
+  "status": "source_reviewed_for_cpu_gate_actual_jax_pending",
+  "source_base_revision": "bebf1e106f2f8b0b8f102679b1e199e60d0f6e90",
+  "files_sha256": {
+    "src/embodied_trackpad/leap_v1/pi05_update_core.py": "af37632cfd8ba3c95b917f21ef11d9985cf147cb8e7a6b7188647a1989ce9abd",
+    "tests/test_pi05_update_core.py": "2327c1b0bcccd005993530a27ce83c01ba30784248d7471f6b95bb471aa5a4de"
+  },
+  "checks": {
+    "focused_software_tests_passed": 10,
+    "jax_behavior_tests_skipped": 1,
+    "skip_reason": "JAX absent in frozen local test runtime; no installation performed",
+    "pinned_flax_0_10_2_VariableState_type_readback": true,
+    "immutable_valid16_loss_hash_unchanged": true
+  },
+  "implementation": {
+    "all_parameter_filter": "nnx.Param, no frozen subset",
+    "state_dtype": "FP32 required",
+    "optimizer": {
+      "name": "AdamW",
+      "learning_rate": 1e-05,
+      "b1": 0.9,
+      "b2": 0.95,
+      "eps": 1e-08,
+      "weight_decay": 0.0,
+      "global_norm_clip": 1.0
+    },
+    "ema": false,
+    "lora": false,
+    "parameter_census": "static Python integers; per-leaf int32 nonfinite counters reject leaf sizes >=2**31",
+    "metrics": [
+      "finite loss",
+      "all-leaf gradient structure/shape",
+      "per-leaf gradient norm",
+      "per-leaf nonfinite count",
+      "actual rounded parameter-delta norm",
+      "optimizer step"
+    ],
+    "rejection": "nonfinite loss or gradient norm returns unchanged parameters, optimizer state, step and RNG",
+    "rng": "split and stored only on accepted update",
+    "donate_old_state": true
+  },
+  "rejected_source_findings": [
+    "Python bool on JIT tracer",
+    "unconditional captured model mutation inside conditional",
+    "incorrect tiny test with zero gradients and static Python branch",
+    "reading donated state in test",
+    "incorrect nnx.Param instance check for pinned VariableState"
+  ],
+  "corrections": "saved source uses pinned official model-based DiffState pattern, functional optimizer update and corrected tests; actual runtime still pending",
+  "kimi_execution": [
+    {
+      "task": "v1-pi05-update-core",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 24043,
+        "input_cached": 386560,
+        "input_cache_write": 0,
+        "output": 7557,
+        "total": 418160
+      }
+    },
+    {
+      "task": "v1-pi05-update-core-small",
+      "status": "reported",
+      "elapsed_s": 200.9,
+      "recorded_usage": {
+        "records": 10,
+        "input_uncached": 41732,
+        "input_cached": 549632,
+        "input_cache_write": 0,
+        "output": 7360,
+        "total": 598724
+      }
+    },
+    {
+      "task": "v1-pi05-update-core-fix",
+      "status": "reported",
+      "elapsed_s": 176.9,
+      "recorded_usage": {
+        "records": 4,
+        "input_uncached": 17552,
+        "input_cached": 256256,
+        "input_cache_write": 0,
+        "output": 6846,
+        "total": 280654
+      }
+    },
+    {
+      "task": "v1-pi05-core-pinned-prepare",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "recorded_usage": {
+        "records": 3,
+        "input_uncached": 15103,
+        "input_cached": 211200,
+        "input_cache_write": 0,
+        "output": 5255,
+        "total": 231558
+      }
+    }
+  ],
+  "next_gate": {
+    "synthetic_tiny_parameter_count": 20,
+    "cpu_requested": 2,
+    "memory_requested_gib": 8,
+    "wall_seconds": 180,
+    "gpu_count": 0,
+    "scope": "actual CPU JIT update and nonfinite-state rejection; not full Pi0 training or disk-restore acceptance"
+  },
+  "full_pi05_gradient_passes": 0,
+  "full_pi05_optimizer_updates": 0,
+  "limits": [
+    "Pure source tests are not runtime acceptance",
+    "Tiny CPU gate remains separate from 3.35B H800 backward/update/restore",
+    "Initial300s source timeout and later180s partial-save timeout preserved; tasks narrowed without GPU resubmission"
+  ]
+}

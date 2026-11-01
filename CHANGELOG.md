@@ -1,5 +1,7 @@
 # Changelog
 
+- Added a reviewed full-parameter pi0.5 update core with finite-gradient rejection, stored RNG, AdamW and per-leaf diagnostics. Ten local software checks passed; one JAX behavior check is skipped, with an actual pinned-runtime CPU gate still required.
+
 - Accepted complete pi0.5 forward execution on two real image samples using one H800. Retained the failed probe assertion and extra submission outside its one-job handoff scope; rejected unbound GPU-memory telemetry. Gradients and optimizer updates remain pending.
 
 - Added the reviewed forward-only diagnostic core (6 software checks); frozen a single-H800, five-minute real-image forward contract with zero backward passes or optimizer updates.
