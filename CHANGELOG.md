@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted exact pixel/shape/dtype and extractor parity for six saved PNGs using Pillow12.0.0; same-batch median decode79.656→2.032ms. Dispatched an optional backend preserving strict validation; live pipeline unchanged.
+
 - Verified saved-PNG decode timing (median78.979ms, maximum350.226ms), retained missing live causal evidence, and dispatched a bounded Pillow parity/performance measurement. No freshness threshold or policy behavior changed.
 
 - Audited the remaining three lowtarget directions:two passed,one retained a322ms stale-frame rejection with no subsequent action. Combined teacher result3/4,success-only mean1.102px,all force/release checks passed; no learned-policy improvement claim. Dispatched offline decoder/timing comparison without relaxing freshness limits.

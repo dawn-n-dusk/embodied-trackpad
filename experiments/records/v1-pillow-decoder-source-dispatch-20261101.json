@@ -1,0 +1,23 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-decoder-source-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T08:28:56.175846+00:00",
+  "kind": "optional_decoder_source_task_dispatch",
+  "status": "dispatched",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "allowed_files": [
+    "src/embodied_trackpad/leap_v1/visual_servo.py",
+    "tests/test_leap_v1_visual_utils.py",
+    "pyproject.toml"
+  ],
+  "contract": [
+    "Keep stdlib as default; explicit Pillow selection, no silent fallback.",
+    "Both paths preserve existing bounded PNG validation and reject unsupported filters.",
+    "Source and offline tests only; no live capture, app, physics or optimizer."
+  ],
+  "budget": {
+    "wall_s": 240,
+    "numerical_threads": 2
+  }
+}

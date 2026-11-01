@@ -1,0 +1,65 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-benchmark-accepted-20261101",
+  "timestamp_utc": "2026-11-01T08:28:56.175846+00:00",
+  "kind": "independent_offline_decoder_candidate_audit",
+  "status": "six_saved_fixtures_passed_independent_parity",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "exact_pixel_shape_dtype_and_extractor_parity": {
+    "passed": 6,
+    "total": 6
+  },
+  "measured_calls_per_backend": 30,
+  "total_calls_per_backend_including_warmup": 36,
+  "timing": [
+    {
+      "stage": "decode_current",
+      "n": 30,
+      "p50_ms": 79.65645848889835,
+      "p95_ms": 90.1109081431059,
+      "max_ms": 184.0398329659365
+    },
+    {
+      "stage": "decode_pillow",
+      "n": 30,
+      "p50_ms": 2.0320834883023053,
+      "p95_ms": 2.7580874884733926,
+      "max_ms": 3.1553750159218907
+    },
+    {
+      "stage": "extract_current",
+      "n": 30,
+      "p50_ms": 2.8274375072214752,
+      "p95_ms": 3.7323357246350497,
+      "max_ms": 4.786709032487124
+    },
+    {
+      "stage": "extract_pillow",
+      "n": 30,
+      "p50_ms": 2.83314599073492,
+      "p95_ms": 3.2134956476511425,
+      "max_ms": 3.349958045873791
+    }
+  ],
+  "only_added_package": "Pillow12.0.0",
+  "wheel_sha256": "a3475b96f5908b3b16c47533daaa87380c491357d197564e0ba34ae75c0f3257",
+  "environment_growth_kib": 17460,
+  "existing_packages_unchanged": true,
+  "raw_report_sha256": "ed78ad357583323102901cf55fc5373bebbad5306d3718fe1393565f10c94ea8",
+  "kimi_dispatch_s": 167.4,
+  "requested_model": "kimi-code/kimi-for-coding",
+  "recorded_usage": {
+    "records": 8,
+    "input_uncached": 29275,
+    "input_cached": 408832,
+    "input_cache_write": 0,
+    "output": 5926,
+    "total": 444033
+  },
+  "limitations": [
+    "Only six fixtures; malformed-input validation and live pipeline untested.",
+    "Benchmark order current then Pillow within each repetition; alternating file order was not implemented.",
+    "NumPy array conversion is correctly inside decode timer despite misleading metadata arrays_hash_fileio=outside.",
+    "Reported decodes_per_backend=30 measured;36actual includingwarmups."
+  ]
+}
