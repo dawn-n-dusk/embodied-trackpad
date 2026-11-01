@@ -1,0 +1,30 @@
+{
+  "record_version": "1.0",
+  "id": "v1-light-lowtarget-remaining3-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T08:14:09.660061+00:00",
+  "kind": "bounded_teacher_direction_validation_dispatch",
+  "status": "dispatched_outcomes_pending",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "requested_worker_model": "kimi-code/kimi-for-coding",
+  "planned_seeds": [
+    0,
+    1,
+    2
+  ],
+  "previously_audited_seed": 3,
+  "budgets": {
+    "wall_s": 300,
+    "output_bytes": 104857600,
+    "numerical_threads": 2
+  },
+  "artifacts": [
+    {
+      "path": "docs/tasks/v1-light-lowtarget-three-directions.zh-CN.md",
+      "sha256": "f1755a4fea3102cb7566473da3264441650baf396629319a8571d37989527a6a"
+    }
+  ],
+  "limitations": [
+    "Dispatch is not evidence any case ran or passed.",
+    "No new training index or optimizer."
+  ]
+}

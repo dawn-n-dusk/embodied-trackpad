@@ -1,0 +1,70 @@
+{
+  "record_version": "1.0",
+  "id": "v1-light-lowtarget-seed3-20261101",
+  "timestamp_utc": "2026-11-01T08:12:49.691910+00:00",
+  "kind": "independent_teacher_lowtarget_physics_gui_audit",
+  "status": "one_teacher_case_passed_pointing_and_no_press_threshold",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "task_profile": "near_diagonal_v1",
+  "contact_mode": "pointing-light-lowtarget",
+  "seed": 3,
+  "training_eligible": false,
+  "model_role": "privileged_visual_teacher",
+  "counts": {
+    "steps": 4600,
+    "frames": 83,
+    "action_samples": 82,
+    "visual_steps": 2050,
+    "touch_messages": 127
+  },
+  "result": {
+    "seed": 3,
+    "steps": 4600,
+    "frames": 83,
+    "action_samples": 82,
+    "visual_steps": 2050,
+    "touch_messages": 127,
+    "initial_error_px": 18.142616454279487,
+    "last_observed_error_px": 1.851865309308784,
+    "terminal_error_px": 1.851865309308784,
+    "last_three_observed_errors_px": [
+      2.041914201169832,
+      1.8956205557206187,
+      1.851865309308784
+    ],
+    "teacher_success": true,
+    "stop_reason": "success",
+    "release_span_s": 2.0900000000003027,
+    "visual_lowforce_steps": 0,
+    "max_penetration_mm": 0.6601774614665296,
+    "peak_pad_force_n": 0.942364087260917,
+    "force_no_press_check": {
+      "first_physics_contact_step_index": 1007,
+      "steps_from_first_contact": 3594,
+      "max_control_cleanup_force_n": 0.942364087260917,
+      "max_touch_payload_force_n": 0.942364087260917,
+      "raw_steps_ge_1N": 0,
+      "touch_payloads_ge_1N": 0
+    }
+  },
+  "checks": {
+    "source_files_verified": 17,
+    "asset_files_verified": 14,
+    "app_pid_absent": true,
+    "source_clean": true,
+    "raw_unchanged": true,
+    "worker_inventory_verified": 89,
+    "launch_returncode": 0
+  },
+  "wall_s": 9.912,
+  "independent_audit_s": 6.552718000020832,
+  "kimi_dispatch_s": 189.5,
+  "requested_worker_model": "kimi-code/kimi-for-coding",
+  "limitations": [
+    "One selected diagnostic case, not a formal statistical comparison.",
+    "Success belongs to privilegedteacher, not learned74640parameterMLP.",
+    "Broader direction/reset robustness and dataset eligibility remain unaccepted.",
+    "Historical native screenshot clock offset and uncertainty were not saved.",
+    "No new optimizer, GPU job, realhardware or livestream."
+  ]
+}

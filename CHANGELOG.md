@@ -1,5 +1,7 @@
 # Changelog
 
+- Independently accepted one lowtarget teacher trial:18.143→1.852px,last three frames within3px,peak0.942N,no native press-threshold crossing,safe release/exit. Preserved single-case and teacher-only limits; remaining three directions precede any new training data.
+
 - Accepted Kimi2.8 offline statistics after independent recomputation:902/3000zero gates,1.2987%mean tangential gate,no recorded bound saturation. Accepted an opt-in0.6N target candidate after47independentstub checks and dispatched one seed3trial; physical outcome remains pending.
 
 - Switched shared Kimi handoffs to K2.8 Preview after user confirmation, three routing checks and a live read-only smoke. Recorded API-price proxies separately from membership billing; existing provider and billing controls remain unchanged.
