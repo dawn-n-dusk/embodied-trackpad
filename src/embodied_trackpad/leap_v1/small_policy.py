@@ -18,6 +18,8 @@ from typing import Any
 
 import numpy as np
 
+from embodied_trackpad.leap_v1 import pilot_dataset
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 
 # Frozen constants from docs/tasks/v1-small-policy-smoke.zh-CN.md
@@ -73,6 +75,9 @@ DT_S = 0.002
 TRAIN_TARGET_CLASSES = frozenset({0, 2, 3, 5, 6, 8, 9, 11})
 VAL_TARGET_CLASSES = frozenset({1, 7})
 TEST_TARGET_CLASSES = frozenset({4, 10})
+
+# Scoped (near_diagonal_v1) identity keys; legacy records must not carry them.
+SCOPED_IDENTITY_KEYS = ("collection_id", "target_key", "episode_key")
 
 # 16-channel order copied from model.py::MOTOR_JOINTS (no MuJoCo import).
 FINGERS = ("index", "middle", "ring", "thumb")
@@ -500,29 +505,105 @@ def expected_split_for_target_class(tc: int) -> str:
     raise SmallPolicyError(f"target_class {tc} is outside the approved 0..11 set")
 
 
-def validate_record_split(rec: dict[str, Any], line_no: int | None = None) -> None:
-    """Validate target_class / split / episode_id consistency for this pilot."""
-    prefix = f"line {line_no}: " if line_no is not None else ""
-    tc = int(rec["target_class"])
-    eid = int(rec["episode_id"])
-    split = str(rec["split"])
+def _strict_int(value: Any, name: str, prefix: str) -> int:
+    """Exact integer ids only; bools and numeric strings are never coerced."""
+    if isinstance(value, bool) or not isinstance(value, int):
+        raise SmallPolicyError(f"{prefix}{name} must be an exact integer, got {value!r}")
+    return value
 
-    if not (0 <= tc <= 11):
-        raise SmallPolicyError(f"{prefix}target_class {tc} is outside 0..11")
-    if tc != eid % 12:
-        raise SmallPolicyError(f"{prefix}target_class {tc} != episode_id {eid} % 12")
-    expected = expected_split_for_target_class(tc)
+
+def _record_identity(rec: dict[str, Any], line_no: int | None = None) -> tuple[str, str | None]:
+    """Return ``(task_profile, collection_id)`` for one record.
+
+    An absent task_profile means the legacy ``near_pointing_v1`` profile; an
+    unknown profile is rejected, never silently treated as axial. Scoped
+    (``near_diagonal_v1``) records must carry matching ``collection_id``,
+    ``target_key`` and ``episode_key`` (seed == target_class in 0..7); legacy
+    records must not carry scoped identity keys.
+    """
+    prefix = f"line {line_no}: " if line_no is not None else ""
+    profile = rec.get("task_profile", pilot_dataset.DEFAULT_TASK_PROFILE)
+    if profile not in pilot_dataset.KNOWN_TASK_PROFILES:
+        raise SmallPolicyError(f"{prefix}unknown task_profile {profile!r}")
+    if profile == pilot_dataset.DEFAULT_TASK_PROFILE:
+        scoped = sorted(k for k in SCOPED_IDENTITY_KEYS if k in rec)
+        if scoped:
+            raise SmallPolicyError(f"{prefix}legacy record carries scoped identity keys: {scoped}")
+        return profile, None
+
+    seed = _strict_int(rec["episode_id"], "episode_id", prefix)
+    tc = _strict_int(rec["target_class"], "target_class", prefix)
+    if not 0 <= seed <= 7:
+        raise SmallPolicyError(f"{prefix}near_diagonal_v1 seed {seed} is outside 0..7")
+    if tc != seed:
+        raise SmallPolicyError(f"{prefix}target_class {tc} != seed {seed}")
+    collection_id = rec.get("collection_id")
+    if not isinstance(collection_id, str) or not pilot_dataset.COLLECTION_ID_RE.fullmatch(collection_id):
+        raise SmallPolicyError(
+            f"{prefix}near_diagonal_v1 requires a nonempty collection_id matching [A-Za-z0-9_-]+"
+        )
+    expected_target_key = f"{profile}:{seed}"
+    if rec.get("target_key") != expected_target_key:
+        raise SmallPolicyError(
+            f"{prefix}target_key mismatch: expected {expected_target_key!r}, got {rec.get('target_key')!r}"
+        )
+    expected_episode_key = f"{collection_id}:{profile}:seed-{seed:03d}"
+    if rec.get("episode_key") != expected_episode_key:
+        raise SmallPolicyError(
+            f"{prefix}episode_key mismatch: expected {expected_episode_key!r}, got {rec.get('episode_key')!r}"
+        )
+    return profile, collection_id
+
+
+def _check_homogeneity(identities: list[tuple[str, str | None]]) -> None:
+    """One index/call holds a single profile and (when scoped) one collection."""
+    profiles = {p for p, _ in identities}
+    if len(profiles) > 1:
+        raise SmallPolicyError(f"mixed task_profile in one index: {sorted(profiles)}")
+    collections = {c for _, c in identities if c is not None}
+    if len(collections) > 1:
+        raise SmallPolicyError(f"mixed collection_id in one index: {sorted(collections)}")
+
+
+def validate_record_split(rec: dict[str, Any], line_no: int | None = None) -> None:
+    """Validate task_profile / target_class / split / episode consistency.
+
+    Legacy ``near_pointing_v1`` records keep the historical axial checks
+    (target_class 0..11, ``target_class == episode_id % 12``, axial split).
+    Scoped ``near_diagonal_v1`` records split whole-episode by seed via
+    ``pilot_dataset.split_of`` (train 0..3, validation 4/6, test 5/7).
+    """
+    prefix = f"line {line_no}: " if line_no is not None else ""
+    profile, _ = _record_identity(rec, line_no=line_no)
+    split = str(rec["split"])
+    if profile == pilot_dataset.DEFAULT_TASK_PROFILE:
+        tc = int(rec["target_class"])
+        eid = int(rec["episode_id"])
+        if not (0 <= tc <= 11):
+            raise SmallPolicyError(f"{prefix}target_class {tc} is outside 0..11")
+        if tc != eid % 12:
+            raise SmallPolicyError(f"{prefix}target_class {tc} != episode_id {eid} % 12")
+        expected = expected_split_for_target_class(tc)
+        if split != expected:
+            raise SmallPolicyError(f"{prefix}split {split!r} does not match target_class {tc} (expected {expected})")
+        return
+    seed = int(rec["episode_id"])
+    expected = pilot_dataset.split_of(seed, task_profile=profile)
+    if expected == "rejected":
+        raise SmallPolicyError(f"{prefix}seed {seed} outside {profile} split")
     if split != expected:
-        raise SmallPolicyError(f"{prefix}split {split!r} does not match target_class {tc} (expected {expected})")
+        raise SmallPolicyError(
+            f"{prefix}split {split!r} does not match {profile} seed {seed} (expected {expected})"
+        )
 
 
 def split_by_target_class(records: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
-    """Partition ``records`` into train/validation/test by target_class."""
+    """Partition ``records`` into train/validation/test by task profile/class."""
+    _check_homogeneity([_record_identity(rec) for rec in records])
     splits: dict[str, list[dict[str, Any]]] = {"train": [], "validation": [], "test": []}
     for rec in records:
         validate_record_split(rec)
-        tc = int(rec["target_class"])
-        splits[expected_split_for_target_class(tc)].append(rec)
+        splits[str(rec["split"])].append(rec)
     return splits
 
 
@@ -534,7 +615,9 @@ def load_sample_index(path: str | Path) -> list[dict[str, Any]]:
     """Load a JSONL sample index and verify structural/split/feature invariants."""
     path = Path(path)
     records: list[dict[str, Any]] = []
-    seen_ids: set[tuple[int, int]] = set()
+    seen_legacy: set[tuple[int, int]] = set()
+    seen_scoped: set[tuple[str, int]] = set()
+    index_identity: tuple[str, str | None] | None = None
     with open(path, "r", encoding="utf-8") as f:
         for line_no, line in enumerate(f, start=1):
             line = line.strip()
@@ -549,11 +632,27 @@ def load_sample_index(path: str | Path) -> list[dict[str, Any]]:
                 if key not in rec:
                     raise SmallPolicyError(f"line {line_no}: missing key {key}")
 
-            eid = int(rec["episode_id"])
-            fid = int(rec["frame_id"])
-            if (eid, fid) in seen_ids:
-                raise SmallPolicyError(f"line {line_no}: duplicate episode/frame id ({eid}, {fid})")
-            seen_ids.add((eid, fid))
+            identity = _record_identity(rec, line_no=line_no)
+            if index_identity is None:
+                index_identity = identity
+            elif identity != index_identity:
+                raise SmallPolicyError(
+                    f"line {line_no}: mixed task_profile/collection_id in one index: "
+                    f"{identity} vs {index_identity}"
+                )
+
+            if identity[0] == pilot_dataset.DEFAULT_TASK_PROFILE:
+                eid = int(rec["episode_id"])
+                fid = int(rec["frame_id"])
+                if (eid, fid) in seen_legacy:
+                    raise SmallPolicyError(f"line {line_no}: duplicate episode/frame id ({eid}, {fid})")
+                seen_legacy.add((eid, fid))
+            else:
+                ekey = rec["episode_key"]
+                fid = _strict_int(rec["frame_id"], "frame_id", f"line {line_no}: ")
+                if (ekey, fid) in seen_scoped:
+                    raise SmallPolicyError(f"line {line_no}: duplicate episode/frame id ({ekey}, {fid})")
+                seen_scoped.add((ekey, fid))
 
             validate_record_split(rec, line_no=line_no)
 
