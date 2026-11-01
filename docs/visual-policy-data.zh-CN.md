@@ -25,3 +25,5 @@ OpenPI 官方提交固定为 `215abfb217dbac7d5f1273282331b9b1866c0479`。现有
 参见 [环境元数据与超时恢复记录](../experiments/records/pi05-runtime-metadata-and-temporal-recovery-20261101.json)。尚未有 π0.5 前向、参数量实测、优化器或闭环成绩。
 
 重采样计算函数随后已验收：22 项测试、6 段真实标签的独立 `numpy.interp` 对照及主仓库复测通过。它从每 10 个原生参考中取第 10 个端点，并计算线性重建差异；6 段各覆盖 250 个原生步。该结果只证明数值转换正确，仍未证明接触运动等价，也未实现跨行时间窗口的完整数据校验。见 [数值模块记录](../experiments/records/action-resampling-math-accepted-20261101.json)。
+
+独立环境的源码与依赖随后已完成：原始后台命令结果为 `uv sync --frozen --no-dev` 退出码 0、230 秒，安装日志有 202 条包记录；最终元数据核对通过，目录总量 11,188 MiB，安装进程已退出。它仍只是依赖准备，未验证 CUDA 导入、PyTorch 补丁、预训练权重转换或模型运行。基础权重下载与逐对象完整性校验已交给 Kimi，预算单列，当前没有 GPU 作业。详见 [依赖准备记录](../experiments/records/pi05-isolated-dependencies-staged-20261101.json)。

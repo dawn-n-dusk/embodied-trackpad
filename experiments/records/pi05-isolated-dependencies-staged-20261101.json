@@ -1,0 +1,76 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-isolated-dependencies-staged-20261101",
+  "timestamp_utc": "2026-11-01T14:28:12.437342+00:00",
+  "kind": "independent_isolated_openpi_source_and_dependency_staging_audit",
+  "status": "dependency_metadata_staged_model_runtime_unverified",
+  "source_commit": "e62cfc0",
+  "upstream_commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "pyproject_sha256": "e1f457bd81622a47a4c4de17b92815977ac5fcd40116bec92398eb400bf76483",
+  "lock_sha256": "793488b5a55bb87200db90a61fd0af51922b686d94e1da4f4c587ab119b37d74",
+  "license_sha256": "43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+  "uv_version": "0.9.5",
+  "install": {
+    "sync_return_code": 0,
+    "command": "uv sync --frozen --no-dev",
+    "sync_elapsed_s": 230,
+    "installed_package_lines": 202,
+    "staging_disk_mib": 11188,
+    "cap_gib": 20,
+    "imports_or_model_execution": false,
+    "new_gpu_jobs": 0,
+    "installer_processes_absent_at_final_reconcile": true
+  },
+  "selected_versions": {
+    "numpy": "1.26.4",
+    "torch": "2.7.1",
+    "torchvision": "0.22.1",
+    "jax": "0.5.3",
+    "jaxlib": "0.5.3",
+    "flax": "0.10.2",
+    "transformers": "4.53.2",
+    "lerobot": "0.1.0",
+    "openpi": "0.1.0",
+    "orbax-checkpoint": "0.11.13",
+    "numpy2_optional_group": "not_installed",
+    "dev_group": "not_installed"
+  },
+  "python_version": "3.11.5",
+  "old_runtime": "installation commands target a separate directory; old selected metadata observed, no full before-after binary audit",
+  "handoff": {
+    "stage_elapsed_s": 600.1,
+    "stage_status": "caller_timeout_after_package_sync_completed",
+    "finalizer_elapsed_s": 122.0,
+    "finalizer_status": "reported_then_actual_outputs_independently_checked",
+    "combined_provider_usage": {
+      "records": 19,
+      "input_uncached": 76149,
+      "input_cached": 827392,
+      "input_cache_write": 0,
+      "output": 21574,
+      "total": 925115
+    },
+    "usage_scope": "recorded provider counts, not subscription billing or a quota estimate"
+  },
+  "review_corrections": [
+    "Worker env-ready wording is limited to source/package staging; runtime imports, CUDA, pretrained load and optimizer remain unverified.",
+    "Public timestamp is coordinator audit time; manually stated worker finalized time is not treated as an execution receipt."
+  ],
+  "remaining": [
+    "download and integrity-check all official pretrained checkpoint objects",
+    "PyTorch transformers patch and JAX-to-PyTorch conversion if using that backend, both separately scoped",
+    "native RGB resize/crop visibility, train-only normalization, explicit16-to32mapping and valid action loss",
+    "bounded complete pretrained forward/backward/update/count/save/restore on assigned H800"
+  ],
+  "next_dispatched": {
+    "task": "base_checkpoint_io_staging_only",
+    "worker_budget_s": 600,
+    "remote_budget_s": 450,
+    "download_budget_s": 360,
+    "new_weights_cap_gib": 16,
+    "aggregate_stage_cap_gib": 32,
+    "concurrent_downloads": 2,
+    "new_gpu_jobs": 0,
+    "status": "dispatched_not_yet_accepted"
+  }
+}

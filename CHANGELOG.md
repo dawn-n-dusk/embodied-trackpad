@@ -1,5 +1,7 @@
 # Changelog
 
+- Verified isolated pinned OpenPI source and dependency staging from actual installer output and final package metadata. Base weight staging is delegated; pretrained model loading and training remain unverified.
+
 - Accepted the pure native-to-coarse control resampling helper after 22 tests and six real-label interpolation checks; complete temporal assembly and physical equivalence remain unverified.
 
 - Audited existing runtime metadata and pinned OpenPI dependency/weight inventories; delegated isolated setup. Recorded the temporal-module timeout and separated native-time model smoke from longer-window execution adaptation.
