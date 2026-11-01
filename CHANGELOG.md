@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted complete pi0.5 forward execution on two real image samples using one H800. Retained the failed probe assertion and extra submission outside its one-job handoff scope; rejected unbound GPU-memory telemetry. Gradients and optimizer updates remain pending.
+
 - Added the reviewed forward-only diagnostic core (6 software checks); frozen a single-H800, five-minute real-image forward contract with zero backward passes or optimizer updates.
 
 - Accepted official pi0.5 Observation transforms on two real training samples in a 30-second CPU allocation: 83 recorded checks plus independent pixel/state/action/mask and decoded-state parity. Model forward and optimizer checks remain separate.

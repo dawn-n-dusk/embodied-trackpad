@@ -1,0 +1,124 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-real-image-forward-accepted-20261102",
+  "timestamp_utc": "2026-11-01T17:03:35.898677+00:00",
+  "kind": "independent_complete_pi05_real_image_forward_audit",
+  "status": "two_sample_forward_accepted_gradients_and_updates_pending",
+  "source_revision": "d3f115c7605839d5e8ed38fc002c9d5807e471fc",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "report_sha256": "3bf85956565c64828f85c060f64a7c87239eba670b214dd62fd6bbaee83f054e",
+  "successful_probe_sha256": "0bb086ba2b8a6ab20c726f3f1b5f325feaf7d73775e014c543c53b55434761c9",
+  "failed_report_sha256": "0f4fc4995ca773487c3e5c8a8f0a31eb6771439d525d96dee154ff6290fbe6bd",
+  "failed_probe_sha256": "baf2a77d746bd1f543506eb1a2aab7ecf3045b104abde6758b5a2e4a14c35b23",
+  "model": {
+    "name": "pi05_base",
+    "total_parameters": 3353433872,
+    "prospective_trainable_parameters": 3353433872,
+    "parameter_leaves": 51,
+    "parameter_dtype": "float32",
+    "compute_dtype": "bfloat16",
+    "actual_gradient_coverage": null
+  },
+  "runtime": {
+    "device_kind": "NVIDIA H800",
+    "gpu_count": 1,
+    "backend": "JAX CUDA",
+    "actual_input_image_shape": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "accepted_samples": 2,
+    "seeds": [
+      17,
+      18
+    ],
+    "loss_shape_per_sample": [
+      1,
+      25
+    ],
+    "finite_loss_enforced_by_executed_source": true,
+    "mean_loss": 0.5970919007062911,
+    "per_sample_mean_loss": [
+      0.5437508976459503,
+      0.6504329037666321
+    ],
+    "min_loss": 0.4662659764289856,
+    "max_loss": 0.7576253414154053,
+    "forward_seconds_including_jit": 16.641799376811832,
+    "load_phase_seconds": 9.281,
+    "gpu_memory_peak_bytes": null,
+    "gpu_memory_rejection": "unscoped nvidia-smi first row was not bound to allocated device; discarded, not a peak measurement",
+    "host_max_rss_kib": 21393868
+  },
+  "scheduler_attempts": [
+    {
+      "state": "FAILED",
+      "elapsed_s": 45,
+      "exit_code": "1:0",
+      "cause": "probe incorrectly required full-model invariance to padded action INPUTS; model noise path can depend on those inputs"
+    },
+    {
+      "state": "COMPLETED",
+      "elapsed_s": 59,
+      "exit_code": "0:0",
+      "correction": "tiny JAX valid16_mse reduction check; only supervision reduction must ignore trailing16 errors"
+    }
+  ],
+  "resources": {
+    "gpu_count_per_job": 1,
+    "cpu_requested": 8,
+    "cpu_allocated_logical": 16,
+    "memory_requested_gib": 128,
+    "hard_memory_enforcement_verified": false,
+    "sampled_rss_guard_gib": 120,
+    "slurm_limit_seconds_per_job": 300,
+    "declared_270_second_internal_deadline_consumed": false,
+    "first_smoke_cumulative_gpu_seconds": 184,
+    "remaining_update_restore_reserved_seconds": 900
+  },
+  "independent_review": {
+    "source_input_hashes_match": true,
+    "reported_summary_aggregation_recomputed": true,
+    "loss_arrays_saved": false,
+    "scope": "executed source enforces finite arrays and shape; coordinator audited source and recomputed summary aggregation, not separate raw arrays",
+    "queue_empty_utc": "2026-11-01T17:00:38Z",
+    "caller_pids_absent": true
+  },
+  "handoff_scope_deviation": {
+    "authorized_jobs": 1,
+    "actual_jobs": 2,
+    "accepted_as_within_handoff_scope": false,
+    "technical_result_separately_accepted": true,
+    "correction": "Prepare and independently review probe and launcher first; later exact-hash submit-only task permits one job with no automatic retry."
+  },
+  "time_contract": {
+    "label_interval_ms": 2,
+    "action_horizon": 25,
+    "chunk_ms": 50,
+    "neural_2ms_inference_claim": false
+  },
+  "optimizer_updates": 0,
+  "gradients_computed": 0,
+  "backward_count": 0,
+  "kimi_execution": {
+    "status": "timeout_after_actual_jobs",
+    "elapsed_seconds": 480.1,
+    "session_recovered_by_exact_task_match": true,
+    "recorded_usage": {
+      "records": 34,
+      "input_uncached": 52531,
+      "input_cached": 2083072,
+      "input_cache_write": 0,
+      "output": 19730,
+      "total": 2155333
+    },
+    "billing_claim": false
+  },
+  "limits": [
+    "Two-sample interface check only; not training sufficiency, task precision or learned control",
+    "Full-frame resize loses cursor detail; local view and temporal execution remain separate gates",
+    "No hardware, live stream or full-model optimizer result"
+  ]
+}
