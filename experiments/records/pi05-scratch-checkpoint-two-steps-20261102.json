@@ -1,0 +1,152 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-scratch-checkpoint-two-steps-20261102",
+  "timestamp_utc": "2026-11-01T21:21:58.440749+00:00",
+  "kind": "independent_actual_h800_terminal_audit",
+  "status": "two_contiguous_updates_and_checkpoint_save_accepted_restore_unverified",
+  "source_revision": "b1811de9cd1b41183881c7c7b6838a84e77093da",
+  "job": {
+    "state": "FAILED",
+    "exit_code": "124:0",
+    "start_utc": "2026-11-01T21:10:42Z",
+    "end_utc": "2026-11-01T21:18:14Z",
+    "gpu_count": 1,
+    "gpu_kind": "H800",
+    "elapsed_gpu_seconds": 452,
+    "cpu_requested": 8,
+    "cpu_allocated": 16,
+    "host_memory_requested_gib": 128,
+    "resources_released": true,
+    "submissions": 1
+  },
+  "model": {
+    "pretrained": "openpi pi05_base",
+    "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "total_parameters": 3353433872,
+    "trainable_parameters": 3353433872,
+    "parameter_dtype": "FP32",
+    "compute_dtype": "BF16",
+    "parameter_leaves": 51,
+    "image_input": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "valid_action_dimensions": 16,
+    "padded_action_dimensions": 32,
+    "horizon": 25,
+    "native_label_dt_seconds": 0.002,
+    "data_scope": "two actual simulator-GUI image/state/action samples; interface smoke only"
+  },
+  "updates": {
+    "attempted_applications": 2,
+    "accepted_applications": 2,
+    "unique_contiguous_steps": 2,
+    "replay_applications": 0,
+    "steps": {
+      "step1": {
+        "step": 1,
+        "accepted": 1.0,
+        "loss": 0.5726577639579773,
+        "grad_norm": 11.571894645690918,
+        "param_delta_norm": 0.4993022382259369,
+        "finite_gradient_leaves": 51,
+        "nonzero_gradient_leaves": 50
+      },
+      "step2": {
+        "step": 2,
+        "accepted": 1.0,
+        "loss": 0.4511373043060303,
+        "grad_norm": 11.907540321350098,
+        "param_delta_norm": 0.359555721282959,
+        "finite_gradient_leaves": 51,
+        "nonzero_gradient_leaves": 50
+      }
+    },
+    "step1_wall_s": 55.671
+  },
+  "checkpoint": {
+    "saved_step": 1,
+    "file_count": 53,
+    "bytes": 31147685638,
+    "synchronous_save_returned": true,
+    "commit_metadata_present": true,
+    "inventory_independently_reconciled": true,
+    "restore_test_started": false,
+    "restorable_accepted": false,
+    "step2_checkpoint_saved": false
+  },
+  "state1_fingerprint": {
+    "sha256": "7e654ce3b4821233641833d9c45c45e85720f4538a35aab5f640c9d7106f3fa9",
+    "leaves": 156,
+    "bytes": 40241206480,
+    "wall_s": 146.29737,
+    "transfer_sum_s": 122.633681,
+    "hash_sum_s": 23.572873,
+    "events": 469
+  },
+  "state2_fingerprint": {
+    "complete": false,
+    "event_count": 256,
+    "last_stage": "before-transfer",
+    "last_leaf_index_zero_based": 85,
+    "hashed_bytes": 18211358724
+  },
+  "runtime": {
+    "deadline_trigger": "deadline_epoch",
+    "sampled_peak_rss_bytes": 113585934336,
+    "run_directory_bytes": 31151773065,
+    "probe_stdout_stderr_bytes": 564,
+    "optimizer_active": false,
+    "stream_active": false
+  },
+  "budget": {
+    "first_smoke_limit_gpu_seconds": 1800,
+    "used_gpu_seconds": 1761,
+    "remaining_gpu_seconds": 39,
+    "automatic_retry_allowed": false
+  },
+  "independent_checks": {
+    "deadline_terminal_resource_release": true,
+    "scheduler_452_gpu_seconds": true,
+    "all_45_source_data_bindings": true,
+    "full_parameter_census": true,
+    "two_actual_contiguous_updates_finite": true,
+    "update_accounting": true,
+    "checkpoint_inventory_matches_synchronous_save": true,
+    "orbax_commit_metadata_present": true,
+    "state1_all_156_leaves_full_bytes_digest_recorded": true,
+    "no_restore_replay_or_complete_step2_fingerprint_claim": true,
+    "sampled_resource_bounds": true,
+    "no_scanner_measurement_error": true
+  },
+  "raw_artifact_sha256": {
+    "full-update-report.json": "539c4cfa39acd199478bad27903d1fbfe1e1f618c20eee10b5ef0d91ee64526d",
+    "fingerprint-progress.jsonl": "8eff6ef19ad2bccceaf3392d5d88d0cf1a423948de95a4000e9792f935aa7082",
+    "job-summary-735906.json": "378aa242beee2bad2e0ff4ca6e552a1990fef4b4626367b7e4e7fe1017094e82",
+    "independent-checkpoint-inventory.json": "4dea982dd0b51b5c7f87da35cf425dc449b35a652525d33da3d61d5fd18011e5",
+    "scheduler.txt": "5d4d41c7759ff0603f74696ed9cd9a3c59250e14b20ff398392d748f4c952dc2"
+  },
+  "kimi_handoffs": {
+    "scope": "six r3 caller/launcher/submission calls only; excludes prior sequence/profile work",
+    "count": 6,
+    "timeouts": 3,
+    "elapsed_seconds_sum": 869.9,
+    "recorded_usage": {
+      "input_uncached": 192033,
+      "input_cached": 4366336,
+      "output": 30061
+    },
+    "usage_limit": "provider records, not a billing or membership quota total"
+  },
+  "limitations": [
+    "Checkpoint commit/inventory and live state1 fingerprint do not establish disk restore equality.",
+    "Step2 and step1 use different data/RNG; losses do not establish improvement.",
+    "Raw status inflight is stale after deadline; authoritative scheduler state is terminal.",
+    "Device-to-host cost is measured on this allocation; earlier timeout root cause remains unproven.",
+    "No learned visual-control, policy quality or GUI precision acceptance.",
+    "First-smoke remainder is insufficient for a complete restore/replay; prepare a separate reviewed recovery contract before any new allocation.",
+    "Do not rerun step1 solely because the earlier caller timed out; preserve and inspect the existing step1 checkpoint."
+  ]
+}
