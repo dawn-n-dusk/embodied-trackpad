@@ -1,0 +1,75 @@
+{
+  "record_version": "1.0",
+  "id": "v1-small-policy-finetune-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T12:11:24.235861+00:00",
+  "kind": "independent_existing_policy_finetuning_source_acceptance",
+  "status": "source_accepted_gpu_execution_pending",
+  "source_commit": "ea69bd33af83e5af6da9b31462a26787bb70fc2f",
+  "source_hashes": {
+    "tools/train_leap_v1_small_policy.py": "a22c988a970179b2f78d4a20cca93bbd3c844cb02f21edba0b7440b2fa3a1732",
+    "tests/test_leap_v1_small_policy_finetune.py": "f336f146077802242a38eacacb96e920a7eae28470167f100e63814ce858890f"
+  },
+  "tests": {
+    "passed": 127,
+    "skipped": 4,
+    "wall_s": 0.33,
+    "skip_reasons": [
+      "Torch unavailable in local NumPy runtime",
+      "Slurm GPU smoke",
+      "Optional baseline NPZ environment variable unset, audited independently",
+      "Optional original index environment variable unset, audited independently"
+    ]
+  },
+  "independent_checks": {
+    "passed": 17,
+    "checks": [
+      "all_original_weights_and_normalizer_exact",
+      "actual_init_hash_bound",
+      "scratch_implicit_init_rejected",
+      "finetune_without_init_rejected",
+      "wrong_npz_hash_rejected",
+      "changed_data_does_not_refit_normalizer",
+      "original_numpy_behavior_exact_on_new_features",
+      "finetune_resume_preserves_old_normalizer_on_different_data",
+      "wrong_init_hash_rejected",
+      "contract_init_mismatch_rejected",
+      "changed_data_hash_rejected",
+      "normalizer_drift_rejected",
+      "float32_overflow_rejected",
+      "complex_weights_rejected",
+      "invalid_std_rejected",
+      "all_training_checkpoints_carry_initialization",
+      "original_model_and_index_unchanged"
+    ],
+    "wall_s": 0.08955974999116734,
+    "scope": "independent read-only NumPy/AST audit; no optimizer or physics",
+    "torch_runtime_verified": false
+  },
+  "behavior": [
+    "Full-network warm-start requires explicit initialization hash and preserves the original input normalizer.",
+    "Step-zero validation checkpoint participates in best selection.",
+    "All checkpoint paths retain initialization provenance.",
+    "Resume verifies contract, source, data and normalizer, restores optimizer/RNG/sampler and compares a real disk-restored next update.",
+    "Per-class evaluation uses the validated current test classes.",
+    "Default scratch-training behavior remains available and unchanged."
+  ],
+  "initialization_npz_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "worker": {
+    "status": "reported",
+    "elapsed_seconds": 373.4,
+    "requested_model": "kimi-code/kimi-for-coding",
+    "recorded_usage": {
+      "records": 31,
+      "input_uncached": 89928,
+      "input_cached": 4656640,
+      "input_cache_write": 0,
+      "output": 18821,
+      "total": 4765389
+    }
+  },
+  "limitations": [
+    "No optimizer update, Torch initialization parity or GPU restore was performed in this source-only acceptance.",
+    "Fresh diagonal data and a separately bound permit are still required.",
+    "Learned diagonal result remains 2/8."
+  ]
+}

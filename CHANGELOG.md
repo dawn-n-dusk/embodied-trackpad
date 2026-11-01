@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted whole-network fine-tuning from the existing policy with frozen input normalization, step-zero best selection and checkpoint provenance/restore checks. Independent 127 tests passed with four conditional skips; GPU execution is still pending.
+
 - Saved and independently reviewed the initial diagonal CLI and whole-network fine-tuning changes. Retained both worker timeouts and failed checks; focused corrections are in progress, with no new optimizer run.
 
 - Accepted diagonal collection identity and profile-aware policy loading with 141 tests, 2 conditional skips and 26 independent checks; all 674 original feature vectors remain identical. Recorded user direction to fine-tune the existing policy with its original normalizer. CLI and warm-start training integration remain pending.
