@@ -1,0 +1,75 @@
+{
+  "record_version": "1.0",
+  "id": "v1-learned-evaluator-source-20261101",
+  "timestamp_utc": "2026-11-01T06:23:16.089096+00:00",
+  "kind": "independent_learned_evaluator_source_acceptance",
+  "status": "source_accepted_frozen_two_target_evaluation_dispatched",
+  "source_commit": "894698820272430c8792c9f8d4067f2f3aa88aef",
+  "checkpoint_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "sample_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+  "source_file_hashes": {
+    "src/embodied_trackpad/leap_v1/small_policy.py": "b18adfb08c4f804f82d492aca53f23ce0a2740077dac28833646bf33e993b1cc",
+    "src/embodied_trackpad/leap_v1/learned_evaluator.py": "59dd981505e1b37e2843ae9669cfa0b319b195fb01a2c61f9b21745dd4e556b2",
+    "tools/evaluate_leap_v1_small_policy.py": "a9ec122011071b14ea532bc759f0f238d2365198124ab0d2b0381c7239ca96de",
+    "src/embodied_trackpad/leap_v1/visual_physics.py": "cfe0edf3a1367217fe023d52c0be90c9a0f587a51e62e0963ba36d42c66af63b",
+    "src/embodied_trackpad/leap_v1/normal_priority.py": "906dc8ad4dd96ecff4cf1bf363563eba0b0e43640a547bfa6f46d33338b2fe0d",
+    "src/embodied_trackpad/leap_v1/pad_env.py": "bc3c5792012d1f1ad0c808f9dd534fe337fa016cdb857f05132d0d1b1e50b901",
+    "src/embodied_trackpad/leap_sim/pad_env.py": "0006012a5d692aad181df09426ca6a4b4ddf5d9ff1146b9af7ef4b1d324ceb00",
+    "src/embodied_trackpad/leap_v1/model.py": "574f29f4c8ad99ae03acff0ff6b34fd074b815e9f6749026952f8c75e3386abc",
+    "src/embodied_trackpad/leap_v1/visual_servo.py": "5fef378fb3847aa9956dbcb36b12beeccde2cfb72c10a150a73d6e4cf83d9d35",
+    "tools/mac_sandbox_client.py": "7ea699b0404413d732433d26f0ce5b964f4ae9c75699733ecd32b3a847e69c2d",
+    "tools/leap_v1_near_probe.py": "d83f587dbad8aa27485a1201fe3f5ef539e6545e27dd2b962de9d770cad6b8c8"
+  },
+  "tests": {
+    "focused_passed": 42,
+    "failed": 0,
+    "coverage": "NumPy guards, stub lifecycle and CLI; no actual physics or GUI in this test run",
+    "prior_fixture_failure": {
+      "passed": 37,
+      "failed": 4
+    },
+    "intermediate_pass": {
+      "passed": 41,
+      "review_issue": "unsafe-step stub counted differently from the real runner; corrected before source acceptance"
+    }
+  },
+  "reviewed_behavior": [
+    "Exact current source, index and checkpoint binding; frozen seeds4 and10.",
+    "Actor consumes pixel-derived error, q, qvel and previous executed reference only.",
+    "Float32 neural deltas use the exact float64 previous control anchor for deployment.",
+    "Prediction and pre-state are flushed before physics; actual completed or aborted step count logged separately.",
+    "No teacher force/Jacobian correction; unsafe physical step stops all subsequent physics.",
+    "Terminal success image requests no further action; absent FSR/current/wrist remain null and invalid.",
+    "Bounded software stop/quit uses existing native teardown once."
+  ],
+  "evaluation_contract": {
+    "seeds": [
+      4,
+      10
+    ],
+    "episodes_per_seed": 1,
+    "max_wall_s_each": 120,
+    "max_sim_s_each": 20,
+    "max_action_images_each": 120,
+    "max_bytes_each": 62914560,
+    "max_bytes_batch": 167772160,
+    "numeric_threads": 2,
+    "optimizer": false,
+    "no_tuning_or_retry": true
+  },
+  "kimi_this_review_round": {
+    "calls": 2,
+    "elapsed_seconds": 190.7,
+    "input_uncached": 114830,
+    "input_cached": 1668864,
+    "output": 18517,
+    "counts_not_billing": true
+  },
+  "limitations": [
+    "Source acceptance is not learned task success; actual trials separately audited.",
+    "Scripted contact preparation and release; fixed-color pixel extraction, one pose and two held-out target classes.",
+    "Previous source timeouts and incomplete fixtures preserved privately; worker reported status is not acceptance.",
+    "No live monitor attached, new optimizer, hardware or personal desktop input.",
+    "Current scheduler readback failed with connection reset; previous completed-job evidence retained, no new submission."
+  ]
+}

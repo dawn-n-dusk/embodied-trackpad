@@ -1,5 +1,7 @@
 # Changelog
 
+- Added the frozen learned-policy physics/GUI evaluator. Independently passed 42 focused tests after correcting incomplete and mismatched stubs; preserved source/checkpoint binding, exact control anchors, pre-action logging and terminal safety. Two fixed held-out trials are dispatched separately, with no optimizer or teacher rescue.
+
 - Accepted the first H800 small-policy run: 2,000 updates, exact checkpoint next-step comparison, verified NPZ export and independent held-out action-error recomputation. Preserved the failed first deployment and summary hash-order correction; learned physical/GUI evaluation remains pending.
 
 - Preserved the first small-policy H800 deployment failure (zero optimizer updates) and the masked scheduler exit; required complete frozen-package staging, local import preflight and truthful exit propagation before a separate bounded retry. Source integration CI passed on Python 3.10–3.13.
