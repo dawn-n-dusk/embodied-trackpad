@@ -1,0 +1,92 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-complete-h800-load-accepted-20261101",
+  "timestamp_utc": "2026-11-01T16:02:06.457215+00:00",
+  "kind": "independent_complete_pretrained_pi05_model_load_acceptance",
+  "status": "complete_model_loaded_no_forward_or_optimizer",
+  "source_revision": "18e0dd974ed4d58bb1d63a79108ed96580c88127",
+  "source_sha256": "9ff5b65cd5947d1c16a9eaaaa3bed3b132a423b7e9ae793e25847c86d5965729",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "raw_report_sha256": "f13833153b9a644dfc3746c92415d24ed6884b4065ed3b160f52176b76c969d0",
+  "weight_report_sha256": "1e1b20ce412018d754734f767fa66fe9c3a90f412610e185c7a249c9c8f21b2d",
+  "device": {
+    "kind": "NVIDIA H800",
+    "count": 1,
+    "backend": "CUDA via JAX",
+    "identity_evidence": "actual JAX runtime and single-GPU Slurm allocation"
+  },
+  "parameters": {
+    "leaves": 51,
+    "leaves_by_dtype": {
+      "float32": 51
+    },
+    "scalars_by_dtype": {
+      "float32": 3353433872
+    },
+    "top_component_count": 5,
+    "top_components": {
+      "PaliGemma": {
+        "leaves": 43,
+        "scalars": 3351268080
+      },
+      "action_in_proj": {
+        "leaves": 2,
+        "scalars": 33792
+      },
+      "action_out_proj": {
+        "leaves": 2,
+        "scalars": 32800
+      },
+      "time_mlp_in": {
+        "leaves": 2,
+        "scalars": 1049600
+      },
+      "time_mlp_out": {
+        "leaves": 2,
+        "scalars": 1049600
+      }
+    },
+    "total_scalars": 3353433872,
+    "trainable_leaves": 51,
+    "trainable_note": "all parameter leaves are prospective trainable (no freeze/LoRA); NO actual gradients or updates measured",
+    "trainable_scalars": 3353433872
+  },
+  "strict_checkpoint_restore": true,
+  "scheduler": {
+    "state": "COMPLETED",
+    "elapsed_s": 26,
+    "exit_code": "0:0",
+    "requested_cpu": 8,
+    "allocated_logical_cpu": 16,
+    "requested_memory_gib": 128,
+    "gpu_count": 1,
+    "time_limit_s": 300,
+    "queue_empty_after_exit": true
+  },
+  "measurements": {
+    "load_and_count_s": 23.914,
+    "sampled_peak_host_rss_bytes": 18314596352,
+    "sampled_peak_host_rss_gib": 17.057,
+    "gpu_peak_memory": "not measured",
+    "host_rss_is_gpu_memory": false,
+    "sampled_guard_is_hard_limit": false,
+    "scheduler_maxrss_not_used": "batch value does not represent observed loader peak"
+  },
+  "first_smoke_cumulative_gpu_seconds": 80,
+  "actual_forward_passes": 0,
+  "actual_optimizer_updates": 0,
+  "limits": [
+    "Prospective trainable count is not actual gradient coverage",
+    "No image forward, backward, optimizer update, save/restore or improved task success",
+    "NVML index-to-Slurm UUID mapping not independently verified; actual JAX device identity used",
+    "Host cgroup limit unverified; sampled process-tree RSS monitor used"
+  ],
+  "worker": {
+    "elapsed_s": 480.2,
+    "status": "timeout_after_submission",
+    "session_id": "unknown_in_runner_receipt",
+    "recorded_usage": "unknown_in_runner_receipt",
+    "coordinator_recovered_actual_job_evidence": true
+  },
+  "next": "Implement official image/token/state/action Observation adapter, then bounded valid16 forward/backward and full-network update/restore under a source-bound permit"
+}
