@@ -1,0 +1,86 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-checkpoint-helper-source-20261102",
+  "timestamp_utc": "2026-11-01T17:41:45.617517+00:00",
+  "kind": "independent_checkpoint_helper_source_and_boundary_review",
+  "status": "source_and_numpy_boundaries_reviewed_actual_orbax_roundtrip_pending",
+  "source_base_revision": "c0ba9ca8f6208741fe7341cae42c668692ef1c02",
+  "files_sha256": {
+    "src/embodied_trackpad/leap_v1/pi05_checkpoint.py": "80c78f2de3f65ed8cf1e096167f53dccd8c7ce4767de124a75ec618c880dec55",
+    "tests/test_pi05_checkpoint.py": "94da29ea03f35dd583df9553ce0eec1a0f6ae4f541d5a635b4ee7a2b2af29345"
+  },
+  "checks": {
+    "helper_passed": 10,
+    "helper_jax_orbax_skipped": 1,
+    "combined_with_update_core_passed": 14,
+    "combined_jax_tests_skipped": 2,
+    "skip_reason": "JAX/Orbax absent in the existing frozen test venv; NumPy/pytest present",
+    "update_core_hash_unchanged": true,
+    "pinned_orbax_top_level_ArrayRestoreArgs_export_verified": true
+  },
+  "source_behavior": [
+    "Four-key full-state template without device arrays",
+    "Fresh absolute checkpoint path, no overwrite or removal",
+    "Synchronous Orbax save and restore with explicit single-device placement",
+    "Post-restore exact pytree, leaf-shape and dtype checks",
+    "Full-state fingerprint includes structure, paths, exact scalar shape, dtype and payload",
+    "One leaf at a time transferred to host; small hash metadata retained; Python integer totals"
+  ],
+  "review_corrections": [
+    "Corrected Orbax ArrayRestoreArgs namespace and explicit args keyword",
+    "Added independent post-restore metadata checks",
+    "Preserved scalar shape instead of promoting to one-vector",
+    "Bound fingerprint to tree structure and released each host array before next transfer",
+    "Corrected non-contiguous fixture after an independent 9-pass/1-fail/1-skip run",
+    "Corrected worker claim that NumPy/pytest were absent by running the exact existing venv"
+  ],
+  "kimi_execution": [
+    {
+      "task": "v1-pi05-checkpoint-core",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "recorded_usage": {
+        "records": 12,
+        "input_uncached": 21330,
+        "input_cached": 515584,
+        "input_cache_write": 0,
+        "output": 14480,
+        "total": 551394
+      }
+    },
+    {
+      "task": "v1-pi05-checkpoint-fix",
+      "status": "reported",
+      "elapsed_s": 137.4,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 40295,
+        "input_cached": 346624,
+        "input_cache_write": 0,
+        "output": 8601,
+        "total": 395520
+      }
+    },
+    {
+      "task": "v1-pi05-checkpoint-test-fix",
+      "status": "reported",
+      "elapsed_s": 58.1,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 14203,
+        "input_cached": 404480,
+        "input_cache_write": 0,
+        "output": 2689,
+        "total": 421372
+      }
+    }
+  ],
+  "actual_orbax_roundtrip_passes": 0,
+  "full_pi05_optimizer_updates": 0,
+  "limits": [
+    "Source checks do not establish serialization or restoration in the pinned runtime",
+    "NNX and Optax state roundtrip still pending actual allocated execution",
+    "About 40 GiB full-state fingerprint reads are estimated, not measured peak memory or I/O performance",
+    "Full-model update/restore job not submitted by this record"
+  ]
+}
