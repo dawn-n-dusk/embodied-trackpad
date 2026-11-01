@@ -1,0 +1,41 @@
+{
+  "record_version": "1.0",
+  "id": "v1-png-probe-integration-accepted-20261101",
+  "timestamp_utc": "2026-11-01T09:38:44.471848+00:00",
+  "kind": "independent_probe_backend_integration_source_audit",
+  "status": "source_and_offline_checks_passed",
+  "source_commit": "198c73e9272fa486b4860f6562d4540ee1280d97",
+  "attempts": [
+    {
+      "task": "v1-png-backend-selection",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "exit_code": 124,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-png-cli-finish",
+      "status": "timeout",
+      "elapsed_s": 90.1,
+      "exit_code": 124,
+      "recorded_usage": null
+    }
+  ],
+  "independent_checks": {
+    "focused_tests_passed": 106,
+    "test_wall_s": 0.44,
+    "selector_checks_passed": 5,
+    "fake_clock_cases_passed": 2
+  },
+  "behavior": [
+    "Explicit --png-backend selects stdlib or Pillow; default remains stdlib.",
+    "Selection/import checked before output directory, physics or native app.",
+    "Backend/version and clock calibration preserved in summary and per-capture timing.",
+    "Original freshness, pressure, action and success settings unchanged."
+  ],
+  "limitations": [
+    "Both worker calls timed out after saving partial source; independent review/tests establish source acceptance.",
+    "Unreported usage remains unknown.",
+    "No runtime outcome until the separate permitted trial."
+  ]
+}

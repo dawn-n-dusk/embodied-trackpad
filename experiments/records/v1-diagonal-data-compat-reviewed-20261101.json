@@ -1,0 +1,38 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-data-compat-reviewed-20261101",
+  "timestamp_utc": "2026-11-01T09:48:26.591301+00:00",
+  "kind": "independent_data_compatibility_source_review",
+  "status": "findings_confirmed_with_two_corrections",
+  "source_commit": "198c73e9272fa486b4860f6562d4540ee1280d97",
+  "confirmed": [
+    "Current split_of keys on seed only and misassigns diagonal4/5/7.",
+    "Export uses seed%12 and hardcoded null clock fields; new profiles/provenance need explicit wiring.",
+    "Actual25x16 controls and actor-only features should remain unchanged.",
+    "Old0.8N and new0.6N configurations must not be silently mixed."
+  ],
+  "corrections": [
+    "Coordinator task and Kimi report incorrectly said54D; small_policy.INPUT_DIM=50, exactly2+16+16+16. No model or feature changed.",
+    "Target identity must retain all8 profile-scoped diagonal classes; short/long alone would collapse different directions."
+  ],
+  "private_report_sha256": "71ab34bc18c6736edc1781101fba82e9e32604bb0e37816f43a72931159aa4c1",
+  "kimi_dispatch_s": 96.5,
+  "recorded_usage": {
+    "records": 5,
+    "input_uncached": 25078,
+    "input_cached": 580608,
+    "input_cache_write": 0,
+    "output": 4980,
+    "total": 610666
+  },
+  "next_module": {
+    "scope": "Only optional task_profile in split_of and focused tests",
+    "worker_wall_s": 120,
+    "status": "dispatched"
+  },
+  "limitations": [
+    "No new raw collection/index/training permission.",
+    "Existing diagnostics remain development-only.",
+    "Later exporter/identity/config/clock validation modules still needed."
+  ]
+}

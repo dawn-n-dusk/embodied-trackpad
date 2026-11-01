@@ -1,0 +1,39 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-data-compat-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T09:45:40.070220+00:00",
+  "kind": "offline_data_auditor_compatibility_dispatch",
+  "status": "dispatched",
+  "source_commit": "198c73e9272fa486b4860f6562d4540ee1280d97",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "scope": [
+    "Review profile-scoped splits and retained clock/backend provenance.",
+    "Review actual action labels and actor-only inputs for future fresh data.",
+    "No implementation, collection, index creation or training approval."
+  ],
+  "budget": {
+    "worker_wall_s": 120,
+    "numerical_threads": 2,
+    "report_bytes": 32768
+  },
+  "prospective_diagonal_groups": {
+    "train": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "validation": [
+      4,
+      6
+    ],
+    "test": [
+      5,
+      7
+    ]
+  },
+  "limitations": [
+    "Existing diagnostics remain development-only.",
+    "Known curriculum classes, not a blind benchmark."
+  ]
+}

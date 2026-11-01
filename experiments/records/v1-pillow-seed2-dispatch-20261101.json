@@ -1,0 +1,28 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-seed2-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T09:38:44.471848+00:00",
+  "kind": "single_changed_decoder_teacher_trial_dispatch",
+  "status": "dispatched",
+  "source_commit": "198c73e9272fa486b4860f6562d4540ee1280d97",
+  "seed": 2,
+  "planner": "force-governed",
+  "task_profile": "near_diagonal_v1",
+  "contact_mode": "pointing-light-lowtarget",
+  "png_backend": "pillow",
+  "png_backend_version": "12.0.0",
+  "source_files_frozen": 18,
+  "budget": {
+    "worker_wall_s": 240,
+    "episode_wall_s": 120,
+    "simulation_s": 20,
+    "max_images": 120,
+    "episode_bytes": 62914560,
+    "numerical_threads": 2
+  },
+  "training_eligible": false,
+  "limitations": [
+    "One diagnostic case, not a formal model comparison or learned-policy gain.",
+    "No new training index, optimizer or live stream."
+  ]
+}

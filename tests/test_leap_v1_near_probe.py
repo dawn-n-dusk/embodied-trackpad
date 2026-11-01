@@ -461,14 +461,16 @@ def test_cli_exit_requires_success_release_and_reaping(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1", contact_mode="standard":
+                        task_profile="near_pointing_v1", contact_mode="standard",
+                        png_backend="stdlib":
                         calls.append((seed, out, task_profile, contact_mode)) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a")]) == 0
     for field in base:
         monkeypatch.setattr(probe, "run",
                             lambda seed, out, planner_kind="dls",
                             task_profile="near_pointing_v1",
-                            contact_mode="standard", f=field:
+                            contact_mode="standard", png_backend="stdlib",
+                            f=field:
                             {**base, f: False})
         assert probe.main(["--seed", "1", "--out",
                            str(tmp_path / f"b_{field}")]) == 1
@@ -499,7 +501,8 @@ def test_invalid_planner_kind_rejected_before_output(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1": calls.append(1) or {})
+                        task_profile="near_pointing_v1", png_backend="stdlib":
+                        calls.append(1) or {})
     with pytest.raises(SystemExit):
         probe.main(["--seed", "1", "--out", str(tmp_path / "c"), "--planner", "bogus"])
     assert calls == [] and not (tmp_path / "c").exists()
@@ -511,7 +514,8 @@ def test_cli_planner_option_passed_through(tmp_path, monkeypatch):
     seen = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1", contact_mode="standard":
+                        task_profile="near_pointing_v1", contact_mode="standard",
+                        png_backend="stdlib":
                         seen.append(planner_kind) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                        "--planner", "normal-priority"]) == 0
@@ -1060,7 +1064,8 @@ def test_cli_invalid_task_profile_rejected_before_run(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1": calls.append(1) or {})
+                        task_profile="near_pointing_v1", png_backend="stdlib":
+                        calls.append(1) or {})
     with pytest.raises(SystemExit):
         probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                     "--task-profile", "bogus"])
@@ -1071,7 +1076,8 @@ def test_cli_diagonal_seed_rejected_before_run(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1": calls.append(1) or {})
+                        task_profile="near_pointing_v1", png_backend="stdlib":
+                        calls.append(1) or {})
     with pytest.raises(SystemExit):
         probe.main(["--seed", "8", "--out", str(tmp_path / "a"),
                     "--task-profile", "near_diagonal_v1"])
@@ -1084,7 +1090,8 @@ def test_cli_task_profile_option_passed_through(tmp_path, monkeypatch):
     seen = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1", contact_mode="standard":
+                        task_profile="near_pointing_v1", contact_mode="standard",
+                        png_backend="stdlib":
                         seen.append(task_profile) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                        "--task-profile", "near_diagonal_v1"]) == 0
@@ -1150,7 +1157,8 @@ def test_cli_contact_mode_option_passed_through(tmp_path, monkeypatch):
     seen = []
 
     def fake_run(seed, out, planner_kind="dls",
-                 task_profile="near_pointing_v1", contact_mode="standard"):
+                 task_profile="near_pointing_v1", contact_mode="standard",
+                 png_backend="stdlib"):
         seen.append(contact_mode)
         return dict(base)
 
@@ -1429,7 +1437,8 @@ def test_cli_lowtarget_option_passed_through(tmp_path, monkeypatch):
     seen = []
 
     def fake_run(seed, out, planner_kind="dls",
-                 task_profile="near_pointing_v1", contact_mode="standard"):
+                 task_profile="near_pointing_v1", contact_mode="standard",
+                 png_backend="stdlib"):
         seen.append((planner_kind, contact_mode))
         return dict(base)
 

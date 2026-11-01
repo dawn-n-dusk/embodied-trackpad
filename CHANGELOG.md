@@ -1,5 +1,9 @@
 # Changelog
 
+- Accepted one actual Pillow teacher trial:18.143 to0.917px,45fresh frames,peak0.942N,safe release/exit; decode median3.093ms, maximum age+uncertainty42.854ms. Preserved prior failures and learned2/8baseline.
+
+- Integrated explicit teacher PNG backend selection, early dependency checks and backend/clock metadata. Independent106tests plus selector/clock audits passed; dispatched one seed2runtime diagnostic with unchanged limits.
+
 - Added per-capture monotonic stage timings and clock provenance, independently checked with106focused tests and fresh/stale fake clocks. A300ms frame causes zero action with the unchanged250ms gate.
 
 - Added explicit optional Pillow decoding with shared bounded PNG validation, unchanged stdlib default and no silent fallback. Independent59tests and six saved real-image parity checks passed; teacher integration remains separate.

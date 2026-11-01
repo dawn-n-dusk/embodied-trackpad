@@ -93,6 +93,7 @@ LOWTARGET_GOV_CFG = fgv.ForceGovernorConfig(target_force_n=0.6,
                                             tangential_stop_force_n=0.9)
 PLANNER_KINDS = ("dls", "normal-priority", "force-admittance", "force-governed")  # default preserves historical behavior
 CONTACT_MODES = ("standard", "pointing-light", "pointing-light-lowtarget")
+PNG_BACKENDS = ("stdlib", "pillow")  # default preserves historical behavior
 TASK_PROFILES = ("near_pointing_v1", "near_diagonal_v1")
 DIAGONAL_SEED_COUNT = 8  # near_diagonal_v1 allows seeds 0..7
 
@@ -112,6 +113,27 @@ def min_jerk_blend(u: float) -> float:
 
 def dir_bytes(path: Path) -> int:
     return sum(p.stat().st_size for p in Path(path).rglob("*") if p.is_file())
+
+
+def resolve_png_backend(png_backend: str) -> dict:
+    """Validate the PNG decode backend and its optional dependency BEFORE any
+    output/env/app work. ``pillow`` imports PIL.Image eagerly: a missing
+    dependency raises ImportError with no stdlib fallback at selection time.
+    The stdlib "version" is the Python version."""
+    if png_backend not in PNG_BACKENDS:
+        raise ValueError(f"unknown png_backend {png_backend!r}; choices {PNG_BACKENDS}")
+    if png_backend == "pillow":
+        try:
+            import PIL.Image
+        except ImportError as exc:
+            raise ImportError(
+                "PNG backend 'pillow' requested but Pillow is not installed; "
+                "install the 'vision' extra (embodied-trackpad[vision]) or use "
+                "png_backend='stdlib'"
+            ) from exc
+        return {"png_backend": "pillow", "png_backend_version": PIL.__version__}
+    return {"png_backend": "stdlib",
+            "png_backend_version": ".".join(str(v) for v in sys.version_info[:3])}
 
 
 def check_budgets(R: dict) -> None:
@@ -294,7 +316,7 @@ def capture_estimate(R: dict):
     t0 = time.monotonic()
     frame = R["client"].capture(save_as=f"cycle-{R['cycle']:03d}.png")
     t1 = time.monotonic()
-    decoded = decode_png_bytes(frame["png"])
+    decoded = decode_png_bytes(frame["png"], backend=R.get("png_backend", "stdlib"))
     t2 = time.monotonic()
     est = extract_visual_estimate(decoded)
     t3 = time.monotonic()
@@ -306,6 +328,8 @@ def capture_estimate(R: dict):
         "decode_ms": (t2 - t1) * 1000.0,
         "extract_ms": (t3 - t2) * 1000.0,
         "total_ms": (t3 - t0) * 1000.0,
+        "png_backend": R.get("png_backend", "stdlib"),
+        "png_backend_version": R.get("png_backend_version"),
         "clock_offset_s": R["reconciler"].offset_s,
         "clock_uncertainty_s": R["reconciler"].uncertainty_s}
     return frame, est, age_ms
@@ -521,7 +545,9 @@ def cleanup_phase(R: dict) -> bool:
 
 def run(seed: int, out_dir, planner_kind: str = "dls",
         task_profile: str = "near_pointing_v1",
-        contact_mode: str = "standard") -> dict:
+        contact_mode: str = "standard",
+        png_backend: str = "stdlib") -> dict:
+    png_info = resolve_png_backend(png_backend)  # validated BEFORE output/app work
     if task_profile not in TASK_PROFILES:  # validated BEFORE output/app work
         raise ValueError(f"unknown task_profile {task_profile!r}; choices {TASK_PROFILES}")
     if task_profile == "near_diagonal_v1" and not (0 <= seed < DIAGONAL_SEED_COUNT):
@@ -549,12 +575,14 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
          "errors": [], "success": False, "cleanup_records": [],
          "last_record": None, "planner_kind": planner_kind,
          "contact_mode": contact_mode, "force_cfg": force_cfg,
-         "force_gov_cfg": gov_cfg}
+         "force_gov_cfg": gov_cfg, **png_info}
     with open(out / "metadata.json", "w") as fh:
         json.dump({"controller_kind": "privileged_visual_teacher",
                    "training_eligible": False, "seed": int(seed),
                    "task_profile": task_profile,
                    "contact_mode": contact_mode,
+                   "png_backend": png_info["png_backend"],
+                   "png_backend_version": png_info["png_backend_version"],
                    "started_utc": started_utc,
                    "budgets": {"wall_budget_s": WALL_BUDGET_S,
                                "operation_wall_s": OPERATION_WALL_S,
@@ -670,6 +698,7 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
             fh = R.get(key)
             if fh is not None and not fh.closed:
                 fh.close()
+        reconciler = R.get("reconciler")
         summary = {
             "seed": int(seed),
             "task_profile": task_profile,
@@ -684,6 +713,10 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
             "stop_reason": stop_reason, "bytes": dir_bytes(out),
             "planner_kind": planner_kind,
             "contact_mode": contact_mode,
+            "png_backend": png_info["png_backend"],
+            "png_backend_version": png_info["png_backend_version"],
+            "clock_offset_s": None if reconciler is None else reconciler.offset_s,
+            "clock_uncertainty_s": None if reconciler is None else reconciler.uncertainty_s,
             "controller_kind": "privileged_visual_teacher",
             "training_eligible": False,
             **({"force_config": {
@@ -727,6 +760,8 @@ def main(argv=None) -> int:
                          "requires --planner force-governed; "
                          "pointing-light-lowtarget=0.6 N force target + 0.9 N "
                          "tangential stop, requires --planner force-governed")
+    ap.add_argument("--png-backend", choices=PNG_BACKENDS, default="stdlib",
+                    help="stdlib=historical default; pillow=Pillow PNG decode")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")
@@ -735,7 +770,8 @@ def main(argv=None) -> int:
     if Path(args.out).exists():
         ap.error(f"--out must be a NEW directory, already exists: {args.out}")
     summary = run(args.seed, args.out, planner_kind=args.planner,
-                  task_profile=args.task_profile, contact_mode=args.contact_mode)
+                  task_profile=args.task_profile, contact_mode=args.contact_mode,
+                  png_backend=args.png_backend)
     print(json.dumps(summary, indent=2))
     ok = (summary["near_pointing_success"]
           and summary["episode_safe_complete_released"]

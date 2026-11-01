@@ -1,0 +1,101 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-seed2-accepted-20261101",
+  "timestamp_utc": "2026-11-01T09:45:40.070220+00:00",
+  "kind": "independent_changed_decoder_teacher_physics_gui_audit",
+  "status": "one_diagnostic_passed_pointing_no_press_and_freshness",
+  "source_commit": "198c73e9272fa486b4860f6562d4540ee1280d97",
+  "outcome": {
+    "seed": 2,
+    "steps": 3650,
+    "frames": 45,
+    "action_samples": 44,
+    "visual_steps": 1100,
+    "touch_messages": 89,
+    "initial_error_px": 18.142616454279487,
+    "last_observed_error_px": 0.9170920256820474,
+    "terminal_error_px": 0.9170920256820474,
+    "last_three_observed_errors_px": [
+      1.844424783164738,
+      0.31880997955720264,
+      0.9170920256820474
+    ],
+    "teacher_success": true,
+    "stop_reason": "success",
+    "release_span_s": 2.041999999999775,
+    "visual_lowforce_steps": 0,
+    "max_penetration_mm": 0.6601774614665296,
+    "peak_pad_force_n": 0.942364087260917,
+    "force_no_press_check": {
+      "first_physics_contact_step_index": 1007,
+      "steps_from_first_contact": 2644,
+      "max_control_cleanup_force_n": 0.942364087260917,
+      "max_touch_payload_force_n": 0.942364087260917,
+      "raw_steps_ge_1N": 0,
+      "touch_payloads_ge_1N": 0
+    }
+  },
+  "timing_ms": {
+    "capture_save_ms": {
+      "n": 45,
+      "p50": 4.338875005487353,
+      "p95": 6.723258562851697,
+      "max": 51.78437498398125
+    },
+    "decode_ms": {
+      "n": 45,
+      "p50": 3.0932080117054284,
+      "p95": 8.440457994583992,
+      "max": 26.023374986834824
+    },
+    "extract_ms": {
+      "n": 45,
+      "p50": 3.8005419773980975,
+      "p95": 7.58802479831501,
+      "max": 16.874458990059793
+    },
+    "total_ms": {
+      "n": 45,
+      "p50": 11.255124991293997,
+      "p95": 34.47659976081921,
+      "max": 64.82270796550438
+    },
+    "frame_age_ms": {
+      "n": 45,
+      "p50": 9.26418718881905,
+      "p95": 31.165587308350936,
+      "max": 40.64881254453212
+    }
+  },
+  "clock_uncertainty_ms": 2.204687480116263,
+  "max_age_plus_uncertainty_ms": 42.85350002464838,
+  "verification": {
+    "source_files_verified": 18,
+    "asset_files_verified": 14,
+    "native_binary_verified": true,
+    "inventory_files_verified": 51,
+    "source_clean": true,
+    "app_pid_absent": true,
+    "actual_launch_returncode": 0,
+    "raw_unchanged": true
+  },
+  "episode_wall_s": 5.984,
+  "independent_audit_s": 3.62753929203609,
+  "kimi_dispatch_s": 74.9,
+  "recorded_usage": {
+    "records": 5,
+    "input_uncached": 149268,
+    "input_cached": 378368,
+    "input_cache_write": 0,
+    "output": 2827,
+    "total": 530463
+  },
+  "training_eligible": false,
+  "limitations": [
+    "Teacher-only single diagnostic, not a learned-policy improvement.",
+    "Prior stdlib result remains3/4 including its stale-frame failure; new1/1 does not replace that failure or establish overall4/4.",
+    "Worker narrative0.73px corrected by rawPNG/actor/summary evidence to0.917092px.",
+    "Recorded timestamps and calibration support this freshness check, not a causal replay of the earlier failure.",
+    "No new training index, optimizer, GPU job or live stream."
+  ]
+}
