@@ -1,0 +1,21 @@
+{
+  "record_version": "1.0",
+  "id": "v1-capture-latency-wiring-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T09:23:02.630201+00:00",
+  "kind": "teacher_capture_latency_provenance_source_dispatch",
+  "status": "dispatched",
+  "source_commit": "2ac4bc2506767abab6913a537bace18b991964a5",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "scope": [
+    "Explicit optional backend for confined teacher probe.",
+    "Per-capture stage timestamps, decoder identity and clock calibration provenance.",
+    "Existing250ms including uncertainty and all control/physical settings unchanged."
+  ],
+  "budget": {
+    "wall_s": 240,
+    "numerical_threads": 2
+  },
+  "limitations": [
+    "Source/stub tests only; actual trial requires separate acceptance."
+  ]
+}

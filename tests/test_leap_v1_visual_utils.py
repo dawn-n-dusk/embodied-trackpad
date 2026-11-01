@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import math
 import struct
+import sys
 import time
 import zlib
 
@@ -29,6 +30,30 @@ from embodied_trackpad.leap_v1.visual_servo import (
     decode_png_bytes,
     extract_visual_estimate,
 )
+
+# ---------------------------------------------------------------------------
+# Backend parametrization: the optional Pillow backend is exercised whenever
+# Pillow is importable and skipped otherwise (the module never requires it).
+# ---------------------------------------------------------------------------
+
+
+def _has_pil() -> bool:
+    try:
+        import PIL  # noqa: F401
+
+        return True
+    except ImportError:
+        return False
+
+
+BACKENDS = [
+    "stdlib",
+    pytest.param(
+        "pillow",
+        marks=pytest.mark.skipif(not _has_pil(), reason="Pillow not installed"),
+    ),
+]
+
 
 # ---------------------------------------------------------------------------
 # Minimal independent PNG encoder (test-side reference implementation).
@@ -106,61 +131,69 @@ def known_pixels(h: int = 6, w: int = 9, channels: int = 3, seed: int = 1234) ->
 # ---------------------------------------------------------------------------
 
 
+@pytest.mark.parametrize("backend", BACKENDS)
 @pytest.mark.parametrize("filter_type", [0, 1, 2, 3, 4])
-def test_png_rgb_known_pixels_each_filter(filter_type):
+def test_png_rgb_known_pixels_each_filter(filter_type, backend):
     px = known_pixels()
-    decoded = decode_png_bytes(encode_png(px, filter_type))
+    decoded = decode_png_bytes(encode_png(px, filter_type), backend=backend)
     np.testing.assert_array_equal(decoded, px)
 
 
-def test_png_mixed_filters_per_row():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_mixed_filters_per_row(backend):
     px = known_pixels(h=10, w=7)
-    decoded = decode_png_bytes(encode_png(px, [0, 1, 2, 3, 4, 4, 3, 2, 1, 0]))
+    decoded = decode_png_bytes(encode_png(px, [0, 1, 2, 3, 4, 4, 3, 2, 1, 0]), backend=backend)
     np.testing.assert_array_equal(decoded, px)
 
 
-def test_png_filter3_later_rows_first_channels():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_filter3_later_rows_first_channels(backend):
     # Rows after the first have no left neighbour for the first pixel: the
     # Average predictor there must use floor(up/2) with left=0.
     px = known_pixels(h=8, w=5)
-    decoded = decode_png_bytes(encode_png(px, 3))
+    decoded = decode_png_bytes(encode_png(px, 3), backend=backend)
     np.testing.assert_array_equal(decoded[1:, 0, :], px[1:, 0, :])
     np.testing.assert_array_equal(decoded, px)
 
 
-def test_png_rgba_decodes_to_rgb():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rgba_decodes_to_rgb(backend):
     px = known_pixels(h=5, w=6, channels=4, seed=99)
     for f in (0, 1, 2, 3, 4):
-        decoded = decode_png_bytes(encode_png(px, f))
+        decoded = decode_png_bytes(encode_png(px, f), backend=backend)
         assert decoded.shape == (5, 6, 3)
         np.testing.assert_array_equal(decoded, px[:, :, :3])
 
 
-def test_png_rejects_bad_signature_and_non_bytes():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_bad_signature_and_non_bytes(backend):
     with pytest.raises(ValueError):
-        decode_png_bytes(b"not a png at all")
+        decode_png_bytes(b"not a png at all", backend=backend)
     with pytest.raises(ValueError):
-        decode_png_bytes("not bytes")
+        decode_png_bytes("not bytes", backend=backend)
 
 
-def test_png_rejects_crc_corruption():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_crc_corruption(backend):
     data = bytearray(encode_png(known_pixels(), 0))
     idx = data.find(b"IDAT")
     assert idx > 0
     data[idx + 6] ^= 0xFF  # flip a payload byte, CRC now wrong
     with pytest.raises(ValueError, match="CRC"):
-        decode_png_bytes(bytes(data))
+        decode_png_bytes(bytes(data), backend=backend)
 
 
-def test_png_rejects_truncation():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_truncation(backend):
     png = encode_png(known_pixels(), 2)
     with pytest.raises(ValueError):
-        decode_png_bytes(png[:30])  # cut mid-IDAT
+        decode_png_bytes(png[:30], backend=backend)  # cut mid-IDAT
     with pytest.raises(ValueError, match="IEND"):
-        decode_png_bytes(png[:-12])  # drop the IEND chunk
+        decode_png_bytes(png[:-12], backend=backend)  # drop the IEND chunk
 
 
-def test_png_rejects_decompressed_size_mismatch():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_decompressed_size_mismatch(backend):
     px = known_pixels(h=4, w=4)
     h, w, _ = px.shape
     # Claim one extra row: decompressed length no longer matches IHDR.
@@ -176,10 +209,11 @@ def test_png_rejects_decompressed_size_mismatch():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="size mismatch"):
-        decode_png_bytes(png)
+        decode_png_bytes(png, backend=backend)
 
 
-def test_png_rejects_oversized_decompression():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_oversized_decompression(backend):
     px = known_pixels(h=4, w=4)
     h, w, _ = px.shape
     ihdr = struct.pack(">IIBBBBB", w, h - 1, 8, 2, 0, 0, 0)  # claim fewer rows
@@ -192,10 +226,11 @@ def test_png_rejects_oversized_decompression():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="size mismatch"):
-        decode_png_bytes(png)
+        decode_png_bytes(png, backend=backend)
 
 
-def test_png_rejects_truncated_zlib_stream_without_eof():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_truncated_zlib_stream_without_eof(backend):
     # Coordinator counterexample: a 1x1 RGB image whose IDAT is a zlib stream
     # cut 4 bytes short still inflates to exactly the expected 4 output bytes,
     # so size matching alone silently accepted it. The stream never reaches
@@ -208,7 +243,7 @@ def test_png_rejects_truncated_zlib_stream_without_eof():
         + _chunk(b"IDAT", full)
         + _chunk(b"IEND", b"")
     )
-    decoded = decode_png_bytes(good)  # valid decoding unchanged
+    decoded = decode_png_bytes(good, backend=backend)  # valid decoding unchanged
     np.testing.assert_array_equal(decoded, np.array([[[17, 34, 51]]], dtype=np.uint8))
     truncated = (
         b"\x89PNG\r\n\x1a\n"
@@ -217,10 +252,11 @@ def test_png_rejects_truncated_zlib_stream_without_eof():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="EOF"):
-        decode_png_bytes(truncated)
+        decode_png_bytes(truncated, backend=backend)
 
 
-def test_png_rejects_trailing_compressed_data():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_trailing_compressed_data(backend):
     ihdr = struct.pack(">IIBBBBB", 1, 1, 8, 2, 0, 0, 0)
     full = zlib.compress(b"\x00\x11\x22\x33")
     png = (
@@ -230,10 +266,11 @@ def test_png_rejects_trailing_compressed_data():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="trailing"):
-        decode_png_bytes(png)
+        decode_png_bytes(png, backend=backend)
 
 
-def test_png_rejects_unknown_filter_and_bad_encoding():
+@pytest.mark.parametrize("backend", BACKENDS)
+def test_png_rejects_unknown_filter_and_bad_encoding(backend):
     px = known_pixels(h=3, w=3)
     h, w, _ = px.shape
     raw = bytearray()
@@ -248,7 +285,7 @@ def test_png_rejects_unknown_filter_and_bad_encoding():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="filter"):
-        decode_png_bytes(png)
+        decode_png_bytes(png, backend=backend)
     ihdr16 = struct.pack(">IIBBBBB", w, h, 16, 2, 0, 0, 0)  # 16-bit depth
     png16 = (
         b"\x89PNG\r\n\x1a\n"
@@ -257,7 +294,53 @@ def test_png_rejects_unknown_filter_and_bad_encoding():
         + _chunk(b"IEND", b"")
     )
     with pytest.raises(ValueError, match="unsupported PNG encoding"):
-        decode_png_bytes(png16)
+        decode_png_bytes(png16, backend=backend)
+
+
+# ---------------------------------------------------------------------------
+# Optional Pillow backend: selection, missing dependency, unsupported formats
+# ---------------------------------------------------------------------------
+
+
+def test_png_unknown_backend_rejected_before_parsing():
+    # Even malformed input must surface the backend error, proving the
+    # backend is validated before any decoding.
+    with pytest.raises(ValueError, match="backend"):
+        decode_png_bytes(b"not a png at all", backend="cv2")
+    with pytest.raises(ValueError, match="backend"):
+        decode_png_bytes(encode_png(known_pixels(), 0), backend="PILLOW")
+
+
+def test_png_pillow_backend_missing_dependency(monkeypatch):
+    # Simulated environment without Pillow: an explicit ImportError naming
+    # the remedy, and the default stdlib backend must keep working.
+    monkeypatch.setitem(sys.modules, "PIL", None)
+    with pytest.raises(ImportError, match="Pillow is not installed"):
+        decode_png_bytes(encode_png(known_pixels(), 0), backend="pillow")
+    np.testing.assert_array_equal(
+        decode_png_bytes(encode_png(known_pixels(), 0)), known_pixels()
+    )
+
+
+@pytest.mark.parametrize("backend", BACKENDS)
+@pytest.mark.parametrize(
+    "colour,interlace,match",
+    [
+        (3, 0, "unsupported PNG colour type"),  # palette
+        (0, 0, "unsupported PNG colour type"),  # grayscale
+        (2, 1, "unsupported PNG encoding"),  # interlaced RGB
+    ],
+)
+def test_png_rejects_palette_grayscale_interlaced(colour, interlace, match, backend):
+    ihdr = struct.pack(">IIBBBBB", 1, 1, 8, colour, 0, 0, interlace)
+    png = (
+        b"\x89PNG\r\n\x1a\n"
+        + _chunk(b"IHDR", ihdr)
+        + _chunk(b"IDAT", zlib.compress(b"\x00\x11\x22\x33"))
+        + _chunk(b"IEND", b"")
+    )
+    with pytest.raises(ValueError, match=match):
+        decode_png_bytes(png, backend=backend)
 
 
 # ---------------------------------------------------------------------------

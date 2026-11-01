@@ -1,0 +1,44 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T09:23:02.630201+00:00",
+  "kind": "independent_optional_decoder_source_acceptance",
+  "status": "source_and_offline_checks_passed",
+  "source_commit": "2ac4bc2506767abab6913a537bace18b991964a5",
+  "focused_tests": {
+    "passed": 59,
+    "failed": 0,
+    "skipped": 0,
+    "wall_s": 0.11
+  },
+  "saved_real_png_parity": {
+    "exact_pixels_shape_dtype_owned_array": 6,
+    "equal_extractor_estimates": 6,
+    "unchanged_input_hashes": 6
+  },
+  "source_hashes": {
+    "pyproject.toml": "36d395896e17c7b51a263f6c8cf45e59159614beba9cafdc8838c250da6189f4",
+    "src/embodied_trackpad/leap_v1/visual_servo.py": "dece328d86ca86fa7f2a4b4648844cadd533e01c622453ce4a02d683935ca16a",
+    "tests/test_leap_v1_visual_utils.py": "fdabc9c00ccae61ad87145fd89968c7a5357150fa55bd00faec693b082ed2808"
+  },
+  "checks": [
+    "Both backends share existing bounded PNG validation including CRC, encoding, decompressed size, EOF and filters.",
+    "Default remains stdlib; Pillow requires explicit selection and never silently falls back.",
+    "Malformed format cases and missing dependency behavior tested."
+  ],
+  "kimi_recovery_dispatch_s": 160.0,
+  "recorded_usage": {
+    "records": 7,
+    "input_uncached": 106556,
+    "input_cached": 465920,
+    "input_cache_write": 0,
+    "output": 6357,
+    "total": 578833
+  },
+  "limitations": [
+    "Worker private report created_utc=00:00 is a placeholder, not accepted execution time; this audit uses actual current UTC.",
+    "No actual app/physics/backend runtime integration in this audit.",
+    "The preceding240.1s timeout is retained separately.",
+    "Offline decoder validation is not a live control result."
+  ]
+}

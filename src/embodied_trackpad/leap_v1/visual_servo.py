@@ -44,7 +44,9 @@ import math
 import struct
 import time
 import zlib
+from contextlib import closing
 from dataclasses import dataclass
+from io import BytesIO
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -123,9 +125,14 @@ CONTACT_PROFILE: dict[str, Any] = {
 
 
 # ---------------------------------------------------------------------------
-# PNG decoding (stdlib). The app emits real AppKit PNGs (8-bit RGB or RGBA,
-# any per-row filter); this decoder implements all five PNG filter types.
-# Dimensions and the decompressed length are bounded; truncation is rejected.
+# PNG decoding. The app emits real AppKit PNGs (8-bit RGB or RGBA,
+# non-interlaced, any per-row filter). Both backends share the strict
+# structural + bounded-inflate validation in _validated_png_scanlines; the
+# default "stdlib" backend reconstructs pixels in pure numpy, while the
+# optional "pillow" backend (Pillow imported only when explicitly chosen)
+# re-inflates via Pillow and skips the per-pixel Python loops. Pillow is an
+# optional dependency (project "vision" extra); there is never a silent
+# fallback between backends.
 # ---------------------------------------------------------------------------
 
 PNG_MAX_DIM = 4096
@@ -139,12 +146,17 @@ def _paeth(a: int, b: int, c: int) -> int:
     return b if pb <= pc else c
 
 
-def decode_png_bytes(data: bytes) -> np.ndarray:
-    """Decode an 8-bit RGB/RGBA non-interlaced PNG to an HxWx3 uint8 array.
+def _validated_png_scanlines(data: bytes) -> tuple[int, int, int, bytes]:
+    """Strict structural + bounded-inflate validation shared by both backends.
 
-    Raises ValueError on any structural mismatch. Pure stdlib + numpy; no
-    image library is introduced for this one bounded format (none is
-    installed in the runtime venv).
+    Returns ``(width, height, bpp, raw)`` where ``raw`` is the inflated
+    scanline stream (one filter byte per row, then ``width * bpp`` bytes).
+    Every existing validation is preserved: signature/type, chunk bounds and
+    CRC, 8-bit RGB/RGBA non-interlaced encoding only, dimension cap,
+    IHDR/IDAT/IEND presence, bounded decompress (``expected + 1``), exact
+    decompressed size, zlib EOF and no trailing compressed data. In addition
+    every per-row filter byte must be in 0..4 — this runs BEFORE the Pillow
+    backend hands anything to the image library.
     """
     if not isinstance(data, (bytes, bytearray)) or not data.startswith(b"\x89PNG\r\n\x1a\n"):
         raise ValueError("bad PNG signature")
@@ -201,6 +213,51 @@ def decode_png_bytes(data: bytes) -> np.ndarray:
         raise ValueError("truncated PNG image data: zlib stream never reaches EOF")
     if decomp.unused_data:
         raise ValueError("trailing compressed data after zlib stream end")
+    for y in range(height):
+        ftype = raw[y * (stride + 1)]
+        if ftype > 4:
+            raise ValueError(f"unknown PNG filter type {ftype}")
+    return width, height, bpp, raw
+
+
+def decode_png_bytes(data: bytes, *, backend: str = "stdlib") -> np.ndarray:
+    """Decode an 8-bit RGB/RGBA non-interlaced PNG to an HxWx3 uint8 array.
+
+    Raises ValueError on any structural mismatch. Pure stdlib + numpy by
+    default; ``backend="pillow"`` additionally requires the OPTIONAL Pillow
+    dependency (imported only when explicitly chosen) and reuses the same
+    strict validation before letting Pillow inflate again — the Python
+    per-pixel reconstruction loop is skipped. Unknown backends are rejected
+    before any decoding; there is never a silent fallback.
+    """
+    if backend == "stdlib":
+        pass
+    elif backend == "pillow":
+        pass
+    else:
+        raise ValueError(f"unknown PNG decode backend {backend!r}")
+    width, height, bpp, raw = _validated_png_scanlines(data)
+    if backend == "pillow":
+        try:
+            from PIL import Image
+        except ImportError as exc:
+            raise ImportError(
+                "PNG backend 'pillow' requested but Pillow is not installed; "
+                "install the 'vision' extra (embodied-trackpad[vision]) or use "
+                "backend='stdlib'"
+            ) from exc
+        try:
+            with closing(Image.open(BytesIO(bytes(data)))) as im:
+                with closing(im.convert("RGB")) as rgb_im:
+                    arr = np.array(rgb_im, dtype=np.uint8)
+        except Exception as exc:
+            raise ValueError(f"Pillow failed to decode validated PNG: {exc}") from exc
+        if arr.shape != (height, width, 3):
+            raise ValueError(
+                f"Pillow decoded shape {arr.shape}, want {(height, width, 3)}"
+            )
+        return arr
+    stride = width * bpp
     img = np.zeros((height, stride), dtype=np.uint8)
     prev = np.zeros(stride, dtype=np.uint8)
     for y in range(height):

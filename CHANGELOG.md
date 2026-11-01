@@ -1,5 +1,7 @@
 # Changelog
 
+- Added explicit optional Pillow decoding with shared bounded PNG validation, unchanged stdlib default and no silent fallback. Independent59tests and six saved real-image parity checks passed; teacher integration remains separate.
+
 - Updated follow-up cadence to45minutes as requested; preserved a240.1s decoder-source timeout and scoped test completion. Saved code remains unaccepted until independent checks.
 
 - Accepted exact pixel/shape/dtype and extractor parity for six saved PNGs using Pillow12.0.0; same-batch median decode79.656→2.032ms. Dispatched an optional backend preserving strict validation; live pipeline unchanged.
