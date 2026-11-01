@@ -1,0 +1,22 @@
+{
+  "record_version": "1.0",
+  "id": "v1-capture-wiring-timeout-20261101",
+  "timestamp_utc": "2026-11-01T09:28:33.664261+00:00",
+  "kind": "source_task_timeout_and_smaller_recovery",
+  "status": "zero_changes_saved",
+  "source_commit": "2ac4bc2506767abab6913a537bace18b991964a5",
+  "elapsed_s": 240.1,
+  "exit_code": 124,
+  "recorded_usage": null,
+  "usage_note": "Missing usage is unknown, not zero.",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "evidence": [
+    "Runtime tracked tree stayed clean; no report produced.",
+    "Bounded log review showed planning had not reached a file write."
+  ],
+  "next_scope": "Only capture_estimate and log_capture timing fields;120s, no CLI or new tests.",
+  "limitations": [
+    "No live experiment was launched.",
+    "Optional decoder remains independently accepted; teacher integration remains incomplete."
+  ]
+}

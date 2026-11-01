@@ -291,9 +291,23 @@ def prep_phase(R: dict) -> None:
 
 def capture_estimate(R: dict):
     """Capture/save PNG -> decode -> extract; age measured AFTER decoding."""
+    t0 = time.monotonic()
     frame = R["client"].capture(save_as=f"cycle-{R['cycle']:03d}.png")
-    est = extract_visual_estimate(decode_png_bytes(frame["png"]))
-    age_ms = R["reconciler"].frame_age_ms(frame)
+    t1 = time.monotonic()
+    decoded = decode_png_bytes(frame["png"])
+    t2 = time.monotonic()
+    est = extract_visual_estimate(decoded)
+    t3 = time.monotonic()
+    age_ms = R["reconciler"].frame_age_ms(frame, now_monotonic_s=t3)
+    R["capture_timing"] = {
+        "t0_monotonic_s": t0, "t1_monotonic_s": t1,
+        "t2_monotonic_s": t2, "t3_monotonic_s": t3,
+        "capture_save_ms": (t1 - t0) * 1000.0,
+        "decode_ms": (t2 - t1) * 1000.0,
+        "extract_ms": (t3 - t2) * 1000.0,
+        "total_ms": (t3 - t0) * 1000.0,
+        "clock_offset_s": R["reconciler"].offset_s,
+        "clock_uncertainty_s": R["reconciler"].uncertainty_s}
     return frame, est, age_ms
 
 
@@ -316,6 +330,7 @@ def log_capture(R: dict, frame: dict, est, age_ms: float, phase: str,
          "frame_id": frame.get("frame_id"),
          "frame_monotonic_time_s": frame.get("monotonic_time_s"),
          "frame_age_ms": age_ms,
+         "capture_timing": R.get("capture_timing"),
          "error_px": err,
          "q": [float(v) for v in R["env"].data.qpos],
          "qvel": [float(v) for v in R["env"].data.qvel],

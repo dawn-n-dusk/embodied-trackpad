@@ -1,5 +1,7 @@
 # Changelog
 
+- Added per-capture monotonic stage timings and clock provenance, independently checked with106focused tests and fresh/stale fake clocks. A300ms frame causes zero action with the unchanged250ms gate.
+
 - Added explicit optional Pillow decoding with shared bounded PNG validation, unchanged stdlib default and no silent fallback. Independent59tests and six saved real-image parity checks passed; teacher integration remains separate.
 
 - Updated follow-up cadence to45minutes as requested; preserved a240.1s decoder-source timeout and scoped test completion. Saved code remains unaccepted until independent checks.

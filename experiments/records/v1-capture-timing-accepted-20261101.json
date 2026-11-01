@@ -1,0 +1,44 @@
+{
+  "record_version": "1.0",
+  "id": "v1-capture-timing-accepted-20261101",
+  "timestamp_utc": "2026-11-01T09:31:21.553128+00:00",
+  "kind": "independent_capture_timing_source_audit",
+  "status": "saved_source_accepted_after_independent_checks",
+  "source_commit": "91d8703272ca014808417b2c552c74fe0adec2a6",
+  "worker_outcome": {
+    "status": "timeout",
+    "elapsed_s": 120.1,
+    "exit_code": 124,
+    "recorded_usage": null
+  },
+  "tests": {
+    "focused_passed": 106,
+    "wall_s": 0.47,
+    "independent_fake_clock_cases": [
+      {
+        "stale": false,
+        "logged_rows": 4,
+        "physics_steps": 0,
+        "timing_and_age_reconstructed": true
+      },
+      {
+        "stale": true,
+        "logged_rows": 1,
+        "physics_steps": 0,
+        "timing_and_age_reconstructed": true
+      }
+    ]
+  },
+  "verified": [
+    "Capture/save, decode and extract durations are logged separately.",
+    "Age is computed at the recorded t3 with recorded clock offset and uncertainty.",
+    "Artificial300ms frame is rejected without any action;250ms threshold unchanged.",
+    "Accepted/rejected/terminal log phases retain timing; stub-only logs may record null."
+  ],
+  "limitations": [
+    "Worker120.1s timeout preserved; no claim of worker completion.",
+    "Coordinator source review and independent tests establish acceptance.",
+    "Still stdlib in live probe; explicit backend selection is a separate180s task.",
+    "No app, physics or optimizer started."
+  ]
+}
