@@ -1,0 +1,63 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-cli-wait-timeouts-20261101",
+  "timestamp_utc": "2026-11-01T11:12:20.629944+00:00",
+  "kind": "bounded_kimi_request_wait_recovery_checkpoint",
+  "status": "two_calls_timed_out_without_source_changes",
+  "source_commit": "603cd7f146538dd45b8f03151536a8d9482498d1",
+  "published_accepted_commit": "4d87e8f004dfa2536b529f2c1e9693cbef90871b",
+  "accepted_ci": {
+    "run_id": 41300108026,
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "attempts": [
+    {
+      "task": "global_cli_adaptation",
+      "elapsed_s": 300.1,
+      "status": "timeout",
+      "source_changed": false,
+      "recorded_usage_recovered": {
+        "records": 7,
+        "input_uncached": 52374,
+        "input_cached": 357888,
+        "input_cache_write": 0,
+        "output": 974,
+        "total": 411236
+      }
+    },
+    {
+      "task": "scoped_collection_identity_helper",
+      "elapsed_s": 180.1,
+      "status": "timeout",
+      "source_changed": false,
+      "recorded_usage": {
+        "records": 0,
+        "input_uncached": 0,
+        "input_cached": 0,
+        "input_cache_write": 0,
+        "output": 0,
+        "total": 0
+      }
+    }
+  ],
+  "observation": {
+    "last_completed_tool_step_utc": "2026-11-01T11:01:39.250000+00:00",
+    "subsequent_requests_without_completed_step": 2,
+    "no_source_or_test_file_created": true,
+    "owned_processes_reaped": true
+  },
+  "interpretation": "Both bounded calls ended while waiting for a model response. Server delay versus prolonged inference is unresolved; this is not evidence of a confirmed provider outage.",
+  "usage_note": "The original first receipt lacked a session id; usage was recovered from uniquely matched workspace/session metadata. Zero new recorded usage on the resumed call means no completed usage event, not zero billing. Interrupted requests remain unknown.",
+  "recovery": "Preserve receipts and code checkpoint; next heartbeat resumes only the minimal identity helper before separate CLI wiring. No immediate third retry in this heartbeat.",
+  "limitations": [
+    "CLI global adaptation and training-loader compatibility remain unimplemented.",
+    "No new episodes, training index, optimizer, GPU job, live stream or real hardware interaction.",
+    "Learned diagonal result remains2/8; existing checkpoint/index hashes unchanged."
+  ]
+}

@@ -1,5 +1,7 @@
 # Changelog
 
+- Preserved two CLI continuation timeouts with no source changes; event logs show pending model responses, with cause unresolved. Accepted teacher-configuration source passed all four CI Python versions.
+
 - Integrated strict teacher-configuration agreement and capture-source metadata into diagonal episode auditing; 127 independent tests and 11 integration checks passed. Legacy outputs, 50D actor input and 25×16 executed labels preserved. CLI and training-loader adaptation remain pending.
 
 - Integrated per-frame clock validation into episode auditing, including terminal frames and accurate timing coverage. Fixed repo-relative PNG resolution and cross-episode symlink acceptance; 94 independent tests and a read-only 45-frame diagnostic audit passed. No new training index or optimizer run.
