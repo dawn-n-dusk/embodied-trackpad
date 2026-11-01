@@ -1,5 +1,7 @@
 # Changelog
 
+- Reviewed the scratch recovery caller/launcher with 25 independent boundary checks. Runtime remains pending; one source-bound allocation is capped at 480 seconds within the existing smoke budget.
+
 - Reviewed the checkpoint-first recovery sequence: nine local metadata/source checks passed, including bounded progress logs and atomic report publication. Full-model runtime and scratch launcher integration remain pending.
 
 - Accepted the actual 8-second H800 fingerprint diagnostic: 12 real JAX callback checks and 32/256/1024 MiB full-hash parity passed. Kept the earlier complete-model timeout unexplained; prepared a checkpoint-first recovery design within the remaining 491 GPU seconds.
