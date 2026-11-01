@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the actual CPU checkpoint roundtrip: 22 checks in 6 seconds verify complete tiny NNX/Optax state restoration and exact continuation/replay parity. Retained preparation and caller timeouts separately; full pi0.5 updates remain pending.
+
 - Added reviewed checkpoint helpers for full optimizer/RNG state and streamed full-state fingerprints. Ten helper checks passed; the actual JAX/Orbax roundtrip remains skipped locally and must pass in the allocated runtime before complete-model recovery acceptance.
 
 - Verified the update core on the actual pinned JAX/Flax CPU runtime: a 4-second, 12-check synthetic test confirms real parameter changes and exact full-state preservation on NaN-gradient rejection. Complete-model gradients and disk restoration remain pending.

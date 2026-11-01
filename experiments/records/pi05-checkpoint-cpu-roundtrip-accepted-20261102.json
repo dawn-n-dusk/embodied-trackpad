@@ -1,0 +1,128 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-checkpoint-cpu-roundtrip-accepted-20261102",
+  "timestamp_utc": "2026-11-01T18:51:48.185025+00:00",
+  "kind": "independent_actual_full_state_checkpoint_roundtrip_audit",
+  "status": "tiny_cpu_roundtrip_and_step2_replay_passed_full_pi05_pending",
+  "source_revision": "c01f55c54c5b614a4772b183e6e6a8f3c2b34880",
+  "files_sha256": {
+    "pi05_update_core.py": "af37632cfd8ba3c95b917f21ef11d9985cf147cb8e7a6b7188647a1989ce9abd",
+    "pi05_checkpoint.py": "80c78f2de3f65ed8cf1e096167f53dccd8c7ce4767de124a75ec618c880dec55",
+    "private_probe": "5c75d3fff0d7f439077d164290dc0e7de0ba158141c38893f458c4eddb2c3b1b",
+    "private_launcher": "42e9d9798667e60499dcc7b2b78f6d713124810c9211ac2b23a4ac586aa7b944"
+  },
+  "raw_report_sha256": "cb390bc3bae0dbd31d34b62bd51ac6b938e0988f1684f9d51d92da1c2e1f3f8c",
+  "scheduler": {
+    "submit_utc": "2026-11-01T18:48:34Z",
+    "start_utc": "2026-11-01T18:48:36Z",
+    "end_utc": "2026-11-01T18:48:42Z",
+    "elapsed_s": 6,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "alloc_cpus": 2,
+    "requested_mem": "8G",
+    "gpu": 0
+  },
+  "runtime": {
+    "parameters": 20,
+    "parameter_leaves": 2,
+    "versions": {
+      "jax": "0.5.3",
+      "flax": "0.10.2",
+      "optax": "0.2.4",
+      "orbax": "0.11.13"
+    },
+    "checks_passed": 22,
+    "checkpoint_files": 11,
+    "checkpoint_bytes": 7476,
+    "whole_state_leaves": 9,
+    "whole_state_elements": 64,
+    "whole_state_bytes": 256,
+    "actual_optimizer_applications": 3,
+    "unique_steps": 2,
+    "step1_fingerprint": "e1ca5839a7f611355a46d4bcfe32d665799e66ce5551bbac768e54f3f630e522",
+    "step2_fingerprint": "253446a9662343a5f1b714bcecc9bb989fbb65e412136a4b9ba99266a856cc40",
+    "continuous_and_restored_step2_metrics": {
+      "loss": 18.062381744384766,
+      "accepted": 1.0,
+      "grad_norm": 17.5228271484375,
+      "update_norm": 4.4296270061749965e-05,
+      "param_delta_norm": 4.433820504345931e-05,
+      "step": 2.0
+    }
+  },
+  "independent_checks": {
+    "22_actual_assertions_passed": true,
+    "state1_full_fingerprint_equal": true,
+    "state2_full_fingerprint_equal": true,
+    "state2_metrics_exact": true,
+    "distinct_step1_step2_states": true,
+    "whole_state_size": true,
+    "tiny_only": true,
+    "checkpoint_below_1MiB": true
+  },
+  "evidence_corrections": [
+    "Submission receipt timestamp was later than actual completion; scheduler and launcher UTC are authoritative.",
+    "Worker local report was reformatted but semantically identical; independent byte-exact remote copy preserved.",
+    "8 GiB is requested memory; worker reconstructed AllocTRES is not authoritative."
+  ],
+  "resource_limits": {
+    "job_submissions": 1,
+    "gpus": 0,
+    "cpu_threads": 2,
+    "wall_s": 180,
+    "timeout_s": 150,
+    "kill_grace_s": 10,
+    "no_requeue": true
+  },
+  "kimi_execution": [
+    {
+      "task": "v1-pi05-full-smoke-driver-prepare",
+      "status": "timeout_no_files_no_jobs",
+      "elapsed_s": 420.1,
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 33662,
+        "input_cached": 315136,
+        "input_cache_write": 0,
+        "output": 15722,
+        "total": 364520
+      }
+    },
+    {
+      "task": "v1-pi05-roundtrip-script",
+      "status": "reported",
+      "elapsed_s": 174.7,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 85943,
+        "input_cached": 553216,
+        "input_cache_write": 0,
+        "output": 6868,
+        "total": 646027
+      }
+    },
+    {
+      "task": "v1-pi05-roundtrip-submit-only",
+      "status": "caller_timeout_after_runtime_pass",
+      "elapsed_s": 240.1,
+      "recorded_usage": {
+        "records": 19,
+        "input_uncached": 23263,
+        "input_cached": 847872,
+        "input_cache_write": 0,
+        "output": 7790,
+        "total": 878925
+      }
+    }
+  ],
+  "full_pi05_gradient_passes": 0,
+  "full_pi05_optimizer_updates": 0,
+  "first_smoke_gpu_seconds_unchanged": 184,
+  "limits": [
+    "Synthetic 20-parameter NNX/Optax state only; no complete pi0.5 gradient/update/restore acceptance.",
+    "Independent source/assertion/hash/scheduler review; raw restored state arrays were not separately exported.",
+    "RNG affects synthetic loss but not its gradients; exact RNG payload and metrics are compared.",
+    "No live stream, desktop input or robot hardware."
+  ]
+}
