@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Verified the NumPy adapter on all 674 actual candidate samples and 33 focused tests; corrected cumulative-label semantics and normalization. A saved 29-action episode now passes terminal audit, while 4 synthetic fixture failures and trainer restore/provenance defects remain under bounded repair. Preserved both timeout receipts; no optimizer has started.
+
 - Preserved auditor and small-policy implementation timeouts plus independent failing tests. Reproduced real-index metadata/label incompatibility, kept unaccepted source private, and split correction work into two disjoint bounded Kimi tasks. No optimizer or new GPU job was started.
 
 - Independently verified the complete12-episode raw pilot:47,450physics steps,686images,674action groups and1,214touch messages. All12 fixed-target teacher episodes passed. Rejected the first reusable auditor despite25passing tests after reproducing7false-acceptance counterexamples; preserved it and delegated bounded repairs. Added a gated small-policy BC/checkpoint/independent-evaluation contract.

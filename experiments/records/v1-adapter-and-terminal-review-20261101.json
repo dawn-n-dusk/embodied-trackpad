@@ -1,0 +1,98 @@
+{
+  "record_version": "1.0",
+  "id": "v1-adapter-and-terminal-review-20261101",
+  "timestamp_utc": "2026-11-01T05:10:21.084700+00:00",
+  "kind": "independent_saved_source_adapter_and_terminal_review",
+  "status": "adapter_compatibility_passed_auditor_and_trainer_remain_unaccepted",
+  "source_checkpoints": {
+    "auditor": "0b97d3e",
+    "small_policy": "34c2eb4"
+  },
+  "numpy_adapter": {
+    "tests_passed": 33,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 0.21,
+    "actual_candidate_rows": 674,
+    "features_shape": [
+      674,
+      50
+    ],
+    "per_substep_label_shape": [
+      674,
+      25,
+      16
+    ],
+    "split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    },
+    "max_increment_rad": 0.00019999999494757503,
+    "index_unchanged": true,
+    "source_sha256": "01b545a74ed704847ca4c6dbbdeed77c454ebd70d6c64027326eafc1796f1ec1",
+    "corrections": [
+      "Derive labels from consecutive actual controls; cumulative offsets are not per-substep increments.",
+      "Ignore harmless image, sensor-mask and clock metadata; concatenate only four approved numeric fields.",
+      "Use index-finger motion channels 0,1,2,3 and canonical validation split.",
+      "Apply stored normalization exactly once in NumPy forward."
+    ]
+  },
+  "terminal_review": {
+    "synthetic_passed": 5,
+    "synthetic_failed": 4,
+    "elapsed_s": 0.3,
+    "actual_seed4": {
+      "accepted": true,
+      "action_samples": 29,
+      "pngs": 30,
+      "issues": 0
+    },
+    "remaining": [
+      "Synthetic fixture duplicates a step and misattributes its frame.",
+      "Release timestamp-span fixture expects the wrong duration.",
+      "Global provenance, raw-contact aggregation and malformed-input coverage still need review."
+    ]
+  },
+  "worker_receipts": [
+    {
+      "task": "adapter_correction",
+      "status": "timeout",
+      "elapsed_s": 360.1,
+      "usage": {
+        "records": 49,
+        "input_uncached": 197852,
+        "input_cached": 6105856,
+        "input_cache_write": 0,
+        "output": 25881,
+        "total": 6329589
+      }
+    },
+    {
+      "task": "terminal_microfix",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "usage": null,
+      "usage_note": "Exact session usage unavailable from receipt; not zero."
+    }
+  ],
+  "resource_refresh": {
+    "time_utc": "2026-11-01T05:10:21.084700+00:00",
+    "matching_active_local_project_workers_before_new_dispatch": 0,
+    "personal_slurm_queue_empty": true,
+    "last_project_job": {
+      "id": "732735",
+      "kind": "runtime_smoke_not_policy_training",
+      "state": "COMPLETED",
+      "elapsed_s": 150
+    },
+    "new_optimization_runs": 0
+  },
+  "limitations": [
+    "Adapter compatibility does not accept the candidate dataset or complete trainer.",
+    "Actual seed4 acceptance alone does not establish all exporter failure boundaries.",
+    "Full teacher raw review remains valid; its privileged success is not learned-policy success.",
+    "No optimizer, learned policy checkpoint, new GPU allocation, active stream or hardware result.",
+    "Recorded provider token counts are not billing or subscription usage estimates."
+  ]
+}
