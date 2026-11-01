@@ -85,7 +85,9 @@ PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
 # Fixed uncalibrated force-admittance and force-governor gains; NOT calibrated.
 FORCE_CFG = fsv.NormalForceConfig()
 FORCE_GOV_CFG = fgv.ForceGovernorConfig()
+LIGHT_GOV_CFG = fgv.ForceGovernorConfig(tangential_stop_force_n=0.9)
 PLANNER_KINDS = ("dls", "normal-priority", "force-admittance", "force-governed")  # default preserves historical behavior
+CONTACT_MODES = ("standard", "pointing-light")
 TASK_PROFILES = ("near_pointing_v1", "near_diagonal_v1")
 DIAGONAL_SEED_COUNT = 8  # near_diagonal_v1 allows seeds 0..7
 
@@ -411,9 +413,10 @@ def visual_phase(R: dict) -> str:
                         R["ctrl"], prev, normal_row, force_n, TIMESTEP_S,
                         env.index_map, FORCE_CFG)
                     if kind == "force-governed":
+                        gov_cfg = R.get("force_gov_cfg", FORCE_GOV_CFG)
                         corrected, gov_info = fgv.compose_governed_substep(
                             R["ctrl"], normal_ctrl, frame_delta, prev,
-                            force_n, env.index_map, FORCE_GOV_CFG)
+                            force_n, env.index_map, gov_cfg)
                     else:
                         corrected = normal_ctrl
                         gov_info = None
@@ -497,13 +500,19 @@ def cleanup_phase(R: dict) -> bool:
 
 
 def run(seed: int, out_dir, planner_kind: str = "dls",
-        task_profile: str = "near_pointing_v1") -> dict:
+        task_profile: str = "near_pointing_v1",
+        contact_mode: str = "standard") -> dict:
     if task_profile not in TASK_PROFILES:  # validated BEFORE output/app work
         raise ValueError(f"unknown task_profile {task_profile!r}; choices {TASK_PROFILES}")
     if task_profile == "near_diagonal_v1" and not (0 <= seed < DIAGONAL_SEED_COUNT):
         raise ValueError(f"near_diagonal_v1 seed must be in 0..{DIAGONAL_SEED_COUNT - 1}, got {seed}")
     if planner_kind not in PLANNER_KINDS:  # validated BEFORE output/app work
         raise ValueError(f"unknown planner_kind {planner_kind!r}; choices {PLANNER_KINDS}")
+    if contact_mode not in CONTACT_MODES:  # validated BEFORE output/app work
+        raise ValueError(f"unknown contact_mode {contact_mode!r}; choices {CONTACT_MODES}")
+    if contact_mode == "pointing-light" and planner_kind != "force-governed":
+        raise ValueError("contact_mode 'pointing-light' requires planner_kind 'force-governed'")
+    gov_cfg = LIGHT_GOV_CFG if contact_mode == "pointing-light" else FORCE_GOV_CFG
     out = Path(out_dir)
     out.mkdir(parents=True)
     started_utc = datetime.now(timezone.utc).isoformat()  # actual start
@@ -511,11 +520,13 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
          "step_index": 0, "seq": 0, "cycle": 0, "ctrl": np.zeros(vp.NU),
          "z_hold": None, "initial_error": None, "final_error": None,
          "errors": [], "success": False, "cleanup_records": [],
-         "last_record": None, "planner_kind": planner_kind}
+         "last_record": None, "planner_kind": planner_kind,
+         "contact_mode": contact_mode, "force_gov_cfg": gov_cfg}
     with open(out / "metadata.json", "w") as fh:
         json.dump({"controller_kind": "privileged_visual_teacher",
                    "training_eligible": False, "seed": int(seed),
                    "task_profile": task_profile,
+                   "contact_mode": contact_mode,
                    "started_utc": started_utc,
                    "budgets": {"wall_budget_s": WALL_BUDGET_S,
                                "operation_wall_s": OPERATION_WALL_S,
@@ -540,11 +551,11 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
                                    "max_cycle_delta_rad": FORCE_CFG.max_cycle_delta_rad}}
                                   if planner_kind in ("force-admittance", "force-governed") else {}),
                                **({"force_governor_config": {
-                                   "substeps_per_frame": FORCE_GOV_CFG.substeps_per_frame,
-                                   "target_force_n": FORCE_GOV_CFG.target_force_n,
-                                   "tangential_stop_force_n": FORCE_GOV_CFG.tangential_stop_force_n,
-                                   "per_substep_total_joint_delta_cap_rad": FORCE_GOV_CFG.per_substep_total_joint_delta_cap_rad,
-                                   "max_cycle_delta_rad": FORCE_GOV_CFG.max_cycle_delta_rad}}
+                                   "substeps_per_frame": gov_cfg.substeps_per_frame,
+                                   "target_force_n": gov_cfg.target_force_n,
+                                   "tangential_stop_force_n": gov_cfg.tangential_stop_force_n,
+                                   "per_substep_total_joint_delta_cap_rad": gov_cfg.per_substep_total_joint_delta_cap_rad,
+                                   "max_cycle_delta_rad": gov_cfg.max_cycle_delta_rad}}
                                   if planner_kind == "force-governed" else {})},
                    "files": ["teacher.jsonl", "actor.jsonl", "planner.jsonl",
                              "touch.jsonl", "summary.json"]}, fh, indent=2)
@@ -644,8 +655,16 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
             "wall_s": round(time.monotonic() - R["t0"], 3),
             "stop_reason": stop_reason, "bytes": dir_bytes(out),
             "planner_kind": planner_kind,
+            "contact_mode": contact_mode,
             "controller_kind": "privileged_visual_teacher",
             "training_eligible": False,
+            **({"force_governor_config": {
+                "substeps_per_frame": gov_cfg.substeps_per_frame,
+                "target_force_n": gov_cfg.target_force_n,
+                "tangential_stop_force_n": gov_cfg.tangential_stop_force_n,
+                "per_substep_total_joint_delta_cap_rad": gov_cfg.per_substep_total_joint_delta_cap_rad,
+                "max_cycle_delta_rad": gov_cfg.max_cycle_delta_rad}}
+               if planner_kind == "force-governed" else {}),
             "clock_note": "touch simulation_time_s = physics env.data.time "
                           "(epoch: this episode's mj_resetData; relative sim clock)",
             "child_pid": child_pid, "child_returncode": returncode,
@@ -667,6 +686,10 @@ def main(argv=None) -> int:
     ap.add_argument("--task-profile", choices=TASK_PROFILES, default="near_pointing_v1",
                     help="near_pointing_v1=historical axial default; "
                          "near_diagonal_v1=diagonal targets, seed must be 0..7")
+    ap.add_argument("--contact-mode", choices=CONTACT_MODES, default="standard",
+                    help="standard=historical force-governed caps (default); "
+                         "pointing-light=lower tangential stop force (0.9 N), "
+                         "requires --planner force-governed")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")
@@ -674,7 +697,8 @@ def main(argv=None) -> int:
         ap.error("--seed must be in 0..7 for --task-profile near_diagonal_v1")
     if Path(args.out).exists():
         ap.error(f"--out must be a NEW directory, already exists: {args.out}")
-    summary = run(args.seed, args.out, planner_kind=args.planner, task_profile=args.task_profile)
+    summary = run(args.seed, args.out, planner_kind=args.planner,
+                  task_profile=args.task_profile, contact_mode=args.contact_mode)
     print(json.dumps(summary, indent=2))
     ok = (summary["near_pointing_success"]
           and summary["episode_safe_complete_released"]

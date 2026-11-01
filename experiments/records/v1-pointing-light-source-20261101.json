@@ -1,0 +1,50 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pointing-light-source-20261101",
+  "timestamp_utc": "2026-11-01T07:41:37.252710+00:00",
+  "kind": "optional_teacher_contact_mode_source_acceptance",
+  "status": "source_accepted_single_changed_config_trial_dispatched",
+  "source_commit": "c56bbabc60858e3751b577c1d26f788db4a30868",
+  "checks": {
+    "independent_stub_tests_passed": 41,
+    "independent_test_s": 0.42,
+    "metadata_and_callsite_config_verified": true,
+    "standard_default_unchanged": true,
+    "unknown_or_mismatched_mode_rejects_before_output": true
+  },
+  "candidate": {
+    "contact_mode": "pointing-light",
+    "target_force_n": 0.8,
+    "tangential_stop_force_n": 0.9,
+    "standard_tangential_stop_force_n": 1.1,
+    "other_physics_action_gui_success_limits_unchanged": true
+  },
+  "source_hashes": {
+    "tools/leap_v1_near_probe.py": "07f7828112d789f0a484a1c48754c52d8907ba6446aeaf33b7796573de2e504f",
+    "tests/test_leap_v1_near_probe.py": "d47591878637c3651c7f3cbe3d65283f284db4e0c8cd4730a46c3dd3490f04ab"
+  },
+  "kimi_elapsed_s": 151.7,
+  "kimi_recorded_usage": {
+    "records": 18,
+    "input_uncached": 51105,
+    "input_cached": 1165056,
+    "input_cache_write": 0,
+    "output": 18005,
+    "total": 1234166
+  },
+  "single_trial": {
+    "seed": 3,
+    "profile": "near_diagonal_v1",
+    "planner": "force-governed",
+    "max_wall_s": 120,
+    "max_sim_s": 20,
+    "max_images": 120,
+    "scope": "teacher only, separate source gate, no retry",
+    "click_free_checks": "actualtouchmessages and allrawsteps afterGUIbinding including cleanup/release"
+  },
+  "limitations": [
+    "Source tests are not physical performance acceptance.",
+    "0.9N tangential stop does not guarantee real normalforce stays below1.0N.",
+    "No learned-policy update or new dataset index."
+  ]
+}

@@ -1,5 +1,11 @@
 # Changelog
 
+- Switched shared Kimi handoffs to K2.8 Preview after user confirmation, three routing checks and a live read-only smoke. Recorded API-price proxies separately from membership billing; existing provider and billing controls remain unchanged.
+
+- Independently audited the one pointing-light teacher trial: no1.0N pressure crossing, safe release/exit, but120cycles exhausted without pointing success. Preserved missing terminal capture and excluded the failed data from training; resumed bounded offline diagnosis with Kimi2.8.
+
+- Added the opt-in pointing-light teacher mode with0.9N tangential-stop threshold and unchanged0.8N normal target. Standard mode remains unchanged. Independently passed41stub checks; a single source-bound trial is dispatched, with click-free checks covering control and cleanup, not just terminal pointing error.
+
 - Independently audited four diagonal teacher trials:3met the original pointing criterion;1stopped after click feedback turned the target green. All four remained physically safe and released/exited. Preserved the failure and the distinction between pointing accuracy and click-free interaction; scoped a separate light-contact candidate without changing GUI or safety thresholds.
 
 - Added bounded near_diagonal_v1 selection to the teacher runner while preserving defaults and all physical/success limits. Independently passed34stub checks and froze17source hashes plus the app/assets before dispatching four teacher-feasibility cases. Teacher outcomes remain separate from learned-policy results.

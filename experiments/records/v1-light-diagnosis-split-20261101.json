@@ -1,0 +1,19 @@
+{
+  "record_version": "1.0",
+  "id": "v1-light-diagnosis-split-20261101",
+  "timestamp_utc": "2026-11-01T07:59:40.698510+00:00",
+  "kind": "worker_timeout_checkpoint",
+  "status": "timeout_without_deliverables_split_to_statistics_only",
+  "source_commit": "c56bbabc60858e3751b577c1d26f788db4a30868",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "elapsed_s": 180.1,
+  "saved_deliverables": 0,
+  "tracked_source_changed": false,
+  "recorded_usage": null,
+  "next_scope": "Extract raw gate, force, bounds and delta statistics from one existing planner trace; no physics or production edits.",
+  "limitations": [
+    "Model-route smoke success does not prove work completion.",
+    "Missing timeout usage is unknown, not zero.",
+    "No controller diagnosis accepted from the timed-out task."
+  ]
+}

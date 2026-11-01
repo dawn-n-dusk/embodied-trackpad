@@ -460,13 +460,14 @@ def test_cli_exit_requires_success_release_and_reaping(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1":
-                        calls.append((seed, out, task_profile)) or dict(base))
+                        task_profile="near_pointing_v1", contact_mode="standard":
+                        calls.append((seed, out, task_profile, contact_mode)) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a")]) == 0
     for field in base:
         monkeypatch.setattr(probe, "run",
                             lambda seed, out, planner_kind="dls",
-                            task_profile="near_pointing_v1", f=field:
+                            task_profile="near_pointing_v1",
+                            contact_mode="standard", f=field:
                             {**base, f: False})
         assert probe.main(["--seed", "1", "--out",
                            str(tmp_path / f"b_{field}")]) == 1
@@ -509,8 +510,8 @@ def test_cli_planner_option_passed_through(tmp_path, monkeypatch):
     seen = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1": seen.append(planner_kind)
-                        or dict(base))
+                        task_profile="near_pointing_v1", contact_mode="standard":
+                        seen.append(planner_kind) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                        "--planner", "normal-priority"]) == 0
     assert seen == ["normal-priority"]
@@ -1082,8 +1083,8 @@ def test_cli_task_profile_option_passed_through(tmp_path, monkeypatch):
     seen = []
     monkeypatch.setattr(probe, "run",
                         lambda seed, out, planner_kind="dls",
-                        task_profile="near_pointing_v1": seen.append(task_profile)
-                        or dict(base))
+                        task_profile="near_pointing_v1", contact_mode="standard":
+                        seen.append(task_profile) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                        "--task-profile", "near_diagonal_v1"]) == 0
     assert seen == ["near_diagonal_v1"]
@@ -1102,3 +1103,152 @@ def test_diagonal_profile_reaches_reset_and_records(tmp_path, monkeypatch):
     assert summary["task_profile"] == "near_diagonal_v1"
     meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
     assert meta["task_profile"] == "near_diagonal_v1"
+
+
+# --- contact-mode selection --------------------------------------------------
+
+
+def test_default_contact_mode_is_standard(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    patch_run_env(monkeypatch)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    summary = probe.run(1, tmp_path / "out")
+    assert summary["contact_mode"] == "standard"
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["contact_mode"] == "standard"
+
+
+def test_invalid_contact_mode_rejected_before_output(tmp_path):
+    with pytest.raises(ValueError, match="contact_mode"):
+        probe.run(1, tmp_path / "nope", contact_mode="bogus")
+    assert not (tmp_path / "nope").exists()
+
+
+def test_pointing_light_rejected_unless_force_governed(tmp_path):
+    with pytest.raises(ValueError, match="pointing-light"):
+        probe.run(1, tmp_path / "nope", planner_kind="dls",
+                  contact_mode="pointing-light")
+    assert not (tmp_path / "nope").exists()
+
+
+def test_cli_invalid_contact_mode_rejected_before_run(tmp_path, monkeypatch):
+    calls = []
+    monkeypatch.setattr(probe, "run",
+                        lambda *a, **k: calls.append((a, k)) or {})
+    with pytest.raises(SystemExit):
+        probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
+                    "--contact-mode", "bogus"])
+    assert calls == [] and not (tmp_path / "a").exists()
+
+
+def test_cli_contact_mode_option_passed_through(tmp_path, monkeypatch):
+    base = {"near_pointing_success": True,
+            "episode_safe_complete_released": True, "child_reaped": True}
+    seen = []
+
+    def fake_run(seed, out, planner_kind="dls",
+                 task_profile="near_pointing_v1", contact_mode="standard"):
+        seen.append(contact_mode)
+        return dict(base)
+
+    monkeypatch.setattr(probe, "run", fake_run)
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
+                       "--planner", "force-governed",
+                       "--contact-mode", "pointing-light"]) == 0
+    assert seen == ["pointing-light"]
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "b")]) == 0
+    assert seen == ["pointing-light", "standard"]
+
+
+def _force_governed_run(tmp_path, monkeypatch, contact_mode):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    monkeypatch.setattr(vp, "make_env", lambda: fake_env())
+    monkeypatch.setattr(vp, "reset_open", lambda env: None)
+
+    def fake_prep(R):
+        R["z_hold"] = 0.1
+        R["last_record"] = {"step_index": 0, "sim_time_s": 1.0,
+                            "contacts": [], "aggregate": {}}
+
+    monkeypatch.setattr(probe, "prep_phase", fake_prep)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    captures = [(make_frame(i, 1000.0 + 0.05 * i, i), est, 5.0)
+                for i, est in enumerate([make_est(20.0, 0.0), make_est(2.0, 0.0),
+                                         make_est(2.0, 0.0), make_est(2.0, 0.0)], 1)]
+    it = iter(captures)
+    monkeypatch.setattr(probe, "capture_estimate", lambda R: next(it))
+    monkeypatch.setattr(probe, "site_jacobian", lambda env: JAC)
+    monkeypatch.setattr(probe, "tip_z", lambda env: 0.1)
+    monkeypatch.setattr(probe, "CYCLE_MIN_WALL_S", 0.0)
+    monkeypatch.setattr(probe, "send_touch", lambda R, agg: None)
+    monkeypatch.setattr(probe, "force_mode_contact_update",
+                        lambda env, rec: (np.array([1.0, 0.0, 0.0, 0.0]),
+                                          1.0, [0.07, 0.0, 0.1]))
+
+    def fake_admittance(ctrl, anchor, row, force, dt, mapping, cfg):
+        normal = np.array(ctrl, dtype=float)
+        normal[0] += 0.00001
+        info = {"force_error_n": force - 0.8,
+                "requested_normal_speed_m_s": 0.0001,
+                "requested_dz_m": 1e-6, "applied_dq": [1e-6, 0, 0, 0],
+                "predicted_normal_dz_m": 1e-6, "common_scale": 1.0,
+                "bound_limited": [], "teacher_only": True}
+        return normal, info
+
+    monkeypatch.setattr(probe.fsv, "normal_force_admittance", fake_admittance)
+
+    def fake_step(R, ctrl, fid, phase):
+        R["step_index"] += 1
+        R["last_record"] = {"step_index": R["step_index"],
+                            "sim_time_s": 1.0 + 0.002 * R["step_index"],
+                            "contacts": [],
+                            "aggregate": {"index": {"normal_force_n": 1.0}}}
+        return SimpleNamespace(aggregate=R["last_record"]["aggregate"])
+
+    monkeypatch.setattr(probe, "step", fake_step)
+    captured_cfgs = []
+    real_compose = probe.fgv.compose_governed_substep
+
+    def spy_compose(current, normal, frame_delta, anchor, force, mapping, cfg):
+        captured_cfgs.append(cfg)
+        return real_compose(current, normal, frame_delta, anchor, force,
+                            mapping, cfg)
+
+    monkeypatch.setattr(probe.fgv, "compose_governed_substep", spy_compose)
+    summary = probe.run(1, tmp_path / "out", planner_kind="force-governed",
+                        contact_mode=contact_mode)
+    return summary, captured_cfgs
+
+
+def test_pointing_light_uses_lower_tangential_stop_force(tmp_path, monkeypatch):
+    summary, cfgs = _force_governed_run(tmp_path, monkeypatch, "pointing-light")
+    assert summary["planner_kind"] == "force-governed"
+    assert summary["contact_mode"] == "pointing-light"
+    assert cfgs
+    assert all(cfg.tangential_stop_force_n == pytest.approx(0.9) for cfg in cfgs)
+    assert all(cfg.target_force_n == pytest.approx(0.8) for cfg in cfgs)
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["contact_mode"] == "pointing-light"
+    gov_cfg = meta["planner"]["force_governor_config"]
+    assert gov_cfg["tangential_stop_force_n"] == pytest.approx(0.9)
+    assert gov_cfg["target_force_n"] == pytest.approx(0.8)
+    assert gov_cfg["substeps_per_frame"] == 25
+    assert gov_cfg["per_substep_total_joint_delta_cap_rad"] == pytest.approx(0.0002)
+    assert gov_cfg["max_cycle_delta_rad"] == pytest.approx(0.005)
+    on_disk = json.loads((tmp_path / "out" / "summary.json").read_text())
+    assert on_disk["contact_mode"] == "pointing-light"
+    assert on_disk["force_governor_config"]["tangential_stop_force_n"] == pytest.approx(0.9)
+
+
+def test_standard_force_governed_retains_default_stop_force(tmp_path, monkeypatch):
+    summary, cfgs = _force_governed_run(tmp_path, monkeypatch, "standard")
+    assert summary["contact_mode"] == "standard"
+    assert cfgs
+    assert all(cfg.tangential_stop_force_n == pytest.approx(1.1) for cfg in cfgs)
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["contact_mode"] == "standard"
+    assert meta["planner"]["force_governor_config"]["tangential_stop_force_n"] == pytest.approx(1.1)

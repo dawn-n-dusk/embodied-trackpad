@@ -1,0 +1,33 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-default-k28-20261101",
+  "timestamp_utc": "2026-11-01T07:55:55.015795+00:00",
+  "kind": "shared_worker_model_routing",
+  "status": "accepted_live_smoke_and_user_confirmed",
+  "model_alias": "kimi-code/kimi-for-coding",
+  "official_mapping": "K2.8 Preview",
+  "prior_project_alias": "kimi-code/kimi-for-coding-highspeed",
+  "provider_changed": false,
+  "billing_controls_changed": false,
+  "checks": {
+    "stub_routing_checks": 3,
+    "live_nonce_match": true,
+    "fixture_unchanged": true,
+    "provider_usage_model_matches": true,
+    "live_elapsed_s": 13.2,
+    "skill_validator": "passed",
+    "cli_doctor": "passed"
+  },
+  "artifacts": [
+    {
+      "path": "docs/tasks/kimi-model-routing.zh-CN.md",
+      "sha256": "790ada24ddfa52b930705d8f73b65340d36cf1d43879cc3b09bb572f216a2c19"
+    }
+  ],
+  "limitations": [
+    "K2.8 third-party rates are a proxy, not verified membership billing.",
+    "Discount rate and expiry not verified.",
+    "Existing running sessions and other hosts are not automatically migrated.",
+    "No robotics performance claim in model-routing acceptance."
+  ]
+}

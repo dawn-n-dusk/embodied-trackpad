@@ -1,0 +1,73 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pointing-light-trial-20261101",
+  "timestamp_utc": "2026-11-01T07:57:41.485397+00:00",
+  "kind": "independent_teacher_contact_trial_audit",
+  "status": "physical_no_press_threshold_passed_pointing_failed",
+  "source_commit": "c56bbabc60858e3751b577c1d26f788db4a30868",
+  "model_role": "privileged_visual_teacher_not_learned_actor",
+  "training_eligible": false,
+  "seed": 3,
+  "task_profile": "near_diagonal_v1",
+  "contact_mode": "pointing-light",
+  "checks": {
+    "source_files_verified": 17,
+    "worker_inventory_verified": 126,
+    "app_pid_absent": true,
+    "asset_files_verified": 14,
+    "raw_unchanged": true
+  },
+  "counts": {
+    "steps": 5550,
+    "frames": 120,
+    "action_samples": 120,
+    "visual_steps": 3000,
+    "touch_messages": 165
+  },
+  "result": {
+    "seed": 3,
+    "steps": 5550,
+    "frames": 120,
+    "action_samples": 120,
+    "visual_steps": 3000,
+    "touch_messages": 165,
+    "initial_error_px": 18.142616454279487,
+    "last_observed_error_px": 18.54298873385592,
+    "terminal_error_px": null,
+    "last_three_observed_errors_px": [
+      18.76819312072686,
+      18.603325710018428,
+      18.54298873385592
+    ],
+    "teacher_success": false,
+    "stop_reason": "max_cycles_exhausted",
+    "release_span_s": 2.0620000000006886,
+    "visual_lowforce_steps": 0,
+    "max_penetration_mm": 0.660335765927833,
+    "peak_pad_force_n": 0.962257153312981,
+    "force_no_press_check": {
+      "all_control_cleanup_steps": 4101,
+      "max_control_cleanup_force_n": 0.962257153312981,
+      "max_visual_force_n": 0.9422825729415633,
+      "max_touch_payload_force_n": 0.9581919416137681,
+      "raw_steps_ge_1N": 0,
+      "touch_payloads_ge_1N": 0,
+      "first_gui_touch_payload_step_index": 1450,
+      "first_physics_contact_step_index": 1007,
+      "steps_from_first_physics_contact": 4544,
+      "max_force_from_first_physics_contact_n": 0.962257153312981
+    },
+    "terminal_capture_available": false,
+    "note": "Last observed error precedes the final action block; max-cycles failure has no terminal image."
+  },
+  "wall_s": 14.44,
+  "kimi_dispatch_s": 124.3,
+  "independent_audit_s": 8.792043542023748,
+  "limitations": [
+    "One changed-config teacher diagnostic, not a model ranking or learned-policy improvement.",
+    "Max-cycle failure has no post-final-action terminal screenshot; last observed18.543px is not terminal error.",
+    "No raw/payload force crossed1.0N; this does not establish reliable multi-case click-free pointing.",
+    "Historical screenshot clock offset/uncertainty not saved, so cross-clock freshness cannot be fully reconstructed.",
+    "Failed teacher data remain training-ineligible; no optimizer, hardware or livestream started."
+  ]
+}

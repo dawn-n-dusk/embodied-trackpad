@@ -1,5 +1,7 @@
 # Current status
 
+Latest update (2026-11-01): the single pointing-light teacher trial stayed below the native press threshold but failed to move accurately (120 cycles exhausted; last observed18.543px, no terminal capture). [Audited result](docs/experiments/2026-11-01-v1-pointing-light.zh-CN.md). Failed data remain ineligible. Shared worker routing now uses [Kimi K2.8 Preview](docs/tasks/kimi-model-routing.zh-CN.md); this does not change the trained robot model.
+
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 
 | Milestone | State | Evidence / next condition |
