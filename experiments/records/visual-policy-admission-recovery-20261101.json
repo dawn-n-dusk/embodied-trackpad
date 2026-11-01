@@ -1,0 +1,87 @@
+{
+  "record_version": "1.0",
+  "id": "visual-policy-admission-recovery-20261101",
+  "timestamp_utc": "2026-11-01T13:15:04.362941+00:00",
+  "kind": "bounded_admission_recovery_and_upstream_interface_audit",
+  "status": "admission_not_accepted_narrow_module_dispatched",
+  "previous_handoff": {
+    "elapsed_s": 240.1,
+    "status": "timeout",
+    "saved_artifact": "in-progress placeholder only",
+    "tracked_changes": false,
+    "recorded_usage": "unknown, not zero"
+  },
+  "independently_verified": {
+    "upstream": "Physical-Intelligence/openpi",
+    "commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "source_files": 6,
+    "default_action_dim": 32,
+    "default_action_horizon": 50,
+    "pi05_discrete_state_input": true,
+    "data_action_dt_s": 0.002,
+    "data_action_horizon": 25,
+    "data_action_block_s": 0.05,
+    "old_index_samples": 674,
+    "new_index_samples": 550,
+    "real_image_paths_exist": true
+  },
+  "rejected_inferences": [
+    "Do not infer missing PyTorch from the system Python: separate existing CPU and GPU runtimes are known.",
+    "Do not apply v2 timestep to current v1 data.",
+    "Native16 joints do not imply no padding is needed for the default32D OpenPI architecture."
+  ],
+  "next_task": "Two-file native RGB/proprioception supervised data module; preserve separately validated corpora, image hashes, observation whitelist and actual time semantics. No optimizer or robot execution.",
+  "upstream_manifest": {
+    "upstream_commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "retrieved_utc": "2026-11-01T13:11:09.811512+00:00",
+    "files": [
+      {
+        "path": "src/openpi/models/pi0_config.py",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models/pi0_config.py",
+        "sha256": "d321858c30b398126035ea2b6da09e1c422eeeebb5ebf8df631daf9dc77647fa",
+        "bytes": 4435,
+        "ok": true
+      },
+      {
+        "path": "src/openpi/models/model.py",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models/model.py",
+        "sha256": "0d74bc1d8f4623ac3d8e543710b8bf75f9b95e588a3ebf6127c659e001385cff",
+        "bytes": 12270,
+        "ok": true
+      },
+      {
+        "path": "src/openpi/transforms.py",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/transforms.py",
+        "sha256": "a1b94e9e72849a18834778f229c6bb389a495eb7fbe0aa800edea728b9424ff4",
+        "bytes": 15752,
+        "ok": true
+      },
+      {
+        "path": "src/openpi/policies/libero_policy.py",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/policies/libero_policy.py",
+        "sha256": "d8679d99facc3fef48da07406081b20709ed872fcefdf7de67ede99422d623fa",
+        "bytes": 4322,
+        "ok": true
+      },
+      {
+        "path": "src/openpi/training/config.py",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/training/config.py",
+        "sha256": "c34231f888dba5dc981d808765b3d98775ab845b04313bf53fcecd567c520b0d",
+        "bytes": 44594,
+        "ok": true
+      },
+      {
+        "path": "README.md",
+        "url": "https://raw.githubusercontent.com/Physical-Intelligence/openpi/215abfb217dbac7d5f1273282331b9b1866c0479/README.md",
+        "sha256": "567fc57766bd736664f50126cab8145af4071ca16cc5e238f2b11e369169c3b5",
+        "bytes": 23254,
+        "ok": true
+      }
+    ]
+  },
+  "automation": {
+    "interval_minutes": 45,
+    "updated_prompt_to_ADR0009": true,
+    "notifications": "meaningful changes only"
+  }
+}
