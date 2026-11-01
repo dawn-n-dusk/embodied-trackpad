@@ -1,0 +1,66 @@
+{
+  "record_version": "1.0",
+  "id": "visual-corpus-module-accepted-20261101",
+  "timestamp_utc": "2026-11-01T14:04:21.795459+00:00",
+  "kind": "independent_native_rgb_data_interface_acceptance",
+  "status": "native_visual_corpus_accepted_temporal_and_openpi_adapter_pending",
+  "source_commit": "0a17fca",
+  "runtime_source_commit": "43c661830550fb5af1bbb56ce0a281f066064d3b",
+  "code_sha256": "fd239bce5dac271b0dfb664f7148d5849acba64184e2b8a640e2768c567580ee",
+  "tests_sha256": "4d7e7c49c0ddfc324d10728e102aa01f52c72f1609165dd93943a70c8951e7de",
+  "checks": {
+    "focused_tests_passed": 23,
+    "integration_tests_passed": 23,
+    "entire_index_rows_validated": 1224,
+    "independent_real_images": 12,
+    "corpus_split_counts": [
+      {
+        "train": 453,
+        "validation": 141,
+        "test": 80
+      },
+      {
+        "train": 254,
+        "validation": 145,
+        "test": 151
+      }
+    ],
+    "RGB_shape": [
+      600,
+      800,
+      3
+    ],
+    "RGB_dtype": "uint8",
+    "actor_proprioceptive_arrays": [
+      "q_rad16",
+      "qvel_rad_s16",
+      "previous_ctrl_rad16"
+    ],
+    "absent_sensor_masks_preserved": true,
+    "derived_error_and_teacher_fields_excluded_from_actor": true,
+    "action_shape": [
+      25,
+      16
+    ],
+    "action_semantics": "absolute_executed_joint_reference_rad",
+    "action_dt_s": 0.002,
+    "action_horizon_s": 0.05,
+    "images_and_indexes_unchanged": true,
+    "array_mutation_isolation": true
+  },
+  "handoff": {
+    "elapsed_s": 600.1,
+    "status": "timeout_after_saved_module_tests_and_real_data_checks",
+    "usage": "unknown in runner receipt, not zero",
+    "source_saved_is_not_acceptance": "accepted only after independent source/test/real-data audit"
+  },
+  "limits": [
+    "single native frame only; temporal resampling and OpenPI repacking not implemented",
+    "corpus consumes current approved pilot indexes; future non-blue GUI collection needs its own index/export support",
+    "only frame timestamp copied; clock-offset/uncertainty provenance requires explicit temporal-adapter extension",
+    "No OpenPI import, pretrained weight load, neural forward pass, optimizer, simulation or hardware action in this module acceptance.",
+    "Existing approved index compatibility is not approval of future unreviewed data.",
+    "Native16/25 output is not the default OpenPI32/50 tensor layout."
+  ],
+  "next": "Kimi implements separately bounded coarse-time action windows while another disjoint read-only task checks the existing personal GPU runtime metadata. No new GPU job authorized by this record."
+}

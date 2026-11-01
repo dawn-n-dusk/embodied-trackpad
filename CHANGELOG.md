@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the native RGB visual-policy corpus: full-resolution pixels, separated action/provenance, immutable index/image bindings and native time semantics. Independent 23 tests and 12 real-image comparisons passed; pretrained model training remains pending.
+
 - Corrected model priority after user review: retain the coordinate-only MLP as a fixed reference; advance full pretrained pi0.5 adaptation and a visual temporal ACT-style comparison.
 
 - Independently audited the fine-tuned candidate: diagonal 1/7 attempted, axial 0/2, one case unattempted due budget. Retained original policy; recorded contact, unintended click feedback, stale-frame and horizon failures.
