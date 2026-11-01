@@ -1,5 +1,7 @@
 # Changelog
 
+- Integrated per-frame clock validation into episode auditing, including terminal frames and accurate timing coverage. Fixed repo-relative PNG resolution and cross-episode symlink acceptance; 94 independent tests and a read-only 45-frame diagnostic audit passed. No new training index or optimizer run.
+
 - Added profile/collection-scoped data export and a capture timing validator, with 82 independent tests plus saved-trace and legacy-parity checks. Complete CLI/configuration/training-loader wiring remains pending.
 
 - Added optional task-profile-aware split mapping with 50 passing focused/regression tests; legacy axial mapping unchanged. Exporter wiring and fresh dataset acceptance remain pending. Updated the README to report the completed diagonal evaluation and distinguish the new teacher diagnostic from learned-policy results.

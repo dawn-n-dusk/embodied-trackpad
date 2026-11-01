@@ -1,0 +1,97 @@
+{
+  "record_version": "1.0",
+  "id": "v1-capture-provenance-integrated-20261101",
+  "timestamp_utc": "2026-11-01T10:43:06.375636+00:00",
+  "kind": "independent_clock_export_and_png_ownership_integration_audit",
+  "status": "source_and_readonly_diagnostic_audit_passed_not_new_training_data",
+  "source_commit": "4f58cb4dfabf20c5f72591d90bf57db48a9be93e",
+  "public_prior_modules_commit": "7b95fcf549fdf026403553cbb1066337e5cefe44",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pilot_dataset.py": "6b05b68187e0ab043cebf2011e6b88bc9375b025a9eef52a54e2568c8f6cd5ef",
+    "tests/test_leap_v1_profile_export.py": "bfbb75cf757ff7e1798b2074430cc42b57469d1f862fabc17679087a597a40ee",
+    "tests/test_leap_v1_pilot_clock_export.py": "9998bd427f386e90a7c0a300969054f7889d6188ab7c9c5c5169e4b329cf07a1"
+  },
+  "independent_tests": {
+    "passed": 94,
+    "failed": 0,
+    "wall_s": 3.98,
+    "legacy_exact_sample_and_manifest_checks": 9
+  },
+  "readonly_saved_diagnostic": {
+    "accepted": true,
+    "issues": [],
+    "rejection_reasons": [],
+    "samples": 44,
+    "actor_entries": 45,
+    "timing_validated_frames": 45,
+    "timing_legacy_frames": 0,
+    "scope": "read-only audit of existing development diagnostic; NO index file created, NO eligibility change",
+    "manifest_capture_timing": {
+      "validated_frames": 45,
+      "legacy_frames": 0,
+      "invalid_frames": 0,
+      "frame_availability": "validated"
+    },
+    "all_sample_clock_fields_exact": true,
+    "no_actor_feature_or_label_shape_change": true,
+    "raw_inventory_files_unchanged": 51,
+    "wall_s": 3.368273042025976
+  },
+  "retained_failures": [
+    {
+      "stage": "v1-capture-provenance-integration",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "saved_source_reviewed_later": true
+    },
+    {
+      "stage": "v1-capture-integration-finish",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "saved_source_reviewed_later": true
+    },
+    {
+      "stage": "v1-clock-path-and-tests",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "saved_source_reviewed_later": true
+    },
+    {
+      "stage": "independent_first_integration_audit",
+      "reason": "45 repo-relative PNG references were incorrectly resolved relative to the episode; raw files existed and hashes were unchanged. Resolver fixed without editing raw data."
+    },
+    {
+      "stage": "independent_boundary_check",
+      "reason": "An episode-local symlink to an identical-hash other-episode image was accepted; resolved-file parent gate and regression test now reject it."
+    },
+    {
+      "stage": "independent_focused_tests",
+      "passed": 90,
+      "failed": 3,
+      "reason": "Stale fixture mutated four frames instead of one, missing fixture parent directory, and traversal fixture referenced a missing rather than wrong-episode file. Tests corrected without weakening assertions."
+    }
+  ],
+  "behavior": [
+    "Every action and terminal frame traverses the timing validator; invalid timing rejects the episode.",
+    "Actual clocks/stages/backend versions are retained as sample metadata, never actor features.",
+    "Legacy default output remains byte-equivalent in independent fixtures. New axial and diagonal timing coverage reports validated/legacy/invalid/unavailable states accurately.",
+    "Absolute, episode-relative and repo-relative PNG references are supported only with repository/episode ownership, expected filename and hash validation; resolved-file parent check rejects cross-episode symlinks."
+  ],
+  "kimi_dispatches": 5,
+  "kimi_dispatch_wall_s": 728.1,
+  "recorded_usage": {
+    "records": 36,
+    "input_uncached": 91100,
+    "input_cached": 2907392,
+    "input_cache_write": 0,
+    "output": 24155,
+    "total": 3022647
+  },
+  "usage_note": "Recorded provider usage; not billing or membership quota. Timeout evidence and interrupted/unreported-usage limitations retained.",
+  "limitations": [
+    "No new data collection or dataset index was created; the inspected diagnostic remains development-only and training_eligible=false.",
+    "Force/configuration consistency, CLI global profile/collection/source checks, and training-loader adaptation remain required.",
+    "No new optimizer, GPU job, live stream, physical hardware operation or personal-desktop input.",
+    "Learned-policy diagonal result remains 2/8; the teacher result is not a model improvement."
+  ]
+}

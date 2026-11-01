@@ -15,6 +15,7 @@ from typing import Any
 
 import numpy as np
 
+from embodied_trackpad.leap_v1.pilot_provenance import validate_capture_timing
 from embodied_trackpad.leap_v1.visual_servo import decode_png_bytes, extract_visual_estimate
 
 N_JOINTS = 16
@@ -178,6 +179,8 @@ class EpisodeAudit:
     png_failed: int = 0
     teacher_steps: int = 0
     actor_entries: int = 0
+    timing_validated_frames: int = 0
+    timing_legacy_frames: int = 0
     touch_messages: int = 0
     force_intents: int = 0
     force_intent_mismatches: int = 0
@@ -541,6 +544,29 @@ def _recompute_visual_error(png_path: Path) -> tuple[float, float] | None:
     return est.error_px
 
 
+def _resolve_png_path(png_ref: Any, ep: Path, root: Path) -> Path | None:
+    """Resolve a capture png_ref to a candidate path.
+
+    Absolute refs keep legacy behavior. Relative refs are episode-basename
+    (legacy) or repo-relative (native-capture export, e.g.
+    ``.local/v1-visual/<collection>/seed-002/cycle-001.png``); the repo-root
+    fallback applies only when the file actually exists there. Later checks
+    pin the resolved file to the exact episode directory, so other episodes,
+    path traversal and outside-root paths are still rejected.
+    """
+    if not isinstance(png_ref, str) or not png_ref:
+        return None
+    if Path(png_ref).is_absolute():
+        return Path(png_ref)
+    ep_candidate = ep / png_ref
+    if ep_candidate.exists():
+        return ep_candidate
+    root_candidate = root / png_ref
+    if root_candidate.exists():
+        return root_candidate
+    return ep_candidate
+
+
 def _validate_png(
     a: dict[str, Any],
     ep: Path,
@@ -549,8 +575,8 @@ def _validate_png(
 ) -> tuple[Path, tuple[float, float] | None] | None:
     fid = a.get("frame_id")
     png_ref = a.get("png_ref", "")
-    png_path = Path(png_ref) if os.path.isabs(png_ref) else ep / png_ref
-    if not png_path.exists():
+    png_path = _resolve_png_path(png_ref, ep, root)
+    if png_path is None or not png_path.exists():
         _record_issue(audit, "png", f"frame {fid} missing PNG {png_ref}")
         audit.png_failed += 1
         return None
@@ -565,7 +591,7 @@ def _validate_png(
         _record_issue(audit, "png", f"frame {fid} PNG name {png_path.name!r} != {expected_cycle!r}")
         audit.png_failed += 1
         return None
-    if png_path.parent.resolve() != ep.resolve():
+    if png_path.resolve().parent != ep.resolve():
         _record_issue(audit, "png", f"frame {fid} PNG not in episode dir")
         audit.png_failed += 1
         return None
@@ -705,7 +731,19 @@ def audit_episode(
     terminal_index: int | None = None
     last_visual_steps: list[dict[str, Any]] | None = None
 
+    timing_required = task_profile == "near_diagonal_v1"
     for idx, a in enumerate(actor):
+        try:
+            timing_info = validate_capture_timing(
+                a, audit.summary, audit.metadata, required=timing_required)
+        except ValueError as exc:
+            _record_issue(audit, "actor",
+                          f"frame {a.get('frame_id')!r} capture timing invalid: {exc}")
+            continue
+        if timing_info["clock_offset_s"] is None:
+            audit.timing_legacy_frames += 1
+        else:
+            audit.timing_validated_frames += 1
         phase = a.get("phase")
         if phase == "success_terminal":
             if audit.terminal_frame is not None:
@@ -871,6 +909,8 @@ def audit_episode(
             "training_eligible": False,
             "pending_coordinator": True,
         }
+        if timing_info["clock_offset_s"] is not None:
+            sample["metadata"].update(timing_info)
         if audit.task_profile != DEFAULT_TASK_PROFILE:
             sample["task_profile"] = audit.task_profile
             sample["collection_id"] = audit.collection_id
@@ -1026,6 +1066,21 @@ def build_dataset_manifest(
     for s in samples:
         split_counts[s["split"]] = split_counts.get(s["split"], 0) + 1
     target_classes = sorted({s["target_class"] for s in samples})
+    validated_frames = sum(a.timing_validated_frames for a in audits)
+    legacy_frames = sum(a.timing_legacy_frames for a in audits)
+    invalid_frames = (sum(a.actor_entries for a in audits)
+                      - validated_frames - legacy_frames)
+    timing_meta = scoped or validated_frames > 0 or invalid_frames > 0
+    if invalid_frames > 0:
+        availability = "incomplete"  # invalid frames were rejected, never approved
+    elif not validated_frames and not legacy_frames:
+        availability = "unavailable"  # zero observed; missing timing is NOT legacy
+    elif not legacy_frames:
+        availability = "validated"
+    elif not validated_frames:
+        availability = "legacy"  # missing/unknown calibration
+    else:
+        availability = "mixed"
     per_episode = []
     total_raw = 0
     total_pre = 0
@@ -1063,6 +1118,12 @@ def build_dataset_manifest(
             entry["target_key"] = f"{audit.task_profile}:{audit.seed}"
             entry["episode_key"] = (
                 f"{audit.collection_id}:{audit.task_profile}:seed-{audit.seed:03d}")
+        if timing_meta:
+            entry["timing_validated_frames"] = audit.timing_validated_frames
+            entry["timing_legacy_frames"] = audit.timing_legacy_frames
+            entry["timing_invalid_frames"] = (
+                audit.actor_entries - audit.timing_validated_frames
+                - audit.timing_legacy_frames)
         per_episode.append(entry)
     manifest = {
         "created_utc": None,
@@ -1107,4 +1168,27 @@ def build_dataset_manifest(
         manifest["task_profile"] = task_profile
         manifest["collection_id"] = collection_id
         manifest["target_keys"] = sorted(seen_keys)
+    if timing_meta:
+        manifest["capture_timing"] = {
+            "validated_frames": validated_frames,
+            "legacy_frames": legacy_frames,
+            "invalid_frames": invalid_frames,
+            "frame_availability": availability,
+        }
+        clock_note = ("clock offset and uncertainty are unavailable "
+                      "for this offline export")
+        replacements = {
+            "validated": ("capture timing validated per frame against the "
+                          "summary calibration; clock offset/uncertainty are "
+                          "measured values, not fabricated"),
+            "mixed": ("clock offset and uncertainty are unavailable for "
+                      "legacy frames in this mixed export"),
+            "incomplete": ("capture timing invalid for some frames; those "
+                           "frames were rejected and never approved for export"),
+        }
+        replacement = replacements.get(availability)
+        if replacement is not None:
+            manifest["limitations"] = [
+                replacement if lim == clock_note else lim
+                for lim in manifest["limitations"]]
     return manifest

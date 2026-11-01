@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): profile-scoped episode/sample/manifest identity and a standalone capture-timing validator passed independent review: 60 export/regression tests, 22 timing tests, and additional legacy/raw-trace checks. The saved 45-frame teacher trace retains a maximum age plus uncertainty of 42.854 ms. [Data pipeline review](docs/experiments/2026-11-01-v1-diagonal-data-pipeline.zh-CN.md). Timing integration, configuration checks, CLI wiring and training-loader compatibility remain required before fresh collection/training. The learned-policy diagonal baseline remains 2/8. Previous diagnostic failures remain recorded. No optimizer or live stream is active.
+Latest update (2026-11-01): profile/collection identity and capture-timing checks are integrated into offline episode auditing. Independent validation passed 94 focused/regression tests; an existing 45-frame diagnostic yielded 44 audited candidate samples in memory with exact clock metadata and all 51 raw-file hashes unchanged. No new index or training data was created. [Data pipeline review](docs/experiments/2026-11-01-v1-diagonal-data-pipeline.zh-CN.md). Configuration consistency, CLI global identity/source wiring and training-loader compatibility remain required before fresh collection/training. The learned-policy diagonal baseline remains 2/8. No optimizer or live stream is active.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 

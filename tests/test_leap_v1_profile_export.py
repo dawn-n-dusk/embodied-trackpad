@@ -32,6 +32,10 @@ _spec.loader.exec_module(fx)
 DIAG = "near_diagonal_v1"
 AXIAL = "near_pointing_v1"
 COLL = "diagdev-A_1"
+CLOCK_OFFSET = 0.001
+CLOCK_UNC = 0.0001
+PNG_BACKEND = "pillow"
+PNG_VERSION = "fixture-v1"
 ACC = {"controller_kind": "privileged_visual_teacher",
        "config": {"planner_kind": "force-governed"}}
 LEGACY_SAMPLE_KEYS = {"episode_id", "frame_id", "split", "target_class",
@@ -40,6 +44,50 @@ LEGACY_SAMPLE_KEYS = {"episode_id", "frame_id", "split", "target_class",
 ACTOR_INPUT_KEYS = {"png_ref", "png_sha256", "error_xy_px", "q_rad16",
                     "qvel_rad_s16", "previous_ctrl_rad16", "valid",
                     "fsr_N4", "motor_current_A16", "wrist"}
+
+
+def _enrich_clock(ep):
+    """Test-only: give a synthetic episode coherent new capture timing.
+
+    Summary/metadata carry the fixture calibration/backend; every actor
+    record (including terminal) gets a capture_timing block derived from
+    its own frame_monotonic_time_s/frame_age_ms so the provenance helper
+    validates. Real episode data is never touched.
+    """
+    meta = json.loads((ep / "metadata.json").read_text())
+    meta["png_backend"] = PNG_BACKEND
+    meta["png_backend_version"] = PNG_VERSION
+    (ep / "metadata.json").write_text(json.dumps(meta))
+    summ = json.loads((ep / "summary.json").read_text())
+    summ["png_backend"] = PNG_BACKEND
+    summ["png_backend_version"] = PNG_VERSION
+    summ["clock_offset_s"] = CLOCK_OFFSET
+    summ["clock_uncertainty_s"] = CLOCK_UNC
+    (ep / "summary.json").write_text(json.dumps(summ))
+    path = ep / "actor.jsonl"
+    out = []
+    for line in path.read_text().splitlines():
+        if not line.strip():
+            continue
+        a = json.loads(line)
+        t3 = a["frame_monotonic_time_s"] - CLOCK_OFFSET + a["frame_age_ms"] / 1000.0
+        a["capture_timing"] = {
+            "t0_monotonic_s": t3 - 0.006,
+            "t1_monotonic_s": t3 - 0.004,
+            "t2_monotonic_s": t3 - 0.002,
+            "t3_monotonic_s": t3,
+            "capture_save_ms": 2.0,
+            "decode_ms": 2.0,
+            "extract_ms": 2.0,
+            "total_ms": 6.0,
+            "clock_offset_s": CLOCK_OFFSET,
+            "clock_uncertainty_s": CLOCK_UNC,
+            "png_backend": PNG_BACKEND,
+            "png_backend_version": PNG_VERSION,
+        }
+        out.append(json.dumps(a))
+    path.write_text("\n".join(out) + "\n")
+    return ep
 
 
 def _tagged(tmp_path, seed, profile=DIAG, collection=COLL):
@@ -55,7 +103,7 @@ def _tagged(tmp_path, seed, profile=DIAG, collection=COLL):
     if collection is not None:
         summ["collection_id"] = collection
     (ep / "summary.json").write_text(json.dumps(summ))
-    return ep
+    return _enrich_clock(ep)
 
 
 def _mk_audit(seed, collection=COLL, accepted=True):
