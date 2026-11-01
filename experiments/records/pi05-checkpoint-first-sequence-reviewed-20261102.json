@@ -1,0 +1,38 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-checkpoint-first-sequence-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T20:52:29.495676+00:00",
+  "kind": "independent_source_and_metadata_boundary_review",
+  "status": "sequence_reviewed_caller_launcher_and_gpu_recovery_pending",
+  "source_baseline": "a14bb190f81b6afc29627648bdc206698aabcf3a",
+  "candidate_sequence_sha256": "a8946d8971afbeb975dc22a3362c68e786b047d9c81e74b477ab04154b84591d",
+  "original_sequence_sha256": "9a9b5a3f770c9550be9e7370aa868b792dd5d1609df6d9911a22e5e220d7a47b",
+  "behavior": [
+    "Save full step-1 state before fingerprinting the unchanged live state",
+    "Observe all four full fingerprints with bounded flushed per-leaf metadata and deadline checks",
+    "Atomic JSON report and phase publication via temporary sibling, fsync and replace",
+    "Retain exact full-state restore and step-2 replay parity; no change to model updates or data"
+  ],
+  "independent_checks": {
+    "metadata_record_and_input_unchanged": true,
+    "cap_fails_without_appending": true,
+    "deadline_fails_without_appending": true,
+    "io_error_propagates": true,
+    "atomic_json_format_and_publish": true,
+    "failed_replacement_preserves_previous_report": true,
+    "phase_and_report_both_atomic_writer": true,
+    "save_before_four_observed_fingerprints": true,
+    "original_frozen_sequence_unchanged": true
+  },
+  "new_model_runs": 0,
+  "new_optimizer_updates": 0,
+  "new_gpu_seconds": 0,
+  "new_checkpoint_created": false,
+  "remaining_gpu_seconds": 491,
+  "limits": [
+    "Local metadata and source checks only; not complete-model save/restore acceptance",
+    "Caller, scratch run-directory validation, launcher and fresh permit require review before submission",
+    "Temporary-source preparation does not establish runtime or control performance"
+  ],
+  "next_task": "docs/tasks/pi05-recovery-after-profile.zh-CN.md"
+}

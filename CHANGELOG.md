@@ -1,5 +1,7 @@
 # Changelog
 
+- Reviewed the checkpoint-first recovery sequence: nine local metadata/source checks passed, including bounded progress logs and atomic report publication. Full-model runtime and scratch launcher integration remain pending.
+
 - Accepted the actual 8-second H800 fingerprint diagnostic: 12 real JAX callback checks and 32/256/1024 MiB full-hash parity passed. Kept the earlier complete-model timeout unexplained; prepared a checkpoint-first recovery design within the remaining 491 GPU seconds.
 
 - Added optional per-leaf transfer/hash progress events without changing full-state fingerprint semantics, and corrected the host-cache memory guarantee. Independent local checks: 14 passed, 5 skipped; real JAX callback tests and performance measurements remain pending.
