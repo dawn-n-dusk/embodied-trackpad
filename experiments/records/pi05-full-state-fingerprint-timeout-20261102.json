@@ -1,0 +1,112 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-full-state-fingerprint-timeout-20261102",
+  "timestamp_utc": "2026-11-01T19:45:42.862636+00:00",
+  "kind": "independent_actual_retry_terminal_audit",
+  "status": "first_update_verified_fingerprint_deadline_no_checkpoint",
+  "source_revision": "3a2c2edc1d84221a0d0a5be2e5b2cc2068f9b7db",
+  "preceding_record": "experiments/records/pi05-checkpoint-retry-started-20261102.json",
+  "permit_sha256": "a846aa853d9a7c8f48084873e7ab9605b674ea8b2f3bb15b2f21380f98c1b32e",
+  "source_files_verified": 45,
+  "raw_report_sha256": "5fb8bca476e1c1d2186b6c9ad4bd2566db55c48fc2d5d808debcc9aee02e9ec2",
+  "raw_job_summary_sha256": "ba4b8ed208d1e2a66dea347cea8e01d70a836f4d18856af8c9f7efd2c7b1049b",
+  "scheduler": {
+    "state": "FAILED",
+    "exit_code": "124:0",
+    "start_utc": "2026-11-01T19:29:17Z",
+    "end_utc": "2026-11-01T19:43:48Z",
+    "elapsed_s": 871,
+    "gpu_count": 1,
+    "logical_cpu_allocated": 16,
+    "cpu_requested": 8,
+    "memory_requested_gib": 128,
+    "resources_released": true
+  },
+  "update": {
+    "total_parameters": 3353433872,
+    "trainable_parameters": 3353433872,
+    "parameter_dtype": "float32",
+    "compute_dtype": "bfloat16",
+    "optimizer": "AdamW",
+    "learning_rate": 1e-05,
+    "seed": 17,
+    "attempted_applications": 1,
+    "accepted_applications": 1,
+    "unique_steps_in_this_run": 1,
+    "finite_gradient_leaves": 51,
+    "nonzero_gradient_leaves": 50,
+    "step1_including_compile_s": 57.809,
+    "loss": 0.5729131102561951,
+    "grad_norm": 11.572488784790039,
+    "update_norm": 0.4993002116680145,
+    "param_delta_norm": 0.49930045008659363,
+    "note": "Reloaded immutable pretrained base; this is a second independent first-step check, not step 2 of continued training."
+  },
+  "inputs": {
+    "real_rgb_samples_available": 2,
+    "real_rgb_samples_used_before_timeout": 1,
+    "image_after_official_transform": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "state_channels": 16,
+    "action_horizon": 25,
+    "valid_action_channels": 16,
+    "padded_action_channels": 32,
+    "native_action_dt_s": 0.002,
+    "horizon_s": 0.05,
+    "varying_channels_in_current_corpus": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "failure": {
+    "stage": "abstract-state and full-state fingerprint phase, before checkpoint save",
+    "phase_entered_utc": "2026-11-01T19:30:58Z",
+    "deadline_remaining_at_phase_s": 769.334,
+    "completed_full_fingerprint": false,
+    "checkpoint_save_started": false,
+    "checkpoint_restorable": false,
+    "second_step_attempted": false,
+    "replay_attempted": false,
+    "termination": "GNU timeout exit124 and watchdog deadline trigger42 at the reviewed internal deadline",
+    "sampled_peak_host_rss_bytes": 40243855360,
+    "sampled_rss_limit_bytes": 128849018880,
+    "new_directory_scan_error_observed": false,
+    "cuda_oom_observed": false,
+    "cause_of_slow_phase": "unresolved; existing phase log cannot separate transfer and hashing or identify the slow leaf",
+    "raw_report_inflight_status_is_stale": true,
+    "previous_partial_checkpoint_preserved": true
+  },
+  "budget": {
+    "gpu_allocation_s_before": 430,
+    "gpu_allocation_s_this_run": 871,
+    "cumulative_gpu_allocation_s": 1301,
+    "first_smoke_limit_s": 1800,
+    "remaining_s": 499,
+    "automatic_unchanged_retry": false
+  },
+  "independent_checks": {
+    "all_45_source_hashes_match": true,
+    "all_parameters_trainable": true,
+    "one_attempt_and_application": true,
+    "finite_all_51_gradients": true,
+    "positive_parameter_delta": true,
+    "deadline_reached": true,
+    "below_rss_limit": true,
+    "no_fingerprint_complete": true,
+    "no_checkpoint_phase": true,
+    "no_checkpoint_directory": true
+  },
+  "next": "Add per-leaf transfer/hash telemetry and review a smaller profiling task before any further allocation. Do not enlarge resources or infer precision control.",
+  "limitations": [
+    "No usable fine-tuned full-model checkpoint",
+    "No complete-model restore or deterministic replay acceptance",
+    "No learned pi0.5 closed-loop, precision-control or long-horizon result",
+    "No active training stream"
+  ]
+}

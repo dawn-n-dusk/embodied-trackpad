@@ -153,3 +153,87 @@ def test_tiny_jax_orbax_roundtrip_and_fingerprint_parity(tmp_path):
     bad = jax.tree.map(lambda s: jax.ShapeDtypeStruct((s.size,), s.dtype), template)
     with pytest.raises((ValueError, RuntimeError)):
         ckpt.restore_state(bad, str(ckpt_dir), device)
+
+
+# --- Optional per-leaf progress callback (real tiny JAX, skip without jax) ---
+
+
+def _progress_state():
+    jax = pytest.importorskip("jax")
+    jnp = pytest.importorskip("jax.numpy")
+    return {
+        "params": {"w": jnp.arange(12, dtype=jnp.float32).reshape(3, 4),
+                   "b": jnp.full((2,), 0.25, dtype=jnp.float32)},
+        "opt_state": {"count": jnp.array(7, dtype=jnp.int32),
+                      "mu": jnp.ones((2, 1), dtype=jnp.float32)},
+        "step": jnp.array(2, dtype=jnp.int32),
+        "rng": jax.random.PRNGKey(5),
+    }
+
+
+def test_progress_callback_events_and_digest_parity():
+    jax = pytest.importorskip("jax")
+    state = _progress_state()
+    baseline = ckpt.fingerprint_state(state)
+    events = []
+    result = ckpt.fingerprint_state(state, progress=events.append)
+    assert result == baseline  # digest/tree/order/shape/dtype/bytes unchanged
+
+    leaf_count = baseline["leaf_count"]
+    assert leaf_count == len(baseline["leaves"])
+    assert len(events) == 3 * leaf_count + 1
+    complete = events[-1]
+    assert complete["stage"] == "complete"
+    assert complete["sha256"] == baseline["sha256"]
+    assert complete["leaf_count"] == leaf_count
+
+    prev_t = 0.0
+    for i in range(leaf_count):
+        rec = baseline["leaves"][i]
+        before, after_t, after_h = events[3 * i:3 * i + 3]
+        for ev in (before, after_t, after_h):
+            assert ev["leaf_index"] == i and ev["leaf_count"] == leaf_count
+            assert ev["path"] == rec["path"] and ev["shape"] == rec["shape"]
+            assert ev["dtype"] == rec["dtype"] and ev["nbytes"] == rec["bytes"]
+            assert ev["t_s"] >= prev_t
+            prev_t = ev["t_s"]
+        assert [before["stage"], after_t["stage"], after_h["stage"]] == [
+            "before-transfer", "after-transfer", "after-hash"]
+        assert after_t["transferred_bytes"] == before["transferred_bytes"] + rec["bytes"]
+        assert after_h["hashed_bytes"] == before["hashed_bytes"] + rec["bytes"]
+        assert after_h["sha256"] == rec["sha256"]
+    assert complete["transferred_bytes"] == baseline["bytes"]
+    assert complete["hashed_bytes"] == baseline["bytes"]
+    jax.block_until_ready(state)
+
+
+def test_progress_callback_raise_before_transfer_propagates():
+    state = _progress_state()
+    seen = []
+    sentinel = RuntimeError("boom-before")
+
+    def cb(ev):
+        seen.append(ev)
+        if ev["stage"] == "before-transfer":
+            raise sentinel
+
+    with pytest.raises(RuntimeError) as ei:
+        ckpt.fingerprint_state(state, progress=cb)
+    assert ei.value is sentinel
+    assert [e["stage"] for e in seen] == ["before-transfer"]
+
+
+def test_progress_callback_raise_after_transfer_propagates():
+    state = _progress_state()
+    seen = []
+    sentinel = RuntimeError("boom-after")
+
+    def cb(ev):
+        seen.append(ev)
+        if ev["stage"] == "after-transfer":
+            raise sentinel
+
+    with pytest.raises(RuntimeError) as ei:
+        ckpt.fingerprint_state(state, progress=cb)
+    assert ei.value is sentinel
+    assert [e["stage"] for e in seen] == ["before-transfer", "after-transfer"]

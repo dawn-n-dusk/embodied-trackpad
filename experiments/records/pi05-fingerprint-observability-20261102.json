@@ -1,0 +1,44 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-fingerprint-observability-20261102",
+  "timestamp_utc": "2026-11-01T19:49:56.983876+00:00",
+  "kind": "independent_source_review_local_software_checks",
+  "status": "source_reviewed_real_jax_progress_runtime_pending",
+  "source_baseline": "527b39d39f94994e1e83c3fc9cbae66e4fcffa41",
+  "files": {
+    "src/embodied_trackpad/leap_v1/pi05_checkpoint.py": "ead74b64c1e506ce8fcad9d8429740ab313a9b5779dbb68d4401f143e0cf97d4",
+    "tests/test_pi05_checkpoint.py": "e82fddc108e0aa1a7b2f0c990eacaafdadf23accdc7c68c2ef58177f32683b20"
+  },
+  "behavior": [
+    "Optional per-leaf transfer/hash progress callback; no payload sampling",
+    "Existing digest and return structure preserved by source inspection; actual JAX parity test still skipped locally",
+    "Callback exceptions propagate",
+    "Corrected false guarantee that deleting local host reference bounds JAX-owned host cache memory"
+  ],
+  "tests": {
+    "command": "PYTHONPATH=src pytest -q tests/test_pi05_checkpoint.py tests/test_pi05_update_core.py",
+    "passed": 14,
+    "skipped": 5,
+    "new_callback_tests_executed": 0,
+    "new_callback_tests_skipped": 3,
+    "skip_reason": "JAX/Orbax absent in frozen local runtime",
+    "diff_check": "passed"
+  },
+  "worker_accounting": {
+    "diagnostic_call_elapsed_s": 180.1,
+    "diagnostic_call_status": "timeout_no_saved_report",
+    "source_call_elapsed_s": 180.1,
+    "source_call_status": "timeout_helper_and_report_saved_tests_not_saved",
+    "test_call_elapsed_s": 46.4,
+    "test_call_status": "reported_then_independently_reviewed",
+    "requested_model": "kimi-code/kimi-for-coding",
+    "backend_version_verified": false
+  },
+  "runtime": {
+    "new_job_submissions": 0,
+    "new_optimizer_applications": 0,
+    "performance_improvement_verified": false,
+    "complete_checkpoint_recovery_accepted": false
+  },
+  "next_task": "docs/tasks/pi05-fingerprint-profiling.zh-CN.md"
+}

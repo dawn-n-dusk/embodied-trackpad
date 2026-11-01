@@ -24,8 +24,11 @@ before any heavy import.
 ``fingerprint_state`` is a full-payload hash: it reads every array leaf of
 the whole four-key state once through device-to-host transfer. For the real
 full-parameter state that is a ~40 GiB read, not a cheap metadata hash. It
-streams one leaf at a time, releases each host copy before the next transfer,
-retains only small metadata records, and never writes a second weights copy.
+streams one leaf at a time, retains only small metadata records, and never
+writes a second weights copy. Releasing each local host reference between
+leaves does NOT bound total host RSS: the pinned JAX 0.5.3 ``ArrayImpl`` may
+keep its own host copy of an array after a device-to-host read, and this
+one-leaf-at-a-time loop cannot free any JAX-owned cache.
 """
 
 from __future__ import annotations
@@ -158,20 +161,35 @@ def _leaf_record(path: str, n: Any) -> dict:
     }
 
 
-def fingerprint_state(state: Any) -> dict:
+def fingerprint_state(state: Any, *, progress: Any = None) -> dict:
     """Streaming SHA-256 fingerprint of the full four-key state payload.
 
     Iterates ``jax.tree.leaves_with_path``: one device-to-host transfer, one
-    host copy (contiguity fixed only when needed, scalar shape ``()`` kept),
-    bytes folded into the global digest, then the host copy is explicitly
-    released before the next leaf. The global digest binds the pytree
-    structure string (``str(jax.tree.structure(state))``), every leaf path,
-    shape, dtype and byte payload, plus totals. Totals are Python ints, so no
-    int32 overflow. This reads the whole payload (~40 GiB at full scale).
+    local host copy (contiguity fixed only when needed, scalar shape ``()``
+    kept), bytes folded into the global digest, then the local host copy is
+    released before the next leaf. Releasing that local reference does not
+    bound total host RSS: JAX may retain its own host copy of the array after
+    the device-to-host read. The global digest binds the pytree structure
+    string (``str(jax.tree.structure(state))``), every leaf path, shape,
+    dtype and byte payload, plus totals. Totals are Python ints, so no int32
+    overflow. This reads the whole payload (~40 GiB at full scale); no leaf is
+    skipped or sampled.
+
+    ``progress`` is an optional callable invoked with one dict per event, for
+    observability only. Stages: ``before-transfer`` (emitted before every
+    device-to-host transfer), ``after-transfer`` (after the host copy of that
+    leaf exists), ``after-hash`` (after that leaf's bytes were folded into the
+    digest), and ``complete`` (once, after all leaves). Each event carries
+    ``stage``, ``leaf_index``, ``leaf_count``, ``path``, ``shape``,
+    ``dtype`` (NumPy ``.str`` form), ``nbytes`` (expected leaf bytes),
+    ``t_s`` (monotonic seconds since fingerprint start), plus cumulative
+    ``transferred_bytes`` and ``hashed_bytes``. Events do not affect the
+    digest or the returned record; a raising callback propagates visibly.
     """
     _require_state_dict(state)
     import jax  # noqa: PLC0415
     import numpy as np  # noqa: PLC0415
+    import time  # noqa: PLC0415
 
     h = hashlib.sha256()
 
@@ -181,18 +199,51 @@ def fingerprint_state(state: Any) -> dict:
         h.update(blob)
 
     _feed("struct", str(jax.tree.structure(state)).encode("utf-8"))
+    leaves_with_path = jax.tree.leaves_with_path(state)
+    leaf_count = len(leaves_with_path)
+    t0 = time.monotonic()
+    transferred = 0
+    hashed = 0
+
+    def _emit(stage: str, index: int, path: str, shape: tuple, dtype: Any, nbytes: int, **extra: Any) -> None:
+        if progress is None:
+            return
+        event = {
+            "stage": stage,
+            "leaf_index": index,
+            "leaf_count": leaf_count,
+            "path": path,
+            "shape": list(shape),
+            "dtype": np.dtype(dtype).str,
+            "nbytes": int(nbytes),
+            "t_s": round(time.monotonic() - t0, 6),
+            "transferred_bytes": int(transferred),
+            "hashed_bytes": int(hashed),
+        }
+        event.update(extra)
+        progress(event)  # any callback exception propagates out of fingerprint_state
+
     leaves: list[dict] = []
     numel = 0
     nbytes = 0
-    for path, leaf in jax.tree.leaves_with_path(state):
+    for index, (path, leaf) in enumerate(leaves_with_path):
+        rel = _render_path(path)
+        shape = tuple(int(s) for s in leaf.shape)
+        leaf_bytes = int(leaf.nbytes)
+        _emit("before-transfer", index, rel, shape, leaf.dtype, leaf_bytes)
         host = np.asarray(jax.device_get(leaf))
         if not host.flags.c_contiguous:
             host = np.ascontiguousarray(host)
-        rec = _leaf_record(_render_path(path), host)
+        transferred += int(host.nbytes)
+        _emit("after-transfer", index, rel, shape, leaf.dtype, leaf_bytes)
+        rec = _leaf_record(rel, host)
+        hashed += int(rec["bytes"])
+        _emit("after-hash", index, rel, shape, leaf.dtype, leaf_bytes, sha256=rec["sha256"])
         _feed("leaf", rec["sha256"].encode("ascii"))
         leaves.append(rec)
         numel += rec["numel"]
         nbytes += rec["bytes"]
-        del host  # release this host copy before the next device transfer
+        del host  # release the local host copy before the next device transfer
     _feed("total", f"leaf_count={len(leaves)};numel={numel};bytes={nbytes}".encode("ascii"))
+    _emit("complete", leaf_count, "", (), np.dtype(np.uint8), 0, sha256=h.hexdigest())
     return {"sha256": h.hexdigest(), "leaf_count": len(leaves), "numel": numel, "bytes": nbytes, "leaves": leaves}
