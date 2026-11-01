@@ -15,6 +15,7 @@ dependencies = []
 dev = [
     "pytest>=8",
     "jsonschema>=4.21",
+    "numpy==2.2.6",
 ]
 
 [project.scripts]

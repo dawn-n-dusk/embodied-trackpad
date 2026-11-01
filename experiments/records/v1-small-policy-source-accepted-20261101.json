@@ -1,0 +1,204 @@
+{
+  "record_version": "1.0",
+  "id": "v1-small-policy-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T05:43:24.340458+00:00",
+  "kind": "independent_small_policy_source_acceptance_for_bounded_gpu_smoke",
+  "status": "source_accepted_actual_torch_optimizer_restore_and_parity_unrun",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/small_policy.py": "b18adfb08c4f804f82d492aca53f23ce0a2740077dac28833646bf33e993b1cc",
+    "tools/train_leap_v1_small_policy.py": "0815aadc230da7916d326ff98e482042da9f658d74648426221f3e231d08abad",
+    "tests/test_leap_v1_small_policy.py": "9bb29e0883e15e76954156139eab8782775ab7b7911686e5ad75617f12c14390",
+    "tests/test_leap_v1_small_policy_trainer.py": "a4d5241318c8a58576269d488b038779f2e9e93250a548bfc45b8fd525532ab9",
+    "env/leap-v1-small-policy-contract.json": "a49dbfa502460a8359a579098c19b3fbde9e152f9f99eb1e94cc4e86f7dac7f2"
+  },
+  "local_checks": {
+    "passed": 81,
+    "failed": 0,
+    "skipped": 1,
+    "elapsed_s": 0.28,
+    "skip": "Actual GPU smoke is not a local NumPy test.",
+    "static_unresolved_globals": []
+  },
+  "dataset_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+  "actual_data_adapter": {
+    "rows": 674,
+    "features": [
+      674,
+      50
+    ],
+    "labels": [
+      674,
+      25,
+      16
+    ],
+    "split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    }
+  },
+  "model": {
+    "layers": [
+      50,
+      128,
+      128,
+      400
+    ],
+    "activation": "SiLU",
+    "horizon": 25,
+    "channels": 16,
+    "expected_trainable_parameters": 74640,
+    "increment_cap_rad": 0.0002,
+    "block_cap_rad": 0.005
+  },
+  "corrections": [
+    "Batched increment and cumulative losses use time dimension1.",
+    "Preserve raw inputs for NumPy, normalized inputs for Torch; normalize exactly once.",
+    "Verify source/data/config bindings before any update, including bundles without .git.",
+    "Restore actual disk model/AdamW/RNG/sampler state and compare same next batch, predictions, loss and next update.",
+    "Use CPU checkpoint loading for RNG tensors; retain end-of-epoch sampler cursor and prior best model.",
+    "Reject invalid GPU allocation, source or hyperparameters; finite guards, bounded wall/output budgets and checkpoint progress.",
+    "Test follows best-validation selection and export parity; no test-based tuning."
+  ],
+  "independent_parity_mock": {
+    "correct_delta_difference_rad": 0.0,
+    "deliberate_double_normalization_difference_rad": 1.696583058219403e-05,
+    "scope": "Pure NumPy mock with nonzero weights, not actual Torch or GPU parity."
+  },
+  "ci_dependency_correction": {
+    "failed_run": "41277652921",
+    "failure": "NumPy missing from CI dev dependencies. Local runtime already contained NumPy.",
+    "change": "Pin numpy==2.2.6 in dev extras; keep base package dependencies empty.",
+    "actual_repaired_ci": "pending"
+  },
+  "planned_run": {
+    "gpus": 1,
+    "device": "H800",
+    "wall_s": 1800,
+    "max_updates": 2000,
+    "comparison_updates_separate": true,
+    "interactive_simulation_environments": 0,
+    "output_cap_bytes": 536870912
+  },
+  "kimi_dispatches": [
+    {
+      "task": "v1-trainer-correction",
+      "status": "reported",
+      "elapsed_s": 468.0,
+      "recorded_usage": {
+        "records": 62,
+        "input_uncached": 101286,
+        "input_cached": 5441792,
+        "input_cache_write": 0,
+        "output": 47820,
+        "total": 5590898
+      }
+    },
+    {
+      "task": "v1-trainer-input-gates",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-trainer-disk-restore",
+      "status": "timeout",
+      "elapsed_s": 420.1,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-trainer-final-microfix",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-trainer-two-tests-import",
+      "status": "reported",
+      "elapsed_s": 67.3,
+      "recorded_usage": {
+        "records": 19,
+        "input_uncached": 13377,
+        "input_cached": 676608,
+        "input_cache_write": 0,
+        "output": 4907,
+        "total": 694892
+      }
+    },
+    {
+      "task": "v1-ci-numpy-dependency",
+      "status": "reported",
+      "elapsed_s": 24.0,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 7152,
+        "input_cached": 181248,
+        "input_cache_write": 0,
+        "output": 1491,
+        "total": 189891
+      }
+    },
+    {
+      "task": "v1-policy-portable-test",
+      "status": "reported",
+      "elapsed_s": 34.0,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 6526,
+        "input_cached": 287744,
+        "input_cache_write": 0,
+        "output": 2184,
+        "total": 296454
+      }
+    },
+    {
+      "task": "v1-policy-import-test-fix-and-native-rebuild",
+      "status": "reported",
+      "elapsed_s": 139.4,
+      "recorded_usage": {
+        "records": 33,
+        "input_uncached": 30786,
+        "input_cached": 1532928,
+        "input_cache_write": 0,
+        "output": 8858,
+        "total": 1572572
+      }
+    }
+  ],
+  "limitations": [
+    "No actual optimizer update, policy checkpoint, Torch/GPU restore or parity result exists at this source acceptance point.",
+    "MLP engineering baseline, not pretrained pi0.5 fine-tuning or learned closed-loop success.",
+    "Passing local tests includes NumPy/static/mock checks; actual H800 execution is separately gated and reviewed.",
+    "Offline training does not produce a live robot video; no active robot stream or hardware operation.",
+    "Timeouts and earlier failed checks retained. Missing usage is unknown, not zero."
+  ],
+  "privacy_correction": {
+    "previous_test_sha256": "9a99e2c86314ac1ad4e47170367abfd79a9740f80fc1b4f2de09377c6346cee6",
+    "change": "Optional real-index check uses TRACKPAD_PILOT_INDEX; removed private path before publication.",
+    "checks": "81 passed, 1 skipped against accepted immutable index; no private identifiers found in new source."
+  },
+  "integration_regression": {
+    "initial_full_suite": {
+      "passed": 588,
+      "failed": 5,
+      "skipped": 20,
+      "wall_s": 33.17
+    },
+    "failures": [
+      "Trainer import test assumed MuJoCo absent after unrelated tests imported it.",
+      "Four native near-profile checks used a stale locally cached app binary."
+    ],
+    "corrections": [
+      "Import isolation checked in a fresh child interpreter.",
+      "Kimi rebuilt ignored native binary from unchanged accepted source;54native protocol checks passed; app processes absent."
+    ],
+    "new_binary_sha256": "1e30f0e9db9cb706878319f83bbdbbdf61457a96d251990445b2b991d7bb2cd0",
+    "independent_corrected_policy_checks": {
+      "passed": 81,
+      "failed": 0,
+      "skipped": 1,
+      "wall_s": 0.45,
+      "condition": "MuJoCo preimported in parent; trainer isolated import still passes."
+    }
+  }
+}

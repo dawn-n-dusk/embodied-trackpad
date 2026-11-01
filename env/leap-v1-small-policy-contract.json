@@ -1,0 +1,79 @@
+{
+  "_schema": "leap-v1-small-policy-contract-v1",
+  "purpose": "small_policy_smoke",
+  "status": "proposed",
+  "allow_optimizer": false,
+  "dataset_schema": "v1-small-policy-smoke-v1",
+  "approved_actor_fields": [
+    "error_xy_px",
+    "q_rad16",
+    "qvel_rad_s16",
+    "previous_ctrl_rad16"
+  ],
+  "model": {
+    "input_dim": 50,
+    "hidden_dims": [128, 128],
+    "output_dim": 400,
+    "activation": "SiLU",
+    "action_cap_rad": 0.0002,
+    "block_cap_rad": 0.005,
+    "horizon": 25,
+    "num_channels": 16,
+    "channel_order": [
+      "if_mcp",
+      "if_rot",
+      "if_pip",
+      "if_dip",
+      "mf_mcp",
+      "mf_rot",
+      "mf_pip",
+      "mf_dip",
+      "rf_mcp",
+      "rf_rot",
+      "rf_pip",
+      "rf_dip",
+      "th_cmc",
+      "th_axl",
+      "th_mcp",
+      "th_ipl"
+    ],
+    "motion4_indices": [0, 1, 2, 3]
+  },
+  "training": {
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 64,
+    "grad_clip": 1.0,
+    "seed": 17,
+    "max_updates": 2000,
+    "val_every": 100,
+    "loss_increment_normalizer": 0.0002,
+    "loss_cumulative_normalizer": 0.005,
+    "loss_cumulative_weight": 0.25,
+    "normalizer_std_floor": 0.001,
+    "normalizer_fit_splits": ["train"]
+  },
+  "target_class_split": {
+    "train": [0, 2, 3, 5, 6, 8, 9, 11],
+    "validation": [1, 7],
+    "test": [4, 10]
+  },
+  "expected_split_counts": {
+    "train": 453,
+    "validation": 141,
+    "test": 80
+  },
+  "limits": {
+    "max_updates": 2000,
+    "max_gpu": 1,
+    "max_wall_s": 1800
+  },
+  "binding": {
+    "sample_index_sha256": "TO_BE_FILLED_BY_COORDINATOR_APPROVAL",
+    "source_commit": "TO_BE_FILLED_BY_COORDINATOR_APPROVAL",
+    "approved_by": "coordinator",
+    "approved_at_utc": "TO_BE_FILLED_BY_COORDINATOR_APPROVAL"
+  },
+  "_note": "This is a documented minimal contract schema. Optimization is only allowed after the coordinator binds sample_index_sha256, source_commit, and approved_at_utc to an accepted immutable dataset index. No --ignore-permit or default bypass exists."
+}
