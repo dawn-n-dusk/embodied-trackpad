@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted diagonal collection identity and profile-aware policy loading with 141 tests, 2 conditional skips and 26 independent checks; all 674 original feature vectors remain identical. Recorded user direction to fine-tune the existing policy with its original normalizer. CLI and warm-start training integration remain pending.
+
 - Preserved two CLI continuation timeouts with no source changes; event logs show pending model responses, with cause unresolved. Accepted teacher-configuration source passed all four CI Python versions.
 
 - Integrated strict teacher-configuration agreement and capture-source metadata into diagonal episode auditing; 127 independent tests and 11 integration checks passed. Legacy outputs, 50D actor input and 25×16 executed labels preserved. CLI and training-loader adaptation remain pending.

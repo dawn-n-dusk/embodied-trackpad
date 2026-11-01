@@ -1,0 +1,97 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-identity-loader-accepted-20261101",
+  "timestamp_utc": "2026-11-01T11:48:34.950654+00:00",
+  "kind": "independent_diagonal_identity_and_policy_loader_audit",
+  "status": "source_modules_accepted_cli_and_finetune_wiring_pending",
+  "source_commit": "78bbfbec07c5fc4be5b9a8c5a4edcfa7b5279ed5",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pilot_collection.py": "6e9de333f80cbb394abbf65ec6e935d557746b9c296c78885db7beacd8828cfc",
+    "tests/test_leap_v1_collection_identity.py": "4cbc5980b987316780a36c16090b4219a7f298d896cfe18485aa99114b651a7f",
+    "src/embodied_trackpad/leap_v1/small_policy.py": "0ff7f18585e4f448cedc03e3aedcbe508f21ae40a3ff3dbc3d87cf4b69e120db",
+    "tests/test_leap_v1_small_policy_profiles.py": "8ba55c337130e50f16e181a7a57921ca35301f52a67552a1e61a4f601f1267d4"
+  },
+  "tests": {
+    "identity_passed": 45,
+    "identity_wall_s": 0.04,
+    "loader_passed": 96,
+    "loader_skipped": 2,
+    "loader_wall_s": 0.26,
+    "skip_reasons": [
+      "optional real-index environment variable unset; separately audited directly",
+      "GPU smoke requires Slurm allocation"
+    ]
+  },
+  "independent_checks": {
+    "identity": 14,
+    "loader": 12,
+    "original_index_samples": 674,
+    "original_split_counts": [
+      453,
+      141,
+      80
+    ],
+    "all_original_features_exact": true,
+    "original_index_sha256_unchanged": true
+  },
+  "workers": [
+    {
+      "task": "v1-collection-identity-resume",
+      "status": "reported",
+      "elapsed_s": 291.1,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 70159,
+        "input_cached": 492544,
+        "input_cache_write": 0,
+        "output": 12008,
+        "total": 574711
+      }
+    },
+    {
+      "task": "v1-loader-profile",
+      "status": "reported",
+      "elapsed_s": 357.9,
+      "recorded_usage": {
+        "records": 14,
+        "input_uncached": 52490,
+        "input_cached": 826112,
+        "input_cache_write": 0,
+        "output": 21751,
+        "total": 900353
+      }
+    },
+    {
+      "task": "v1-diagonal-cli-wiring",
+      "status": "timeout",
+      "elapsed_s": 420.1,
+      "recorded_usage": {
+        "records": 1,
+        "input_uncached": 13495,
+        "input_cached": 83968,
+        "input_cache_write": 0,
+        "output": 451,
+        "total": 97914
+      }
+    },
+    {
+      "task": "kimi-resume-health",
+      "status": "reported",
+      "elapsed_s": 24.6,
+      "recorded_usage": {
+        "records": 2,
+        "input_uncached": 3537,
+        "input_cached": 59648,
+        "input_cache_write": 0,
+        "output": 255,
+        "total": 63440
+      }
+    }
+  ],
+  "limitations": [
+    "CLI integration is still pending.",
+    "No new raw collection, index, optimizer updates, GPU job or stream.",
+    "User clarified that the next training should fine-tune the existing best policy, preserving its normalizer and baseline."
+  ],
+  "usage_note": "Provider records, not billing/quota; interrupted unreported usage remains unknown. CLI420.1s timeout produced no source changes. Fresh connection probe passed in24.6s; longer identity resumption completed in291.1s, so prior response waits do not prove provider outage."
+}
