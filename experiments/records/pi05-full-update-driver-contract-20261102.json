@@ -1,0 +1,197 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-full-update-driver-contract-20261102",
+  "timestamp_utc": "2026-11-01T19:09:23.870464+00:00",
+  "kind": "independent_complete_model_update_recovery_source_review",
+  "status": "source_reviewed_single_bounded_submission_delegated_runtime_pending",
+  "source_revision": "3a2c2edc1d84221a0d0a5be2e5b2cc2068f9b7db",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "private_driver_sha256": {
+    "probe.py": "14f92dc93a8af513d3668b2ea9d02837b77b44070254b49a933b60ee9eec5450",
+    "update_sequence.py": "9a9b5a3f770c9550be9e7370aa868b792dd5d1609df6d9911a22e5e220d7a47b",
+    "run.sbatch": "233f18b6c894ae82a6c20f8976570684a7efc10f75aaa6b2a19b6df776c863d6",
+    "rss_watchdog.sh": "14548fbdc4f06055f835eb2fcdd8c138063e6e93bc0babca39e1dae4a6fee59b"
+  },
+  "permit_sha256": "0f768ff7c0e116d2194835aba063ddc865e541779935da37599774df9058f36b",
+  "source_checks": {
+    "probe.py_compiles": true,
+    "update_sequence.py_compiles": true,
+    "exactly_three_step_call_sites": true,
+    "run.sbatch_syntax": true,
+    "rss_watchdog.sh_syntax": true
+  },
+  "model": {
+    "total_and_trainable_parameters": 3353433872,
+    "parameter_leaves": 51,
+    "params_and_moments_dtype": "float32",
+    "compute_dtype": "bfloat16",
+    "freezing": false,
+    "lora": false,
+    "ema": false,
+    "input_samples": 2,
+    "image_shape": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "native_action_dt_s": 0.002,
+    "action_horizon": 25,
+    "model_action_dim": 32,
+    "valid_action_channels": 16
+  },
+  "budget": {
+    "maxwall_s": 900,
+    "maxoutput_bytes": 68719476736,
+    "gpu_count": 1,
+    "device_kind": "H800",
+    "cpu_requested": 8,
+    "max_logical_cpu_allocated": 16,
+    "requested_host_memory_gib": 128,
+    "sampled_rss_limit_gib": 120,
+    "numeric_threads": 2,
+    "internal_deadline_s": 870,
+    "kill_grace_s": 10,
+    "job_submissions": 1
+  },
+  "sequence": [
+    "One step on sample0; preserve host metrics and full parameter gradient coverage",
+    "Save complete step1 parameters, Adam state, step and RNG once",
+    "Continuous step2 on sample1 and entire-state fingerprint",
+    "Release actual state2; restore step1 and compare entire state",
+    "Replay sample1 with restored RNG; compare entire state2 and all metrics"
+  ],
+  "max_unique_steps": 2,
+  "max_optimizer_applications": 3,
+  "checks_and_corrections": [
+    "Exact pinned source/data/script bindings; original dataset manifest remains optimizer_permission=false",
+    "Whole model ownership transferred and original array references released before donated updates",
+    "Metrics and observed counts persisted before later validation and I/O; attempted calls recorded before execution",
+    "Whole-state synchronization and full fingerprint/metric equality",
+    "Staged directory and optimizer permit filenames corrected; synchronous module environment initialization",
+    "Original process identities retained across guard signals; numeric memory/size output avoids integer overflow and scientific notation",
+    "Actual remaining runtime enforced with timeout; per-phase reports and exact failure status retained"
+  ],
+  "guard_limits": [
+    "RSS and output guards are sampled, not hard cgroup limits",
+    "Slurm900s also bounds module setup;870s process deadline deducts elapsed setup time",
+    "Guard failure makes final job fail; no automatic retry or resource expansion"
+  ],
+  "kimi_preparation": [
+    {
+      "task": "v1-pi05-update-driver-only",
+      "status": "timeout_no_files_no_jobs",
+      "elapsed_s": 240.1,
+      "usage": {
+        "records": 7,
+        "input_uncached": 25346,
+        "input_cached": 283136,
+        "input_cache_write": 0,
+        "output": 8628,
+        "total": 317110
+      }
+    },
+    {
+      "task": "v1-pi05-update-launcher-only",
+      "status": "timeout_two_files_saved_unaccepted",
+      "elapsed_s": 180.1,
+      "usage": {
+        "records": 8,
+        "input_uncached": 16770,
+        "input_cached": 294656,
+        "input_cache_write": 0,
+        "output": 12186,
+        "total": 323612
+      }
+    },
+    {
+      "task": "v1-pi05-update-sequence-only",
+      "status": "reported",
+      "elapsed_s": 104.5,
+      "usage": {
+        "records": 5,
+        "input_uncached": 37566,
+        "input_cached": 293376,
+        "input_cache_write": 0,
+        "output": 4421,
+        "total": 335363
+      }
+    },
+    {
+      "task": "v1-pi05-update-sequence-fix",
+      "status": "reported",
+      "elapsed_s": 103.1,
+      "usage": {
+        "records": 5,
+        "input_uncached": 11203,
+        "input_cached": 346368,
+        "input_cache_write": 0,
+        "output": 4426,
+        "total": 361997
+      }
+    },
+    {
+      "task": "v1-pi05-loader-glue",
+      "status": "reported",
+      "elapsed_s": 150.8,
+      "usage": {
+        "records": 11,
+        "input_uncached": 14823,
+        "input_cached": 842752,
+        "input_cache_write": 0,
+        "output": 6468,
+        "total": 864043
+      }
+    },
+    {
+      "task": "v1-pi05-loader-final-fix",
+      "status": "reported",
+      "elapsed_s": 58.1,
+      "usage": {
+        "records": 8,
+        "input_uncached": 11838,
+        "input_cached": 651264,
+        "input_cache_write": 0,
+        "output": 2031,
+        "total": 665133
+      }
+    },
+    {
+      "task": "v1-pi05-update-launcher-fix",
+      "status": "reported",
+      "elapsed_s": 138.0,
+      "usage": {
+        "records": 8,
+        "input_uncached": 27821,
+        "input_cached": 407808,
+        "input_cache_write": 0,
+        "output": 9274,
+        "total": 444903
+      }
+    },
+    {
+      "task": "v1-pi05-launcher-final-fix",
+      "status": "reported",
+      "elapsed_s": 57.3,
+      "usage": {
+        "records": 9,
+        "input_uncached": 15460,
+        "input_cached": 524800,
+        "input_cache_write": 0,
+        "output": 2896,
+        "total": 543156
+      }
+    }
+  ],
+  "combined_recorded_preparation_usage": {
+    "input_uncached": 160827,
+    "input_cached": 3644160,
+    "output": 50330,
+    "elapsed_dispatch_s": 1032.0
+  },
+  "usage_limit": "Provider counts only; no monetary or subscription-quota estimate; overlapping worker time is not wall time",
+  "full_pi05_optimizer_updates_at_record": 0,
+  "actual_h800_submission_verified_at_record": false,
+  "closed_loop_precision_accepted": false,
+  "stream_active": false
+}

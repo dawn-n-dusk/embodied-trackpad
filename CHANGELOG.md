@@ -1,5 +1,7 @@
 # Changelog
 
+- Reviewed the complete pi0.5 update/recovery driver and a single-H800 15-minute contract. Corrected model-reference retention, interrupted-step accounting, staged-path assumptions and process-identity guards; real optimizer execution remains independently gated.
+
 - Accepted the actual CPU checkpoint roundtrip: 22 checks in 6 seconds verify complete tiny NNX/Optax state restoration and exact continuation/replay parity. Retained preparation and caller timeouts separately; full pi0.5 updates remain pending.
 
 - Added reviewed checkpoint helpers for full optimizer/RNG state and streamed full-state fingerprints. Ten helper checks passed; the actual JAX/Orbax roundtrip remains skipped locally and must pass in the allocated runtime before complete-model recovery acceptance.
