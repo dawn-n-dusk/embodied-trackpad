@@ -1,0 +1,171 @@
+{
+  "record_version": "1.0",
+  "id": "v1-learned-two-target-accepted-20261101",
+  "timestamp_utc": "2026-11-01T06:30:00.770685+00:00",
+  "kind": "independent_learned_physics_gui_evaluation",
+  "status": "two_frozen_heldout_near_targets_passed",
+  "source_commit": "894698820272430c8792c9f8d4067f2f3aa88aef",
+  "public_source_commit": "7a1b302c6985f17f44efd5312f93b90586f4c125",
+  "training_source_commit": "03e93f02d05b2ea8701aa8fb3f6e86e57b8e46e7",
+  "checkpoint_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "sample_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+  "denominator": {
+    "planned": 2,
+    "executed": 2,
+    "success": 2,
+    "failed": 0,
+    "safety_aborts": 0,
+    "skipped": 0,
+    "retries": 0
+  },
+  "episodes": [
+    {
+      "seed": 4,
+      "target_class": 4,
+      "started_utc": "2026-11-01T06:24:06.646551+00:00",
+      "completed_utc": "2026-11-01T06:24:10.745290+00:00",
+      "precision_success": true,
+      "learning_success": true,
+      "physics_unsafe": false,
+      "release_measured": true,
+      "child_reaped": true,
+      "child_returncode": 0,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 0.8737338411673987,
+      "accepted_frames": 31,
+      "steps": 3300,
+      "wall_s": 4.099,
+      "stop_reason": "success",
+      "learned_action_blocks": 30,
+      "learned_substeps": 750,
+      "continuous_learned_contact_s": 1.5,
+      "touch_messages": 75,
+      "last_three_errors_px": [
+        1.9541309373929416,
+        0.9756291133369421,
+        0.8737338411673987
+      ],
+      "peak_total_pad_force_n": 1.3935378329827404,
+      "max_penetration_mm": 0.6972733912905538,
+      "max_frame_age_ms": 134.4838956138119,
+      "clock_uncertainty_ms": 2.585729002021253,
+      "prediction_independent_max_abs_rad": 3.9108272176235914e-11,
+      "requested_to_actual_ctrl_max_abs_rad": 0.0,
+      "pre_action_state_max_abs": 0.0,
+      "zero_pixel_error_counterfactual_effect_range_rad": [
+        5.505845365405548e-06,
+        4.4810389226768166e-05
+      ],
+      "app_pid_absent_checked": true,
+      "artifact_hashes": {
+        "metadata.json": "94ed239d13a227eb84abaec479d2f87a477378e5d292acdbede41a1f88618fea",
+        "summary.json": "a059b669e50abc2c450680cf7102405c2e522c9c479220eda7c6acbf79850ce8",
+        "actor.jsonl": "1892bcce79b7e335c6b95aff9572275cf27a0296ceab9b1dca31f481ce8ad7f2",
+        "teacher.jsonl": "2aefa69c78e04e5d33d8ac2f3511bd2c606c9e40fad2041ce48096c6df3c7aa0",
+        "touch.jsonl": "b61b0dfbd053967ea4264efbc71c07e363a00a2140a7d65087eb893bf88581c0"
+      },
+      "terminal_png_sha256": "11ec7477ac84154d1201734cd51e68179127725fc0c60ccb01ae584a8b9ccd71"
+    },
+    {
+      "seed": 10,
+      "target_class": 10,
+      "started_utc": "2026-11-01T06:24:21.726843+00:00",
+      "completed_utc": "2026-11-01T06:24:26.440928+00:00",
+      "precision_success": true,
+      "learning_success": true,
+      "physics_unsafe": false,
+      "release_measured": true,
+      "child_reaped": true,
+      "child_returncode": 0,
+      "initial_error_px": 18.899103139013448,
+      "final_error_px": 2.8121734357049673,
+      "accepted_frames": 38,
+      "steps": 3475,
+      "wall_s": 4.714,
+      "stop_reason": "success",
+      "learned_action_blocks": 37,
+      "learned_substeps": 925,
+      "continuous_learned_contact_s": 1.85,
+      "touch_messages": 82,
+      "last_three_errors_px": [
+        2.35940997016295,
+        2.308005686161722,
+        2.8121734357049673
+      ],
+      "peak_total_pad_force_n": 1.191184894557271,
+      "max_penetration_mm": 0.7249609027838722,
+      "max_frame_age_ms": 89.47564562549815,
+      "clock_uncertainty_ms": 2.7513539826031774,
+      "prediction_independent_max_abs_rad": 5.093170329928398e-11,
+      "requested_to_actual_ctrl_max_abs_rad": 0.0,
+      "pre_action_state_max_abs": 0.0,
+      "zero_pixel_error_counterfactual_effect_range_rad": [
+        1.5816418454051018e-05,
+        0.00012515440175775439
+      ],
+      "app_pid_absent_checked": true,
+      "artifact_hashes": {
+        "metadata.json": "b535aff69066f9a9b63482d425b615d54df3b633b48de7278a0f722d4b362b9b",
+        "summary.json": "dd2f7cc68e9a68d390629da6c50697701b938473912ff573e6df7e7b3e3b49bc",
+        "actor.jsonl": "381e1dc74da1a29a003d19d62ad0ad97fd3fa3f7ec0322811e614ef1b9a6a0b4",
+        "teacher.jsonl": "bff170c262c99091eb3373bd0e11d73fd3ee07152a870c777eb31466052748e1",
+        "touch.jsonl": "0dfcf2130b2f9e818048bb5938d9c64db73a1d660c8d99a53d98965ff4ae4c22"
+      },
+      "terminal_png_sha256": "2ade3fd66b479006141e7728ae68466877490d971168be0c24136c7154b5e95d"
+    }
+  ],
+  "independent_checks": {
+    "source_files": 11,
+    "cached_assets": 14,
+    "actor_images_decoded": 69,
+    "raw_physics_steps": 6775,
+    "learned_substeps": 1675,
+    "touch_payloads_rebuilt_from_raw_contacts": 157,
+    "numerical_audit_passed": true,
+    "raw_contact_chain_audit_passed": true,
+    "terminal_images_visually_reviewed": 2,
+    "failure_list": []
+  },
+  "safety_and_actor_contract": {
+    "penetration_limit_mm": 1,
+    "force_limit_n": 5,
+    "initial_error_min_px": 10,
+    "success_frames": 3,
+    "success_error_max_px": 3,
+    "required_error_reduction": 0.5,
+    "release_min_s": 0.5,
+    "actor_uses_teacher_force_or_jacobian": false,
+    "prep_and_release_scripted": true,
+    "fsr_current_wrist_missing": true
+  },
+  "artifacts": {
+    "native_binary_sha256": "7956984e15db4710d8ef4b3a5f42ebd84c15e5df560700ae5e234f40719256c2",
+    "asset_manifest_sha256": "0611062027da64234b03af14e3f06a1be5ee6dbe913ad6dd8007097928ee2ac7",
+    "total_private_batch_bytes": 16296482,
+    "raw_sources_public": false
+  },
+  "operations": {
+    "numeric_threads": 2,
+    "sum_episode_wall_s": 8.813,
+    "worker_elapsed_s": 143.0,
+    "gpu_allocations": 0,
+    "optimizer_updates": 0,
+    "live_stream": false,
+    "cache_repair": "Broken ignored asset-cache symlink replaced by byte-verified copies from the existing validated cache; all14 files independently match the frozen manifest."
+  },
+  "kimi_usage": {
+    "input_uncached": 49594,
+    "input_cached": 1629952,
+    "output": 11444,
+    "counts_not_billing": true
+  },
+  "limitations": [
+    "Two deterministic near targets in a fixed scene/pose; not a robust success-rate estimate, arbitrary GUI control or long-horizon operation.",
+    "Fixed-color pixel extractor supplies error features; this is not end-to-end learned GUI perception.",
+    "Only learned contact-maintenance/motion phase is autonomous; preparation and release are scripted.",
+    "Only axis-aligned held-out18px targets were evaluated; diagonal/generalization diagnostics are a separate next stage.",
+    "No clicks, drags, gestures, physical trackpad, real hand or direct personal desktop input.",
+    "No active livestream; saved real GUI frames are evaluation evidence.",
+    "No new optimizer was run; prior offline2000-update training remains the model source."
+  ]
+}
