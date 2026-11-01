@@ -1,0 +1,345 @@
+{
+  "record_version": "1.0",
+  "id": "v1-small-policy-training-accepted-20261101",
+  "timestamp_utc": "2026-11-01T06:08:50.238182+00:00",
+  "kind": "independent_offline_small_policy_gpu_training_acceptance",
+  "status": "optimizer_restore_export_and_heldout_metrics_accepted_physical_evaluation_pending",
+  "source_commit": "03e93f02d05b2ea8701aa8fb3f6e86e57b8e46e7",
+  "dataset_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+  "model": {
+    "type": "deterministic_MLP",
+    "layers": [
+      50,
+      128,
+      128,
+      400
+    ],
+    "activation": "SiLU",
+    "parameters": 74640,
+    "horizon": 25,
+    "channels": 16,
+    "increment_cap_rad": 0.0002
+  },
+  "allocation": {
+    "job_id": 734170,
+    "gpus": 1,
+    "gpu_model": "NVIDIA H800",
+    "cpus": 2,
+    "numeric_threads": 2,
+    "driver": "580.173.02",
+    "elapsed_s": 21,
+    "scheduler_state": "COMPLETED",
+    "scheduler_exit": "0:0",
+    "trainer_exit": 0,
+    "checkpoint_summary_exit": 0,
+    "released": true,
+    "training_started_at_utc": "2026-11-01T06:02:10Z",
+    "training_finished_at_utc": "2026-11-01T06:02:18Z",
+    "interactive_simulation_environments": 0
+  },
+  "budget_accounting": {
+    "first_failed_allocation_s": 1,
+    "corrected_allocation_s": 21,
+    "total_gpu_s": 22,
+    "original_gpu_s_cap": 1800
+  },
+  "deployment": {
+    "frozen_source_files_independently_matched": 28,
+    "source_bytes": 447239,
+    "preflight": "Local import from complete frozen bundle outside checkout; no Torch/MuJoCo imports.",
+    "previous_failure_record": "experiments/records/v1-small-policy-deployment-failure-20261101.json"
+  },
+  "optimization": {
+    "main_updates": 2000,
+    "comparison_updates": 1,
+    "seed": 17,
+    "optimizer": "AdamW",
+    "lr": 0.001,
+    "weight_decay": 0.0001,
+    "batch_size": 64,
+    "grad_clip": 1,
+    "validation_every": 100,
+    "best_step": 2000,
+    "weight_hash_before": "cd91002d77113d9cbf80b9893e30d90ca7b9b876e23cbe6b61cde26085049b0c",
+    "weight_hash_after": "5aa1f5b50061e1f95f6b0d23756930b7f5efbbcc68a77e4e0e1d3c815bbb3889"
+  },
+  "disk_restore_next_step": {
+    "model_max_diff": 0.0,
+    "optimizer_max_diff": 0.0,
+    "logits_max_diff": 0.0,
+    "deltas_max_diff": 0.0,
+    "loss_diff": 0.0,
+    "batch_idx_equal": true,
+    "tolerance": 1e-05,
+    "passed": true
+  },
+  "numpy_torch_parity": {
+    "max_abs_delta_rad": 5.093170329928398e-11,
+    "max_abs_control_rad": 5.960464477539063e-08,
+    "within_tolerance": true
+  },
+  "independent_metrics": {
+    "train": {
+      "count": 453,
+      "control_rmse_rad": 4.974152034264989e-05,
+      "motion4_rmse_rad": 9.943981422111392e-05,
+      "zero_delta_rmse_rad": 0.00033389980671927333
+    },
+    "validation": {
+      "count": 141,
+      "control_rmse_rad": 5.6478093028999865e-05,
+      "motion4_rmse_rad": 0.00011293068382656202,
+      "zero_delta_rmse_rad": 0.0002961953287012875
+    },
+    "test": {
+      "count": 80,
+      "control_rmse_rad": 7.876326708355919e-05,
+      "motion4_rmse_rad": 0.0001574866910232231,
+      "zero_delta_rmse_rad": 0.00038886655238457024
+    },
+    "class_4": {
+      "count": 29,
+      "control_rmse_rad": 5.378467176342383e-05,
+      "motion4_rmse_rad": 0.00010752393427537754,
+      "zero_delta_rmse_rad": 0.0004940578946843743
+    },
+    "class_10": {
+      "count": 51,
+      "control_rmse_rad": 8.992386574391276e-05,
+      "motion4_rmse_rad": 0.00017980839766096324,
+      "zero_delta_rmse_rad": 0.00031369621865451336
+    }
+  },
+  "checkpoint_metadata": {
+    "best_step_002000.pt": {
+      "step": 2000,
+      "adamw_steps": [
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0
+      ],
+      "parameters": 74640,
+      "sampler": {
+        "position": 320,
+        "epoch": 285,
+        "order_length": 453,
+        "order_is_permutation": true
+      },
+      "optimizer_tensors_finite": true,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "torch_cuda"
+      ]
+    },
+    "latest.pt": {
+      "step": 2000,
+      "adamw_steps": [
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0,
+        2000.0
+      ],
+      "parameters": 74640,
+      "sampler": {
+        "position": 320,
+        "epoch": 285,
+        "order_length": 453,
+        "order_is_permutation": true
+      },
+      "optimizer_tensors_finite": true,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "torch_cuda"
+      ]
+    },
+    "resume_determinism_check.pt": {
+      "step": 100,
+      "adamw_steps": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+      ],
+      "parameters": 74640,
+      "sampler": {
+        "position": 128,
+        "epoch": 14,
+        "order_length": 453,
+        "order_is_permutation": true
+      },
+      "optimizer_tensors_finite": true,
+      "rng_keys": [
+        "python",
+        "numpy",
+        "torch",
+        "torch_cuda"
+      ]
+    }
+  },
+  "artifacts": [
+    {
+      "artifact": "small_policy.npz",
+      "bytes": 301853,
+      "sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "report.json",
+      "bytes": 448570,
+      "sha256": "0fbbf713bf67092ef3b266996d4856dda60c417ccc3accb738e5af71bec7e20f",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoint_summary.json",
+      "bytes": 2615,
+      "sha256": "df892a7931d387a34344a8ecc8fda6db01c57e03286f1fafd8f0822561f896e7",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/latest.pt",
+      "bytes": 1223951,
+      "sha256": "ac80995cb0d188fd1a0f805c4429f73e8460b76b99bd5028b41c8ac674b11d9e",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000400.pt",
+      "bytes": 1224395,
+      "sha256": "8f1eb4028197a20d03b67512a6a85a4efb3aa4a1dd1fa21abc77466859337b64",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000800.pt",
+      "bytes": 1224395,
+      "sha256": "74c4b320931164a9032c18bcaf174b4ac3ae4d5048c887ec98ed0fed880adc43",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000500.pt",
+      "bytes": 1224395,
+      "sha256": "b2ce5af1a65bab17cb2dc3dd2d8e09e7de56bb9a0df06d58ab517cb150eb9cbb",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_001300.pt",
+      "bytes": 1224395,
+      "sha256": "4df7126f477d646a396a5612f1ae1ed39f17ff7ccc0078cd31d28e0e9754a840",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000200.pt",
+      "bytes": 1224331,
+      "sha256": "6037a6e5849f72baf041ba48e6d903093ecbf277ea691fc3841e89c21c4fad62",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000300.pt",
+      "bytes": 1224395,
+      "sha256": "6bb8862050de51ad04b2b389a3c4399488a8ee0c27b63dce61c966ccdf127062",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/resume_determinism_check.pt",
+      "bytes": 1224699,
+      "sha256": "b770bdd10f79d9bdd2446e1287890001c5fa239d54ac19c83378b579df7846f1",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_002000.pt",
+      "bytes": 1224331,
+      "sha256": "06ba058dc61ad9910bb47554832c02a3138d081a598871ac78a404b4e1560062",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_001600.pt",
+      "bytes": 1224395,
+      "sha256": "efb2b16ba8361705a81f8376d80e9e583efa5cd5c6ea1c5bb634f24715a33fbf",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000100.pt",
+      "bytes": 1224331,
+      "sha256": "bb022bbfcd67410b1dc3655da2a57d9134ebe5296c3d6882a8b67e19db827cff",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000600.pt",
+      "bytes": 1224331,
+      "sha256": "c4ab63fe9247c4cb67c88ad33df7fcb082b99abc64b89b7960abc2b0052b60d8",
+      "matches_remote_allocated_hash": true
+    },
+    {
+      "artifact": "checkpoints/best_step_000700.pt",
+      "bytes": 1224331,
+      "sha256": "ccc33705f2133445658524740b9842452d2bbdd9f2bd7f4a98db87b353bd38fd",
+      "matches_remote_allocated_hash": true
+    }
+  ],
+  "npz_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "report_sha256": "0fbbf713bf67092ef3b266996d4856dda60c417ccc3accb738e5af71bec7e20f",
+  "checkpoint_to_npz": {
+    "model_arrays_exact": true,
+    "normalizer_arrays_exact": true
+  },
+  "hash_summary_correction": {
+    "diagnosis": "Post-run summary sorted state keys; trainer hashes parameter-registration order. Independent NPZ reconstruction matched both hashes. Original summary retained.",
+    "registration_order_hash": "5aa1f5b50061e1f95f6b0d23756930b7f5efbbcc68a77e4e0e1d3c815bbb3889",
+    "alphabetic_order_hash": "ce29e1d3f1fc8c49ce2158aa2eedfe6ee74ecc4418d2c07270809d8867505dce",
+    "source_commit_location": "checkpoint.contract; original summary looked in source_manifest incorrectly."
+  },
+  "numeric_review": {
+    "numpy_blas_warning": "First local batched matmul emitted floating-point warnings despite finite outputs. Independent non-BLAS einsum recomputation emitted no warnings and matched recorded metrics within1e-8rad.",
+    "non_blas_recomputation_passed": true,
+    "train_only_normalizer_exact": true,
+    "whole_target_split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    }
+  },
+  "kimi_dispatches": [
+    {
+      "task": "v1-small-policy-h800-retry01",
+      "status": "unstructured",
+      "elapsed_s": 391.2,
+      "recorded_usage": {
+        "records": 50,
+        "input_uncached": 69880,
+        "input_cached": 3208704,
+        "input_cache_write": 0,
+        "output": 20318,
+        "total": 3298902
+      }
+    },
+    {
+      "task": "v1-checkpoint-readonly-summary",
+      "status": "reported",
+      "elapsed_s": 120.3,
+      "recorded_usage": {
+        "records": 16,
+        "input_uncached": 31150,
+        "input_cached": 684544,
+        "input_cache_write": 0,
+        "output": 15143,
+        "total": 730837
+      }
+    }
+  ],
+  "limitations": [
+    "Offline teacher imitation on12fixed episodes andonepose. No learned physical/GUI closed-loop result yet.",
+    "Small MLP baseline, not pretrained pi0.5 fine-tuning, gestures, clicks, long-horizon operation or real hardware.",
+    "Safety supervision must not correct the learned action with teacher force/Jacobian; learned evaluator source remains under review.",
+    "Offline BC has no moving-hand livestream; both allocations have ended.",
+    "Raw data, weights, paths and sessions remain private. Recorded token counts are not billing estimates."
+  ]
+}
