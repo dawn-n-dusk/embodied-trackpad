@@ -1,0 +1,96 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-observation-runtime-accepted-20261102",
+  "timestamp_utc": "2026-11-01T16:38:39.203452+00:00",
+  "kind": "independent_actual_image_token_state_action_transform_acceptance",
+  "status": "two_real_samples_official_observation_accepted_model_forward_pending",
+  "source_revision": "5b47d6e3a847519ab76bd82b093ea235ce88ed74",
+  "adapter_sha256": "ad84cd0c530288fc0cf46d54eee2dcedf7f597fdf095b202bad42063a59745c2",
+  "input_npz_sha256": "a350e3032b50f8276dbe8bba67c553d31cbc11be559559aa3b890f260dd31418",
+  "output_npz_sha256": "6e24becfdb667f4cd8acc99e26adfac1d608718e850a253bb256be76043c13ed",
+  "raw_report_sha256": "1261c70d7c4ce2b30f03f8b47fdfc6b9d5c23648c60c94600a8a18838161e765",
+  "output_bytes": 29975,
+  "scheduler": {
+    "state": "COMPLETED",
+    "elapsed_s": 30,
+    "exit_code": "0:0",
+    "cpu_requested": 2,
+    "cpu_allocated": 2,
+    "memory_requested_gib": 16,
+    "gpu_count": 0,
+    "queue_empty_after_exit": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "device": "CPU",
+    "probe_seconds": 28.085,
+    "process_elapsed_seconds": 30.15,
+    "peak_host_rss_kib": 1078256,
+    "reported_checks_passed": 83
+  },
+  "independent_audit": {
+    "actual_samples": 2,
+    "official_resize_pixelwise_exact": true,
+    "state_and_action_first16_exact": true,
+    "remaining16_zero": true,
+    "lossmask_matches_accepted_pack": true,
+    "missing_wrist_masked_false": true,
+    "valid_token_counts": [
+      60,
+      60
+    ],
+    "max_token_length": 200,
+    "serialized_state_entries": [
+      16,
+      16
+    ],
+    "decoded_state_matches_original_quantization": true,
+    "token_id_encoding_scope": "official runtime method inheritance and comparison; coordinator checked decoded state without separate local SentencePiece encoding",
+    "source_input_output_hashes_match": true
+  },
+  "time_contract": {
+    "native_label_interval_ms": 2,
+    "action_horizon": 25,
+    "chunk_ms": 50,
+    "neural_inference_interval_claim": false
+  },
+  "model_forward_passes": 0,
+  "optimizer_updates": 0,
+  "kimi_execution": {
+    "initial_call": {
+      "elapsed_s": 420.1,
+      "status": "timeout_after_saving_probe_no_job",
+      "input_uncached": 26849,
+      "input_cached": 674048,
+      "output": 14587
+    },
+    "submission_resume": {
+      "elapsed_s": 204.8,
+      "status": "reported_actual_run_independently_accepted",
+      "input_uncached": 41015,
+      "input_cached": 773888,
+      "output": 6073
+    },
+    "timestamp_correction": "initial local receipt used an incorrect placeholder UTC date; actual scheduler/probe clocks used for acceptance; original preserved",
+    "forward_cli_source_attempt": {
+      "elapsed_s": 360.1,
+      "status": "timeout_no_source_saved",
+      "recorded_usage": {
+        "records": 20,
+        "input_uncached": 43774,
+        "input_cached": 1056256,
+        "input_cache_write": 0,
+        "output": 10466,
+        "total": 1110496
+      },
+      "response": "re-scoped to a small forward core, no repeated CLI task"
+    }
+  },
+  "limits": [
+    "CPU transform acceptance is not a model forward or gradient test",
+    "Two samples are not a training-sufficiency or precision-control result",
+    "Full-frame 224-pixel cursor detail limitation remains"
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-forward-core-source-20261102",
+  "timestamp_utc": "2026-11-01T16:40:49.505823+00:00",
+  "kind": "independent_forward_only_core_source_acceptance",
+  "status": "forward_source_accepted_actual_jax_execution_pending",
+  "source_sha256": "c451b1d3b0d36b7dce3d2ff6a13cd97552090d7b22011e941cd54b3844159b98",
+  "loss_source_sha256": "ae647ef270e7aef2e341e4cd1d1cdb845fb735dbb97a00103e833b57551b7e54",
+  "tests_sha256": "4db57a5a5b9cd50520874bfa2061ff648f9724470f00d10fa7273c6c0211e210",
+  "independent_tests": {
+    "passed": 6,
+    "scope": "pure aggregation, shape/finiteness/mask rejection; no JAX execution",
+    "initial_coordinator_command": "incorrect loss-test filename caused no tests collected; corrected focused command passed"
+  },
+  "implementation": {
+    "model_loading": "caller-owned; no repeated model loading inside core",
+    "forward": "one cached nnx.jit of accepted valid16 flow loss; block_until_ready per sample",
+    "seeds": [
+      17,
+      18
+    ],
+    "expected_loss_shape": [
+      1,
+      25
+    ],
+    "backward_count": 0,
+    "optimizer_updates": 0
+  },
+  "kimi_call": {
+    "elapsed_s": 180.4,
+    "input_uncached": 14158,
+    "input_cached": 355840,
+    "output": 6673,
+    "status": "reported_reviewed"
+  },
+  "next_allocation_contract": {
+    "gpus": 1,
+    "kind": "H800",
+    "wall_minutes_max": 5,
+    "cpu_requested": 8,
+    "logical_cpu_allocated_max": 16,
+    "memory_requested_gib": 128,
+    "numeric_threads": 2,
+    "actual_training_updates_allowed": 0,
+    "source_and_data_hashes_required": true,
+    "stop_on_failure": true,
+    "same_configuration_retry": false,
+    "reserved_following_gradient_update_restore_minutes": 15,
+    "prior_first_smoke_gpu_seconds": 80
+  }
+}

@@ -1,5 +1,9 @@
 # Changelog
 
+- Added the reviewed forward-only diagnostic core (6 software checks); frozen a single-H800, five-minute real-image forward contract with zero backward passes or optimizer updates.
+
+- Accepted official pi0.5 Observation transforms on two real training samples in a 30-second CPU allocation: 83 recorded checks plus independent pixel/state/action/mask and decoded-state parity. Model forward and optimizer checks remain separate.
+
 - Added the official pi0.5 Observation adapter with local verified tokenizer initialization, 16-state tokenization before 32-channel padding, explicit loss mask and no second normalization. Independent 22 software tests passed; real upstream transform execution is the next gate.
 
 - Verified complete pretrained pi0.5 loading on one H800: 3,353,433,872 FP32 parameters, strict tree restoration, 23.914 seconds load/count and a 26-second allocation. Recorded host RSS separately from unknown peak GPU memory; image forward, gradients and optimizer updates remain pending.
