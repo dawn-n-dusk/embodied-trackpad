@@ -459,12 +459,14 @@ def test_cli_exit_requires_success_release_and_reaping(tmp_path, monkeypatch):
             "episode_safe_complete_released": True, "child_reaped": True}
     calls = []
     monkeypatch.setattr(probe, "run",
-                        lambda seed, out, planner_kind="dls":
-                        calls.append((seed, out)) or dict(base))
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1":
+                        calls.append((seed, out, task_profile)) or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a")]) == 0
     for field in base:
         monkeypatch.setattr(probe, "run",
-                            lambda seed, out, planner_kind="dls", f=field:
+                            lambda seed, out, planner_kind="dls",
+                            task_profile="near_pointing_v1", f=field:
                             {**base, f: False})
         assert probe.main(["--seed", "1", "--out",
                            str(tmp_path / f"b_{field}")]) == 1
@@ -494,7 +496,8 @@ def test_invalid_planner_kind_rejected_before_output(tmp_path, monkeypatch):
     assert not (tmp_path / "nope").exists()  # no output/app work happened
     calls = []
     monkeypatch.setattr(probe, "run",
-                        lambda seed, out, planner_kind="dls": calls.append(1) or {})
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1": calls.append(1) or {})
     with pytest.raises(SystemExit):
         probe.main(["--seed", "1", "--out", str(tmp_path / "c"), "--planner", "bogus"])
     assert calls == [] and not (tmp_path / "c").exists()
@@ -505,7 +508,8 @@ def test_cli_planner_option_passed_through(tmp_path, monkeypatch):
             "episode_safe_complete_released": True, "child_reaped": True}
     seen = []
     monkeypatch.setattr(probe, "run",
-                        lambda seed, out, planner_kind="dls": seen.append(planner_kind)
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1": seen.append(planner_kind)
                         or dict(base))
     assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
                        "--planner", "normal-priority"]) == 0
@@ -1018,3 +1022,83 @@ def test_force_governed_no_full_nominal_jump_at_frame_start(tmp_path, monkeypatc
     # Governed mode first substep is much smaller than the full nominal frame jump.
     assert actual_first < nominal_jump
     assert actual_first <= 0.0002 + 1e-12  # per-substep cap
+
+
+# --- task-profile selection and diagonal seed validation ---------------------
+
+
+def test_default_task_profile_is_near_pointing_and_allows_large_seed(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    patch_run_env(monkeypatch)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    summary = probe.run(100, tmp_path / "out")
+    assert summary["task_profile"] == "near_pointing_v1"
+    assert client.reset_args == (100, "near_pointing_v1")
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["task_profile"] == "near_pointing_v1"
+
+
+def test_invalid_task_profile_rejected_before_output(tmp_path):
+    with pytest.raises(ValueError, match="task_profile"):
+        probe.run(1, tmp_path / "nope", task_profile="bogus")
+    assert not (tmp_path / "nope").exists()  # no output/app work happened
+
+
+def test_diagonal_seed_out_of_range_rejected_before_output(tmp_path):
+    for bad_seed in [-1, 8, 100]:
+        with pytest.raises(ValueError, match="near_diagonal_v1 seed"):
+            probe.run(bad_seed, tmp_path / f"nope{bad_seed}",
+                      task_profile="near_diagonal_v1")
+        assert not (tmp_path / f"nope{bad_seed}").exists()
+
+
+def test_cli_invalid_task_profile_rejected_before_run(tmp_path, monkeypatch):
+    calls = []
+    monkeypatch.setattr(probe, "run",
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1": calls.append(1) or {})
+    with pytest.raises(SystemExit):
+        probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
+                    "--task-profile", "bogus"])
+    assert calls == [] and not (tmp_path / "a").exists()
+
+
+def test_cli_diagonal_seed_rejected_before_run(tmp_path, monkeypatch):
+    calls = []
+    monkeypatch.setattr(probe, "run",
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1": calls.append(1) or {})
+    with pytest.raises(SystemExit):
+        probe.main(["--seed", "8", "--out", str(tmp_path / "a"),
+                    "--task-profile", "near_diagonal_v1"])
+    assert calls == [] and not (tmp_path / "a").exists()
+
+
+def test_cli_task_profile_option_passed_through(tmp_path, monkeypatch):
+    base = {"near_pointing_success": True,
+            "episode_safe_complete_released": True, "child_reaped": True}
+    seen = []
+    monkeypatch.setattr(probe, "run",
+                        lambda seed, out, planner_kind="dls",
+                        task_profile="near_pointing_v1": seen.append(task_profile)
+                        or dict(base))
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "a"),
+                       "--task-profile", "near_diagonal_v1"]) == 0
+    assert seen == ["near_diagonal_v1"]
+    assert probe.main(["--seed", "1", "--out", str(tmp_path / "b")]) == 0
+    assert seen == ["near_diagonal_v1", "near_pointing_v1"]
+
+
+def test_diagonal_profile_reaches_reset_and_records(tmp_path, monkeypatch):
+    client = FakeClient()
+    monkeypatch.setitem(sys.modules, "mac_sandbox_client",
+                        SimpleNamespace(SandboxClient=lambda out_dir=None: client))
+    patch_run_env(monkeypatch)
+    monkeypatch.setattr(probe, "cleanup_phase", lambda R: True)
+    summary = probe.run(3, tmp_path / "out", task_profile="near_diagonal_v1")
+    assert client.reset_args == (3, "near_diagonal_v1")
+    assert summary["task_profile"] == "near_diagonal_v1"
+    meta = json.loads((tmp_path / "out" / "metadata.json").read_text())
+    assert meta["task_profile"] == "near_diagonal_v1"

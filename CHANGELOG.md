@@ -1,5 +1,11 @@
 # Changelog
 
+- Independently audited four diagonal teacher trials:3met the original pointing criterion;1stopped after click feedback turned the target green. All four remained physically safe and released/exited. Preserved the failure and the distinction between pointing accuracy and click-free interaction; scoped a separate light-contact candidate without changing GUI or safety thresholds.
+
+- Added bounded near_diagonal_v1 selection to the teacher runner while preserving defaults and all physical/success limits. Independently passed34stub checks and froze17source hashes plus the app/assets before dispatching four teacher-feasibility cases. Teacher outcomes remain separate from learned-policy results.
+
+- Repaired the private offline diagnostic with JSON-only output and complete zero-contact force samples. Independently verified all eight contact summaries and453train-row feature ranges; unvalidated distance/causal claims remain excluded. Scoped four-direction teacher feasibility behind a named-profile source gate; no new optimizer.
+
 - Preserved two offline-diagnosis timeouts and the saved analysis source. Independent offline execution produced partial JSON then hit a report-field error; contact missingness and feature-distance semantics also remain unaccepted. No new physics or optimizer was run. Named-suite integration CI passed on Python3.10–3.13.
 
 - Independently reviewed all eight diagonal trials: 2 successes,4 penetration stops,2 contact losses. Preserved every failure and distinguished pre-abort observations from terminal error. Actual batch took58seconds; Kimi dispatch took310.6seconds. At the user's request, validation now defaults to12conditions×2resets with time/failure stopping rules;90is optional. Offline diagnosis precedes new data/training.

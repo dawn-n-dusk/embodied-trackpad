@@ -86,6 +86,8 @@ PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
 FORCE_CFG = fsv.NormalForceConfig()
 FORCE_GOV_CFG = fgv.ForceGovernorConfig()
 PLANNER_KINDS = ("dls", "normal-priority", "force-admittance", "force-governed")  # default preserves historical behavior
+TASK_PROFILES = ("near_pointing_v1", "near_diagonal_v1")
+DIAGONAL_SEED_COUNT = 8  # near_diagonal_v1 allows seeds 0..7
 
 
 class ResourceStop(RuntimeError):
@@ -494,7 +496,12 @@ def cleanup_phase(R: dict) -> bool:
     return release_from_records(R["cleanup_records"])
 
 
-def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
+def run(seed: int, out_dir, planner_kind: str = "dls",
+        task_profile: str = "near_pointing_v1") -> dict:
+    if task_profile not in TASK_PROFILES:  # validated BEFORE output/app work
+        raise ValueError(f"unknown task_profile {task_profile!r}; choices {TASK_PROFILES}")
+    if task_profile == "near_diagonal_v1" and not (0 <= seed < DIAGONAL_SEED_COUNT):
+        raise ValueError(f"near_diagonal_v1 seed must be in 0..{DIAGONAL_SEED_COUNT - 1}, got {seed}")
     if planner_kind not in PLANNER_KINDS:  # validated BEFORE output/app work
         raise ValueError(f"unknown planner_kind {planner_kind!r}; choices {PLANNER_KINDS}")
     out = Path(out_dir)
@@ -508,6 +515,7 @@ def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
     with open(out / "metadata.json", "w") as fh:
         json.dump({"controller_kind": "privileged_visual_teacher",
                    "training_eligible": False, "seed": int(seed),
+                   "task_profile": task_profile,
                    "started_utc": started_utc,
                    "budgets": {"wall_budget_s": WALL_BUDGET_S,
                                "operation_wall_s": OPERATION_WALL_S,
@@ -564,7 +572,7 @@ def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
                 return _orig(obj, timeout=max(0.001, min(timeout, left)))
 
             R["client"]._send = _send_budgeted
-            R["client"].reset(seed=seed, task_profile="near_pointing_v1")
+            R["client"].reset(seed=seed, task_profile=task_profile)
             send_touch(R, R["last_record"]["aggregate"])  # actual held contacts
             R["reconciler"] = ClockReconciler.sample(R["client"].capture)
             R["gate"] = FrameGate(FrameGateConfig(
@@ -625,6 +633,7 @@ def run(seed: int, out_dir, planner_kind: str = "dls") -> dict:
                 fh.close()
         summary = {
             "seed": int(seed),
+            "task_profile": task_profile,
             "started_utc": started_utc,
             "completed_utc": datetime.now(timezone.utc).isoformat(),
             "near_pointing_success": bool(R["success"]),
@@ -655,12 +664,17 @@ def main(argv=None) -> int:
                     help="dls=historical default; normal-priority=exact-normal candidate; "
                          "force-admittance=force feedback with nominal planar endpoint; "
                          "force-governed=force priority + gated distributed tangential step")
+    ap.add_argument("--task-profile", choices=TASK_PROFILES, default="near_pointing_v1",
+                    help="near_pointing_v1=historical axial default; "
+                         "near_diagonal_v1=diagonal targets, seed must be 0..7")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")
+    if args.task_profile == "near_diagonal_v1" and not (0 <= args.seed < DIAGONAL_SEED_COUNT):
+        ap.error("--seed must be in 0..7 for --task-profile near_diagonal_v1")
     if Path(args.out).exists():
         ap.error(f"--out must be a NEW directory, already exists: {args.out}")
-    summary = run(args.seed, args.out, planner_kind=args.planner)
+    summary = run(args.seed, args.out, planner_kind=args.planner, task_profile=args.task_profile)
     print(json.dumps(summary, indent=2))
     ok = (summary["near_pointing_success"]
           and summary["episode_safe_complete_released"]

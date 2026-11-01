@@ -1,0 +1,137 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-force-diagnosis-20261101",
+  "timestamp_utc": "2026-11-01T07:21:41.175680+00:00",
+  "kind": "independent_offline_contact_statistics",
+  "status": "raw_contact_statistics_accepted_causal_diagnosis_open",
+  "source_commit": "a6f0e90ebf0a47603b60afb53b1b9871884c63a1",
+  "accepted_scope": "existing eight episodes raw contact statistics and453train-row feature ranges only",
+  "excluded_scope": "exploratory support distances and all causal claims",
+  "observations": [
+    {
+      "seed": 0,
+      "learned_steps": 951,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9429456436473385,
+      "min_force_n": 0.9429456436473385,
+      "last_force_n": 1.816452044603353,
+      "peak_force_n": 1.816452044603353,
+      "stop_reason": "physics_unsafe"
+    },
+    {
+      "seed": 1,
+      "learned_steps": 625,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9405556442648668,
+      "min_force_n": 0.9025793152030075,
+      "last_force_n": 0.9142316657295555,
+      "peak_force_n": 1.0265176524547541,
+      "stop_reason": "success"
+    },
+    {
+      "seed": 2,
+      "learned_steps": 2101,
+      "no_contact_steps": 30,
+      "initial_force_n": 0.94101906564883,
+      "min_force_n": 0,
+      "last_force_n": 0,
+      "peak_force_n": 0.94101906564883,
+      "stop_reason": "contact_loss"
+    },
+    {
+      "seed": 3,
+      "learned_steps": 473,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9429398548954955,
+      "min_force_n": 0.9429398548954955,
+      "last_force_n": 1.8328878701309186,
+      "peak_force_n": 1.8328878701309186,
+      "stop_reason": "physics_unsafe"
+    },
+    {
+      "seed": 4,
+      "learned_steps": 2276,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9430875472914545,
+      "min_force_n": 0.9430875472914545,
+      "last_force_n": 1.8490958227405998,
+      "peak_force_n": 1.8490958227405998,
+      "stop_reason": "physics_unsafe"
+    },
+    {
+      "seed": 5,
+      "learned_steps": 1200,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9397311442818187,
+      "min_force_n": 0.7424255206638258,
+      "last_force_n": 0.7424255206638258,
+      "peak_force_n": 1.127185114897683,
+      "stop_reason": "success"
+    },
+    {
+      "seed": 6,
+      "learned_steps": 1879,
+      "no_contact_steps": 47,
+      "initial_force_n": 0.940707506592584,
+      "min_force_n": 0,
+      "last_force_n": 0,
+      "peak_force_n": 0.940707506592584,
+      "stop_reason": "contact_loss"
+    },
+    {
+      "seed": 7,
+      "learned_steps": 373,
+      "no_contact_steps": 0,
+      "initial_force_n": 0.9430193722796225,
+      "min_force_n": 0.9430193722796225,
+      "last_force_n": 1.8452419313510848,
+      "peak_force_n": 1.8452419313510848,
+      "stop_reason": "physics_unsafe"
+    }
+  ],
+  "checks": {
+    "all_force_samples_match_raw_contacts": true,
+    "no_contact_rows_included_as_zero": true,
+    "train_rows": 453,
+    "train_feature_dimensions_checked": 50,
+    "raw_inventory_unchanged_files": 486,
+    "successful_failure_intent_fields_null": true
+  },
+  "recovery": {
+    "earlier_timeouts_s": [
+      240.1,
+      120.1
+    ],
+    "earlier_usage_unknown": true,
+    "successful_kimi_dispatch_s": 83.3,
+    "successful_kimi_usage": {
+      "records": 13,
+      "input_uncached": 32907,
+      "input_cached": 674816,
+      "input_cache_write": 0,
+      "output": 8961,
+      "total": 716684
+    },
+    "scope_reduction": "JSON-only output; exclude unvalidated support distances and causal prose.",
+    "independent_audit_s": 0.467415
+  },
+  "resource_refresh": {
+    "historical_successful_training_job": "completed21s",
+    "historical_failed_experiment_job": "scheduler_completed1s_but_optimizer_updates0_masked_exit_preserved",
+    "current_matching_project_queue_count": 0,
+    "new_gpu_jobs": 0,
+    "private_scheduler_evidence_sha256": "33b76d8b0971d9e9476f3ca56893982ca54ce15d69afef8b0feca75194726fef"
+  },
+  "artifact_hashes": {
+    "private_report_sha256": "575e57700da178223fe3ba7f8ee365c01f43730ab8d23557441845cd48d5f4b0",
+    "private_analysis_script_sha256": "1903b1e5b08a29ccd24707ac156e202ddb0fb413fce064bd1e6e89ca8c662bcb",
+    "independent_audit_sha256": "a2e68e33b593cbd2193094578953469f0d3c3120bc933e8822f39af8a5de62f8"
+  },
+  "next_step": "Four short diagonal teacher feasibility trials, only after named-profile source acceptance and frozen run scope.",
+  "limitations": [
+    "These are observations of an unchanged failed policy, not new performance gains.",
+    "Training coverage and policy/control causality remain unproven.",
+    "No new physics, model update or stream in this offline task.",
+    "Raw/session/account data stay private; the private analysis helper is not accepted as a general reusable validator."
+  ]
+}

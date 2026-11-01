@@ -1,0 +1,204 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-teacher-feasibility-20261101",
+  "timestamp_utc": "2026-11-01T07:38:31.419708+00:00",
+  "kind": "independent_teacher_physics_gui_feasibility",
+  "status": "three_of_four_pointing_criteria_passed_one_click_feedback_rejection",
+  "source_commit": "516516488e0d3bbf9195b54fb5572f1931389ee9",
+  "native_binary_sha256": "17bf4aeff05ab205b84742aefdc30643a23cc570cb54674ef175f7e6f1597799",
+  "planner": "force-governed",
+  "task_profile": "near_diagonal_v1",
+  "counts": {
+    "planned": 4,
+    "executed": 4,
+    "teacher_pointing_success": 3,
+    "failed": 1,
+    "safety_abort": 0,
+    "skipped": 0
+  },
+  "episodes": [
+    {
+      "seed": 0,
+      "steps": 4525,
+      "frames": 80,
+      "action_samples": 79,
+      "visual_steps": 1975,
+      "touch_messages": 124,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 1.2674542589503799,
+      "terminal_error_px": 1.2674542589503799,
+      "last_three_observed_errors_px": [
+        2.3736134340359,
+        2.0191231291126663,
+        1.2674542589503799
+      ],
+      "teacher_success": true,
+      "stop_reason": "success",
+      "release_span_s": 2.082000000000237,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.7142954441433648,
+      "peak_pad_force_n": 1.0856025620647585
+    },
+    {
+      "seed": 1,
+      "steps": 3400,
+      "frames": 35,
+      "action_samples": 34,
+      "visual_steps": 850,
+      "touch_messages": 79,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 0.8780903829610015,
+      "terminal_error_px": 0.8780903829610015,
+      "last_three_observed_errors_px": [
+        2.6612373426955527,
+        0.7247039269835891,
+        0.8780903829610015
+      ],
+      "teacher_success": true,
+      "stop_reason": "success",
+      "release_span_s": 2.0299999999997764,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6683707595302041,
+      "peak_pad_force_n": 1.1483143271324707
+    },
+    {
+      "seed": 2,
+      "steps": 3450,
+      "frames": 37,
+      "action_samples": 36,
+      "visual_steps": 900,
+      "touch_messages": 81,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 1.5960037119507078,
+      "terminal_error_px": 1.5960037119507078,
+      "last_three_observed_errors_px": [
+        1.9338508311234899,
+        1.3420942289582378,
+        1.5960037119507078
+      ],
+      "teacher_success": true,
+      "stop_reason": "success",
+      "release_span_s": 2.0359999999997758,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6648056546526144,
+      "peak_pad_force_n": 1.2501998895819666
+    },
+    {
+      "seed": 3,
+      "steps": 4550,
+      "frames": 81,
+      "action_samples": 80,
+      "visual_steps": 2000,
+      "touch_messages": 125,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 2.366719840478987,
+      "terminal_error_px": null,
+      "last_three_observed_errors_px": [
+        3.9126720034277813,
+        3.998409726389745,
+        2.366719840478987
+      ],
+      "teacher_success": false,
+      "stop_reason": "frame_gate_rejected: target not located in pixels",
+      "release_span_s": 2.0800000000002594,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.714293289783466,
+      "peak_pad_force_n": 1.0855919369051779
+    }
+  ],
+  "independent_checks": {
+    "totals": {
+      "steps": 15925,
+      "frames": 233,
+      "action_samples": 229,
+      "visual_steps": 5725,
+      "touch_messages": 409
+    },
+    "raw_file_count": 257,
+    "raw_unchanged": true,
+    "all_app_pids_absent": true,
+    "source_files": 17,
+    "assets": 14,
+    "contact_centroids_and_touch_payloads_reconstructed": true,
+    "control_intents_match_applied_substeps": true,
+    "all_four_release_measured": true,
+    "visual_reviewed_seeds": [
+      0,
+      3
+    ]
+  },
+  "fourth_case_diagnosis": {
+    "events_from_offline_threshold_reconstruction": [
+      {
+        "event": "press_threshold_crossing",
+        "sequence": 2,
+        "sim_time_s": 2.9499999999998967,
+        "force_n": 1.0150465125732653,
+        "cursor_xy_logical": [
+          399.92016826791803,
+          299.9991113697509
+        ],
+        "inside_known_fixed_target_rect": true,
+        "phase": "visual"
+      },
+      {
+        "event": "release_threshold_crossing",
+        "sequence": 81,
+        "sim_time_s": 6.899999999999462,
+        "force_n": 0.49449194870303537,
+        "cursor_xy_logical": [
+          412.62566242546154,
+          287.97700831640816
+        ],
+        "inside_known_fixed_target_rect": true,
+        "phase": "visual"
+      }
+    ],
+    "reconstruction_scope": "single index contacts, sim-time gap<=0.5, frozen4000px/m gain; no direct native event-counter reads",
+    "last_frame": {
+      "blue_pixels_full_image": 0,
+      "green_pixels_inside_fixed_target_rect": 790,
+      "cursor_found": true,
+      "target_found": false,
+      "png_sha256": "8cc91972a9d3fe802a7aeb468bc843d036091f770774627f1852a6068085b47d"
+    },
+    "source_evidence": "Native app draws systemGreen for0.8s only after completed target click; visual extractor requires systemBlue.",
+    "runtime_changes": false
+  },
+  "runtime": {
+    "sum_episode_wall_s": 27.988,
+    "worker_batch_loop_wall_s": 37.988,
+    "kimi_dispatch_wall_s": 132.0,
+    "evidence_bytes": 45161842,
+    "numerical_threads": 2,
+    "new_optimizer_updates": 0
+  },
+  "kimi_recorded_usage": {
+    "records": 16,
+    "input_uncached": 34791,
+    "input_cached": 802816,
+    "input_cache_write": 0,
+    "output": 10479,
+    "total": 848086
+  },
+  "audit_recovery": [
+    "Private auditor updated for relative paths resolved against worker and no-action rejected frame with prev_ctrl=null; original audit attempt retained.",
+    "Worker appended an out-of-scope ledger row. Exact row and full modified worker ledger archived privately; only that append removed after checking unchanged base and empty index. Coordinator publishes this reviewed record."
+  ],
+  "private_hashes": {
+    "raw_audit_sha256": "e976eb4a745450db96613fc51f547144618d7429032d66c542dc3a5b841b646f",
+    "provenance_audit_sha256": "5aa98069272c16b2b40d4de67058ac0303a2e0ee0998fe942f7366652fdd86b5",
+    "green_feedback_audit_sha256": "5c625cc5499a769d5131d042aeaf68e5bc9010ce1a48e1b09cef91fd37a5ede2",
+    "worker_ledger_append_sha256": "2a0f2cc0655d2401b23b6e75d7963009ec7aea0b5dd84a18b18349f904e39a72",
+    "batch_report_sha256": "3af54678fe7d25c2afe50268fd38a2487d9e5cfdd4be9c3d9ecaa14d0d9331a8"
+  },
+  "training_eligible": false,
+  "limitations": [
+    "Teacher results, not improved learned-policy success. The learned baseline remains2/8on its own diagonal diagnostic.",
+    "Three successes satisfy the original pointing criterion only; click-free operation was not established.",
+    "Fourth last valid error2.367px precedes the rejected green frame; no terminal error imputation or success override.",
+    "Raw native capture offset/uncertainty are not recorded by this historical teacher runner; own-domain order checked, cross-clock accuracy not independently reconstructable.",
+    "No new model index, optimizer, livestream, physical hardware or personal desktop control.",
+    "Feature-support distances remain exploratory and are not a proven learning failure cause."
+  ]
+}

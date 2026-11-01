@@ -1,0 +1,64 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-teacher-profile-20261101",
+  "timestamp_utc": "2026-11-01T07:25:19.005555+00:00",
+  "kind": "teacher_profile_source_acceptance",
+  "status": "source_accepted_four_teacher_cases_dispatched",
+  "source_commit": "516516488e0d3bbf9195b54fb5572f1931389ee9",
+  "source_files": {
+    "tools/leap_v1_near_probe.py": "53699097072d5a7d42eb59b301ad5102bc8cbc47a1e4dcd927c4e56a1b6fe7b5",
+    "tests/test_leap_v1_near_probe.py": "baa950248e459673eeb74db056c0bf4533d3af1ac51d92bb44bd0ff91e3ef85e"
+  },
+  "independent_tests": {
+    "command": "PYTHONPATH=src:. python -m pytest tests/test_leap_v1_near_probe.py -q --tb=short",
+    "passed": 34,
+    "elapsed_s": 0.4,
+    "scope": "stub/static only; no app or physics"
+  },
+  "contracts": [
+    "Default near_pointing_v1 and default planner preserved.",
+    "Only near_diagonal_v1 enables seeds0..7; invalid profile or diagonal seed rejects before output/env/app.",
+    "CLI/run/reset/metadata/summary bind the same profile.",
+    "No control, timing, physics, success or cleanup logic changed."
+  ],
+  "kimi_elapsed_s": 103.3,
+  "kimi_recorded_usage": {
+    "records": 19,
+    "input_uncached": 39507,
+    "input_cached": 1105664,
+    "input_cache_write": 0,
+    "output": 10261,
+    "total": 1155432
+  },
+  "dispatched_run": {
+    "task": "docs/tasks/v1-diagonal-teacher-feasibility.zh-CN.md",
+    "planner": "force-governed",
+    "profile": "near_diagonal_v1",
+    "seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "source_files_frozen": 17,
+    "native_binary_sha256": "17bf4aeff05ab205b84742aefdc30643a23cc570cb54674ef175f7e6f1597799",
+    "asset_manifest_sha256": "0611062027da64234b03af14e3f06a1be5ee6dbe913ad6dd8007097928ee2ac7",
+    "limits": {
+      "per_episode_wall_s": 120,
+      "per_episode_sim_s": 20,
+      "max_images": 120,
+      "per_episode_bytes": 62914560,
+      "batch_wall_s": 600,
+      "batch_bytes": 167772160,
+      "numeric_threads": 2,
+      "stop_after_same_safety_failure_count": 2
+    },
+    "teacher_not_learned": true,
+    "training_eligible": false
+  },
+  "limitations": [
+    "Source acceptance does not establish diagonal teacher success.",
+    "Actual four-case outcomes require separate raw-evidence audit.",
+    "No new optimizer or livestream."
+  ]
+}
