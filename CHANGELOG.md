@@ -1,5 +1,7 @@
 # Changelog
 
+- Added a shape-only NNX/Optax restore-template helper and a bounded CPU recovery contract. Three new local checks passed and three JAX checks remain pending; no new GPU allocation or restoration result.
+
 - Verified two contiguous complete pi0.5 updates and a 31.15 GB step-1 checkpoint save. The 452-second allocation hit its deadline during the second fingerprint; disk restore/replay remain unverified. Recorded full-state transfer timings and the 39-second remaining smoke budget.
 
 - Reviewed the scratch recovery caller/launcher with 25 independent boundary checks. Runtime remains pending; one source-bound allocation is capped at 480 seconds within the existing smoke budget.

@@ -1,0 +1,32 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-abstract-restore-template-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T21:42:57.540413+00:00",
+  "kind": "independent_source_review_local_software_checks",
+  "status": "shape_template_source_reviewed_actual_jax_runtime_pending",
+  "source_baseline": "628fef18d49331e68edd2115879d2183269fb6f9",
+  "artifacts": {
+    "src/embodied_trackpad/leap_v1/pi05_restore_template.py": "526d197984fa94d5aa658f51cdde4edca4f7d04c22053214233662bd55fcd29b",
+    "tests/test_pi05_restore_template.py": "7442f2ab33a019ebe52d8682fc1e7c74b9b66cca03be25b0fabd0d7b16e679e6"
+  },
+  "behavior": [
+    "Trace model construction, FP32 parameter casting and original optimizer-state initialization under NNX shape evaluation",
+    "Preserve VariableState metadata using explicit pytree leaf handling",
+    "Require exactly params/opt_state/step/rng and abstract-only leaves; no allocation fallback",
+    "Caller enforces CPU backend; no complete model compute or restore executed by this review"
+  ],
+  "independent_tests": {
+    "new_helper_passed": 3,
+    "new_helper_skipped": 3,
+    "combined_with_existing_checkpoint_passed": 13,
+    "combined_skipped": 7,
+    "skip_reason": "JAX/Flax/Optax unavailable in local test runtime; actual tiny-template parity and full restore remain pending"
+  },
+  "gpu_seconds_added": 0,
+  "gpu_seconds_remaining": 39,
+  "limits": [
+    "No actual JAX shape-template or disk-restore acceptance yet",
+    "The original checkpoint and all numerical update/fingerprint code remain unchanged"
+  ],
+  "next_task": "docs/tasks/pi05-cpu-checkpoint-restore.zh-CN.md"
+}
