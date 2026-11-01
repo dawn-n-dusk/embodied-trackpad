@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the exact 674-sample teacher pilot index after 84 auditor checks and independent raw/image/action comparison. Preserved 758 raw file hashes, whole-target splits and failed exports; corrected aggregated-finger counting and complete hash checks. Training and learned task success remain separate.
+
 - Added a local LEAP v1 Full live physics viewer, independently inspected in the browser. Corrected displayed-frame freshness and narrow-panel fit; preserved timeout, restart and regression-test evidence. Training-attached monitoring remains a separate next stage.
 
 ## Unreleased — 2026-10-31

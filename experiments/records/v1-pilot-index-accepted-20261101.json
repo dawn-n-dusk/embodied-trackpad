@@ -1,0 +1,160 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pilot-index-accepted-20261101",
+  "timestamp_utc": "2026-11-01T05:37:02.270201+00:00",
+  "kind": "independent_derived_dataset_and_auditor_acceptance",
+  "status": "fixed_teacher_pilot_index_accepted_for_gated_small_policy",
+  "teacher_source_commit": "04ec6af009c7ec4b225788eb9eef181914c91047",
+  "auditor_private_checkpoint": "217b54c",
+  "auditor_source_hashes": {
+    "src/embodied_trackpad/leap_v1/pilot_dataset.py": "380a7e166e1f2edfa1350a96d36088c1d2eea0211a75f6929c519098dfa8cff1",
+    "tools/audit_leap_v1_pilot.py": "1b0f0545f9e2f65395e7a888af37283abd3a6f296c74b73ca5138b1781ab8068",
+    "tests/test_leap_v1_pilot_data_audit.py": "6943dc1412da59a755ad4b7ea6e6fa6e02d076170d396569c282ef2326dc7b85",
+    "tests/test_leap_v1_pilot_terminal.py": "1e7436229e62b1ca2b87f612911930df35142c7e845b78d87cd9eb97a8e408ce",
+    "tests/test_leap_v1_pilot_global.py": "bdd422e1bdf7f2e03627ec5c53aa73650bc0d90d8d1d8befea8b1cda69bb67af",
+    "tests/test_leap_v1_pilot_contact_boundaries.py": "b953a4f18e8f1f9df26d2af3d1213d5834b62804d88b0e9e1337ad819d532812"
+  },
+  "focused_tests": {
+    "passed": 84,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 12.85
+  },
+  "actual_export": {
+    "episodes": 12,
+    "accepted_episodes": 12,
+    "rejected_episodes": 0,
+    "global_issues": 0,
+    "action_samples": 674,
+    "pngs_including_terminal": 686,
+    "physics_steps": 47450,
+    "visual_substeps": 16850,
+    "touch_messages": 1214,
+    "split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    },
+    "target_classes": {
+      "train": [
+        0,
+        2,
+        3,
+        5,
+        6,
+        8,
+        9,
+        11
+      ],
+      "validation": [
+        1,
+        7
+      ],
+      "test": [
+        4,
+        10
+      ]
+    },
+    "sample_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+    "manifest_sha256": "75a85cac69592c8f49a5cf9029e14e02f750b0d8a6a2a0693aa44a9badf6ee06",
+    "auditor_wall_s": 53.579
+  },
+  "independent_index_vs_raw": {
+    "accepted_index_binding": true,
+    "timestamp_utc": "2026-11-01T05:33:17.876132+00:00",
+    "samples": 674,
+    "split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    },
+    "raw_files_unchanged": 758,
+    "index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+    "max_actual_increment_rad": 0.00020000000000000573,
+    "elapsed_s": 56.58275275002234,
+    "scope": "offline independent index vs frozen raw only; zero simulator/app/optimizer execution"
+  },
+  "adapter": {
+    "passed": true,
+    "sample_index_sha256": "1553eb0675469ce89aac110d25d4b344caea7202145433d9f207228ea4c2ece1",
+    "features_shape": [
+      674,
+      50
+    ],
+    "labels_shape": [
+      674,
+      25,
+      16
+    ],
+    "split_counts": {
+      "train": 453,
+      "validation": 141,
+      "test": 80
+    },
+    "max_increment_rad": 0.00019999999494757503,
+    "scope": "parse accepted derived candidate; no optimizer or model evaluation"
+  },
+  "labels": {
+    "shape_per_frame": [
+      25,
+      16
+    ],
+    "dt_s": 0.002,
+    "semantics": "Actual executed joint references; derive per-step differences before float32 conversion. Cumulative offsets are not per-step increments.",
+    "action_end": "post-time of last actually executed step",
+    "simulation_block_s": 0.05
+  },
+  "raw_flags_preserved": true,
+  "candidate_flags_preserved": {
+    "training_eligible": false,
+    "pending_coordinator": true
+  },
+  "approval_layer": "Separate ignored dataset receipt binds this index; optimizer approval also requires accepted trainer source.",
+  "prior_global_export": {
+    "accepted": 10,
+    "rejected": 2,
+    "samples": 557,
+    "reason": "Raw contact points were mistaken for aggregated fingers in classes 10 and 11; output preserved, core correction integrated."
+  },
+  "completed_kimi_dispatches": [
+    {
+      "task": "v1-auditor-final-correction",
+      "status": "timeout",
+      "elapsed_s": 600.1,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-auditor-global-only",
+      "status": "timeout",
+      "elapsed_s": 360.1,
+      "recorded_usage": null
+    },
+    {
+      "task": "v1-auditor-core-only",
+      "status": "reported",
+      "elapsed_s": 140.0,
+      "recorded_usage": {
+        "records": 15,
+        "input_uncached": 57652,
+        "input_cached": 921088,
+        "input_cache_write": 0,
+        "output": 18402,
+        "total": 997142
+      }
+    },
+    {
+      "task": "v1-auditor-integrated-export",
+      "status": "timeout",
+      "elapsed_s": 240.0,
+      "recorded_usage": null
+    }
+  ],
+  "limitations": [
+    "Fixed near-pointing teacher episodes in one scene and initial pose; no random robustness, click, drag, gesture or long-horizon claim.",
+    "Teacher uses simulator force and Jacobian; these are excluded from actor features. No learned-policy success.",
+    "Capture clock offset/uncertainty were not recorded; no retrospective cross-clock frame-age certification.",
+    "FSR, current and wrist images are absent: null values and false validity masks.",
+    "No optimizer, learned checkpoint, new H800 policy allocation, active stream or hardware result.",
+    "Timeouts preserved; acceptance derives from independent checks. Missing token usage is unknown, not zero."
+  ]
+}
