@@ -1,0 +1,95 @@
+{
+  "record_version": "1.0",
+  "id": "action-resampling-math-accepted-20261101",
+  "timestamp_utc": "2026-11-01T14:24:38.136058+00:00",
+  "kind": "independent_native_coarse_control_math_acceptance",
+  "status": "numeric_helper_accepted_temporal_sampler_pending",
+  "source_commit": "8930263",
+  "runtime_source_commit": "9a7d7da",
+  "source_sha256": "e2ce2ec3d59f9a0972f32e87eed579e31e0e91159cadb3de16f745506c9b8236",
+  "test_sha256": "9fb75a9adbf8b7896ea0ce4ef1d4144ea969f7be60eb0483162ed68370b29bdf",
+  "checks": {
+    "runtime_tests_passed": 22,
+    "integrated_tests_passed": 22,
+    "real_label_windows": 6,
+    "native_steps_per_window": 250,
+    "coarse_steps_per_window": 25,
+    "comparison": "independent numpy.interp reference, endpoints/time labels/nonmutation/exact index hashes",
+    "native_dt_s": 0.002,
+    "coarse_dt_s": 0.02,
+    "horizon_s": 0.5,
+    "window_metrics": [
+      {
+        "corpus": "pilot-audit-integrated-20261101",
+        "split": "train",
+        "start_row": 0,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.2438987873823121e-06,
+        "max_abs_rad": 1.4141658553790126e-05
+      },
+      {
+        "corpus": "pilot-audit-integrated-20261101",
+        "split": "validation",
+        "start_row": 80,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.2438987873823121e-06,
+        "max_abs_rad": 1.4141658553790126e-05
+      },
+      {
+        "corpus": "pilot-audit-integrated-20261101",
+        "split": "test",
+        "start_row": 301,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.5182118104239266e-06,
+        "max_abs_rad": 3.298817591870151e-05
+      },
+      {
+        "corpus": "diagonal-ft01-audit-20261101",
+        "split": "train",
+        "start_row": 0,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.3929371015019152e-07,
+        "max_abs_rad": 1.6504523567590246e-06
+      },
+      {
+        "corpus": "diagonal-ft01-audit-20261101",
+        "split": "validation",
+        "start_row": 254,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.3929371015019152e-07,
+        "max_abs_rad": 1.6504523567590246e-06
+      },
+      {
+        "corpus": "diagonal-ft01-audit-20261101",
+        "split": "test",
+        "start_row": 348,
+        "fine_steps": 250,
+        "coarse_steps": 25,
+        "rms_rad": 1.260610151595038e-06,
+        "max_abs_rad": 1.6402895574446847e-05
+      }
+    ]
+  },
+  "handoff": {
+    "status": "reported_then_independently_reviewed",
+    "elapsed_s": 278.5,
+    "usage": {
+      "input_uncached": 15639,
+      "input_cached": 344576,
+      "output": 10964
+    },
+    "billing_scope": "provider usage records, not membership quota or monetary charge"
+  },
+  "limits": [
+    "pure numerical utility only; no complete temporal sampler, clock continuity admission or model data adapter",
+    "reconstruction error is a command interpolation difference, not physical motion or GUI success",
+    "no optimizer, neural forward, new GPU allocation or hardware operation",
+    "accepted data domain is finite physical joint references; no assertion of useful results outside physical ranges"
+  ],
+  "next": "model repack/normalization/weights and finite full-model smoke can use accepted native25x2ms labels independently of longer windows"
+}
