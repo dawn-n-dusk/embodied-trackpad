@@ -1,0 +1,133 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-full-checkpoint-cpu-restore-accepted-20261102",
+  "timestamp_utc": "2026-11-01T22:35:48.258954+00:00",
+  "source_revision": "834fbb5ee9f4b516ed8a0b319798aa1e5f1d359c",
+  "kind": "independent_complete_checkpoint_cpu_restore_audit",
+  "status": "full_step1_cpu_restore_accepted_gpu_replay_pending",
+  "execution": {
+    "job_id": 736004,
+    "partition": "cpu",
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "start_utc": "2026-11-01T22:31:59Z",
+    "end_utc": "2026-11-01T22:34:14Z",
+    "scheduler_elapsed_s": 136,
+    "launcher_elapsed_s": 135,
+    "driver_elapsed_s": 134.242,
+    "allocated_cpus": 2,
+    "allocated_cpu_seconds": 272,
+    "requested_memory_gib": 128,
+    "watchdog_sampled_peak_rss_gib": 55.543792724609375,
+    "process_ru_maxrss_gib": 56.682308197021484,
+    "gpu_count": 0,
+    "gpu_seconds": 0,
+    "optimizer_applications": 0,
+    "forward_backward_calls": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true
+  },
+  "runtime": {
+    "versions": {
+      "jax": "0.5.3",
+      "flax": "0.10.2",
+      "optax": "0.2.4",
+      "orbax-checkpoint": "0.11.13"
+    },
+    "backend": "cpu",
+    "devices": [
+      "cpu"
+    ]
+  },
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "template": {
+    "tiny": {
+      "params_numel": 56,
+      "state_numel": 172,
+      "leaf_count": 9,
+      "identical_to_reference": true
+    },
+    "full": {
+      "leaves": 156,
+      "params_leaves": 51,
+      "params_numel": 3353433872,
+      "all_params_fp32": true,
+      "spec": "state1-spec.json expected_fingerprint.leaves (frozen)"
+    }
+  },
+  "restoration": {
+    "step": 1,
+    "cpu_placed": true,
+    "restore_s": 82.027
+  },
+  "fingerprint": {
+    "sha256": "7e654ce3b4821233641833d9c45c45e85720f4538a35aab5f640c9d7106f3fa9",
+    "leaf_count": 156,
+    "numel": 10060301620,
+    "bytes": 40241206480
+  },
+  "equality": {
+    "entire_dictionary": true,
+    "all_156_leaf_paths_shapes_dtypes_bytes_and_hashes": true,
+    "algorithm_unchanged": true,
+    "fingerprint_s": 30.788219,
+    "frozen_spec_sha256": "0f93a11aac93f7c0f94e360a85b88d1a6fd6c3d3ddfc53f4287f7c6412726c65"
+  },
+  "checkpoint": {
+    "saved_step": 1,
+    "files": 53,
+    "stored_bytes": 31147685638,
+    "source_copy_record": "pi05-project-checkpoint-copy-accepted-20261102",
+    "inventory_and_metadata_unchanged_after_read": true
+  },
+  "review": {
+    "checks_passed": 22,
+    "checks": {
+      "terminal_scheduler": true,
+      "own_queue_empty": true,
+      "all_exit_codes_zero": true,
+      "source_16_hashes_match": true,
+      "permit_exact": true,
+      "spec_frozen": true,
+      "runtime_pins_cpu": true,
+      "tiny_template_parity": true,
+      "full_template_census": true,
+      "step1_cpu_placement": true,
+      "entire_fingerprint_equal": true,
+      "full_payload_counts": true,
+      "frozen_global_sha": true,
+      "checkpoint_inventory_unchanged": true,
+      "checkpoint_metadata_unchanged": true,
+      "no_optimizer_forward_backward_gpu": true,
+      "within_rss_budget": true,
+      "within_output_budget": true,
+      "within_deadline": true,
+      "terminal_process_guard": true,
+      "no_guard_or_stderr_failure": true,
+      "all_nine_phases": true
+    },
+    "staged_files": 16,
+    "permit_sha256": "8028ba1cff737602811bc7f4fa34bd89604855b5dc3711912df730f23d01406f",
+    "probe_sha256": "6b32e33b9968752128b2a9be5b1d089670290fc76131e7d6f5656d1ca24d23a0",
+    "launcher_sha256": "9dd6ec7675fcafc037f7021383872626b2a9b61c06f82d727cd75ef3ccf584ce",
+    "evidence_sha256": {
+      "restore-report.json": "25b7859588658dc53286f1205a692955ca2e7479add21d4302ea8a57734deefe",
+      "restore-progress.jsonl": "b0e7dafce6ca78a46519bb58809eac6d9f5412122d9edd7635f20d4df9bdf963",
+      "job-summary-736004.json": "88d331250a6863b72de2e0c6bb93d20b94371d22e0cc949e42297a0e1f15062b",
+      "scheduler.txt": "869a79a8078709abef4c01e843ea3db8f704998249bf04564da34fce0b4cdb31",
+      "independent-audit.json": "04d7dff686e9834b84c5347dbf4cc1471431d92cdb1a7a1b56a50437a02e8a79"
+    }
+  },
+  "budget": {
+    "first_smoke_gpu_seconds_used": 1761,
+    "first_smoke_gpu_seconds_remaining": 39,
+    "automatic_gpu_retry": false
+  },
+  "limitations": [
+    "This restores all saved step-1 model, AdamW, RNG and step state exactly onto CPU; no GPU continuation or step-2 replay was executed.",
+    "No new model update, learned-control result or livestream.",
+    "The accepted checkpoint uses the existing image and native 2 ms action-label contracts; new screen-pair and coarser action-time integration require separate validation.",
+    "Historical failed CPU storage attempt and H800 timeouts remain recorded."
+  ]
+}

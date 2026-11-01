@@ -1,0 +1,53 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-pair-observation-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T22:27:23.962307+00:00",
+  "source_revision": "834fbb5ee9f4b516ed8a0b319798aa1e5f1d359c",
+  "status": "software_reviewed_official_runtime_and_loss_sampler_routing_pending",
+  "kind": "independent_adapter_source_review",
+  "source_sha256": "a0cbf09d4dab300bd30f16e6e3b5f89fb32eb49b32a1dfbb3ba9359528025c53",
+  "tests_sha256": "97952a70085a94d6ef9315fac414579c446eae457bf8635d9975de2418e59a1c",
+  "independent_tests": {
+    "passed": 138,
+    "failed": 0,
+    "elapsed_s": 0.58,
+    "runtime": "existing local NumPy runtime; labelled OpenPI dependency doubles",
+    "files": [
+      "tests/test_pi05_screen_observation.py",
+      "tests/test_pi05_observation.py",
+      "tests/test_leap_v1_screen_views.py",
+      "tests/test_leap_v1_visual_utils.py"
+    ]
+  },
+  "layout": {
+    "image_keys": [
+      "base_0_rgb",
+      "screen_local_0_rgb"
+    ],
+    "image_roles": [
+      "screen_full",
+      "screen_local"
+    ],
+    "absent_wrist_sensors_preserved": true,
+    "local_padding_mask": "outside Observation; not an attention mask",
+    "preprocess": "explicit image_keys, rng=None, train=False",
+    "admission": "host-side NumPy checks, not JAX tracer-safe"
+  },
+  "preserved": [
+    "normalized16-state tokenization before32padding",
+    "25x16 action labels and valid16lossmask",
+    "official full-image transform and tokenizer pin",
+    "values and independent arrays for state/tokens/actions/masks"
+  ],
+  "corrections": [
+    "Final image diagnostics now match two actual views instead of the intermediate three-camera bundle.",
+    "Carried state/token arrays copied to avoid aliasing.",
+    "Host-side validation boundary documented explicitly."
+  ],
+  "limitations": [
+    "Official OpenPI/Flax execution for this new adapter remains untested.",
+    "Existing valid16loss and upstream sample_actions still require legacy three-camera preprocessing; cannot consume newlayout unchanged.",
+    "No new optimizer update, modelforward, simulation, precision evaluation or live stream."
+  ],
+  "delegation_boundary": "Kimi fix call timed out after saving changes; coordinator independently inspected exact saved files and executed138checks; stale worker source report was not accepted."
+}

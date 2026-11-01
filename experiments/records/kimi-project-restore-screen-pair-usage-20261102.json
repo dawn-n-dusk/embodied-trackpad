@@ -1,0 +1,110 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-project-restore-screen-pair-usage-20261102",
+  "timestamp_utc": "2026-11-01T22:33:54.595637+00:00",
+  "kind": "delegation_usage_audit",
+  "status": "recorded_usage_not_billing",
+  "dispatches": [
+    {
+      "task": "project-restore-source",
+      "status": "reported",
+      "elapsed_s": 280.4,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 26,
+        "input_uncached": 43642,
+        "input_cached": 1478400,
+        "input_cache_write": 0,
+        "output": 19793,
+        "total": 1541835
+      }
+    },
+    {
+      "task": "screen-pair-observation",
+      "status": "reported",
+      "elapsed_s": 292.8,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 14,
+        "input_uncached": 35081,
+        "input_cached": 1239040,
+        "input_cache_write": 0,
+        "output": 19482,
+        "total": 1293603
+      }
+    },
+    {
+      "task": "project-copy-fix",
+      "status": "timeout",
+      "elapsed_s": 150.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 55866,
+        "input_cached": 412160,
+        "input_cache_write": 0,
+        "output": 7643,
+        "total": 475669
+      }
+    },
+    {
+      "task": "screen-pair-fix",
+      "status": "timeout",
+      "elapsed_s": 150.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 42082,
+        "input_cached": 950272,
+        "input_cache_write": 0,
+        "output": 9629,
+        "total": 1001983
+      }
+    },
+    {
+      "task": "project-copy-once",
+      "status": "reported",
+      "elapsed_s": 289.2,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 17,
+        "input_uncached": 62795,
+        "input_cached": 1012992,
+        "input_cache_write": 0,
+        "output": 9367,
+        "total": 1085154
+      }
+    },
+    {
+      "task": "project-cpu-submit",
+      "status": "reported",
+      "elapsed_s": 126.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 17,
+        "input_uncached": 33242,
+        "input_cached": 1293568,
+        "input_cache_write": 0,
+        "output": 6744,
+        "total": 1333554
+      }
+    }
+  ],
+  "total_dispatches": 6,
+  "timeout_dispatches": 2,
+  "summed_dispatch_elapsed_s": 1288.6,
+  "recorded_usage_totals": {
+    "records": 89,
+    "input_uncached": 272708,
+    "input_cached": 6386432,
+    "input_cache_write": 0,
+    "output": 72658,
+    "total": 6731798
+  },
+  "limits": [
+    "Requested alias is not independent proof of the server-resolved backend model.",
+    "Recorded provider usage can omit interrupted unreported requests; not subscription quota or billing.",
+    "Two fix calls timed out after source was saved; independent source and behavior checks, not stale reports, supplied acceptance.",
+    "Summed dispatch durations are not elapsed wall time or a savings comparison."
+  ]
+}

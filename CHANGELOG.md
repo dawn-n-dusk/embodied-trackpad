@@ -1,5 +1,9 @@
 # Changelog
 
+- Accepted complete pi0.5 step-1 checkpoint restoration on CPU: all 156 state leaves and the complete fingerprint dictionary match the frozen H800 state. A bounded 116-second storage copy and one 136-second CPU job preserved the original checkpoint, used no GPU, and released their resources. GPU continuation/replay and learned precision remain pending.
+
+- Added explicit full/local screen Observation construction and host-side preprocessing with 138 independent software checks. Kept absent wrist sensors explicit; actual OpenPI runtime and compiled loss/sampler routing remain separate gates.
+
 - Added standalone full-screen plus native-pixel cursor-local views with explicit edge padding and invalid-view masks. Independent checks: 88 software tests passed; two audited real frames preserved every cursor pixel. Model input-slot integration and policy evaluation remain pending.
 
 - The CPU-only restore attempt failed its allocation preflight after 1 second because the selected CPU node could not see the preserved scratch checkpoint. Recorded the failed denominator, zero GPU use, and unchanged checkpoint inventory/metadata; no model launch or retry.
