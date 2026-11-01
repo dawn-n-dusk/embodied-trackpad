@@ -1,0 +1,125 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-first-full-update-checkpoint-interrupted-20261102",
+  "timestamp_utc": "2026-11-01T19:24:30.530031+00:00",
+  "kind": "independent_full_model_optimizer_and_failed_checkpoint_audit",
+  "status": "one_complete_model_update_verified_checkpoint_save_interrupted",
+  "source_revision": "3a2c2edc1d84221a0d0a5be2e5b2cc2068f9b7db",
+  "contract": "experiments/records/pi05-full-update-driver-contract-20261102.json",
+  "raw_evidence_sha256": {
+    "full_report_sha256": "8bffdf101532f0f820b5a8426dca67d0661e040b13d584da77cffbfa69b3dc86",
+    "summary_sha256": "783f4071a6c959dcad7f1afe53e74233b61fcf6ee54820ff06f92a9652b60dde",
+    "watchdog_sha256": "d809cbb4df43bba47586318a40696e5c1b4573559c7573cfae610e52b3ce314f"
+  },
+  "scheduler": {
+    "submitted_utc": "2026-11-01T19:15:40Z",
+    "start_utc": "2026-11-01T19:15:58Z",
+    "end_utc": "2026-11-01T19:20:04Z",
+    "elapsed_s": 246,
+    "state": "FAILED",
+    "exit_code": "15:0",
+    "allocated_gpu": 1,
+    "allocated_logical_cpu": 16,
+    "requested_cpu": 8,
+    "requested_mem_gib": 128,
+    "allocated_memory_in_scheduler_record": null
+  },
+  "actual_model": {
+    "total_parameters": 3353433872,
+    "trainable_parameters": 3353433872,
+    "fp32_parameter_leaves": 51,
+    "image_input_shape": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "valid_action_channels": 16,
+    "native_action_dt_s": 0.002,
+    "action_horizon": 25,
+    "optimizer": "full-parameter AdamW, no freezing/LoRA/EMA",
+    "observed_optimizer_applications": 1,
+    "observed_unique_steps": 1,
+    "gradient_leaf_count": 51,
+    "positive_gradient_norm_leaf_count": 50,
+    "zero_gradient_norm_leaves": [
+      "PaliGemma/llm/final_norm/scale"
+    ],
+    "gradient_nonfinite_elements": 0,
+    "step1_metrics": {
+      "accepted": 1.0,
+      "grad_norm": 11.569185256958008,
+      "loss": 0.5726577043533325,
+      "param_delta_norm": 0.49930477142333984,
+      "step": 1,
+      "update_norm": 0.4993044137954712
+    },
+    "step1_including_compilation_s": 53.746,
+    "state1_fingerprint_sha256": "2f55966d24434433d6f1ee8dcabec4a0998446718764a790045ea58cde7deac3",
+    "state1_fingerprint_wall_s": 35.801
+  },
+  "failure": {
+    "stage": "save-checkpoint-step1",
+    "observed_cause": "directory-size measurement command failed; watchdog stopped owned process tree",
+    "guard_exit_code": 45,
+    "probe_exit_code": 143,
+    "launcher_final_rc": 143,
+    "peak_sampled_host_rss_bytes": 107330412544,
+    "rss_limit_bytes": 128849018880,
+    "rss_limit_triggered": false,
+    "gpu_oom_observed": false,
+    "raw_measurement_stderr_preserved": false,
+    "root_cause_confirmed": false,
+    "hypothesis": "Concurrent checkpoint rename/removal may have caused the scanner to fail; original stderr was suppressed, so this is unconfirmed.",
+    "partial_checkpoint_bytes": 9842444953,
+    "complete_checkpoint_accepted": false,
+    "disk_restore_accepted": false,
+    "step2_attempted": false,
+    "replay_attempted": false,
+    "raw_report_inflight_is_stale_after_termination": true,
+    "original_partial_checkpoint_retained": true
+  },
+  "independent_checks": [
+    "Final scheduler state and empty personal queue independently read",
+    "Executed script bytes match frozen source-bound permit",
+    "Downloaded complete update report matches independently queried remote SHA256",
+    "All 51 gradient leaves finite, zero nonfinite gradient elements, actual FP32 parameter delta positive",
+    "One zero-gradient leaf recorded; all-parameter optimization does not imply every leaf changed on this batch",
+    "Full state1 fingerprint completed before save; no valid restored checkpoint or learned control claim"
+  ],
+  "first_smoke_cumulative_gpu_seconds": 430,
+  "kimi_dispatches": [
+    {
+      "task": "v1-pi05-full-submit-only",
+      "status": "timeout_after_preflight_and_local_src_tar_before_remote_staging_no_job",
+      "elapsed_s": 240.1,
+      "usage": {
+        "records": 5,
+        "input_uncached": 20166,
+        "input_cached": 193024,
+        "input_cache_write": 0,
+        "output": 6195,
+        "total": 219385
+      }
+    },
+    {
+      "task": "v1-pi05-submit-resume",
+      "status": "reported",
+      "elapsed_s": 153.8,
+      "usage": {
+        "records": 7,
+        "input_uncached": 31972,
+        "input_cached": 373248,
+        "input_cache_write": 0,
+        "output": 6064,
+        "total": 411284
+      }
+    }
+  ],
+  "next_action": "Repair the output-size scanner with bounded fixture checks and retained stderr; review new source binding before any further model allocation. Do not repeat unchanged job or increase resources automatically.",
+  "limits": [
+    "This establishes one real full-parameter optimizer update only.",
+    "The updated parameters were not accepted as a restorable checkpoint; no deployable fine-tuned policy is available from this attempt.",
+    "No closed-loop precision, click/drag/multifinger/long-horizon success or live training stream is established."
+  ]
+}

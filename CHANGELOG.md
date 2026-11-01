@@ -1,5 +1,7 @@
 # Changelog
 
+- Verified the first real 3.35B full-parameter pi0.5 update on H800. The 246-second allocation stopped during checkpoint saving after a directory-size scanner error; the partial checkpoint and all failure evidence are retained, and recovery remains unaccepted.
+
 - Reviewed the complete pi0.5 update/recovery driver and a single-H800 15-minute contract. Corrected model-reference retention, interrupted-step accounting, staged-path assumptions and process-identity guards; real optimizer execution remains independently gated.
 
 - Accepted the actual CPU checkpoint roundtrip: 22 checks in 6 seconds verify complete tiny NNX/Optax state restoration and exact continuation/replay parity. Retained preparation and caller timeouts separately; full pi0.5 updates remain pending.
