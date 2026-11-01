@@ -1,0 +1,20 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pillow-benchmark-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T08:25:21.284949+00:00",
+  "kind": "offline_candidate_decoder_benchmark_dispatch",
+  "status": "dispatched",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "scope": "Only project venv Pillow12.0.0 binary install and six frozen PNG comparison in ignored evidence directory",
+  "budget": {
+    "wall_s": 180,
+    "numerical_threads": 2,
+    "environment_growth_bytes": 52428800,
+    "report_bytes": 1048576
+  },
+  "limitations": [
+    "No source changes, native app, new captures, simulation or optimizer.",
+    "Candidate parity and performance remain pending."
+  ]
+}

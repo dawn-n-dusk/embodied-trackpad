@@ -1,0 +1,46 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-decode-benchmark-accepted-20261101",
+  "timestamp_utc": "2026-11-01T08:25:21.284949+00:00",
+  "kind": "independent_offline_decoder_timing_audit",
+  "status": "current_decoder_only_accepted",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "fixtures": 6,
+  "calls_per_backend": 36,
+  "measured_calls_per_backend": 30,
+  "decode_ms": {
+    "n": 30,
+    "p50_ms": 78.97885399870574,
+    "p95_ms": 251.34032286296087,
+    "max_ms": 350.22575000766665
+  },
+  "extract_ms": {
+    "n": 30,
+    "p50_ms": 2.943374478491023,
+    "p95_ms": 2.9717690456891432,
+    "max_ms": 2.979540964588523
+  },
+  "pillow_status": "not_installed_candidate_skipped",
+  "private_report_sha256": "b70e0f2e2d0887b5289cc3351256044b6e5465300bd89e1608f5647bb35fd3a5",
+  "independent_checks": [
+    "All six input hashes and sizes unchanged",
+    "Recomputed all timing summaries from raw values",
+    "Runtime tracked tree clean"
+  ],
+  "kimi_dispatch_s": 154.2,
+  "recorded_usage": {
+    "records": 9,
+    "input_uncached": 20215,
+    "input_cached": 396800,
+    "input_cache_write": 0,
+    "output": 5891,
+    "total": 422906
+  },
+  "requested_model": "kimi-code/kimi-for-coding",
+  "limitations": [
+    "Unexecuted Pillow branch passes decoded NumPy arrays to BytesIO instead of original PNG bytes; must correct in separate follow-up. No Pillow parity accepted.",
+    "decodes_per_backend=30 names measured repetitions; actual decoder invocations36 including six warmups.",
+    "No live latency causation inferred.",
+    "Current-decoder timings only on six saved fixtures; no live-stage timing or causal attribution for prior stale frame."
+  ]
+}

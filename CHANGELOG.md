@@ -1,5 +1,9 @@
 # Changelog
 
+- Verified saved-PNG decode timing (median78.979ms, maximum350.226ms), retained missing live causal evidence, and dispatched a bounded Pillow parity/performance measurement. No freshness threshold or policy behavior changed.
+
+- Audited the remaining three lowtarget directions:two passed,one retained a322ms stale-frame rejection with no subsequent action. Combined teacher result3/4,success-only mean1.102px,all force/release checks passed; no learned-policy improvement claim. Dispatched offline decoder/timing comparison without relaxing freshness limits.
+
 - Independently accepted one lowtarget teacher trial:18.143→1.852px,last three frames within3px,peak0.942N,no native press-threshold crossing,safe release/exit. Preserved single-case and teacher-only limits; remaining three directions precede any new training data.
 
 - Accepted Kimi2.8 offline statistics after independent recomputation:902/3000zero gates,1.2987%mean tangential gate,no recorded bound saturation. Accepted an opt-in0.6N target candidate after47independentstub checks and dispatched one seed3trial; physical outcome remains pending.

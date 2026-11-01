@@ -1,0 +1,25 @@
+{
+  "record_version": "1.0",
+  "id": "v1-visual-decode-benchmark-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T08:21:24.708140+00:00",
+  "kind": "offline_visual_latency_diagnostic_dispatch",
+  "status": "dispatched",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "scope": "Six frozen PNGs, current decoder and optional already-installed Pillow, exact pixel parity and isolated timing",
+  "budget": {
+    "wall_s": 180,
+    "numerical_threads": 2,
+    "output_bytes": 1048576
+  },
+  "artifacts": [
+    {
+      "path": "docs/tasks/v1-visual-decode-benchmark.zh-CN.md",
+      "sha256": "1b7131f4aa1a5789dd6e8cb001e7d8d063420658decfc354bedd6c6dadbb158d"
+    }
+  ],
+  "limitations": [
+    "No source changes, new capture or simulation.",
+    "No performance result until independent audit."
+  ]
+}

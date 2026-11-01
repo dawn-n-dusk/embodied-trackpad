@@ -1,0 +1,162 @@
+{
+  "record_version": "1.0",
+  "id": "v1-light-lowtarget-remaining3-accepted-20261101",
+  "timestamp_utc": "2026-11-01T08:21:24.708140+00:00",
+  "kind": "independent_teacher_direction_validation",
+  "status": "two_remaining_passed_one_stale_frame_rejection",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "training_eligible": false,
+  "remaining3_rows": [
+    {
+      "seed": 0,
+      "steps": 4600,
+      "frames": 83,
+      "action_samples": 82,
+      "visual_steps": 2050,
+      "touch_messages": 127,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 0.5055071852625388,
+      "terminal_error_px": 0.5055071852625388,
+      "last_three_observed_errors_px": [
+        1.8788326340989259,
+        1.1214784345371365,
+        0.5055071852625388
+      ],
+      "teacher_success": true,
+      "stop_reason": "success",
+      "release_span_s": 2.0900000000003027,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6601774614665296,
+      "peak_pad_force_n": 0.942364087260917,
+      "accepted_frames": 83,
+      "terminal_capture_available": true,
+      "rejected_frame_diagnostic_error_px": null,
+      "rejected_frame_age_ms": null,
+      "force_no_press_check": {
+        "first_physics_contact_step_index": 1007,
+        "steps_from_first_contact": 3594,
+        "max_control_cleanup_force_n": 0.942364087260917,
+        "max_touch_payload_force_n": 0.942364087260917,
+        "raw_steps_ge_1N": 0,
+        "touch_payloads_ge_1N": 0
+      }
+    },
+    {
+      "seed": 1,
+      "steps": 3700,
+      "frames": 47,
+      "action_samples": 46,
+      "visual_steps": 1150,
+      "touch_messages": 91,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 0.9479640313589544,
+      "terminal_error_px": 0.9479640313589544,
+      "last_three_observed_errors_px": [
+        1.967207768688003,
+        0.9729550778180978,
+        0.9479640313589544
+      ],
+      "teacher_success": true,
+      "stop_reason": "success",
+      "release_span_s": 2.041999999999775,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6601774614665296,
+      "peak_pad_force_n": 0.942364087260917,
+      "accepted_frames": 47,
+      "terminal_capture_available": true,
+      "rejected_frame_diagnostic_error_px": null,
+      "rejected_frame_age_ms": null,
+      "force_no_press_check": {
+        "first_physics_contact_step_index": 1007,
+        "steps_from_first_contact": 2694,
+        "max_control_cleanup_force_n": 0.942364087260917,
+        "max_touch_payload_force_n": 0.942364087260917,
+        "raw_steps_ge_1N": 0,
+        "touch_payloads_ge_1N": 0
+      }
+    },
+    {
+      "seed": 2,
+      "steps": 3225,
+      "frames": 28,
+      "action_samples": 27,
+      "visual_steps": 675,
+      "touch_messages": 72,
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 13.201393245307258,
+      "terminal_error_px": null,
+      "last_three_observed_errors_px": [
+        13.585740419300018,
+        13.539232969844639,
+        13.201393245307258
+      ],
+      "teacher_success": false,
+      "stop_reason": "frame_gate_rejected: frame age 322.2+2.3 ms uncertainty exceeds 250.0 ms",
+      "release_span_s": 2.0379999999997755,
+      "visual_lowforce_steps": 0,
+      "max_penetration_mm": 0.6601774614665296,
+      "peak_pad_force_n": 0.944892320240524,
+      "accepted_frames": 27,
+      "terminal_capture_available": false,
+      "rejected_frame_diagnostic_error_px": 12.85132776313385,
+      "rejected_frame_age_ms": 322.1682086586952,
+      "force_no_press_check": {
+        "first_physics_contact_step_index": 1007,
+        "steps_from_first_contact": 2219,
+        "max_control_cleanup_force_n": 0.944892320240524,
+        "max_touch_payload_force_n": 0.942364087260917,
+        "raw_steps_ge_1N": 0,
+        "touch_payloads_ge_1N": 0
+      }
+    }
+  ],
+  "remaining3_counts": {
+    "steps": 11525,
+    "frames": 158,
+    "action_samples": 155,
+    "visual_steps": 3875,
+    "touch_messages": 290
+  },
+  "combined4": {
+    "planned_seeds": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "executed": 4,
+    "successes": 3,
+    "failures": 1,
+    "terminal_error_coverage": 3,
+    "success_only_terminal_mean_px": 1.1017788419767591,
+    "success_only_terminal_population_std_px": 0.5603060452528746,
+    "all_control_cleanup_force_below_press_threshold": true,
+    "all_released_and_reaped": true
+  },
+  "checks": {
+    "source_files_verified": 17,
+    "asset_files_verified": 14,
+    "worker_inventory_verified": 176,
+    "launch_returncodes": [
+      0,
+      0,
+      1
+    ],
+    "app_pids_absent": true,
+    "source_clean": true,
+    "raw_unchanged": true
+  },
+  "timing": {
+    "remaining3_episode_wall_sum_s": 21.607000000000003,
+    "batch_loop_wall_s": 22.2,
+    "kimi_dispatch_s": 152.5,
+    "independent_audit_s": 13.189913749985863
+  },
+  "limitations": [
+    "Teacher-only diagnostic, not learned-policy improvement or formal model comparison.",
+    "Seed2 last accepted error13.201px precedes a rejected stale frame; terminal error remains missing.",
+    "Rejected frame diagnostic error12.851px is not accepted for control or success.",
+    "Per-stage capture/decode timings and clock offset were not saved; physical or software cause of latency is unproven.",
+    "No training eligibility, new index, optimizer, GPU allocation or live stream."
+  ]
+}
