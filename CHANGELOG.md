@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted a strict complete-model pi0.5 loader after independent actual-report and portable CI admission checks; delegated one bounded H800 load-only job, with optimization still separate.
+
 - Accepted source-bound train-only pi0.5 normalization and pure numeric valid-16 loss checks; integrated 72 passed/one private-fixture skip. Retained OpenPI attribution/license. Full-model runner timeout and tokenizer transport failure remain separate unaccepted steps.
 
 - Froze the native JAX full-model smoke contract, retained preparation failures and scoped corrections, and independently found that twelve action channels are constant in the current teacher corpus. No pi0.5 model execution is accepted.

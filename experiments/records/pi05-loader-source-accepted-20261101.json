@@ -1,0 +1,56 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-loader-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T15:39:52.160418+00:00",
+  "status": "loader_source_and_admission_accepted_gpu_run_dispatched",
+  "source_sha256": "8694dffdb17a5fda9f4ac1185b0a14a5f6ee6e9add4a42dcd44b1e7c28a86aac",
+  "test_sha256": "1f228fc5f80cf4856399b99ae259f75a7ccb82d48c07b6efc356ad2416f0894d",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "independent_checks": {
+    "actual_weight_report_admission_tests": 9,
+    "portable_public_fixture_passes": 8,
+    "actual_report_pin_skipped_without_private_data": 1,
+    "deferred_heavy_imports": true,
+    "correct_pi0_config_import": true,
+    "nested_report_totals_and_29_unique_rows": true,
+    "strict_complete_key_and_shape_restore": true,
+    "explicit_jax_block_until_ready": true,
+    "full_model_minimum_scalar_gate": 1000000000
+  },
+  "parameter_counts": "not yet measured; loader will report total and prospective trainable counts, not actual gradient coverage",
+  "load_configuration": {
+    "pi05": true,
+    "action_dim": 32,
+    "action_horizon": 25,
+    "max_token_len": 200,
+    "compute_dtype": "bfloat16",
+    "restore_dtype": "float32",
+    "paligemma_variant": "gemma_2b",
+    "action_expert_variant": "gemma_300m"
+  },
+  "resource_contract": {
+    "gpu_count": 1,
+    "requested_load_phase_minutes_max": 10,
+    "remaining_first_smoke_minutes_reserved": 20,
+    "cpu_max": 8,
+    "ram_gib_max": 128,
+    "optimizer_allowed_in_load_phase": false,
+    "automatic_retry": false
+  },
+  "retained_failures": {
+    "initial_source_call_timeout_s": 240.2,
+    "correction_call_timeout_s": 240.6,
+    "defects_corrected": [
+      "read actual nested report totals",
+      "import Pi0Config from correct module",
+      "complete parameter readiness and scalar counts"
+    ],
+    "portable_tests_call_elapsed_s": 144.7,
+    "ssh": "one reset followed by successful personal identity/empty queue readback"
+  },
+  "limits": [
+    "Source tests do not establish model load or GPU compatibility",
+    "No image forward, gradient, optimizer, restore check or new control result",
+    "Scheduler and actual reports remain required"
+  ]
+}
