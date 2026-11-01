@@ -1,5 +1,7 @@
 # Changelog
 
+- Repaired checkpoint-size monitoring to tolerate disappearing child entries while retaining other scan errors. Nine local filesystem checks plus isolated shell output/error checks passed; one reviewed retry keeps the original GPU, memory and time limits.
+
 - Verified the first real 3.35B full-parameter pi0.5 update on H800. The 246-second allocation stopped during checkpoint saving after a directory-size scanner error; the partial checkpoint and all failure evidence are retained, and recovery remains unaccepted.
 
 - Reviewed the complete pi0.5 update/recovery driver and a single-H800 15-minute contract. Corrected model-reference retention, interrupted-step accounting, staged-path assumptions and process-identity guards; real optimizer execution remains independently gated.

@@ -1,0 +1,72 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-checkpoint-size-guard-repair-20261102",
+  "timestamp_utc": "2026-11-01T19:28:53.285154+00:00",
+  "kind": "independent_directory_size_monitor_repair_and_retry_contract",
+  "status": "local_boundary_and_shell_checks_passed_reviewed_retry_delegated",
+  "previous_failure": "experiments/records/pi05-first-full-update-checkpoint-interrupted-20261102.json",
+  "guard_sha256": "1db61b5a9e4f21c3f9d0e704c693cefca365bfb8aef86b3467e132f5d2d87fd6",
+  "scanner_sha256": "02405c7f7398f3bae88436e0fd2d8af39c1c1f9d13cd2911fd0eb11bf788de27",
+  "tests_sha256": "a1a72dad87045203ed7c60c9505f384490a55128dac0ecc7b60bb2bb45bcb15c",
+  "checks": {
+    "9_filesystem_boundaries_passed": true,
+    "actual_function_single_decimal_stdout": true,
+    "diagnostics_retained_in_separate_log": true,
+    "actual_function_error_routes_to45": true,
+    "bash_syntax_passed": true
+  },
+  "behavior": [
+    "Scan only regular-file apparent sizes, skip symbolic links",
+    "Skip an individual disappearing child on ENOENT; preserve and fail on other errors",
+    "Reject missing/non-directory/symlink root and changed root identity",
+    "Keep size output decimal-only and retain timestamped diagnostic stderr separately",
+    "Preserve sampled RSS, output cap, deadline and original-process identity rules"
+  ],
+  "limits": [
+    "Original scanner stderr was discarded, so concurrent rename remains an unconfirmed cause",
+    "Local small-file tests do not establish full checkpoint save/restore success",
+    "No memory or GPU resource limit increased"
+  ],
+  "retry": {
+    "permit_sha256": "a846aa853d9a7c8f48084873e7ab9605b674ea8b2f3bb15b2f21380f98c1b32e",
+    "bound_files": 45,
+    "source_revision": "3a2c2edc1d84221a0d0a5be2e5b2cc2068f9b7db",
+    "gpu_count": 1,
+    "maxwall_s": 900,
+    "overall_first_smoke_budget_s": 1800,
+    "first_smoke_gpu_seconds_consumed": 430,
+    "max_unique_steps": 2,
+    "max_optimizer_applications": 3,
+    "starts_from": "unchanged complete pretrained base; prior updated state has no accepted restorable checkpoint",
+    "old_failed_run_and_permit_preserved": true,
+    "automatic_retry": false
+  },
+  "kimi_execution": [
+    {
+      "task": "v1-pi05-output-guard-fix",
+      "status": "timeout",
+      "elapsed_s": 120.1,
+      "usage": {
+        "records": 15,
+        "input_uncached": 15206,
+        "input_cached": 991744,
+        "input_cache_write": 0,
+        "output": 6168,
+        "total": 1013118
+      }
+    },
+    {
+      "task": "v1-pi05-guard-stdout-fix",
+      "status": "reported",
+      "elapsed_s": 55.4,
+      "usage": {
+        "records": 6,
+        "input_uncached": 12251,
+        "input_cached": 422144,
+        "input_cache_write": 0,
+        "output": 2780,
+        "total": 437175
+      }
+    }
+  ]
+}
