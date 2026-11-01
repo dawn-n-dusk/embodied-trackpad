@@ -1,5 +1,7 @@
 # Changelog
 
+- Added the official pi0.5 Observation adapter with local verified tokenizer initialization, 16-state tokenization before 32-channel padding, explicit loss mask and no second normalization. Independent 22 software tests passed; real upstream transform execution is the next gate.
+
 - Verified complete pretrained pi0.5 loading on one H800: 3,353,433,872 FP32 parameters, strict tree restoration, 23.914 seconds load/count and a 26-second allocation. Recorded host RSS separately from unknown peak GPU memory; image forward, gradients and optimizer updates remain pending.
 
 - Independently accepted the two-real-sample pi0.5 input pack; retained the first 54-second backend-initialization failure, requested/allocated CPU discrepancy, and a CUDA-only correction verified by 11 independent checks. Official tokenizer asset metadata/size/SHA256 were also verified. No full-model load or optimizer result is claimed.

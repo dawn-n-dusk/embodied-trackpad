@@ -1,0 +1,72 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-observation-source-accepted-20261102",
+  "timestamp_utc": "2026-11-01T16:24:22.140161+00:00",
+  "kind": "independent_official_observation_adapter_source_acceptance",
+  "status": "source_and_software_boundaries_accepted_official_runtime_pending",
+  "source_revision_base": "bd05485d51fe5a57b6c0b1c8d1d2297013962739",
+  "file_sha256": {
+    "src/embodied_trackpad/leap_v1/pi05_observation.py": "ad84cd0c530288fc0cf46d54eee2dcedf7f597fdf095b202bad42063a59745c2",
+    "tests/test_pi05_observation.py": "41d0bafaeb485bb3056eccd4781c03a300ddfa53e583b3832d9eed99753c9a13"
+  },
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "checks": {
+    "independent_pytest_passed": 22,
+    "actual_openpi_runtime_executed": false,
+    "test_dependencies": "explicitly labeled software doubles at actual upstream import paths",
+    "input_validation_before_heavy_imports": true,
+    "local_tokenizer_hash_before_import": true,
+    "official_tokenize_method_inherited_unchanged": true,
+    "normalization_applied_again": false,
+    "state_tokenized_dimensions": 16,
+    "padded_model_dimensions": 32,
+    "action_horizon": 25,
+    "token_length": 200,
+    "main_view": [
+      1,
+      224,
+      224,
+      3
+    ],
+    "missing_wrist_masks": false,
+    "loss_mask32": "first16true_restfalse_outside_observation",
+    "raw_input_mutated": false
+  },
+  "prior_defects_corrected": [
+    "wrong openpi.training.transforms import replaced by openpi.transforms",
+    "normalized action values no longer called radians",
+    "16-entry mask replaced by explicit32-entry valid16 mask",
+    "unsupported smoke configuration rejected",
+    "tokenizer hash checked before heavyweight imports"
+  ],
+  "kimi_calls": {
+    "initial": {
+      "elapsed_s": 260.1,
+      "status": "timeout_after_source_saved",
+      "input_uncached": 32884,
+      "input_cached": 596992,
+      "output": 8299
+    },
+    "correction": {
+      "elapsed_s": 240.1,
+      "status": "timeout_after_source_and_tests_saved",
+      "input_uncached": 51802,
+      "input_cached": 585472,
+      "output": 9472
+    },
+    "usage_not_billing": true
+  },
+  "previous_load_call_usage_recovered": {
+    "task": "corrected_cuda_load",
+    "input_uncached": 34340,
+    "input_cached": 639744,
+    "output": 18871,
+    "recovery": "exact task matched in session archive; original unknown receipt preserved"
+  },
+  "limits": [
+    "Pure software tests do not prove real tokenizer/resize/Observation compatibility",
+    "No new model forward, gradient, optimizer, or closed-loop result",
+    "Two samples are an interface check, not evidence of training sufficiency"
+  ],
+  "next": "One bounded CPU allocation for real two-sample official transform parity, followed by reviewed GPU forward/backward modules"
+}
