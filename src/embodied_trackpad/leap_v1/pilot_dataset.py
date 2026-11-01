@@ -8,6 +8,7 @@ import hashlib
 import json
 import math
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -38,6 +39,19 @@ DIAGONAL_TRAIN_SEEDS = {0, 1, 2, 3}
 DIAGONAL_VAL_SEEDS = {4, 6}
 DIAGONAL_TEST_SEEDS = {5, 7}
 DEFAULT_TASK_PROFILE = "near_pointing_v1"
+KNOWN_TASK_PROFILES = ("near_pointing_v1", "near_diagonal_v1")
+COLLECTION_ID_RE = re.compile(r"^[A-Za-z0-9_-]+$")
+
+
+def _validate_collection_request(task_profile: str, collection_id: str | None) -> None:
+    """Shared request-gate for profile-scoped audit/manifest identity."""
+    if task_profile not in KNOWN_TASK_PROFILES:
+        raise ValueError(f"unknown task_profile {task_profile!r}")
+    if task_profile == "near_diagonal_v1" and (
+            not isinstance(collection_id, str)
+            or not COLLECTION_ID_RE.fullmatch(collection_id)):
+        raise ValueError(
+            "near_diagonal_v1 requires a nonempty collection_id matching [A-Za-z0-9_-]+")
 
 REQUIRED_STEP_CHECKS = {
     "pre_step_state_finite",
@@ -153,6 +167,8 @@ class EpisodeAudit:
     episode_dir: str
     summary: dict[str, Any]
     metadata: dict[str, Any] = field(default_factory=dict)
+    task_profile: str = DEFAULT_TASK_PROFILE
+    collection_id: str | None = None
     accepted: bool = False
     rejection_reasons: list[str] = field(default_factory=list)
     validation_issues: list[dict[str, Any]] = field(default_factory=list)
@@ -573,11 +589,21 @@ def audit_episode(
     episode_dir: str | Path,
     repo_root: str | Path,
     acceptance: dict[str, Any] | None = None,
+    *,
+    task_profile: str = DEFAULT_TASK_PROFILE,
+    collection_id: str | None = None,
 ) -> tuple[EpisodeAudit, list[dict[str, Any]]]:
-    """Return audit object and list of candidate sample-index entries."""
+    """Return audit object and list of candidate sample-index entries.
+
+    ``task_profile``/``collection_id`` scope the episode identity; the default
+    reproduces legacy axial behavior exactly. Validation of the requested
+    profile happens before any expensive per-image work.
+    """
+    _validate_collection_request(task_profile, collection_id)
     ep = Path(episode_dir)
     root = Path(repo_root)
-    audit = EpisodeAudit(seed=-1, episode_dir=str(ep), summary={}, metadata={})
+    audit = EpisodeAudit(seed=-1, episode_dir=str(ep), summary={},
+                         task_profile=task_profile, collection_id=collection_id)
     samples: list[dict[str, Any]] = []
 
     summary_path = ep / "summary.json"
@@ -600,6 +626,46 @@ def audit_episode(
 
     if not _validate_summary(audit, audit.metadata, acceptance):
         _reject(audit, "summary/metadata validation failed")
+
+    # Profile/collection identity gate BEFORE expensive image validation.
+    # Legacy axial: an absent episode profile is allowed; any present profile
+    # that conflicts with the request is rejected (never silently axial).
+    meta_profile = audit.metadata.get("task_profile")
+    sum_profile = audit.summary.get("task_profile")
+    profile_conflict = False
+    if task_profile == DEFAULT_TASK_PROFILE:
+        for present in (meta_profile, sum_profile):
+            if present is not None and present != DEFAULT_TASK_PROFILE:
+                _reject(audit, f"task_profile conflict: episode declares {present!r} "
+                               f"but request is {DEFAULT_TASK_PROFILE!r}")
+                profile_conflict = True
+    else:
+        if meta_profile != task_profile or sum_profile != task_profile:
+            _reject(audit, f"task_profile mismatch: metadata={meta_profile!r} "
+                           f"summary={sum_profile!r} request={task_profile!r}")
+            profile_conflict = True
+    if acceptance is not None:
+        acc_profile = (acceptance.get("config") or {}).get("task_profile")
+        if task_profile == "near_diagonal_v1":
+            if acc_profile != task_profile:
+                _reject(audit, f"acceptance task_profile {acc_profile!r} != request {task_profile!r}")
+                profile_conflict = True
+        elif acc_profile is not None and acc_profile != task_profile:
+            _reject(audit, f"acceptance task_profile {acc_profile!r} != request {task_profile!r}")
+            profile_conflict = True
+    if collection_id is not None:
+        for src_name, doc in (("metadata", audit.metadata),
+                              ("summary", audit.summary)):
+            present = doc.get("collection_id")
+            if present is not None and present != collection_id:
+                _reject(audit, f"collection_id conflict in {src_name}: "
+                               f"{present!r} != {collection_id!r}")
+                profile_conflict = True
+    if split_of(audit.seed, task_profile=task_profile) == "rejected":
+        _reject(audit, f"seed {audit.seed} outside {task_profile} split")
+        profile_conflict = True
+    if profile_conflict:
+        return audit, samples
 
     # Load JSONL
     try:
@@ -754,8 +820,9 @@ def audit_episode(
         sample = {
             "episode_id": audit.seed,
             "frame_id": fid,
-            "split": split_of(audit.seed),
-            "target_class": audit.seed % 12,
+            "split": split_of(audit.seed, task_profile=audit.task_profile),
+            "target_class": audit.seed if audit.task_profile != DEFAULT_TASK_PROFILE
+                            else audit.seed % 12,
             "actor_input": {
                 "png_ref": rel_png,
                 "png_sha256": sha256_file(png_path),
@@ -804,6 +871,12 @@ def audit_episode(
             "training_eligible": False,
             "pending_coordinator": True,
         }
+        if audit.task_profile != DEFAULT_TASK_PROFILE:
+            sample["task_profile"] = audit.task_profile
+            sample["collection_id"] = audit.collection_id
+            sample["target_key"] = f"{audit.task_profile}:{audit.seed}"
+            sample["episode_key"] = (
+                f"{audit.collection_id}:{audit.task_profile}:seed-{audit.seed:03d}")
         samples.append(sample)
         prev_actor = a
         last_visual_steps = steps
@@ -899,8 +972,56 @@ def build_dataset_manifest(
     manifest_sha256: str,
     batch_summary_sha256: str,
     collection_info: dict[str, Any],
+    *,
+    task_profile: str = DEFAULT_TASK_PROFILE,
+    collection_id: str | None = None,
 ) -> dict[str, Any]:
-    """Build dataset_manifest.json content."""
+    """Build dataset_manifest.json content.
+
+    Scoped (non-default) profiles stamp task_profile/collection_id identity
+    and validate that audits/samples form one homogeneous collection;
+    conflicting or mislabeled input raises ValueError instead of emitting a
+    mislabeled manifest. Default arguments reproduce the legacy manifest.
+    """
+    _validate_collection_request(task_profile, collection_id)
+    scoped = task_profile != DEFAULT_TASK_PROFILE
+    seen_keys: set[str] = set()
+    if scoped:
+        accepted_by_key: dict[str, EpisodeAudit] = {}
+        for a in audits:
+            if a.task_profile != task_profile or a.collection_id != collection_id:
+                raise ValueError(
+                    f"mixed collection identity: audit {a.episode_dir} has "
+                    f"profile={a.task_profile!r} collection={a.collection_id!r}")
+            if split_of(a.seed, task_profile=task_profile) == "rejected":
+                raise ValueError(f"audit seed {a.seed} outside {task_profile} split")
+            ekey = f"{collection_id}:{task_profile}:seed-{a.seed:03d}"
+            if ekey in accepted_by_key:
+                raise ValueError(f"duplicate audit episode key {ekey}")
+            accepted_by_key[ekey] = a
+        for s in samples:
+            if s.get("task_profile") != task_profile or s.get("collection_id") != collection_id:
+                raise ValueError("sample task_profile/collection_id conflict with manifest request")
+            split = split_of(s["episode_id"], task_profile=task_profile)
+            if split == "rejected" or s.get("split") != split:
+                raise ValueError(
+                    f"sample split {s.get('split')!r} != {split!r} for seed {s['episode_id']}")
+            if s.get("target_class") != s["episode_id"]:
+                raise ValueError(f"sample target_class != episode_id for seed {s['episode_id']}")
+            target_key = f"{task_profile}:{s['episode_id']}"
+            episode_key = f"{collection_id}:{task_profile}:seed-{s['episode_id']:03d}"
+            if s.get("target_key") != target_key or s.get("episode_key") != episode_key:
+                raise ValueError(f"sample scoped keys wrong for seed {s['episode_id']}")
+            audit = accepted_by_key.get(episode_key)
+            if audit is None or audit.accepted is not True:
+                raise ValueError(f"sample references missing/unaccepted audit {episode_key}")
+            seen_keys.add(target_key)
+        # NOTE: no global coverage requirement here: a manifest must
+        # truthfully represent failed/partial collections (even zero accepted
+        # samples). Full eight-class coverage is a separate CLI acceptance gate.
+    elif any("task_profile" in s for s in samples) or any(
+            a.task_profile != DEFAULT_TASK_PROFILE for a in audits):
+        raise ValueError("scoped samples/audits in a legacy manifest request")
     split_counts: dict[str, int] = {"train": 0, "validation": 0, "test": 0, "rejected": 0}
     for s in samples:
         split_counts[s["split"]] = split_counts.get(s["split"], 0) + 1
@@ -913,9 +1034,9 @@ def build_dataset_manifest(
         total_raw += audit.raw_bytes_counted
         total_pre += audit.pre_summary_bytes
         total_sim += float(audit.summary.get("steps", 0)) * DT_S
-        per_episode.append({
+        entry = {
             "seed": audit.seed,
-            "split": split_of(audit.seed),
+            "split": split_of(audit.seed, task_profile=audit.task_profile),
             "accepted": audit.accepted,
             "action_frames": audit.action_frames,
             "actor_entries": audit.actor_entries,
@@ -935,8 +1056,15 @@ def build_dataset_manifest(
             "issue_count": len(audit.validation_issues),
             "raw_identity_summary_sha256": audit.raw_identity.get("summary_sha256"),
             "terminal_png_sha256": audit.terminal_png_sha256,
-        })
-    return {
+        }
+        if scoped:
+            entry["task_profile"] = audit.task_profile
+            entry["collection_id"] = audit.collection_id
+            entry["target_key"] = f"{audit.task_profile}:{audit.seed}"
+            entry["episode_key"] = (
+                f"{audit.collection_id}:{audit.task_profile}:seed-{audit.seed:03d}")
+        per_episode.append(entry)
+    manifest = {
         "created_utc": None,
         "source_commit": acceptance.get("source_commit"),
         "asset_manifest_sha256": acceptance.get("asset_manifest", {}).get("sha256"),
@@ -975,3 +1103,8 @@ def build_dataset_manifest(
             "clock offset and uncertainty are unavailable for this offline export",
         ],
     }
+    if scoped:
+        manifest["task_profile"] = task_profile
+        manifest["collection_id"] = collection_id
+        manifest["target_keys"] = sorted(seen_keys)
+    return manifest

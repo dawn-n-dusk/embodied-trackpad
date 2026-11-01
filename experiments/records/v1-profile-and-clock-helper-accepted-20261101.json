@@ -1,0 +1,71 @@
+{
+  "record_version": "1.0",
+  "id": "v1-profile-and-clock-helper-accepted-20261101",
+  "timestamp_utc": "2026-11-01T10:23:04.609780+00:00",
+  "kind": "independent_offline_data_identity_and_clock_helper_audit",
+  "status": "source_modules_accepted_not_end_to_end_data_readiness",
+  "source_commit": "c393194cd03052f8022e1edcdcf0e67180564dfa",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pilot_dataset.py": "a80c6aeea191db6d48ba98625eb6fbd5e4e1f8ffa353ae4ceba5f14aa0bc668f",
+    "src/embodied_trackpad/leap_v1/pilot_provenance.py": "0244aa5dbbc956bd7909edcd1da42a7098c08652557e1ce7ed8fd9213faa30f9",
+    "tests/test_leap_v1_profile_export.py": "1db7403b8f48440f413db1c85e2aa868d32ff1c501bb02f5febfb1686308eae2",
+    "tests/test_leap_v1_pilot_provenance.py": "ebf4d49a05426b1fa40d95309e9eab34234f28d8e386c94693920cdf22dd3648"
+  },
+  "independent_checks": {
+    "profile_export_regression_tests": 60,
+    "profile_export_regression_wall_s": 3.55,
+    "legacy_byte_equivalent_samples_and_manifest_plus_identity_checks": 9,
+    "clock_helper_tests": 22,
+    "clock_helper_test_wall_s": 0.03,
+    "saved_trace_and_negative_checks": 14,
+    "saved_frames_checked": 45,
+    "saved_terminal_frames_checked": 1,
+    "maximum_saved_frame_age_plus_uncertainty_ms": 42.85350002464838,
+    "raw_evidence_unchanged": true
+  },
+  "retained_failures": [
+    {
+      "stage": "profile_source",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "partial_source": "preserved_then_finished"
+    },
+    {
+      "stage": "profile_tests",
+      "status": "timeout",
+      "elapsed_s": 120.1,
+      "saved_tests": "independently_ran_58_pass_2_fixture_path_errors_then_fixed_60_pass"
+    },
+    {
+      "stage": "clock_helper",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "partial_source": "preserved_then_fixed_stdlib_version_and_missing_backend_binding_checks"
+    }
+  ],
+  "kimi_dispatches": 5,
+  "kimi_dispatch_wall_s": 777.7,
+  "recorded_usage": {
+    "records": 45,
+    "input_uncached": 110692,
+    "input_cached": 4807424,
+    "input_cache_write": 0,
+    "output": 35011,
+    "total": 4953127
+  },
+  "usage_note": "Provider records, not billing or membership quota. One timeout session was identified from its exact task marker and its recorded usage recovered; original null receipt retained. Interrupted unreported requests remain unknown.",
+  "behavior": [
+    "Legacy default sample/manifest output remains unchanged for tested axial classes; original index/checkpoint unchanged.",
+    "Diagonal identity binds profile, collection, all eight target classes and episode; conflicting/missing identities rejected.",
+    "Partial/failed collections can retain truthful manifests; missing classes are not silently replaced or erased.",
+    "Clock helper verifies stages, backend, calibration and worst-case freshness including terminal frames; missing legacy timing remains null.",
+    "50-dimensional actor features and executed 25x16 action labels unchanged."
+  ],
+  "limitations": [
+    "Clock helper integration in actual exporter is dispatched separately, not accepted by this record.",
+    "Configuration consistency, CLI global identity, and training-loader compatibility remain pending.",
+    "No new collection, dataset index, optimizer, GPU allocation, physical operation or live stream.",
+    "Saved diagnostic trajectories remain development-only; helper checks do not make them training-eligible.",
+    "Learned-policy diagonal outcome remains 2/8."
+  ]
+}
