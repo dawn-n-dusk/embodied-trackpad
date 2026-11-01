@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted native pi0.5 input repacking after 28 tests and six real-sample comparisons; preserved absent sensors and unapplied 16-of-32 loss mask. Audited 12 resized screenshots and recorded cursor detail loss before precision-control use.
+
 - Verified isolated pinned OpenPI source and dependency staging from actual installer output and final package metadata. Base weight staging is delegated; pretrained model loading and training remain unverified.
 
 - Accepted the pure native-to-coarse control resampling helper after 22 tests and six real-label interpolation checks; complete temporal assembly and physical equivalence remain unverified.

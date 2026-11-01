@@ -1,0 +1,61 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-native-repack-accepted-20261101",
+  "timestamp_utc": "2026-11-01T14:54:24.335155+00:00",
+  "source_revision": "684fdef",
+  "source_sha256": "bbe77487db710c66f9fb980cf5797717f6eb4cbe1c0276e9a6d8bca674e3fd69",
+  "test_sha256": "a40c4486946ec8ea39c3fd276cbedc3584eb0f6ff0099a4a2cfb009498807650",
+  "independent_checks": {
+    "focused_tests_runtime": 28,
+    "focused_tests_integrated": 28,
+    "actual_samples": 6,
+    "sample_selection": "first training/validation/test row in each independently validated corpus",
+    "exact_rgb_state_action_parity": true,
+    "missing_wrist_zero_false": true,
+    "missing_sensor_provenance_copied": true,
+    "mutation_isolation": true,
+    "oracle_excluded": true
+  },
+  "native_state_dim": 16,
+  "native_action_shape": [
+    25,
+    16
+  ],
+  "native_action_dt_s": 0.002,
+  "native_horizon_s": 0.05,
+  "loss_mask": {
+    "shape": [
+      32
+    ],
+    "valid_first_dimensions": 16,
+    "actually_applied": false
+  },
+  "pending": [
+    "normalization",
+    "resize",
+    "tokenization",
+    "padding",
+    "actual masked loss",
+    "model load and optimizer"
+  ],
+  "kimi": {
+    "initial_elapsed_s": 325.4,
+    "initial_status": "unstructured_return_source_saved",
+    "correction_elapsed_s": 77.2,
+    "correction": "copy validated absent sensor fields into isolated provenance",
+    "initial_tokens": {
+      "uncached_input": 28476,
+      "cached_input": 395776,
+      "output": 13713
+    },
+    "correction_tokens": {
+      "uncached_input": 34569,
+      "cached_input": 376576,
+      "output": 2333
+    }
+  },
+  "limits": [
+    "Native input mapping only, not model-ready",
+    "No pretrained forward, optimizer or control result"
+  ]
+}

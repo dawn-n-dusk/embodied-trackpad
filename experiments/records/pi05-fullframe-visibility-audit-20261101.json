@@ -1,0 +1,48 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-fullframe-visibility-audit-20261101",
+  "timestamp_utc": "2026-11-01T14:54:24.335155+00:00",
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "image_tools_sha256": "d48b4bd7f44e79fe6db8a8e07c9161144fa250be686e1245014a8b47e6171977",
+  "method": "Pinned upstream bilinear resize_with_pad; offline evaluator colour thresholds, not actor input",
+  "sample_count": 12,
+  "selection": "first and last row of each split in two independent corpora",
+  "source_shape": [
+    600,
+    800,
+    3
+  ],
+  "resized_shape": [
+    224,
+    224,
+    3
+  ],
+  "content_shape": [
+    168,
+    224
+  ],
+  "scale": 0.28,
+  "three_native_pixels_after_resize": 0.84,
+  "strict_red_pixels_after_resize": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    3,
+    3,
+    1,
+    0,
+    0,
+    0
+  ],
+  "strict_red_zero_samples": 9,
+  "visual_review": "Six initial frames inspected; red cursor still faintly visible. Threshold failure is not total visual disappearance.",
+  "decision": "Allow full-frame model-interface smoke only; precise closed-loop deployment needs explicit pixel-derived local screen view and separate localization validation",
+  "limits": [
+    "No learned localization or control metric",
+    "No images published",
+    "Current missing wrist views remain masked; a future screen crop must be labeled as screen data"
+  ]
+}
