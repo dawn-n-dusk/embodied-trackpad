@@ -1,0 +1,69 @@
+{
+  "record_version": "1.0",
+  "id": "v1-small-policy-deployment-failure-20261101",
+  "timestamp_utc": "2026-11-01T06:01:04.484037+00:00",
+  "kind": "independent_gpu_deployment_failure_review",
+  "status": "allocation_completed_but_trainer_failed_before_optimizer",
+  "source_commit": "03e93f02d05b2ea8701aa8fb3f6e86e57b8e46e7",
+  "ci": {
+    "run_id": 41278485606,
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "allocation": {
+    "job_id": 734156,
+    "gpu": "NVIDIA H800",
+    "gpus": 1,
+    "driver": "580.173.02",
+    "elapsed_s": 1,
+    "scheduler_state": "COMPLETED",
+    "scheduler_exit": "0:0",
+    "trainer_exit": 1
+  },
+  "actual_optimizer_updates": 0,
+  "checkpoint_created": false,
+  "npz_created": false,
+  "failure": "Staged package omitted embodied_trackpad.clock, which the unchanged package initializer imports. Shell wrapper masked the failed trainer exit.",
+  "independent_evidence": {
+    "trainer_stderr": "ModuleNotFoundError: No module named embodied_trackpad.clock",
+    "original_initializer_sha256": "fc66c08943fa8139642c7b829216bad6f3108df7550caad75dcdaad5c9b4adf9",
+    "worker_post_failure_initializer_sha256": "c7234cb8ac01b374f1811795ef33b1f3da56cb6d0357ecd8fb471f49207b2d51"
+  },
+  "worker_followup_not_accepted": "Worker emptied deployment package initializer markers after failure. This workaround is not the frozen source and is excluded from the corrected attempt; original source remains recoverable from Git and failure logs are preserved.",
+  "correction_contract": [
+    "Extract the complete tracked source package from the frozen Git revision, without edits.",
+    "Check every deployed source hash and run local isolated import preflight before allocation.",
+    "Propagate trainer and checkpoint-summary failure to the Slurm exit code.",
+    "Use a new run directory and separate permit; retain failed attempt."
+  ],
+  "corrected_attempt_budget": {
+    "new_submissions_max": 1,
+    "gpus": 1,
+    "max_wall_s": 1799,
+    "max_updates": 2000,
+    "interactive_simulation_environments": 0,
+    "note": "One second consumed by the failed allocation is deducted from the original 30-minute smoke budget."
+  },
+  "kimi_dispatch": {
+    "elapsed_s": 317.2,
+    "status": "reported",
+    "recorded_usage": {
+      "records": 32,
+      "input_uncached": 131141,
+      "input_cached": 4063744,
+      "input_cache_write": 0,
+      "output": 23082,
+      "total": 4217967
+    }
+  },
+  "limitations": [
+    "Scheduler success does not establish training. This attempt made no optimizer update.",
+    "No learned visual/physics task, live robot stream or hardware result.",
+    "Corrected attempt is separately owned and requires its own evidence."
+  ]
+}

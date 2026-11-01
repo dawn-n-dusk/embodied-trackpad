@@ -1,5 +1,7 @@
 # Changelog
 
+- Preserved the first small-policy H800 deployment failure (zero optimizer updates) and the masked scheduler exit; required complete frozen-package staging, local import preflight and truthful exit propagation before a separate bounded retry. Source integration CI passed on Python 3.10–3.13.
+
 - Added the source-reviewed small MLP trainer and NumPy deployment path, source/data permits, real disk checkpoint comparison and bounded H800 guards. Independently passed 81 local checks with 1 GPU skip. Fixed CI’s missing NumPy dev dependency. Actual optimizer, restore and GPU parity remain unrun until the bounded job.
 
 - Accepted the exact 674-sample teacher pilot index after 84 auditor checks and independent raw/image/action comparison. Preserved 758 raw file hashes, whole-target splits and failed exports; corrected aggregated-finger counting and complete hash checks. Training and learned task success remain separate.
