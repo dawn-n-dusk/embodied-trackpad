@@ -4,6 +4,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Preserved auditor and small-policy implementation timeouts plus independent failing tests. Reproduced real-index metadata/label incompatibility, kept unaccepted source private, and split correction work into two disjoint bounded Kimi tasks. No optimizer or new GPU job was started.
+
 - Independently verified the complete12-episode raw pilot:47,450physics steps,686images,674action groups and1,214touch messages. All12 fixed-target teacher episodes passed. Rejected the first reusable auditor despite25passing tests after reproducing7false-acceptance counterexamples; preserved it and delegated bounded repairs. Added a gated small-policy BC/checkpoint/independent-evaluation contract.
 
 - Collected12 fresh fixed-target pilot episodes after four-direction teacher acceptance. Independently checked source hashes, row counts, raw byte inventory and exited application identities; full causal/pixel/data acceptance remains pending. Preserved prospective target-class splits and raw ineligibility, and corrected the collection report's byte-unit/wall-time interpretation.

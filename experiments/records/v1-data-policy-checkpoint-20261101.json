@@ -1,0 +1,116 @@
+{
+  "record_version": "1.0",
+  "id": "v1-data-policy-checkpoint-20261101",
+  "timestamp_utc": "2026-11-01T05:00:08.414261+00:00",
+  "kind": "independent_source_failure_review_and_bounded_rescope",
+  "status": "raw_evidence_retained_two_source_repairs_in_progress",
+  "source_commit": "4f5f640b22478aea0a5bfbe017a9c826b207e5fb",
+  "auditor_repair_test_result": {
+    "passed": 36,
+    "failed": 7,
+    "skipped": 0,
+    "elapsed_s": 1.2
+  },
+  "small_policy_source_test_result": {
+    "passed": 26,
+    "failed": 2,
+    "skipped": 0,
+    "elapsed_s": 0.23
+  },
+  "independent_findings": [
+    "Auditor compared an image intent to the previous step frame id instead of the intended next step frame id.",
+    "Terminal images were omitted from success/clock/state accounting and summary frame count was compared to action count.",
+    "Export action end time was advanced by one extra simulation step and clock domain was confused with frame id.",
+    "Policy adapter rejected actual non-feature image/sensor/clock metadata and interpreted cumulative control offsets as per-step increments.",
+    "Policy motion-channel reporting selected one channel per finger instead of the four index-finger channels.",
+    "Torch trainer restore validation and resource/batch handling remain unaccepted; no optimizer was run."
+  ],
+  "originals_preserved": true,
+  "raw_data_unchanged": true,
+  "current_delegation": [
+    {
+      "task": "pilot terminal and time metadata micro-fix",
+      "scope": "one source module plus new focused tests; one offline saved seed review",
+      "wall_limit_s": 300,
+      "fresh_context": true
+    },
+    {
+      "task": "small-policy NumPy adapter correction",
+      "scope": "NumPy helpers and pure tests plus read-only candidate index compatibility",
+      "wall_limit_s": 360,
+      "fresh_context": false
+    }
+  ],
+  "kimi_completed_dispatches": [
+    {
+      "task": "initial_pilot_auditor",
+      "elapsed_s": 481.3,
+      "status": "reported_but_rejected",
+      "usage": {
+        "records": 49,
+        "input_uncached": 118892,
+        "input_cached": 5552640,
+        "input_cache_write": 0,
+        "output": 32557,
+        "total": 5704089
+      }
+    },
+    {
+      "task": "auditor_repair",
+      "elapsed_s": 600.1,
+      "status": "timeout_saved_source",
+      "usage": {
+        "records": 47,
+        "input_uncached": 196871,
+        "input_cached": 6187776,
+        "input_cache_write": 0,
+        "output": 53031,
+        "total": 6437678
+      }
+    },
+    {
+      "task": "auditor_core_continuation",
+      "elapsed_s": 360.1,
+      "status": "timeout_no_requested_core_fix",
+      "usage": {
+        "records": 1,
+        "input_uncached": 196778,
+        "input_cached": 768,
+        "input_cache_write": 0,
+        "output": 2943,
+        "total": 200489
+      }
+    },
+    {
+      "task": "small_policy_source",
+      "elapsed_s": 480.1,
+      "status": "timeout_saved_source",
+      "usage": {
+        "records": 23,
+        "input_uncached": 70428,
+        "input_cached": 1681664,
+        "input_cache_write": 0,
+        "output": 26560,
+        "total": 1778652
+      }
+    }
+  ],
+  "recorded_combined_usage": {
+    "input_uncached": 582969,
+    "input_cached": 13422848,
+    "output": 115091,
+    "total": 14120908
+  },
+  "summed_dispatch_elapsed_s": 1921.6,
+  "accounting_note": "Summed bounded invocation time is not end-to-end wall time because work overlaps. Provider records include cache reads and may omit interrupted requests. These are not billing totals or demonstrated delegation savings.",
+  "public_ci": {
+    "commit": "4f5f640b22478aea0a5bfbe017a9c826b207e5fb",
+    "run_id": 41222104258,
+    "conclusion": "success"
+  },
+  "limitations": [
+    "Raw12-episode teacher evidence remains independently reviewed. Exporter/schema and learner source are not accepted for training.",
+    "Passing synthetic unit tests alone did not establish compatibility with saved data; failures are retained and correction scope is reduced.",
+    "No accepted small-policy checkpoint, optimizer training, new H800 allocation, active robot stream or real hardware result."
+  ]
+}
