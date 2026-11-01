@@ -1,0 +1,51 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-routing-integration-20261102",
+  "timestamp_utc": "2026-11-01T23:32:51.361894+00:00",
+  "source_revision": "5738fed79f8cbc14990d981c1d79584713c5d6c1",
+  "kind": "independent_regression_and_native_fixture_audit",
+  "status": "local_integration_passed_real_jax_screen_route_pending",
+  "first_full_regression": {
+    "passed": 1142,
+    "skipped": 31,
+    "failed": 6,
+    "elapsed_s": 45.11,
+    "failure_scope": "Six test_diagonal_profile_* native protocol tests; existing ignored binary rejected near_diagonal_v1."
+  },
+  "fixture_correction": {
+    "owner": "Kimi",
+    "public_source_changes": false,
+    "old_binary_preserved": true,
+    "old_binary_sha256": "1e30f0e9db9cb706878319f83bbdbbdf61457a96d251990445b2b991d7bb2cd0",
+    "new_binary_sha256": "16e734393e0befef2d02166347778603f6edf227bf4052345ed0e749ec25ceaa",
+    "independent_static_checks": 11,
+    "worker_focused_regression": {
+      "passed": 6,
+      "deselected": 54,
+      "elapsed_s": 2.13
+    },
+    "app_sandbox_entitlement": true
+  },
+  "final_independent_full_regression": {
+    "command": "PYTHONPATH=src:. OMP_NUM_THREADS=2 OPENBLAS_NUM_THREADS=2 python -m pytest -q",
+    "runtime": "existing macOS Python 3.11.15 environment",
+    "passed": 1148,
+    "skipped": 31,
+    "failed": 0,
+    "elapsed_s": 44.26,
+    "source_and_assertions_unchanged": true
+  },
+  "artifact_sha256": {
+    "final_pytest_log": "58e30142ff6f9b9c233f105f3e9bdebffb2a6e289ec9163b94ba921a1e433879",
+    "independent_fixture_audit": "5437b1e86199693c42b3ae579f631a080d7e5dee6cb91754ccb75682857f288c",
+    "worker_focused_log": "b605bb39e80d77c08b9caa4c20d82b91e350dd8df60064ed69ac95a6e8157161",
+    "post_regression_process_audit": "e94584d299e9e5def4e644ec5734d44f3f471a5bc1e5934de91111d07ecbca61"
+  },
+  "boundaries": [
+    "Initial failures remain recorded; no tests were weakened or skipped to obtain the final result.",
+    "Native tests are confined to the test app contact protocol and its own image view; no personal-desktop input/capture or training data collection.",
+    "No repository app or Kimi worker process remains after acceptance.",
+    "Optional dependency skips are unverified coverage. Real JAX execution of the new screen-pair loss/sampler remains pending.",
+    "This is software integration, not improved learned control, GPU continuation, or a running optimizer/livestream."
+  ]
+}

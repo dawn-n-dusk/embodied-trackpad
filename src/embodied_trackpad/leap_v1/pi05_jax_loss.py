@@ -26,6 +26,11 @@ from __future__ import annotations
 
 import numpy as np
 
+from embodied_trackpad.leap_v1.pi05_image_layout import (
+    preprocess_observation_for_layout,
+    validate_image_layout,
+)
+
 __all__ = ["valid16_mse", "pi05_valid16_flow_loss"]
 
 _VALID16 = 16
@@ -49,7 +54,7 @@ def valid16_mse(predicted, target, *, xp=np):
     return xp.mean(xp.square(diff), axis=-1)
 
 
-def pi05_valid16_flow_loss(model, rng, observation, actions):
+def pi05_valid16_flow_loss(model, rng, observation, actions, *, image_layout="legacy"):
     """Official Pi0 flow-matching loss path, reduced over valid 16 channels.
 
     ``model`` must be a fully constructed official ``Pi0`` instance with
@@ -58,15 +63,25 @@ def pi05_valid16_flow_loss(model, rng, observation, actions):
     called; its body is reproduced here so the final reduction can be the
     valid-16 MSE instead of the official 32-channel mean. Suitable for use
     with ``nnx.value_and_grad``.
+
+    ``image_layout`` selects preprocessing statically (closed-over Python
+    string, safe under ``jax.jit``): ``"legacy"`` keeps the official default
+    3-camera preprocessing exactly; ``"screen_pair"`` dispatches through the
+    shared trace-safe layout module with the explicit two screen keys. The
+    rest of the flow body, RNG splitting, and the valid-16 reduction are
+    unchanged. Unknown layouts are rejected before any heavy import.
     """
+    layout = validate_image_layout(image_layout)  # pure Python, pre-import
+
     import jax  # noqa: PLC0415 - deferred: heavy JAX/OpenPI import
     import jax.numpy as jnp  # noqa: PLC0415
-    from openpi.models import model as _model  # noqa: PLC0415
     from openpi.models import pi0 as _pi0  # noqa: PLC0415
 
     # --- official Pi0.compute_loss body (train=False; no GUI augmentation) ---
     preprocess_rng, noise_rng, time_rng = jax.random.split(rng, 3)
-    observation = _model.preprocess_observation(preprocess_rng, observation, train=False)
+    observation = preprocess_observation_for_layout(
+        preprocess_rng, observation, train=False, image_layout=layout
+    )
 
     batch_shape = actions.shape[:-2]
     noise = jax.random.normal(noise_rng, actions.shape)

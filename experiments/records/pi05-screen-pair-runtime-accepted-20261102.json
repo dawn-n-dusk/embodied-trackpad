@@ -1,0 +1,88 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-pair-runtime-accepted-20261102",
+  "timestamp_utc": "2026-11-01T23:17:57.039292+00:00",
+  "source_revision": "5738fed79f8cbc14990d981c1d79584713c5d6c1",
+  "kind": "independent_official_cpu_transform_and_array_audit",
+  "status": "two_screen_observation_runtime_accepted_model_routing_pending",
+  "execution": {
+    "job_id": 736028,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "submitted_utc": "2026-11-01T23:13:28Z",
+    "start_utc": "2026-11-01T23:13:31Z",
+    "end_utc": "2026-11-01T23:14:02Z",
+    "scheduler_elapsed_s": 31,
+    "driver_elapsed_s": 28.444,
+    "allocated_cpu_count": 2,
+    "allocated_cpu_seconds": 62,
+    "requested_memory_gib": 16,
+    "time_v_peak_rss_kib": 957904,
+    "run_directory_bytes_before_summary": 3336179,
+    "gpu_count": 0,
+    "optimizer_applications": 0,
+    "model_forward_backward_calls": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "checks": {
+    "runtime_checks_passed": 121,
+    "independent_audit_checks_passed": 99,
+    "actual_arrays": 36,
+    "real_input_samples": 2,
+    "synthetic_black_controls": 1,
+    "key_negative_controls": 3,
+    "default_three_camera_rejection_observed": true,
+    "max_abs_pixel_error": 0.0,
+    "cursor_pixels_preserved_per_real_sample": [
+      116,
+      116
+    ],
+    "valid_tokens_per_real_sample": [
+      60,
+      60
+    ],
+    "state_tokens_per_sample": [
+      16,
+      16
+    ]
+  },
+  "preserved": [
+    "Exact official full-screen image tensors versus the previously accepted actual CPU transform output.",
+    "Current-RGB-only local crops reconstructed independently, including origin and padding; exact before/after pixels.",
+    "State and token arrays before/after official preprocessing; unchanged 25x16 native labels, 32-channel padding and valid16 mask.",
+    "Two explicit screen keys; missing wrists remain absent sensor provenance.",
+    "Synthetic invalid-local image remains -1 with false mask and is excluded from training data."
+  ],
+  "artifact_sha256": {
+    "input_npz": "a350e3032b50f8276dbe8bba67c553d31cbc11be559559aa3b890f260dd31418",
+    "tokenizer": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "actual_output_npz": "2d785804494931fdbe53271fc042106407c6685622bf1e0926142d4e25bb36c6",
+    "runtime_report": "c682c527238e68fc7646bbd7917b4065dc482dd80e754b88aa8efa532984e055",
+    "independent_audit": "ca9a6e10890bdcc9ec3a72382601d8041a1acf5d9acdaadcf5a1290125fa2902",
+    "permit": "adf6d5ed42b67e4eb6d27329fa1eafff84f0d5d9c5de18b1d8c1fdecc4bf41dc"
+  },
+  "timestamp_correction": "Worker submitted_utc was recorded after the scheduler accepted the job. Original receipt retained; actual scheduler Submit/Start/End used here.",
+  "budget": {
+    "first_smoke_gpu_seconds_used": 1761,
+    "first_smoke_gpu_seconds_remaining": 39
+  },
+  "limitations": [
+    "Two interface samples share the same initial cursor location; no random robustness or control precision estimate.",
+    "No full-model loss, sampling, gradient or optimizer execution on the new screen layout.",
+    "Legacy loss and upstream sampler still require separate routing; host NumPy validator is not JAX tracer-safe.",
+    "Action labels remain 25 steps at 2 ms, not a neural inference frequency claim.",
+    "No active optimizer, simulation or livestream."
+  ]
+}

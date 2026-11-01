@@ -45,6 +45,8 @@ from typing import Any
 
 import numpy as np
 
+from embodied_trackpad.leap_v1.pi05_image_layout import validate_image_layout
+
 __all__ = ["build_full_update"]
 
 _ACTIONS_SHAPE = (1, 25, 32)
@@ -56,8 +58,20 @@ def _leaf_path(path: tuple) -> str:
     return "/".join(str(p) for p in path)
 
 
-def build_full_update(model: Any, seed: int = 17):
-    """Build ``(state, step_fn, census)`` for full fine-tuning of ``model``."""
+def build_full_update(model: Any, seed: int = 17, *, image_layout: str = "legacy"):
+    """Build ``(state, step_fn, census)`` for full fine-tuning of ``model``.
+
+    ``image_layout`` is validated here (pure Python, before any heavy import)
+    and closed over before ``jax.jit``: ``"legacy"`` (default) reproduces the
+    original behavior exactly — the loss is invoked with its four positional
+    arguments and the official default 3-camera preprocessing applies;
+    ``"screen_pair"`` routes the loss through the shared trace-safe layout
+    preprocess with the explicit two screen keys. Layout/optimizer/RNG/state
+    tree, parameter count, and FP32 dtypes are unchanged; all parameters
+    remain trainable (no LoRA, no freezing, no action-time change).
+    """
+    layout = validate_image_layout(image_layout)  # pure Python, pre-import
+
     import jax  # noqa: PLC0415 - deferred heavy import
     import jax.numpy as jnp  # noqa: PLC0415
     import optax  # noqa: PLC0415
@@ -119,6 +133,11 @@ def build_full_update(model: Any, seed: int = 17):
             raise ValueError(f"actions must have shape {_ACTIONS_SHAPE}, got {tuple(actions.shape)}")
 
         def loss_fn(mdl, rng):
+            if layout == "screen_pair":
+                return jnp.mean(
+                    pi05_valid16_flow_loss(mdl, rng, observation, actions, image_layout=layout)
+                )
+            # legacy: four positional args only, preserving existing fixture mocks
             return jnp.mean(pi05_valid16_flow_loss(mdl, rng, observation, actions))
 
         model = nnx.merge(graphdef, state["params"])

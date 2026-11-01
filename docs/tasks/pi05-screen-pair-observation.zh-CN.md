@@ -23,3 +23,7 @@
 ## 软件验收
 
 新模块与原 Observation、局部视图、视觉工具的组合测试共 138 项独立通过。最终图像诊断字段与真实双视图一致，状态和 token 数组单独复制；真实 OpenPI 运行及编译损失/采样器接入仍待验证。[审查记录](../../experiments/records/pi05-screen-pair-observation-reviewed-20261102.json)。
+
+## 官方运行时结果
+
+固定 OpenPI CPU 运行时已完成两张真实图和无效图负控：121 项实际检查及 99 项独立数组核对通过，像素误差为 0，状态、token 和动作保持一致。[运行记录](../../experiments/records/pi05-screen-pair-runtime-accepted-20261102.json)。主机侧适配已验收；编译损失与采样器仍需独立接入，不能把输入正确直接等同于模型使用正确。

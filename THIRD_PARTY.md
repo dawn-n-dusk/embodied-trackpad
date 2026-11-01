@@ -17,3 +17,5 @@ Current LEAP v2 Advanced import uses a pinned official URDF/STL download manifes
 References and public source locations are listed in docs/references.md. Downloaded source snapshots and private audit receipts remain outside the release.
 
 - The flow-loss body in `pi05_jax_loss.py` adapts Physical Intelligence OpenPI `Pi0.compute_loss` at commit `215abfb217dbac7d5f1273282331b9b1866c0479` ([source](https://github.com/Physical-Intelligence/openpi/blob/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models/pi0.py)). GUI image augmentation is disabled and only the first 16 action dimensions contribute to loss. The upstream Apache-2.0 [license is retained](third_party/licenses/openpi-LICENSE); model weights and datasets are not redistributed.
+
+- `pi05_sampling.py` adapts the same pinned OpenPI `Pi0.sample_actions` under the retained Apache-2.0 license. It adds explicit image-layout preprocessing and writes the prefix-mask repeat as an equivalent broadcast; it preserves the upstream KV cache, attention, conditioning and Euler integration. No weights or datasets are bundled.

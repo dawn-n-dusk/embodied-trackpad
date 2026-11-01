@@ -1,0 +1,64 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-pair-runtime-driver-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T23:13:02.403965+00:00",
+  "source_revision": "5738fed79f8cbc14990d981c1d79584713c5d6c1",
+  "kind": "independent_cpu_probe_source_review",
+  "status": "reviewed_actual_openpi_execution_pending",
+  "source_sha256": {
+    "probe.py": "9d40eb256799ab2a1665e97bdd68e531d23db37a4ef7ca3ef82535ef47ed454e",
+    "run.sbatch": "00cf80bfefd9af0deb0f1b1f3820e666ed6a320a739b50b42ee12ba673f1a2cc"
+  },
+  "independent_checks": {
+    "passed": 32,
+    "error_gate": [
+      "expected missing-key ValueError accepted",
+      "unexpected acceptance rejected",
+      "unrelated ValueError rejected",
+      "RuntimeError propagated",
+      "own assertion propagated"
+    ],
+    "job_entry": [
+      "missing job rejected before heavy imports or writes",
+      "wrong UID rejected before heavy imports or writes"
+    ],
+    "summary_writer": [
+      "exact 14 argument interface exercised",
+      "success and failure codes plus peak RSS preserved"
+    ],
+    "source": [
+      "all 11 public source files exactly match published revision",
+      "15 staged files exist",
+      "both image views and post-preprocessing state/token arrays saved",
+      "shell syntax and owned-process timeout cleanup reviewed"
+    ]
+  },
+  "corrections": [
+    "Narrow expected exception handling prevents a failed negative control from passing.",
+    "Fixed summary argument count and added process-identity cleanup.",
+    "Preserved actual post-preprocessing arrays and conservative output bound."
+  ],
+  "coordinator_audit_fixture_corrections": [
+    "Preserved virtual-environment executable path instead of resolving it to the base interpreter.",
+    "Excluded the permitted NumPy dataset load from an overly broad model-load string check."
+  ],
+  "permit_sha256": "adf6d5ed42b67e4eb6d27329fa1eafff84f0d5d9c5de18b1d8c1fdecc4bf41dc",
+  "limits": {
+    "job_submissions": 1,
+    "cpu_requested": 2,
+    "max_logical_cpus": 4,
+    "memory_gib": 16,
+    "wall_s": 180,
+    "internal_s": 150,
+    "kill_grace_s": 10,
+    "numeric_threads": 2,
+    "output_bytes": 16777216,
+    "gpu_count": 0,
+    "optimizer_applications": 0
+  },
+  "limitations": [
+    "No actual OpenPI runtime success at this source-review timestamp.",
+    "Two data samples validate interface behavior, not control accuracy or generalization.",
+    "Legacy loss and sampler still cannot consume the new two-screen layout."
+  ]
+}

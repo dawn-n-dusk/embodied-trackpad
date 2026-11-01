@@ -1,0 +1,61 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-policy-routing-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T23:29:44.761360+00:00",
+  "source_revision": "5738fed79f8cbc14990d981c1d79584713c5d6c1",
+  "kind": "independent_loss_and_sampler_routing_source_review",
+  "status": "source_and_dependency_double_tests_accepted_real_jax_pending",
+  "artifact_sha256": {
+    "src/embodied_trackpad/leap_v1/pi05_image_layout.py": "b693fdb886a0d692fec8573b86b518172fbad11dc3295bf2ff082651601ec481",
+    "src/embodied_trackpad/leap_v1/pi05_jax_loss.py": "7827ec187a2cbc454b05542dd5f5d5fbda5eb8b9cd042774ea0f1ca1a9f85357",
+    "src/embodied_trackpad/leap_v1/pi05_update_core.py": "0202c0fd9030e8a7b14d8b03144d99b89fd62d18c62e228954ac3c12976b9561",
+    "src/embodied_trackpad/leap_v1/pi05_sampling.py": "a71389da35d1185c79992dc8b193d1c29c49df1d70850a54c689f424a3152db6",
+    "tests/test_pi05_image_layout.py": "daf0eb0e09a580431851bf9136562cc293ca2eb948a13018507aca76193bd26a",
+    "tests/test_pi05_sampling.py": "53936dad1a5d75adf39ca2b6808edc662cbadf89d64aaf070ef4f520da392400"
+  },
+  "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+  "checks": {
+    "independent_focused_pytest": {
+      "passed": 103,
+      "skipped": 8,
+      "elapsed_s": 0.36,
+      "files": 9
+    },
+    "worker_focused_pytest": {
+      "passed": 103,
+      "skipped": 8,
+      "elapsed_s": 0.41
+    },
+    "source_hashes_reconciled": 6,
+    "actual_jax_runtime_in_this_gate": false
+  },
+  "reviewed_behaviors": [
+    "One static layout selector is shared by valid16 loss and the adapted official action sampler; exact ordered image and image-mask keys are required for screen_pair.",
+    "Unknown layouts fail before heavy imports. Array values are not coerced to NumPy or Python bool by the shared dispatch.",
+    "Legacy preprocessing call, flow RNG splitting, valid16 reduction and parameter/optimizer/RNG state tree remain unchanged.",
+    "Sampler source preserves upstream prefix KV cache, masks, positions, conditioning, noise and Euler integration; prefix-mask repeat uses equivalent broadcast.",
+    "Labelled doubles check integration counts, constant drift, output shape, provided/generated noise, invalid-prefix masking, valid-prefix-count positions, KV value routing and conditioning.",
+    "Test fixture errors were corrected by Kimi; a vacuous real-JAX placeholder test was removed. Tests do not establish compiled execution."
+  ],
+  "unchanged_contract": {
+    "native_action_shape": [
+      25,
+      16
+    ],
+    "padded_action_shape": [
+      25,
+      32
+    ],
+    "action_tick_ms": 2,
+    "action_chunk_ms": 50,
+    "gui_augmentation": false
+  },
+  "limitations": [
+    "Eight skips are real JAX-dependent checks in the existing focused suite; this environment cannot establish JIT, gradients or actual model execution.",
+    "The new build_full_update screen_pair closure still requires a real JAX/NNX gate; legacy runtime acceptance does not automatically transfer.",
+    "No full pi0.5 screen-pair model forward, optimizer update or sampling has run. No improved control precision or image-dependent action claim.",
+    "Future source staging must include pi05_image_layout.py alongside the modified loss/update core; frozen older bundles and consumed permits cannot be reused.",
+    "Complete checkpoint CPU restoration was accepted separately; GPU continuation and step2 replay remain pending.",
+    "20 ms temporal assembly and execution remain pending; no active optimizer or livestream."
+  ]
+}

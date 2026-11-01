@@ -1,0 +1,154 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-screen-pair-runtime-routing-usage-20261102",
+  "timestamp_utc": "2026-11-01T23:31:47.529868+00:00",
+  "kind": "delegation_usage_audit",
+  "status": "recorded_usage_not_billing",
+  "dispatches": [
+    {
+      "task": "screen-pair-runtime-source",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 48976,
+        "input_cached": 589056,
+        "input_cache_write": 0,
+        "output": 13805,
+        "total": 651837
+      },
+      "receipt_sha256": "2d1bb56117c5d77c1bd3d9a1199f88246a9568c2a91a7128e5a0719760a5ad89",
+      "usage_recovery": "Exact task-text match in the private named session; original null receipt retained."
+    },
+    {
+      "task": "screen-pair-probe-only",
+      "status": "reported",
+      "elapsed_s": 88.3,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 5,
+        "input_uncached": 65952,
+        "input_cached": 364288,
+        "input_cache_write": 0,
+        "output": 5846,
+        "total": 436086
+      },
+      "receipt_sha256": "50335363263f8ccedce7988fe328ea82ac46a5f13f00a95ce261850248434584"
+    },
+    {
+      "task": "screen-pair-probe-launcher-fix",
+      "status": "timeout",
+      "elapsed_s": 210.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 10,
+        "input_uncached": 25436,
+        "input_cached": 970496,
+        "input_cache_write": 0,
+        "output": 14706,
+        "total": 1010638
+      },
+      "receipt_sha256": "a31e7a8639680b051c4cdcbae1319608c548193ac54575babfca98ba5de78537"
+    },
+    {
+      "task": "screen-pair-final-fix",
+      "status": "reported",
+      "elapsed_s": 78.2,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 22219,
+        "input_cached": 843264,
+        "input_cache_write": 0,
+        "output": 4514,
+        "total": 869997
+      },
+      "receipt_sha256": "0d60ddfad27eefde005f4cfffd7beafb773df2168a3da73476be67516b900b7b"
+    },
+    {
+      "task": "screen-pair-submit",
+      "status": "reported",
+      "elapsed_s": 86.9,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 16072,
+        "input_cached": 1028864,
+        "input_cache_write": 0,
+        "output": 4603,
+        "total": 1049539
+      },
+      "receipt_sha256": "04e0af713bf6b701deb645dc528cd0d398c888d4f590a57508d37eea0e5b3d60"
+    },
+    {
+      "task": "screen-policy-routing",
+      "status": "timeout",
+      "elapsed_s": 270.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 24,
+        "input_uncached": 39701,
+        "input_cached": 3240448,
+        "input_cache_write": 0,
+        "output": 16550,
+        "total": 3296699
+      },
+      "receipt_sha256": "ae7a559b3b6556431b5fcef24496fd8ada1c12f49543603507da028ded9fd683"
+    },
+    {
+      "task": "screen-routing-tests-fix",
+      "status": "reported",
+      "elapsed_s": 105.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 31394,
+        "input_cached": 1011968,
+        "input_cache_write": 0,
+        "output": 4534,
+        "total": 1047896
+      },
+      "receipt_sha256": "1c46abe1b89139481ab64d994b2aa2259d7fda5a2135eb7d82348ead77d14fec"
+    },
+    {
+      "task": "native-regression",
+      "status": "reported",
+      "elapsed_s": 60.6,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 10541,
+        "input_cached": 910592,
+        "input_cache_write": 0,
+        "output": 2273,
+        "total": 923406
+      },
+      "receipt_sha256": "a8828c50e3845a88bcb5141deb2c540e137cb9959274129c990d3b319345e2fd"
+    }
+  ],
+  "total_dispatches": 8,
+  "timeout_dispatches": 3,
+  "summed_dispatch_elapsed_s": 1139.3,
+  "recorded_usage_totals": {
+    "records": 80,
+    "input_uncached": 260291,
+    "input_cached": 8958976,
+    "input_cache_write": 0,
+    "output": 66831,
+    "total": 9286098
+  },
+  "rework": [
+    "First source-preparation timeout saved no source; exact session and usage were recovered without replacing the original receipt.",
+    "Launcher-fix timeout saved source; negative-test assertion handling and argument slicing were subsequently corrected and independently reviewed.",
+    "Routing timeout saved source and tests; follow-up corrected fixture projections, per-row loss expectations and strengthened mask assertions.",
+    "Coordinator source-audit fixtures corrected a venv-symlink resolution error and an overbroad load-call scan; these fixture errors are not model failures.",
+    "Expanded local regression exposed six native protocol failures against a stale ignored binary. Kimi preserved the old app, rebuilt unchanged tracked source, and passed all six affected tests."
+  ],
+  "limits": [
+    "Requested CLI alias is not independently verified server-resolved model identity.",
+    "Recorded tokens may omit interrupted unreported requests; not billing, membership quota or a savings estimate.",
+    "Summed dispatch duration is not wall-clock project elapsed time.",
+    "All timeout artifacts and failed checks are retained privately; source saving and worker reports were not treated as acceptance."
+  ]
+}

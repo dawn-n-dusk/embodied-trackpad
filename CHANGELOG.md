@@ -1,5 +1,11 @@
 # Changelog
 
+- Complete local regression passed 1,148 tests with 31 optional skips. Preserved six initial native protocol failures and the stale ignored app, then rebuilt unchanged source and verified the corrected binary. No source assertions were relaxed.
+
+- Added shared static screen-layout routing to the valid-16 loss, full-update closure and official action sampler. Independent focused tests: 103 passed, 8 dependency skips; real compiled JAX and full-model execution remain pending. Preserved the legacy default and upstream sampler attribution.
+
+- Verified explicit full/local screen preprocessing in the pinned OpenPI CPU runtime: 121 actual checks and 99 independent checks of 36 arrays passed in a 31-second allocation. Pixels and state/token/action values match exactly; compiled policy routing and learned precision remain separate.
+
 - Accepted complete pi0.5 step-1 checkpoint restoration on CPU: all 156 state leaves and the complete fingerprint dictionary match the frozen H800 state. A bounded 116-second storage copy and one 136-second CPU job preserved the original checkpoint, used no GPU, and released their resources. GPU continuation/replay and learned precision remain pending.
 
 - Added explicit full/local screen Observation construction and host-side preprocessing with 138 independent software checks. Kept absent wrist sensors explicit; actual OpenPI runtime and compiled loss/sampler routing remain separate gates.
