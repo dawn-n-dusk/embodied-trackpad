@@ -107,6 +107,9 @@ def test_policy_inference_roundtrip_preserves_float64_anchor(synthetic_checkpoin
         source_file_hashes={},
         limits={},
         purpose="microfix_test",
+        suite_id="heldout-axis-v1",
+        task_profile="near_pointing_v1",
+        native_binary_sha256=None,
     )
     inference = PolicyInference(synthetic_checkpoint, contract)
     anchor = np.linspace(0.05, 0.55, sp.NUM_CHANNELS, dtype=np.float64)
@@ -210,3 +213,8 @@ def test_required_source_files_includes_action_chain_guards():
     assert "src/embodied_trackpad/leap_v1/small_policy.py" in REQUIRED_SOURCE_FILES
     assert "src/embodied_trackpad/leap_v1/learned_evaluator.py" in REQUIRED_SOURCE_FILES
     assert "tools/evaluate_leap_v1_small_policy.py" in REQUIRED_SOURCE_FILES
+    # Profile/device behavior is source-bound through the native app sources.
+    assert "macos/TrackpadSandbox/Sources/main.swift" in REQUIRED_SOURCE_FILES
+    assert "macos/TrackpadSandbox/Sources/DeviceModel.swift" in REQUIRED_SOURCE_FILES
+    assert "macos/TrackpadSandbox/Info.plist" in REQUIRED_SOURCE_FILES
+    assert "macos/TrackpadSandbox/TrackpadSandbox.entitlements" in REQUIRED_SOURCE_FILES

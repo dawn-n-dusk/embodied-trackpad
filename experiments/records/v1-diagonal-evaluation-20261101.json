@@ -1,0 +1,300 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-evaluation-20261101",
+  "timestamp_utc": "2026-11-01T07:07:49.432322+00:00",
+  "kind": "independent_learned_policy_generalization_diagnostic",
+  "status": "evidence_accepted_policy_generalization_failed",
+  "source_commit": "a6f0e90ebf0a47603b60afb53b1b9871884c63a1",
+  "checkpoint_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "native_binary_sha256": "17bf4aeff05ab205b84742aefdc30643a23cc570cb54674ef175f7e6f1597799",
+  "denominators": {
+    "planned": 8,
+    "executed": 8,
+    "success": 2,
+    "physics_unsafe": 4,
+    "contact_loss": 2,
+    "skipped": 0
+  },
+  "episodes": [
+    {
+      "target_class": 0,
+      "offset_logical_px": [
+        12,
+        12
+      ],
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 18.52030714205936,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "physics_unsafe",
+      "learned_action_blocks": 39,
+      "learned_steps": 951,
+      "raw_steps": 2401,
+      "touch_messages": 39,
+      "peak_total_pad_force_n": 1.816452044603353,
+      "max_penetration_m": 0.0010000767070111743,
+      "unsafe_steps": [
+        2401
+      ],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": false,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 4.689
+    },
+    {
+      "target_class": 1,
+      "offset_logical_px": [
+        -12,
+        12
+      ],
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 1.8555386805320409,
+      "terminal_observation_error_px": 1.8555386805320409,
+      "terminal_observation_scope": "after last learned action, before scripted release",
+      "learning_success": true,
+      "stop_reason": "success",
+      "learned_action_blocks": 25,
+      "learned_steps": 625,
+      "raw_steps": 3175,
+      "touch_messages": 70,
+      "peak_total_pad_force_n": 1.3658600714200302,
+      "max_penetration_m": 0.0007153981957066929,
+      "unsafe_steps": [],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": true,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 3.497
+    },
+    {
+      "target_class": 2,
+      "offset_logical_px": [
+        -12,
+        -12
+      ],
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 24.318192149740362,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "contact_loss",
+      "learned_action_blocks": 85,
+      "learned_steps": 2101,
+      "raw_steps": 4651,
+      "touch_messages": 129,
+      "peak_total_pad_force_n": 0.942364087260917,
+      "max_penetration_m": 0.0006600855052798782,
+      "unsafe_steps": [],
+      "no_contact_learned_steps": 30,
+      "safe_release_measured": true,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 9.846
+    },
+    {
+      "target_class": 3,
+      "offset_logical_px": [
+        12,
+        -12
+      ],
+      "initial_error_px": 18.142616454279487,
+      "last_observed_error_px": 19.003399106070233,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "physics_unsafe",
+      "learned_action_blocks": 19,
+      "learned_steps": 473,
+      "raw_steps": 1923,
+      "touch_messages": 19,
+      "peak_total_pad_force_n": 1.8328878701309186,
+      "max_penetration_m": 0.0010001797702064996,
+      "unsafe_steps": [
+        1923
+      ],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": false,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 2.459
+    },
+    {
+      "target_class": 4,
+      "offset_logical_px": [
+        18,
+        18
+      ],
+      "initial_error_px": 25.922201485896544,
+      "last_observed_error_px": 12.869849824588814,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "physics_unsafe",
+      "learned_action_blocks": 92,
+      "learned_steps": 2276,
+      "raw_steps": 3726,
+      "touch_messages": 92,
+      "peak_total_pad_force_n": 1.8490958227405998,
+      "max_penetration_m": 0.0010005547741732956,
+      "unsafe_steps": [
+        3726
+      ],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": false,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 10.204
+    },
+    {
+      "target_class": 5,
+      "offset_logical_px": [
+        -18,
+        18
+      ],
+      "initial_error_px": 25.922201485896544,
+      "last_observed_error_px": 2.82682013285595,
+      "terminal_observation_error_px": 2.82682013285595,
+      "terminal_observation_scope": "after last learned action, before scripted release",
+      "learning_success": true,
+      "stop_reason": "success",
+      "learned_action_blocks": 48,
+      "learned_steps": 1200,
+      "raw_steps": 3750,
+      "touch_messages": 93,
+      "peak_total_pad_force_n": 1.2295698887626676,
+      "max_penetration_m": 0.0006938563931005171,
+      "unsafe_steps": [],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": true,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 5.884
+    },
+    {
+      "target_class": 6,
+      "offset_logical_px": [
+        -18,
+        -18
+      ],
+      "initial_error_px": 25.922201485896544,
+      "last_observed_error_px": 26.82260420262537,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "contact_loss",
+      "learned_action_blocks": 76,
+      "learned_steps": 1879,
+      "raw_steps": 4429,
+      "touch_messages": 120,
+      "peak_total_pad_force_n": 0.942364087260917,
+      "max_penetration_m": 0.0006600758220533105,
+      "unsafe_steps": [],
+      "no_contact_learned_steps": 47,
+      "safe_release_measured": true,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 8.762
+    },
+    {
+      "target_class": 7,
+      "offset_logical_px": [
+        18,
+        -18
+      ],
+      "initial_error_px": 25.922201485896544,
+      "last_observed_error_px": 26.40220640364414,
+      "terminal_observation_error_px": null,
+      "terminal_observation_scope": "no post-abort capture; last observation preceded the final action",
+      "learning_success": false,
+      "stop_reason": "physics_unsafe",
+      "learned_action_blocks": 15,
+      "learned_steps": 373,
+      "raw_steps": 1823,
+      "touch_messages": 15,
+      "peak_total_pad_force_n": 1.8452419313510848,
+      "max_penetration_m": 0.0010004854826837772,
+      "unsafe_steps": [
+        1823
+      ],
+      "no_contact_learned_steps": 0,
+      "safe_release_measured": false,
+      "child_reaped": true,
+      "child_pid_absent_independent": true,
+      "wall_s": 1.973
+    }
+  ],
+  "last_observed_error_statistics_px": {
+    "mean": 16.577364705264532,
+    "sample_std": 9.932837521782846,
+    "median": 18.761853124064796,
+    "n": 8,
+    "warning": "Includes pre-abort observations; not a terminal-error or successful-only statistic."
+  },
+  "terminal_error_coverage": {
+    "observed": 2,
+    "planned": 8,
+    "missing": 6
+  },
+  "independent_audit": {
+    "pixel_frames_decoded": 401,
+    "raw_physics_steps": 25878,
+    "learned_action_blocks": 399,
+    "learned_steps": 9878,
+    "touch_payloads_reconstructed": 577,
+    "source_files": 15,
+    "assets": 14,
+    "inventory_files_verified": 486,
+    "max_prediction_abs_error_rad": 8.36735125631094e-11,
+    "max_control_abs_error_rad": 0.0,
+    "first_unsafe_was_last_physics_step_all": true,
+    "unsafe_cleanup_prohibited_and_absent": true,
+    "all_app_pids_absent": true,
+    "saved_images_visually_reviewed_classes": [
+      0,
+      5
+    ],
+    "frame_age_contract_ms": 250,
+    "max_recorded_frame_age_plus_uncertainty_ms": 207.1809580666013,
+    "audit_script_correction": "An initial private audit reused a150ms bound; frozen source/default gate use250ms. The audit was corrected, both outputs retained; no runtime threshold changed."
+  },
+  "runtime": {
+    "sum_episode_wall_s": 47.314,
+    "worker_batch_loop_wall_s": 58,
+    "kimi_dispatch_wall_s": 310.6,
+    "evidence_bytes": 72688806,
+    "evidence_cap_bytes": 167772160,
+    "numeric_threads": 2,
+    "new_optimizer_updates": 0,
+    "stream_live": false
+  },
+  "launch_errors_retained": {
+    "precreated_out_directory_rejections": 8,
+    "redirection_setup_failure": true,
+    "physics_or_app_runs_from_these_launch_failures": 0,
+    "note": "Launcher errors fixed before actual episodes. They are not extra policy rollouts. Worker originally labelled bytes as MiB; published bytes are independently counted."
+  },
+  "kimi_recorded_usage": {
+    "records": 43,
+    "input_uncached": 67195,
+    "input_cached": 2999808,
+    "input_cache_write": 0,
+    "output": 20280,
+    "total": 3087283
+  },
+  "private_evidence_hashes": {
+    "independent_visual_action_audit_sha256": "f1d329a098dcf9040beb8965178d2bec30594857afa95dd1377a3a5ffca269f3",
+    "independent_contact_audit_sha256": "3fa28bf10e061abd56211ef0f0c4dfd131a1f65519ae1d87a46c1edbe8e1a82b",
+    "batch_report_sha256": "b34a0509509a73c340ab683134380a0b790b85feaaf5884ef0d2fa03e3b64cca",
+    "runner_receipt_sha256": "12fc36866f08d8a2ab1e2bc9960bd2556e27a768436d50c889a945c21583e038"
+  },
+  "limitations": [
+    "Eight fixed targets, one run each, no statistical model ranking.",
+    "Two previous axis successes do not establish generalization.",
+    "All six failures remain; six missing terminal images are never imputed as zero.",
+    "Learned actor uses pixel-derived error and proprioception; preparation/release remain scripted.",
+    "No policy tuning, new optimizer, real hardware, personal desktop input or live stream.",
+    "Dataset coverage/contact failure causality still needs offline diagnosis and corrective-data testing."
+  ]
+}

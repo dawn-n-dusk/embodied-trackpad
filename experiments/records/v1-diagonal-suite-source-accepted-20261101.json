@@ -1,0 +1,117 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-suite-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T06:57:12.705936+00:00",
+  "kind": "independent_named_evaluation_suite_source_acceptance",
+  "status": "source_accepted_eight_target_diagnostic_dispatched",
+  "source_commit": "a6f0e90ebf0a47603b60afb53b1b9871884c63a1",
+  "source_file_hashes": {
+    "src/embodied_trackpad/leap_v1/small_policy.py": "b18adfb08c4f804f82d492aca53f23ce0a2740077dac28833646bf33e993b1cc",
+    "src/embodied_trackpad/leap_v1/learned_evaluator.py": "9aececa32c134797f5500f3afe670b007695919b6055ae1646bbedda89c0c180",
+    "tools/evaluate_leap_v1_small_policy.py": "5381afd24be610ad979cbea18d843dea9d9ffe2a195270411abbbc609a523852",
+    "src/embodied_trackpad/leap_v1/visual_physics.py": "cfe0edf3a1367217fe023d52c0be90c9a0f587a51e62e0963ba36d42c66af63b",
+    "src/embodied_trackpad/leap_v1/normal_priority.py": "906dc8ad4dd96ecff4cf1bf363563eba0b0e43640a547bfa6f46d33338b2fe0d",
+    "src/embodied_trackpad/leap_v1/pad_env.py": "bc3c5792012d1f1ad0c808f9dd534fe337fa016cdb857f05132d0d1b1e50b901",
+    "src/embodied_trackpad/leap_sim/pad_env.py": "0006012a5d692aad181df09426ca6a4b4ddf5d9ff1146b9af7ef4b1d324ceb00",
+    "src/embodied_trackpad/leap_v1/model.py": "574f29f4c8ad99ae03acff0ff6b34fd074b815e9f6749026952f8c75e3386abc",
+    "src/embodied_trackpad/leap_v1/visual_servo.py": "5fef378fb3847aa9956dbcb36b12beeccde2cfb72c10a150a73d6e4cf83d9d35",
+    "tools/mac_sandbox_client.py": "751c5dc3084b655d660e2e7149fcfffa34e972866be4b8a80382af911012c8a1",
+    "tools/leap_v1_near_probe.py": "d83f587dbad8aa27485a1201fe3f5ef539e6545e27dd2b962de9d770cad6b8c8",
+    "macos/TrackpadSandbox/Sources/main.swift": "43d351e7854407449efd1d42271a037def1967a76130f4306521b2e3391f81e1",
+    "macos/TrackpadSandbox/Sources/DeviceModel.swift": "f2fd258e97b5633a97309fb4a5f02609390d358e6d7a5a327a286a178b8a2630",
+    "macos/TrackpadSandbox/Info.plist": "1cb85b08ed1b657bbe5194401b9a505614098739058e618290c8dadd4d3c59b6",
+    "macos/TrackpadSandbox/TrackpadSandbox.entitlements": "97adfde4e3d17fec5442593ab1566e1cce8532f1f5285845a7e9096abb08d45b"
+  },
+  "native_binary_sha256": "17bf4aeff05ab205b84742aefdc30643a23cc570cb54674ef175f7e6f1597799",
+  "checkpoint_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "focused_tests": {
+    "passed": 67,
+    "failed": 0
+  },
+  "suites": {
+    "heldout-axis-v1": {
+      "task_profile": "near_pointing_v1",
+      "classes": [
+        4,
+        10
+      ]
+    },
+    "diagonal-v1": {
+      "task_profile": "near_diagonal_v1",
+      "classes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    }
+  },
+  "reviewed_boundaries": [
+    "Seed equals class and belongs to the selected suite. Requested suite, permit and derived native profile agree.",
+    "All real CLI/run paths require the actual native binary hash before creating output, app or physics. Pure legacy helper fixtures may omit it.",
+    "Source binding now includes native Swift/device/plist/entitlement files.",
+    "Actual launch uses exactly the hashed binary. Actor features, action caps, P1 and success/safety/release criteria unchanged."
+  ],
+  "recovery_evidence": {
+    "first_source_timeout_s": 240.1,
+    "first_focused": {
+      "passed": 48,
+      "failed": 16
+    },
+    "environment_lookup_timeout_s": 180.1,
+    "environment_lookup_cause": "Coordinator omitted full verified interpreter path in a repair task. Worker searched unsuitable runtimes and created an unaccepted local environment/lock; these were archived without deletion and never used for project acceptance.",
+    "runner_only_call_s": 72.9,
+    "after_runner_fix": {
+      "passed": 58,
+      "failed": 6
+    },
+    "fixture_call_timeout_s": 150.1,
+    "after_fixture_save": {
+      "passed": 66,
+      "failed": 1
+    },
+    "last_stub_call_s": 44.7,
+    "final_focused": {
+      "passed": 67,
+      "failed": 0
+    },
+    "all_raw_receipts_preserved_private": true
+  },
+  "kimi_source_recovery_usage": {
+    "elapsed_s": 687.9,
+    "known_calls": 2,
+    "calls_with_missing_usage": 3,
+    "known_input_uncached": 53663,
+    "known_input_cached": 1256192,
+    "known_output": 7800,
+    "missing_is_not_zero": true,
+    "not_billing": true
+  },
+  "diagnostic": {
+    "planned": 8,
+    "suite_id": "diagonal-v1",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "repeats_per_seed": 1,
+    "new_optimizer": false,
+    "no_tuning_or_retry": true
+  },
+  "limitations": [
+    "Eight single-run targets remain a smoke/generalization diagnostic, not a statistically stable model ranking.",
+    "User requested repeated multi-condition model validation; separate90episode protocol is now defined.",
+    "No diagonal learned result is accepted by this source record; raw trial audit is separate.",
+    "No active optimizer or livestream; no hardware/personal desktop input."
+  ]
+}

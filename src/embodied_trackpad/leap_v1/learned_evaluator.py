@@ -21,11 +21,23 @@ from embodied_trackpad.leap_v1 import small_policy as sp
 # Re-export for callers that need the same SHA routine.
 sha256_file = sp.sha256_file
 
+# Native application source files whose hashes must be frozen in a source-bound
+# permit.  The fixed task_profile selects device behavior, so the Swift sources,
+# plist and entitlements that implement that profile are part of the trusted
+# source set.
+NATIVE_APP_SOURCE_FILES = (
+    "macos/TrackpadSandbox/Sources/main.swift",
+    "macos/TrackpadSandbox/Sources/DeviceModel.swift",
+    "macos/TrackpadSandbox/Info.plist",
+    "macos/TrackpadSandbox/TrackpadSandbox.entitlements",
+)
+
 # Source files whose hashes must be frozen in an evaluation permit.
 # The permit is issued *after* coordinator review of these exact files.
 # The action chain depends on more than the three evaluator files: physics,
-# scene, model, visual servo, and the sandbox/near-probe client must also be
-# frozen for a source-bound permit to mean anything.
+# scene, model, visual servo, sandbox/near-probe client, and the native app
+# sources that implement the selected task_profile must also be frozen for a
+# source-bound permit to mean anything.
 REQUIRED_SOURCE_FILES = (
     "src/embodied_trackpad/leap_v1/small_policy.py",
     "src/embodied_trackpad/leap_v1/learned_evaluator.py",
@@ -38,10 +50,27 @@ REQUIRED_SOURCE_FILES = (
     "src/embodied_trackpad/leap_v1/visual_servo.py",
     "tools/mac_sandbox_client.py",
     "tools/leap_v1_near_probe.py",
-)
+) + NATIVE_APP_SOURCE_FILES
+
+# Named evaluation suites.  Each suite fixes the task_profile, the legal target
+# classes, and whether a native-binary SHA-256 is required in the permit.
+EVALUATION_SUITES: dict[str, dict[str, Any]] = {
+    "heldout-axis-v1": {
+        "task_profile": "near_pointing_v1",
+        "allowed_target_classes": frozenset({4, 10}),
+        "requires_native_binary_sha256": False,
+    },
+    "diagonal-v1": {
+        "task_profile": "near_diagonal_v1",
+        "allowed_target_classes": frozenset({0, 1, 2, 3, 4, 5, 6, 7}),
+        "requires_native_binary_sha256": True,
+    },
+}
+DEFAULT_EVALUATION_SUITE_ID = "heldout-axis-v1"
 
 # Hard caps from the v1 small-policy smoke contract.
-ALLOWED_TARGET_CLASSES = frozenset({4, 10})
+# Backward-compatible alias: the default/legacy suite classes.
+ALLOWED_TARGET_CLASSES = EVALUATION_SUITES[DEFAULT_EVALUATION_SUITE_ID]["allowed_target_classes"]
 MAX_ACTION_IMAGES = 120
 MAX_WALL_S = 120
 MAX_SIM_S = 20
@@ -82,6 +111,9 @@ class EvaluationContract:
     source_file_hashes: dict[str, str]
     limits: dict[str, Any]
     purpose: str
+    suite_id: str
+    task_profile: str
+    native_binary_sha256: str | None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -97,6 +129,9 @@ class EvaluationContract:
             "source_file_hashes": dict(self.source_file_hashes),
             "limits": dict(self.limits),
             "purpose": self.purpose,
+            "suite_id": self.suite_id,
+            "task_profile": self.task_profile,
+            "native_binary_sha256": self.native_binary_sha256,
         }
 
 
@@ -132,12 +167,17 @@ def validate_evaluation_permit(
     dataset_schema: str | None = None,
     target_class: int | None = None,
     source_file_hashes: dict[str, str] | None = None,
+    suite_id: str | None = None,
+    task_profile: str | None = None,
+    native_binary_sha256: str | None = None,
 ) -> EvaluationContract:
     """Validate an evaluation permit and bind it to current source/checkpoint hashes.
 
     Raises ``EvaluatorError`` on any mismatch or unsupported limit.  The permit
-    must explicitly disallow optimization, target only class 4 or 10, and bind
-    exact hashes for the required source files, checkpoint, and sample index.
+    must explicitly disallow optimization, belong to a known named suite, target
+    only the suite's legal classes, and bind exact hashes for the required
+    source files, checkpoint, sample index, and (for the diagonal suite) the
+    actual native application binary.
     """
     if not isinstance(permit, dict):
         raise EvaluatorError("permit must be a dict")
@@ -166,9 +206,29 @@ def validate_evaluation_permit(
     if permit["allow_optimizer"] is not False:
         raise EvaluatorError("permit allow_optimizer must be boolean False for evaluation")
 
+    # Suite binding: requested/permitted/derived task_profile must agree.
+    permit_suite_id = str(permit.get("suite_id", DEFAULT_EVALUATION_SUITE_ID))
+    if permit_suite_id not in EVALUATION_SUITES:
+        raise EvaluatorError(f"permit suite_id {permit_suite_id!r} is not a known evaluation suite")
+    if suite_id is not None and suite_id != permit_suite_id:
+        raise EvaluatorError(f"requested suite {suite_id!r} != permit suite {permit_suite_id!r}")
+    suite_config = EVALUATION_SUITES[permit_suite_id]
+    expected_task_profile = suite_config["task_profile"]
+    if task_profile is not None and task_profile != expected_task_profile:
+        raise EvaluatorError(
+            f"requested task_profile {task_profile!r} != suite task_profile {expected_task_profile!r}"
+        )
+    permit_task_profile = permit.get("task_profile")
+    if permit_task_profile is not None and str(permit_task_profile) != expected_task_profile:
+        raise EvaluatorError(
+            f"permit task_profile {permit_task_profile!r} != suite task_profile {expected_task_profile!r}"
+        )
+
+    # Target class must belong to the selected suite.
     tc = int(permit["target_class"])
-    if tc not in ALLOWED_TARGET_CLASSES:
-        raise EvaluatorError(f"permit target_class {tc} not in {sorted(ALLOWED_TARGET_CLASSES)}")
+    allowed_classes = suite_config["allowed_target_classes"]
+    if tc not in allowed_classes:
+        raise EvaluatorError(f"permit target_class {tc} not in {sorted(allowed_classes)}")
     if target_class is not None and tc != target_class:
         raise EvaluatorError(f"permit target_class {tc} != requested {target_class}")
 
@@ -208,6 +268,24 @@ def validate_evaluation_permit(
     if approved_fields != sp.APPROVED_ACTOR_FIELDS:
         raise EvaluatorError(
             f"approved_actor_fields mismatch: permit {approved_fields} vs required {sp.APPROVED_ACTOR_FIELDS}"
+        )
+
+    # Native application binary binding.  The actual hash is computed by the CLI
+    # from the real APP_BINARY; we never trust a caller-supplied value.
+    permit_native_sha = permit.get("native_binary_sha256")
+    if suite_config["requires_native_binary_sha256"] and permit_native_sha is None:
+        raise EvaluatorError(
+            f"permit native_binary_sha256 is required for suite {permit_suite_id!r}"
+        )
+    if permit_native_sha is not None:
+        permit_native_sha = _hex64(permit_native_sha, "permit native_binary_sha256")
+    if native_binary_sha256 is not None:
+        native_binary_sha256 = _hex64(native_binary_sha256, "provided native_binary_sha256")
+        if permit_native_sha is not None and native_binary_sha256 != permit_native_sha:
+            raise EvaluatorError("native_binary_sha256 mismatch")
+    elif permit_native_sha is not None:
+        raise EvaluatorError(
+            "permit native_binary_sha256 provided but no actual hash supplied for comparison"
         )
 
     permit_hashes = dict(permit["source_file_hashes"])
@@ -252,6 +330,9 @@ def validate_evaluation_permit(
         source_file_hashes=permit_hashes,
         limits=limits,
         purpose=str(permit.get("purpose", "small_policy_evaluation")),
+        suite_id=permit_suite_id,
+        task_profile=expected_task_profile,
+        native_binary_sha256=permit_native_sha,
     )
 
 

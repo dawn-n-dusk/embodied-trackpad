@@ -17,8 +17,11 @@ import pytest
 from embodied_trackpad.leap_v1 import small_policy as sp
 from embodied_trackpad.leap_v1.learned_evaluator import (
     ALLOWED_TARGET_CLASSES,
+    DEFAULT_EVALUATION_SUITE_ID,
+    EVALUATION_SUITES,
     MAX_ACTION_IMAGES,
     EvaluatorError,
+    EvaluationContract,
     PolicyInference,
     build_actor_input,
     build_feature_vector,
@@ -57,14 +60,21 @@ def _make_good_permit(tmp_path: Path, checkpoint_path: Path, target_class: int =
                       mutate_source_hash: str | None = None,
                       mutate_limit: dict | None = None,
                       source_commit: str = "5344a3a",
-                      dataset_schema: str = "v1-small-policy-smoke.v1") -> tuple[Path, dict]:
+                      dataset_schema: str = "v1-small-policy-smoke.v1",
+                      suite_id: str | None = None,
+                      task_profile: str | None = None,
+                      native_binary_path: Path | None = None,
+                      native_binary_sha256: str | None = None) -> tuple[Path, dict]:
     sample_index = tmp_path / "samples.jsonl"
     sample_index.write_text('{"episode_id":0,"frame_id":0}\n')
     index_sha = sp.sha256_file(sample_index)
     source_hashes = compute_source_file_hashes(REPO_ROOT)
     if mutate_source_hash:
         source_hashes[mutate_source_hash] = "0" * 64
-    permit = {
+    effective_suite = suite_id or DEFAULT_EVALUATION_SUITE_ID
+    if effective_suite not in EVALUATION_SUITES:
+        raise ValueError(f"unknown suite {effective_suite}")
+    permit: dict = {
         "status": "accepted_for_leap_v1_small_policy_evaluation",
         "allow_optimizer": False,
         "sample_index_sha256": index_sha,
@@ -81,6 +91,16 @@ def _make_good_permit(tmp_path: Path, checkpoint_path: Path, target_class: int =
     }
     if mutate_limit:
         permit["limits"].update(mutate_limit)
+    # New permits carry explicit suite/task_profile/native binding.  Legacy
+    # fixtures may omit suite_id and native_binary_sha256 for the default suite.
+    if suite_id is not None:
+        permit["suite_id"] = suite_id
+    if task_profile is not None:
+        permit["task_profile"] = task_profile
+    if native_binary_sha256 is not None:
+        permit["native_binary_sha256"] = native_binary_sha256
+    elif native_binary_path is not None:
+        permit["native_binary_sha256"] = sp.sha256_file(native_binary_path)
     permit_path = tmp_path / "permit.json"
     permit_path.write_text(json.dumps(permit))
     return permit_path, permit
@@ -446,13 +466,17 @@ def _minimal_R(actor: "io.StringIO") -> dict:
 
 
 def test_main_validates_binding_and_frozen_seed_before_run(monkeypatch, tmp_path, synthetic_checkpoint):
-    """main validates git HEAD, source hashes, index/schema and seed=class before run."""
+    """main validates git HEAD, source hashes, index/schema, app hash and seed=class before run."""
     runner = _import_runner()
     git_head = runner._git_head(REPO_ROOT)
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake native app for binding test")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
     permit_path, permit = _make_good_permit(
         tmp_path, synthetic_checkpoint, target_class=4,
         source_commit=git_head or "unknown",
         dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_path=fake_app,
     )
     sample_index = tmp_path / "samples.jsonl"
     sample_index.write_text('{"episode_id":0,"frame_id":0}\n')
@@ -478,6 +502,8 @@ def test_main_validates_binding_and_frozen_seed_before_run(monkeypatch, tmp_path
     assert run_calls[0]["target_class"] == 4
     assert run_calls[0]["out_dir"] == str(out_dir)
     assert run_calls[0]["contract"].dataset_schema == runner.DATASET_SCHEMA
+    assert run_calls[0]["contract"].suite_id == "heldout-axis-v1"
+    assert run_calls[0]["contract"].task_profile == "near_pointing_v1"
     assert rc == 1  # fake run reports learning_success=False
 
 
@@ -547,10 +573,14 @@ def test_run_lifecycle_skips_cleanup_on_unsafe_invokes_teardown(monkeypatch, tmp
     """On physics unsafe, run skips physical cleanup but still runs software teardown."""
     runner = _import_runner()
     git_head = runner._git_head(REPO_ROOT)
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake native app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
     permit_path, permit = _make_good_permit(
         tmp_path, synthetic_checkpoint, target_class=4,
         source_commit=git_head or "unknown",
         dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_path=fake_app,
     )
     sample_index = tmp_path / "samples.jsonl"
     sample_index.write_text('{"episode_id":0,"frame_id":0}\n')
@@ -559,6 +589,7 @@ def test_run_lifecycle_skips_cleanup_on_unsafe_invokes_teardown(monkeypatch, tmp
         sample_index_path=sample_index, source_commit=git_head,
         dataset_schema=runner.DATASET_SCHEMA, target_class=4,
         source_file_hashes=compute_source_file_hashes(REPO_ROOT),
+        native_binary_sha256=sp.sha256_file(fake_app),
     )
     inference = PolicyInference(synthetic_checkpoint, contract)
 
@@ -571,7 +602,8 @@ def test_run_lifecycle_skips_cleanup_on_unsafe_invokes_teardown(monkeypatch, tmp
         joint_names = list(sp.MOTOR_JOINTS)
 
     class FakeClient:
-        def __init__(self, out_dir):
+        def __init__(self, binary, out_dir=None):
+            self.binary = binary
             self.out_dir = out_dir
             self.proc = type("P", (), {"pid": 1234, "returncode": None})()
 
@@ -647,6 +679,7 @@ def test_run_lifecycle_skips_cleanup_on_unsafe_invokes_teardown(monkeypatch, tmp
     summary = runner.run(4, out_dir, contract, inference, target_class=4)
     assert not cleanup_called
     assert len(teardown_calls) == 1
+    assert teardown_calls[0][0].binary == str(fake_app)
     assert summary["physics_unsafe"] is True
 
 
@@ -750,3 +783,372 @@ def test_learned_phase_preserves_rejected_and_initial_below_min_frames(monkeypat
     assert lines2[0]["frame_id"] == 8
     assert lines2[0]["reasons"] == ["initial_error_below_min"]
     assert lines2[0]["action_requested"] is False
+
+
+@pytest.mark.parametrize("target_class", sorted(EVALUATION_SUITES["diagonal-v1"]["allowed_target_classes"]))
+def test_validate_permit_accepts_diagonal_suite_for_each_class(target_class, tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=target_class,
+        suite_id="diagonal-v1", task_profile="near_diagonal_v1",
+        native_binary_sha256="a" * 64,
+    )
+    contract = validate_evaluation_permit(
+        permit,
+        checkpoint_path=synthetic_checkpoint,
+        sample_index_path=tmp_path / "samples.jsonl",
+        target_class=target_class,
+        source_file_hashes=compute_source_file_hashes(REPO_ROOT),
+        suite_id="diagonal-v1",
+        task_profile="near_diagonal_v1",
+        native_binary_sha256="a" * 64,
+    )
+    assert contract.suite_id == "diagonal-v1"
+    assert contract.task_profile == "near_diagonal_v1"
+    assert contract.target_class == target_class
+
+
+def test_validate_permit_accepts_legacy_axis_suite_without_native_hash(tmp_path, synthetic_checkpoint):
+    """Legacy heldout-axis permits may omit native_binary_sha256."""
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=10,
+    )
+    assert "native_binary_sha256" not in permit
+    assert "suite_id" not in permit
+    contract = validate_evaluation_permit(
+        permit,
+        checkpoint_path=synthetic_checkpoint,
+        sample_index_path=tmp_path / "samples.jsonl",
+        target_class=10,
+        source_file_hashes=compute_source_file_hashes(REPO_ROOT),
+    )
+    assert contract.suite_id == "heldout-axis-v1"
+    assert contract.task_profile == "near_pointing_v1"
+    assert contract.native_binary_sha256 is None
+
+
+def test_validate_permit_rejects_unknown_suite(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(tmp_path, synthetic_checkpoint, target_class=4)
+    permit["suite_id"] = "unknown-suite"
+    with pytest.raises(EvaluatorError, match="suite_id"):
+        validate_evaluation_permit(permit)
+
+
+def test_validate_permit_rejects_requested_suite_mismatch(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4, suite_id="heldout-axis-v1",
+    )
+    with pytest.raises(EvaluatorError, match="requested suite"):
+        validate_evaluation_permit(permit, suite_id="diagonal-v1")
+
+
+def test_validate_permit_rejects_permit_task_profile_mismatch(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4, suite_id="diagonal-v1",
+        task_profile="near_diagonal_v1",
+    )
+    permit["task_profile"] = "near_pointing_v1"  # wrong for diagonal suite
+    with pytest.raises(EvaluatorError, match="task_profile"):
+        validate_evaluation_permit(permit, suite_id="diagonal-v1")
+
+
+def test_validate_permit_rejects_requested_task_profile_mismatch(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4, suite_id="diagonal-v1",
+        task_profile="near_diagonal_v1",
+    )
+    with pytest.raises(EvaluatorError, match="task_profile"):
+        validate_evaluation_permit(
+            permit, suite_id="diagonal-v1", task_profile="near_pointing_v1"
+        )
+
+
+def test_validate_permit_rejects_diagonal_class10(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=10,
+        suite_id="diagonal-v1", task_profile="near_diagonal_v1",
+    )
+    with pytest.raises(EvaluatorError, match="target_class"):
+        validate_evaluation_permit(permit, suite_id="diagonal-v1")
+
+
+def test_validate_permit_rejects_axis_class0(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=0,
+    )
+    with pytest.raises(EvaluatorError, match="target_class"):
+        validate_evaluation_permit(permit)
+
+
+def test_validate_permit_diagonal_requires_native_binary_sha256(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=3,
+        suite_id="diagonal-v1", task_profile="near_diagonal_v1",
+    )
+    # Fixture already omits native_binary_sha256 for diagonal when not supplied.
+    assert "native_binary_sha256" not in permit
+    with pytest.raises(EvaluatorError, match="native_binary_sha256"):
+        validate_evaluation_permit(permit, suite_id="diagonal-v1")
+
+
+def test_validate_permit_rejects_native_binary_sha256_mismatch(tmp_path, synthetic_checkpoint):
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4,
+        suite_id="diagonal-v1", task_profile="near_diagonal_v1",
+        native_binary_sha256="0" * 64,
+    )
+    with pytest.raises(EvaluatorError, match="native_binary_sha256 mismatch"):
+        validate_evaluation_permit(
+            permit, suite_id="diagonal-v1", native_binary_sha256="1" * 64
+        )
+
+
+def test_main_rejects_wrong_seed(monkeypatch, tmp_path, synthetic_checkpoint):
+    runner = _import_runner()
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    git_head = runner._git_head(REPO_ROOT)
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_path=fake_app,
+    )
+    out_dir = tmp_path / "run-out"
+    with pytest.raises(SystemExit, match="seed must equal"):
+        runner.main([
+            "--seed", "99", "--class", "4",
+            "--checkpoint", str(synthetic_checkpoint),
+            "--permit", str(permit_path),
+            "--sample-index", str(tmp_path / "samples.jsonl"),
+            "--out", str(out_dir),
+        ])
+
+
+def test_main_rejects_class_not_in_suite(monkeypatch, tmp_path, synthetic_checkpoint):
+    runner = _import_runner()
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    out_dir = tmp_path / "run-out"
+    with pytest.raises(SystemExit, match="not allowed for suite"):
+        runner.main([
+            "--seed", "10", "--class", "10", "--suite", "diagonal-v1",
+            "--checkpoint", str(synthetic_checkpoint),
+            "--permit", str(tmp_path / "permit.json"),
+            "--sample-index", str(tmp_path / "samples.jsonl"),
+            "--out", str(out_dir),
+        ])
+
+
+def test_main_rejects_missing_app_binary_before_run(monkeypatch, tmp_path, synthetic_checkpoint):
+    runner = _import_runner()
+    missing_app = tmp_path / "TrackpadSandbox"
+    monkeypatch.setattr(runner, "APP_BINARY", str(missing_app))
+    git_head = runner._git_head(REPO_ROOT)
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_sha256="0" * 64,  # non-null so we reach the file check
+    )
+    out_dir = tmp_path / "run-out"
+    with pytest.raises(SystemExit, match="native app binary not found"):
+        runner.main([
+            "--seed", "4", "--class", "4",
+            "--checkpoint", str(synthetic_checkpoint),
+            "--permit", str(permit_path),
+            "--sample-index", str(tmp_path / "samples.jsonl"),
+            "--out", str(out_dir),
+        ])
+    assert not out_dir.exists()
+
+
+def test_main_rejects_wrong_app_hash_before_run(monkeypatch, tmp_path, synthetic_checkpoint):
+    runner = _import_runner()
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    git_head = runner._git_head(REPO_ROOT)
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_sha256="0" * 64,  # does not match fake_app
+    )
+    out_dir = tmp_path / "run-out"
+    run_calls = []
+    monkeypatch.setattr(runner, "run", lambda *a, **k: run_calls.append(True) or {"learning_success": False})
+    with pytest.raises(EvaluatorError, match="native_binary_sha256 mismatch"):
+        runner.main([
+            "--seed", "4", "--class", "4",
+            "--checkpoint", str(synthetic_checkpoint),
+            "--permit", str(permit_path),
+            "--sample-index", str(tmp_path / "samples.jsonl"),
+            "--out", str(out_dir),
+        ])
+    assert not run_calls
+    assert not out_dir.exists()
+
+
+def test_run_uses_validated_task_profile(monkeypatch, tmp_path, synthetic_checkpoint):
+    """run() passes contract.task_profile to the sandbox client, not CLI data."""
+    runner = _import_runner()
+    git_head = runner._git_head(REPO_ROOT)
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake native app for profile test")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=3,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        suite_id="diagonal-v1", task_profile="near_diagonal_v1",
+        native_binary_path=fake_app,
+    )
+    sample_index = tmp_path / "samples.jsonl"
+    sample_index.write_text('{"episode_id":0,"frame_id":0}\n')
+    contract = validate_evaluation_permit(
+        permit,
+        checkpoint_path=synthetic_checkpoint,
+        sample_index_path=sample_index,
+        source_commit=git_head,
+        dataset_schema=runner.DATASET_SCHEMA,
+        target_class=3,
+        source_file_hashes=compute_source_file_hashes(REPO_ROOT),
+        suite_id="diagonal-v1",
+        task_profile="near_diagonal_v1",
+        native_binary_sha256=sp.sha256_file(fake_app),
+    )
+    inference = PolicyInference(synthetic_checkpoint, contract)
+
+    reset_calls = []
+
+    class FakeEnv:
+        model = type("M", (), {})()
+        data = type("D", (), {"time": 0.0, "qpos": np.zeros(runner.vp.NU), "qvel": np.zeros(runner.vp.NU)})()
+
+    class FakeMap:
+        ranges = [(-0.9, 0.9)] * runner.vp.NU
+        act_index = list(range(runner.vp.NU))
+        joint_names = list(sp.MOTOR_JOINTS)
+
+    class FakeClient:
+        def __init__(self, binary, out_dir=None):
+            self.binary = binary
+            self.out_dir = out_dir
+            self.proc = type("P", (), {"pid": 1234, "returncode": None})()
+
+        def reset(self, seed, task_profile=None):
+            reset_calls.append((seed, task_profile))
+
+        def capture(self, save_as=None):
+            return {"frame_id": 1, "png": b"x", "path": "x.png",
+                    "monotonic_time_s": 1.0}
+
+        def _send(self, obj, timeout=30.0):
+            if obj.get("cmd") == "stop":
+                return {"type": "stopped"}
+            return {"type": "touch_ok", "sequence": obj.get("sequence", 0)}
+
+        def raw(self, obj, timeout=30.0):
+            return self._send(obj, timeout)
+
+        def quit(self, timeout=1.0):
+            self.proc.returncode = 0
+            return 0
+
+    monkeypatch.setattr(runner.vp, "make_env", lambda: FakeEnv())
+    monkeypatch.setattr(runner.vp, "build_named_mapping", lambda model, joints: FakeMap())
+    monkeypatch.setattr(runner.vp, "reset_open", lambda env: None)
+    monkeypatch.setattr(runner, "SandboxClient", FakeClient)
+    monkeypatch.setattr(runner, "send_touch", lambda R, agg: None)
+
+    def _stub_prep(R):
+        R["last_record"] = {"aggregate": {}}
+
+    monkeypatch.setattr(runner, "prep_phase", _stub_prep)
+    monkeypatch.setattr(runner, "visual_phase_learned", lambda R, inference: "stub_profile_only")
+    monkeypatch.setattr(runner, "cleanup_phase", lambda R: False)
+
+    def _fail_physics_step(*args, **kwargs):
+        raise AssertionError("physics_step must not be called in profile-wiring test")
+
+    monkeypatch.setattr(runner.vp, "physics_step", _fail_physics_step)
+    monkeypatch.setattr(runner, "ClockReconciler", type("Rec", (), {
+        "offset_s": 0.0, "uncertainty_s": 0.0, "uncertainty_ms": 0.0,
+        "sample": classmethod(lambda cls, cap: cls()),
+    }))
+    monkeypatch.setattr(runner, "FrameGate", type("Gate", (), {
+        "__init__": lambda self, cfg: None,
+        "check": lambda self, f, e, a: type("D", (), {"ok": True, "reasons": []})(),
+    }))
+
+    out_dir = tmp_path / "profile-out"
+    summary = runner.run(3, out_dir, contract, inference, target_class=3)
+    assert len(reset_calls) == 1
+    assert reset_calls[0] == (3, "near_diagonal_v1")
+    assert summary["suite_id"] == "diagonal-v1"
+    assert summary["task_profile"] == "near_diagonal_v1"
+
+
+@pytest.mark.parametrize("suite,profile,target_class", [
+    ("heldout-axis-v1", "near_pointing_v1", 4),
+    ("diagonal-v1", "near_diagonal_v1", 3),
+])
+def test_main_rejects_missing_permit_native_hash_for_both_suites(
+    suite, profile, target_class, monkeypatch, tmp_path, synthetic_checkpoint
+):
+    """Real CLI requires a non-empty native_binary_sha256 in the permit for every suite."""
+    runner = _import_runner()
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake native app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    git_head = runner._git_head(REPO_ROOT)
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=target_class,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        suite_id=suite, task_profile=profile,
+    )
+    out_dir = tmp_path / f"run-out-{suite}"
+    with pytest.raises(SystemExit, match="permit.native_binary_sha256 is required"):
+        runner.main([
+            "--seed", str(target_class), "--class", str(target_class),
+            "--suite", suite,
+            "--checkpoint", str(synthetic_checkpoint),
+            "--permit", str(permit_path),
+            "--sample-index", str(tmp_path / "samples.jsonl"),
+            "--out", str(out_dir),
+        ])
+    assert not out_dir.exists()
+
+
+def test_run_rejects_mismatched_actual_app_hash_before_out_mkdir(
+    monkeypatch, tmp_path, synthetic_checkpoint
+):
+    """run() checks the actual app hash before creating the output directory or env."""
+    runner = _import_runner()
+    fake_app = tmp_path / "TrackpadSandbox"
+    fake_app.write_bytes(b"fake native app")
+    monkeypatch.setattr(runner, "APP_BINARY", str(fake_app))
+    git_head = runner._git_head(REPO_ROOT)
+    permit_path, permit = _make_good_permit(
+        tmp_path, synthetic_checkpoint, target_class=4,
+        source_commit=git_head or "unknown",
+        dataset_schema=runner.DATASET_SCHEMA,
+        native_binary_sha256="0" * 64,  # does not match fake_app
+    )
+    sample_index = tmp_path / "samples.jsonl"
+    sample_index.write_text('{"episode_id":0,"frame_id":0}\n')
+    contract = validate_evaluation_permit(
+        permit, checkpoint_path=synthetic_checkpoint,
+        sample_index_path=sample_index, source_commit=git_head,
+        dataset_schema=runner.DATASET_SCHEMA, target_class=4,
+        source_file_hashes=compute_source_file_hashes(REPO_ROOT),
+        native_binary_sha256="0" * 64,
+    )
+    inference = PolicyInference(synthetic_checkpoint, contract)
+    out_dir = tmp_path / "mismatch-out"
+    with pytest.raises(SystemExit, match="native binary hash mismatch"):
+        runner.run(4, out_dir, contract, inference, target_class=4)
+    assert not out_dir.exists()

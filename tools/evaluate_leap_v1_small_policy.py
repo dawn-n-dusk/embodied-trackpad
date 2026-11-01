@@ -55,11 +55,14 @@ from embodied_trackpad.leap_v1 import pad_env as _pad  # noqa: E402
 from embodied_trackpad.leap_v1 import visual_physics as vp  # noqa: E402
 from embodied_trackpad.leap_v1 import visual_servo as vs  # noqa: E402
 from embodied_trackpad.leap_v1.learned_evaluator import (  # noqa: E402
+    DEFAULT_EVALUATION_SUITE_ID,
+    EVALUATION_SUITES,
     REQUIRED_SOURCE_FILES,
     EvaluationContract,
     PolicyInference,
     compute_screen_dependence,
     compute_source_file_hashes,
+    sha256_file,
     stop_and_reap_client,
     validate_controls_against_ranges,
     validate_evaluation_permit,
@@ -70,7 +73,7 @@ from embodied_trackpad.leap_v1.visual_servo import (  # noqa: E402
 )
 
 sys.path.insert(0, str(REPO_ROOT / "tools"))
-from mac_sandbox_client import SandboxClient  # noqa: E402
+from mac_sandbox_client import APP_BINARY, SandboxClient  # noqa: E402
 
 # --- frozen constants (no configurable physics/safety) -----------------------
 TIMESTEP_S = 0.002
@@ -86,6 +89,8 @@ MAX_ACTION_IMAGES = 120
 CYCLE_MIN_WALL_S = 0.1
 INITIAL_ERROR_MIN_PX, SUCCESS_PX, SUCCESS_FRAMES, SUCCESS_REDUCTION = 10.0, 3.0, 3, 0.5
 RELEASE_WINDOW_S = 0.5
+# Legacy constant for callers/tests that predate named suites.  Real CLI
+# validation uses EVALUATION_SUITES so the diagonal classes 0..7 are legal.
 ALLOWED_CLASSES = frozenset({4, 10})
 DATASET_SCHEMA = "v1-small-policy-smoke-v1"
 
@@ -459,6 +464,17 @@ def cleanup_phase(R: dict) -> bool:
 
 def run(seed: int, out_dir: str | Path, contract: EvaluationContract,
         inference: PolicyInference, target_class: int) -> dict:
+    if contract.native_binary_sha256 is None:
+        raise SystemExit("contract.native_binary_sha256 is required; no binary hash to validate")
+    if not Path(APP_BINARY).is_file():
+        raise SystemExit(f"native app binary not found: {APP_BINARY}")
+    actual_native_sha = sha256_file(APP_BINARY)
+    if actual_native_sha != contract.native_binary_sha256:
+        raise SystemExit(
+            f"native binary hash mismatch: expected {contract.native_binary_sha256} "
+            f"actual {actual_native_sha}"
+        )
+
     out = Path(out_dir)
     out.mkdir(parents=True)
     started_utc = datetime.now(timezone.utc).isoformat()
@@ -490,6 +506,10 @@ def run(seed: int, out_dir: str | Path, contract: EvaluationContract,
             "training_eligible": False,
             "seed": int(seed),
             "target_class": int(target_class),
+            "suite_id": contract.suite_id,
+            "task_profile": contract.task_profile,
+            "native_binary_sha256": contract.native_binary_sha256,
+            "actual_native_binary_sha256": actual_native_sha,
             "started_utc": started_utc,
             "prep_and_release_scripted": True,
             "checkpoint_identity": contract.checkpoint_identity,
@@ -524,7 +544,7 @@ def run(seed: int, out_dir: str | Path, contract: EvaluationContract,
             vp.reset_open(R["env"])
             prep_phase(R)
 
-            R["client"] = SandboxClient(out_dir=str(out))
+            R["client"] = SandboxClient(binary=APP_BINARY, out_dir=str(out))
             R["client"].client_orig_send = R["client"]._send
 
             def _send_budgeted(obj, timeout=30.0, _orig=R["client"].client_orig_send):
@@ -532,7 +552,8 @@ def run(seed: int, out_dir: str | Path, contract: EvaluationContract,
                 return _orig(obj, timeout=max(0.001, min(timeout, left)))
 
             R["client"]._send = _send_budgeted
-            R["client"].reset(seed=seed, task_profile="near_pointing_v1")
+            # task_profile comes from the validated contract, never free-form CLI data.
+            R["client"].reset(seed=seed, task_profile=contract.task_profile)
             send_touch(R, R["last_record"]["aggregate"])
             R["reconciler"] = ClockReconciler.sample(R["client"].capture)
             R["gate"] = FrameGate(FrameGateConfig(
@@ -571,6 +592,10 @@ def run(seed: int, out_dir: str | Path, contract: EvaluationContract,
         summary = {
             "seed": int(seed),
             "target_class": int(target_class),
+            "suite_id": contract.suite_id,
+            "task_profile": contract.task_profile,
+            "native_binary_sha256": contract.native_binary_sha256,
+            "actual_native_binary_sha256": actual_native_sha,
             "started_utc": started_utc,
             "completed_utc": datetime.now(timezone.utc).isoformat(),
             "precision_success": precision_success,
@@ -605,8 +630,10 @@ def parse_args(argv=None) -> argparse.Namespace:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--seed", type=int, required=True)
     ap.add_argument("--class", dest="target_class", type=int, required=True,
-                    choices=sorted(ALLOWED_CLASSES),
-                    help="Target class to evaluate (only 4 or 10)")
+                    help="Target class to evaluate")
+    ap.add_argument("--suite", type=str, default=DEFAULT_EVALUATION_SUITE_ID,
+                    choices=sorted(EVALUATION_SUITES),
+                    help="Evaluation suite (default: heldout-axis-v1)")
     ap.add_argument("--checkpoint", required=True, help="Frozen NPZ checkpoint")
     ap.add_argument("--permit", required=True, help="Evaluation permit JSON")
     ap.add_argument("--sample-index", required=True,
@@ -621,8 +648,14 @@ def parse_args(argv=None) -> argparse.Namespace:
 
 def main(argv=None) -> int:
     args = parse_args(argv)
+    suite_config = EVALUATION_SUITES[args.suite]
+    if args.target_class not in suite_config["allowed_target_classes"]:
+        raise SystemExit(
+            f"--class {args.target_class} not allowed for suite {args.suite!r} "
+            f"(allowed: {sorted(suite_config['allowed_target_classes'])}"
+        )
     if args.seed != args.target_class:
-        raise SystemExit(f"--seed must equal --class (frozen seeds: {sorted(ALLOWED_CLASSES)})")
+        raise SystemExit(f"--seed must equal --class (frozen seed for class {args.target_class})")
 
     out = Path(args.out)
     if out.exists():
@@ -631,6 +664,11 @@ def main(argv=None) -> int:
     with open(args.permit, "r", encoding="utf-8") as fh:
         permit = json.load(fh)
 
+    # Real CLI evaluation always requires a native-binary hash; legacy helper
+    # fixtures may omit it, but the actual runner never may.
+    if not permit.get("native_binary_sha256"):
+        raise SystemExit("permit.native_binary_sha256 is required for all suites")
+
     git_head = _git_head(REPO_ROOT)
     if not git_head:
         raise SystemExit("unable to determine current git HEAD for source binding")
@@ -638,6 +676,13 @@ def main(argv=None) -> int:
         raise SystemExit(
             f"--source-commit {args.source_commit[:12]} does not match current HEAD {git_head[:12]}"
         )
+
+    # Bind the actual native application binary (frozen module constant) before
+    # any output directory or app launch. No arbitrary binary path option.
+    app_binary_path = Path(APP_BINARY)
+    if not app_binary_path.is_file():
+        raise SystemExit(f"native app binary not found: {app_binary_path}")
+    actual_native_sha = sha256_file(app_binary_path)
 
     source_file_hashes = compute_source_file_hashes(REPO_ROOT, REQUIRED_SOURCE_FILES)
     contract = validate_evaluation_permit(
@@ -648,6 +693,9 @@ def main(argv=None) -> int:
         dataset_schema=DATASET_SCHEMA,
         target_class=args.target_class,
         source_file_hashes=source_file_hashes,
+        suite_id=args.suite,
+        task_profile=suite_config["task_profile"],
+        native_binary_sha256=actual_native_sha,
     )
 
     inference = PolicyInference(args.checkpoint, contract)

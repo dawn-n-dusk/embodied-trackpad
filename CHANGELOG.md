@@ -1,5 +1,9 @@
 # Changelog
 
+- Independently reviewed all eight diagonal trials: 2 successes,4 penetration stops,2 contact losses. Preserved every failure and distinguished pre-abort observations from terminal error. Actual batch took58seconds; Kimi dispatch took310.6seconds. At the user's request, validation now defaults to12conditions×2resets with time/failure stopping rules;90is optional. Offline diagnosis precedes new data/training.
+
+- Accepted named axis/diagonal evaluation suites after67focused checks; bound actual app bytes and native sources before execution. Preserved timeout, environment-resolution and fixture failures. The initially proposed90-episode comparison was superseded by the staged protocol above before any such trial ran.
+
 - Added the fixed eight-target diagonal GUI profile while preserving default and axis profiles. Kimi passed 12 actual native protocol checks; coordinator verified source, signed app, preserved baseline app and three saved PNGs. Learned diagonal evaluation remains separately gated.
 
 - Independently accepted the first learned physics/GUI trials: 2/2 fixed held-out near targets, final errors0.874/2.812px, 67 unassisted learned action blocks, complete contact/cursor evidence, safe release and app exit. Preserved narrow coverage, source/cache provenance and all failure denominators; dispatched a separate diagonal GUI test-profile module before broader evaluation.
