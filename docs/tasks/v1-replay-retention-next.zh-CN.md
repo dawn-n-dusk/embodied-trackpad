@@ -1,5 +1,7 @@
 # 保留已有策略能力的下一轮纠错
 
+> Superseded as a standalone MLP implementation task by [ADR 0009](../decisions/0009-visual-policy-mainline.zh-CN.md). Keep the data-retention principles for visual models; do not make MLP replay implementation a prerequisite for pi0.5.
+
 依据 [FT01 闭环结果](../experiments/2026-11-01-v1-diagonal-finetuning.zh-CN.md)，原策略继续作为基线，候选不晋升。先用保存轨迹诊断，不重新扫描接触参数、不补跑已因预算跳过的第十个条件、不重复同一失败训练。
 
 1. 检查原始数据与执行时的接触/起始状态差异，区分非预期点击变色、画面过期、断触及穿透；视觉模块的外观兼容修改须单独验收，不能把它混作学习收益。

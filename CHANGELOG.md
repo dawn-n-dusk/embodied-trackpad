@@ -1,5 +1,7 @@
 # Changelog
 
+- Corrected model priority after user review: retain the coordinate-only MLP as a fixed reference; advance full pretrained pi0.5 adaptation and a visual temporal ACT-style comparison.
+
 - Independently audited the fine-tuned candidate: diagonal 1/7 attempted, axial 0/2, one case unattempted due budget. Retained original policy; recorded contact, unintended click feedback, stale-frame and horizon failures.
 
 - 2026-11-01: Accepted 500-update full fine-tuning from the existing small policy, exact original normalization and checkpoint restore. Recorded both diagonal offline improvement and old axial regression; candidate promotion waits for closed-loop evaluation.

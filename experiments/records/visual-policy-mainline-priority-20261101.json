@@ -1,0 +1,17 @@
+{
+  "record_version": "1.0",
+  "id": "visual-policy-mainline-priority-20261101",
+  "timestamp_utc": "2026-11-01T13:06:09.424780+00:00",
+  "kind": "user_steered_architecture_priority_correction",
+  "status": "design_recorded_admission_dispatched_not_implemented",
+  "actual_trained_model_parameters": 74640,
+  "actual_input": "50D error/proprioception; no image pixels/history/language",
+  "main_route": "full pretrained pi0.5 full fine-tuning",
+  "comparison": "pretrained CNN + temporal ACT-style chunk policy",
+  "not_claimed": [
+    "weights loaded",
+    "larger model implemented",
+    "larger model trained",
+    "memory benchmark"
+  ]
+}

@@ -2,6 +2,8 @@
 
 Latest update (2026-11-01): full fine-tuning from the existing policy completed 500 H800 updates with verified restoration, but its closed-loop regression failed: diagonal 1/7 attempted (one additional case unattempted due byte budget), old axial 0/2. The candidate is not promoted; original policy remains the baseline (axial 2/2, historical diagonal 2/8). Independent audit reconstructed 663 action blocks, 38,413 physics steps and 1,022 touch messages. Four failures involved unintended click feedback changing the target colour. [Report and next correction](docs/experiments/2026-11-01-v1-diagonal-finetuning.zh-CN.md). No GPU optimizer or live stream is active.
 
+Learning priority correction: [ADR 0009](docs/decisions/0009-visual-policy-mainline.zh-CN.md) advances complete pretrained pi0.5 full fine-tuning and an image-input temporal ACT-style comparison. Actual trained model remains a 74,640-parameter coordinate/proprioception MLP; it does not directly consume images. Larger-model admission has been delegated to Kimi; no larger policy is trained yet.
+
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 
 | Milestone | State | Evidence / next condition |
