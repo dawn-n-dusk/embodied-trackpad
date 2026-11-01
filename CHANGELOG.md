@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the actual 8-second H800 fingerprint diagnostic: 12 real JAX callback checks and 32/256/1024 MiB full-hash parity passed. Kept the earlier complete-model timeout unexplained; prepared a checkpoint-first recovery design within the remaining 491 GPU seconds.
+
 - Added optional per-leaf transfer/hash progress events without changing full-state fingerprint semantics, and corrected the host-cache memory guarantee. Independent local checks: 14 passed, 5 skipped; real JAX callback tests and performance measurements remain pending.
 
 - Audited the corrected H800 retry: one full-model update passed, but full-state fingerprinting exhausted the 870-second internal deadline before checkpoint saving. Retained exact failure evidence and the 871-second allocation cost; no recovery, live training or precision-control claim.

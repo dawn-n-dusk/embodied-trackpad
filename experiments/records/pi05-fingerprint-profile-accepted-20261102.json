@@ -1,0 +1,174 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-fingerprint-profile-accepted-20261102",
+  "timestamp_utc": "2026-11-01T20:47:07.427743+00:00",
+  "kind": "independent_actual_h800_synthetic_profile_audit",
+  "status": "tiny_jax_callback_and_synthetic_transfer_profile_accepted",
+  "source_revision": "0e288c21b323cec4dbdbaf72e7c9a29ece6e2956",
+  "source_sha256": {
+    "probe.py": "41b39070c0e2353120abeacc80ad04fedee9da1f399be5cb80cdcebd14d630f8",
+    "run.sbatch": "62d6a47c2ffde5731fcf260f6d549dc5b1f45a2c68b6e1c7c32ce946502107e7",
+    "callback_gate.py": "f6aeeb1ba1caf0d74a8f61a6e0c158a741b29ffd3dbb3e2bff79117798516b37",
+    "pi05_checkpoint.py": "ead74b64c1e506ce8fcad9d8429740ab313a9b5779dbb68d4401f143e0cf97d4"
+  },
+  "permit_sha256": "ceab4975fd70aee0899573019d1dfcb6ea45bbfb3599d23fec3b404dcae376ef",
+  "raw_report_sha256": "35ea70c86df0ffdc57e2944fa2c6b92ac6c188e6e6e3eba2a46b1da02f554cab",
+  "raw_events_sha256": "1581a9df44c06aaa2e8a3a964389971dd7f79c610c47aa9e3dfc694588b59f96",
+  "raw_summary_sha256": "5ae6f3c487dc82427c7faf2ad31ef38cb0168d42e4ea537074310f2707e3f9eb",
+  "scheduler": {
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "start_utc": "2026-11-01T20:42:30Z",
+    "end_utc": "2026-11-01T20:42:38Z",
+    "elapsed_s": 8,
+    "allocated_gpu_count": 1,
+    "allocated_cpu_count": 8,
+    "requested_cpu_count": 8,
+    "requested_memory_gib": 16,
+    "resources_released": true
+  },
+  "runtime": {
+    "jax": "0.5.3",
+    "device_kind": "NVIDIA H800",
+    "process_cpu_affinity_count": 8,
+    "seed": 17,
+    "synthetic_only": true,
+    "optimizer_updates": 0,
+    "full_model_loaded": false,
+    "stream_live": false
+  },
+  "callback_gate": {
+    "all_passed": true,
+    "check_count": 12,
+    "checks": {
+      "all_leaves_are_jax_arrays": true,
+      "complete_stage_digest": true,
+      "digest_matches_no_callback": true,
+      "digest_repeat_stable": true,
+      "event_count_3_per_leaf_plus_complete": true,
+      "exact_3_event_groups_in_order": true,
+      "exact_leaf_meta_and_cumulative_bytes": true,
+      "leaf_count_matches_tree": true,
+      "records_equal_with_without_cb": true,
+      "sentinel_at_after-transfer": true,
+      "sentinel_at_before-transfer": true,
+      "times_monotonic": true
+    },
+    "digest": "396a711579dc297597934d4de252bd5dc7bbccd9639e72a7f03744ab5ed86e0c",
+    "leaf_count": 6,
+    "metadata": {
+      "leaf_devices": [
+        "cuda:0"
+      ],
+      "leaf_dtypes": [
+        "float32",
+        "int32",
+        "uint32"
+      ],
+      "leaf_shapes": [
+        [
+          2,
+          3
+        ],
+        [
+          4
+        ],
+        [
+          4
+        ],
+        [
+          2,
+          3
+        ],
+        [
+          2
+        ],
+        []
+      ]
+    },
+    "state_bytes": 92
+  },
+  "size_results": [
+    {
+      "bytes": 33554432,
+      "construct_s": 0.148485,
+      "device_get_s": 0.009814,
+      "hash_parity": true,
+      "host_sha256_s": 0.019241,
+      "repeat_get_s": 4.8e-05,
+      "repeat_hash_s": 0.01891,
+      "sha256_first": "8725472dcd2f1d8d382df28bf36d8f94693f87b8336eb9736cec104955630951",
+      "sha256_repeat": "8725472dcd2f1d8d382df28bf36d8f94693f87b8336eb9736cec104955630951"
+    },
+    {
+      "bytes": 268435456,
+      "construct_s": 0.139157,
+      "device_get_s": 0.081694,
+      "hash_parity": true,
+      "host_sha256_s": 0.147033,
+      "repeat_get_s": 5.8e-05,
+      "repeat_hash_s": 0.146915,
+      "sha256_first": "acf6e626449a7de8ce45e97255a3ad91467c030c18f84c290be26bd2b79a3fce",
+      "sha256_repeat": "acf6e626449a7de8ce45e97255a3ad91467c030c18f84c290be26bd2b79a3fce"
+    },
+    {
+      "bytes": 1073741824,
+      "construct_s": 0.145048,
+      "device_get_s": 0.326674,
+      "hash_parity": true,
+      "host_sha256_s": 0.583225,
+      "repeat_get_s": 8.4e-05,
+      "repeat_hash_s": 0.58968,
+      "sha256_first": "59279082fc5b82cee10a6077997e030f7057b57dfc70fe9cba4906beb30b89c9",
+      "sha256_repeat": "59279082fc5b82cee10a6077997e030f7057b57dfc70fe9cba4906beb30b89c9"
+    }
+  ],
+  "memory": {
+    "peak_host_rss_bytes": 1627987968,
+    "jax_allocator_peak_bytes_in_use": 1073742848,
+    "not_whole_device_memory_usage": true
+  },
+  "independent_audit_checks": {
+    "four_source_hashes": true,
+    "raw_permit_hash": true,
+    "gate_actual_12_bool_checks": true,
+    "tiny_actual_cuda_state": true,
+    "three_sizes": true,
+    "zero_optimizer": true,
+    "terminal_pass": true,
+    "deadline_budget": true,
+    "output_bound": true,
+    "monotonic_events": true,
+    "actual_runtime": true,
+    "all_size_event_chains_times_and_hashes": true
+  },
+  "event_count": 43,
+  "output_total_bytes": 69312,
+  "budget": {
+    "gpu_seconds_before": 1301,
+    "gpu_seconds_this_run": 8,
+    "cumulative_gpu_seconds": 1309,
+    "limit_gpu_seconds": 1800,
+    "remaining_gpu_seconds": 491
+  },
+  "preparation_review": {
+    "retained_source_timeouts": true,
+    "corrected_before_submission": [
+      "launcher summary argument count, output file-size units, summary failure and deadline exit",
+      "actual JAX arrays instead of NumPy-only callback fixture",
+      "exact cumulative byte counts and exception identity",
+      "dict-valued checks schema and early gate rejection",
+      "separate before/after transfer/hash events and device-scoped memory API"
+    ],
+    "no_unreviewed_source_deployed": true,
+    "job_submissions": 1,
+    "requested_model": "kimi-code/kimi-for-coding",
+    "server_backend_version_verified": false
+  },
+  "interpretation": [
+    "Transfer and SHA-256 were fast on this allocation; different full-model allocation behavior remains unresolved",
+    "Very short repeated host-read times are consistent with host caching; they are not measured cold device-transfer throughput",
+    "This does not verify full-model checkpoint saving, restoration, replay or learned trackpad control"
+  ],
+  "next_task": "docs/tasks/pi05-recovery-after-profile.zh-CN.md"
+}
