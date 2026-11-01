@@ -1,0 +1,32 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-suite-checkpoint-20261101",
+  "timestamp_utc": "2026-11-01T06:40:00.994716+00:00",
+  "kind": "unaccepted_evaluation_suite_implementation_checkpoint",
+  "status": "source_saved_guard_failures_under_bounded_repair",
+  "source_commit": "78580a2ecebf13847f7e2e009cf3e49718f572cb",
+  "worker_timeout_seconds": 240.1,
+  "recorded_usage": null,
+  "usage_missing_is_not_zero": true,
+  "independent_focused_tests": {
+    "passed": 48,
+    "failed": 16
+  },
+  "findings": [
+    "Runner incorrectly addressed a module-level application path constant as a class attribute, preventing runner import.",
+    "Direct contract fixtures missed new suite/profile/hash fields; new negative-test expectations and native-hash fixtures were incomplete.",
+    "Actual CLI native-binary hash must be required for both suites; pure legacy validation fixtures alone may omit it."
+  ],
+  "recovery": {
+    "saved_private_checkpoint": true,
+    "next_worker_max_seconds": 180,
+    "scope": "runner and two focused test files only",
+    "no_actual_app_physics_gpu_optimizer": true
+  },
+  "limitations": [
+    "The new named-suite implementation is not accepted or published as working source.",
+    "No diagonal learned robot trial has been started.",
+    "Previous two-target learned results and the native diagonal profile are independently accepted separate milestones.",
+    "No current optimizer or live stream; missing token usage is unknown, not zero."
+  ]
+}
