@@ -1,0 +1,54 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-cuda-loader-and-tokenizer-20261101",
+  "timestamp_utc": "2026-11-01T15:50:06.682364+00:00",
+  "kind": "independent_source_correction_and_tokenizer_asset_audit",
+  "status": "cuda_source_and_tokenizer_accepted_runtime_pending",
+  "source_sha256": "9ff5b65cd5947d1c16a9eaaaa3bed3b132a423b7e9ae793e25847c86d5965729",
+  "test_sha256": "8e08768ec82504e75d6e2a035e41e29db7e57941682015e47031903dd13f1b31",
+  "independent_loader_tests": {
+    "passed": 11,
+    "skipped": 0,
+    "failed": 0,
+    "heavy_imports_deferred": true,
+    "non_cuda_overrides_rejected": true
+  },
+  "tokenizer": {
+    "source": "gs://big_vision/paligemma_tokenizer.model",
+    "generation": "1711547605575873",
+    "bytes": 4264023,
+    "sha256": "8986bb4f423f07f8c7f70d0dbe3526fb2316056c17bae71b1ea975e77a168fc6",
+    "worker_stream_crc32c": "cKDEzw==",
+    "worker_stream_md5": "FCCtyYVnIKVZ6KhyhLGV4g==",
+    "coordinator_metadata_size_and_remote_sha256_readback": true,
+    "coordinator_recomputed_crc32c_md5": false,
+    "tokenizer_instantiated": false
+  },
+  "kimi_calls": {
+    "cuda_fix": {
+      "elapsed_s": 168.6,
+      "input_uncached": 13274,
+      "input_cached": 426752,
+      "output": 5751
+    },
+    "tokenizer_retry": {
+      "elapsed_s": 232.2,
+      "input_uncached": 12716,
+      "input_cached": 285952,
+      "output": 8124
+    },
+    "counts_are_not_membership_charges": true
+  },
+  "next_check": {
+    "gpu_count": 1,
+    "load_only_minutes_max": 5,
+    "optimizer_allowed": false,
+    "previous_failed_gpu_seconds": 54,
+    "unchanged_retry": false
+  },
+  "limits": [
+    "CUDA source correction does not prove CUDA/JAX runtime compatibility",
+    "No model load, actual parameter count, gradients or updates yet",
+    "Temporary SSH transport resets recovered; no borrowed account or credential changes"
+  ]
+}

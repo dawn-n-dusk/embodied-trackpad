@@ -190,6 +190,38 @@ def test_preexisting_output_rejected():
         _expect_reject(lambda: MOD._admit(args), "already exists")
 
 
+def test_cuda_platform_defaulted_without_heavy_imports():
+    """Unset JAX_PLATFORMS resolves to CUDA before heavy imports; no JAX import."""
+    old = os.environ.pop("JAX_PLATFORMS", None)
+    try:
+        resolved = MOD._resolve_cuda_platform()
+        assert resolved == "cuda" and os.environ["JAX_PLATFORMS"] == "cuda"
+        assert "jax" not in sys.modules, "platform resolution must not import JAX"
+    finally:
+        if old is None:
+            os.environ.pop("JAX_PLATFORMS", None)
+        else:
+            os.environ["JAX_PLATFORMS"] = old
+
+
+def test_inherited_non_cuda_platform_rejected():
+    """Inherited JAX_PLATFORMS=cpu/gpu/rocm is rejected, not silently coerced."""
+    old = os.environ.get("JAX_PLATFORMS")
+    try:
+        for inherited in ("cpu", "gpu", "rocm"):
+            os.environ["JAX_PLATFORMS"] = inherited
+            _expect_reject(MOD._resolve_cuda_platform, inherited)
+            assert os.environ["JAX_PLATFORMS"] == inherited, "rejected override must not be rewritten"
+        os.environ["JAX_PLATFORMS"] = "cuda"
+        assert MOD._resolve_cuda_platform() == "cuda"
+    finally:
+        if old is None:
+            os.environ.pop("JAX_PLATFORMS", None)
+        else:
+            os.environ["JAX_PLATFORMS"] = old
+    assert "jax" not in sys.modules, "platform resolution must not import JAX"
+
+
 def test_help_and_gating_without_heavy_imports():
     help_run = subprocess.run(
         [sys.executable, str(SCRIPT), "--help"], capture_output=True, text=True, timeout=60

@@ -1,5 +1,7 @@
 # Changelog
 
+- Independently accepted the two-real-sample pi0.5 input pack; retained the first 54-second backend-initialization failure, requested/allocated CPU discrepancy, and a CUDA-only correction verified by 11 independent checks. Official tokenizer asset metadata/size/SHA256 were also verified. No full-model load or optimizer result is claimed.
+
 - Accepted a strict complete-model pi0.5 loader after independent actual-report and portable CI admission checks; delegated one bounded H800 load-only job, with optimization still separate.
 
 - Accepted source-bound train-only pi0.5 normalization and pure numeric valid-16 loss checks; integrated 72 passed/one private-fixture skip. Retained OpenPI attribution/license. Full-model runner timeout and tokenizer transport failure remain separate unaccepted steps.

@@ -1,0 +1,50 @@
+{
+  "id": "pi05-first-load-failure-20261101",
+  "kind": "independent_first_complete_model_load_failure_audit",
+  "status": "failed_at_backend_initialization_before_weight_restore",
+  "source_revision": "3194cae5340799d845514a36e77da64e67904ff2",
+  "source_sha256": "8694dffdb17a5fda9f4ac1185b0a14a5f6ee6e9add4a42dcd44b1e7c28a86aac",
+  "raw_report_sha256": "4737d0088f61f6b2c5068b6dd6335dcb657eb867d7a908f5a4b533a68836edff",
+  "scheduler": {
+    "state": "FAILED",
+    "elapsed_s": 54,
+    "exit_code": "1:0",
+    "requested_gpu": 1,
+    "requested_cpu": 8,
+    "allocated_logical_cpu": 16,
+    "requested_memory_gib": 128,
+    "batch_max_rss_kib": 575768,
+    "time_limit_minutes": 10,
+    "restarts": 0,
+    "resources_released": true
+  },
+  "cpu_accounting": {
+    "site_select_type": "select/cons_tres",
+    "site_select_parameters": "CR_CORE",
+    "threads_per_core": 2,
+    "interpretation": "core-based allocation with SMT is consistent with 8 requested CPUs and 16 allocated logical CPUs; both recorded",
+    "scheduler_memory_allocation": "not independently enforced: AllocMem=0 and memory absent from parent AllocTRES"
+  },
+  "failure": {
+    "type": "RuntimeError",
+    "message": "Unable to initialize backend rocm: jaxlib.xla_extension has no attribute GpuAllocatorConfig",
+    "code_observation": "Loader selected JAX_PLATFORMS=gpu; explicit CUDA-only correction delegated",
+    "cuda_runtime_compatibility_verified": false
+  },
+  "model_loaded": false,
+  "parameter_counts": null,
+  "optimizer_updates": 0,
+  "worker_call": {
+    "status": "timeout",
+    "elapsed_s": 480.4,
+    "recorded_usage": {
+      "input_uncached": 80033,
+      "input_cached": 1605888,
+      "output": 12334
+    },
+    "usage_is_billing": false
+  },
+  "next": "Review CUDA-only loader correction and explicit scheduler launch safeguards before any new bounded load; no unchanged automatic retry",
+  "record_version": "1.0",
+  "timestamp_utc": "2026-11-01T15:48:44.599499+00:00"
+}

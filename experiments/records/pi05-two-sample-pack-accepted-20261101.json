@@ -1,0 +1,64 @@
+{
+  "id": "pi05-two-sample-pack-accepted-20261101",
+  "kind": "independent_real_image_state_action_smoke_pack_audit",
+  "status": "two_actual_training_samples_accepted_optimizer_not_permitted",
+  "source_revision": "3194cae5340799d845514a36e77da64e67904ff2",
+  "npz_sha256": "a350e3032b50f8276dbe8bba67c553d31cbc11be559559aa3b890f260dd31418",
+  "manifest_sha256": "f914e4ff175dbc5432ee0699c06b6ec3b1fcc3205aa0f8fd86b7538de97d0cbb",
+  "bytes": 2884376,
+  "samples": 2,
+  "arrays": {
+    "screen_rgb": {
+      "shape": [
+        2,
+        600,
+        800,
+        3
+      ],
+      "dtype": "uint8"
+    },
+    "state": {
+      "shape": [
+        2,
+        16
+      ],
+      "dtype": "float32"
+    },
+    "actions": {
+      "shape": [
+        2,
+        25,
+        16
+      ],
+      "dtype": "float32"
+    },
+    "loss_mask32": {
+      "shape": [
+        32
+      ],
+      "dtype": "bool",
+      "valid_channels": 16
+    }
+  },
+  "audit": {
+    "independent_reconstruction_exact": true,
+    "train_only_one_per_separately_validated_corpus": true,
+    "index_stats_source_and_image_hashes_verified": true,
+    "no_pickle": true
+  },
+  "semantics": {
+    "normalized_state_and_absolute_radian_actions": true,
+    "native_action_dim": 16,
+    "model_action_dim": 32,
+    "action_interval_ms": 2,
+    "action_horizon_ms": 50,
+    "missing_wrist_images": "not stored; future adapter must create masked-false zeros"
+  },
+  "limitations": [
+    "Two samples establish input parity only, not dataset sufficiency or model performance",
+    "Only channels 0-3 vary in current source corpus",
+    "No optimizer permit or new model/control claim"
+  ],
+  "record_version": "1.0",
+  "timestamp_utc": "2026-11-01T15:48:44.599499+00:00"
+}

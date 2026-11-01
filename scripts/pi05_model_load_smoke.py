@@ -31,6 +31,26 @@ TRAINABLE_NOTE = (
     "all parameter leaves are prospective trainable (no freeze/LoRA); "
     "NO actual gradients or updates measured"
 )
+CUDA_PLATFORM = "cuda"
+
+
+def _resolve_cuda_platform():
+    """Pin JAX to CUDA before any heavy import; refuse inherited non-CUDA overrides.
+
+    JAX 0.5.3 expands the 'gpu' alias to CUDA+ROCm backends, and the ROCm
+    backend then fails at initialization (missing GpuAllocatorConfig), so an
+    inherited JAX_PLATFORMS=gpu aborts the load before weight restore. There
+    is deliberately no CPU fallback: only an explicit/unset CUDA target is
+    admitted.
+    """
+    requested = os.environ.get("JAX_PLATFORMS")
+    if requested is not None and requested.strip().lower() != CUDA_PLATFORM:
+        raise RuntimeError(
+            f"JAX_PLATFORMS={requested!r} is not supported: this loader is CUDA-only "
+            f"with no CPU fallback; set JAX_PLATFORMS={CUDA_PLATFORM} or unset it"
+        )
+    os.environ["JAX_PLATFORMS"] = CUDA_PLATFORM
+    return CUDA_PLATFORM
 
 
 class _DeadlineExceeded(Exception):
@@ -117,7 +137,7 @@ def _admit(args):
 
 
 def _load_and_count(upstream_root: Path, weights_dir: Path):
-    os.environ.setdefault("JAX_PLATFORMS", "gpu")
+    resolved = _resolve_cuda_platform()  # before heavy imports
     sys.path.insert(0, str(upstream_root / "src"))
     import jax  # noqa: PLC0415 - deferred: heavy JAX/OpenPI import
     import jax.numpy as jnp  # noqa: PLC0415
@@ -127,9 +147,17 @@ def _load_and_count(upstream_root: Path, weights_dir: Path):
 
     devices = jax.devices()
     gpus = [d for d in devices if d.platform == "gpu"]
-    if jax.default_backend() == "cpu" or len(gpus) != 1:
-        raise RuntimeError(f"require exactly 1 JAX GPU, no CPU fallback; got {[d.platform for d in devices]}")
-    gpu = {"platform": gpus[0].platform, "device_kind": gpus[0].device_kind, "device_count": len(devices)}
+    default_backend = jax.default_backend()
+    if default_backend == "cpu" or len(gpus) != 1:
+        raise RuntimeError(
+            f"require exactly 1 JAX GPU, no CPU fallback; requested={resolved!r} "
+            f"resolved_default_backend={default_backend!r} devices={[d.platform for d in devices]}"
+        )
+    gpu = {
+        "platform": gpus[0].platform, "device_kind": gpus[0].device_kind, "device_count": len(devices),
+        "requested_platform": resolved, "default_backend": default_backend,
+        "devices": [d.platform for d in devices],
+    }
 
     params = upstream_model.restore_params(weights_dir / "params", dtype=jnp.float32)
     config = upstream_pi0_config.Pi0Config(
@@ -182,11 +210,16 @@ def main(argv=None) -> int:
                                      "verified_count": wr["totals"]["verified_count"],
                                      "verified_bytes": wr["totals"]["verified_bytes"]})
         rep["upstream"]["head"] = head
+        rep["jax_platform"] = {"requested": os.environ.get("JAX_PLATFORMS")}
+        rep["jax_platform"]["resolved"] = _resolve_cuda_platform()
         signal.signal(signal.SIGALRM, _on_alarm)
         signal.setitimer(signal.ITIMER_REAL, max(remaining - 1.0, 0.1))
         gpu, counts = _load_and_count(args.upstream_root, args.weights_dir)
         clock.mark("load_and_count")
         rep.update({"gpu": gpu, "parameters": counts, "loaded": True})
+        rep["jax_platform"].update(
+            {"runtime_default_backend": gpu["default_backend"], "runtime_devices": gpu["devices"]}
+        )
     except Exception as exc:  # noqa: BLE001 - every failure is recorded in the report
         clock.mark("failed")
         rep["error"] = {"type": type(exc).__name__, "message": str(exc)}
