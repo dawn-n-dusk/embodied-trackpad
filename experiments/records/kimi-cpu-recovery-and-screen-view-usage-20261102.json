@@ -1,0 +1,165 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-cpu-recovery-and-screen-view-usage-20261102",
+  "timestamp_utc": "2026-11-01T22:01:11.546438+00:00",
+  "dispatch_count": 11,
+  "summed_dispatch_seconds": 1662.7,
+  "timeout_count": 4,
+  "recorded_token_totals": {
+    "input_uncached": 604730,
+    "input_cached": 7270912,
+    "input_cache_write": 0,
+    "output": 74568
+  },
+  "dispatches": [
+    {
+      "task": "v1-pi05-preserved-checkpoint-read-plan",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 62268,
+        "input_cached": 439552,
+        "input_cache_write": 0,
+        "output": 4091,
+        "total": 505911
+      }
+    },
+    {
+      "task": "v1-pi05-abstract-template-only",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "recorded_usage": {
+        "records": 2,
+        "input_uncached": 66845,
+        "input_cached": 123392,
+        "input_cache_write": 0,
+        "output": 4518,
+        "total": 194755
+      }
+    },
+    {
+      "task": "v1-pi05-abstract-template-save",
+      "status": "reported",
+      "elapsed_s": 178.7,
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 16419,
+        "input_cached": 837376,
+        "input_cache_write": 0,
+        "output": 6907,
+        "total": 860702
+      }
+    },
+    {
+      "task": "v1-pi05-abstract-template-fix",
+      "status": "reported",
+      "elapsed_s": 87.5,
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 14033,
+        "input_cached": 772864,
+        "input_cache_write": 0,
+        "output": 3048,
+        "total": 789945
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-restore-launcher-only",
+      "status": "reported",
+      "elapsed_s": 123.0,
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 140836,
+        "input_cached": 977920,
+        "input_cache_write": 0,
+        "output": 7620,
+        "total": 1126376
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-restore-launcher-fix",
+      "status": "reported",
+      "elapsed_s": 66.9,
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 17650,
+        "input_cached": 747776,
+        "input_cache_write": 0,
+        "output": 3414,
+        "total": 768840
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-restore-probe-only",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 149278,
+        "input_cached": 998656,
+        "input_cache_write": 0,
+        "output": 13204,
+        "total": 1161138
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-restore-probe-fix",
+      "status": "reported",
+      "elapsed_s": 95.6,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 28361,
+        "input_cached": 682752,
+        "input_cache_write": 0,
+        "output": 3748,
+        "total": 714861
+      }
+    },
+    {
+      "task": "v1-pi05-cpu-restore-submit-only",
+      "status": "reported",
+      "elapsed_s": 155.1,
+      "recorded_usage": {
+        "records": 16,
+        "input_uncached": 24329,
+        "input_cached": 656640,
+        "input_cache_write": 0,
+        "output": 9053,
+        "total": 690022
+      }
+    },
+    {
+      "task": "v1-pi05-screen-views",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "recorded_usage": {
+        "records": 13,
+        "input_uncached": 38792,
+        "input_cached": 650496,
+        "input_cache_write": 0,
+        "output": 16101,
+        "total": 705389
+      }
+    },
+    {
+      "task": "v1-pi05-screen-views-test-fix",
+      "status": "reported",
+      "elapsed_s": 55.5,
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 45919,
+        "input_cached": 383488,
+        "input_cache_write": 0,
+        "output": 2864,
+        "total": 432271
+      }
+    }
+  ],
+  "limitations": [
+    "Recorded provider token counts only; interrupted requests may lack usage.",
+    "Summed dispatch seconds can overlap and are not heartbeat wall time.",
+    "Cache-read tokens are separate; these are not membership quota, billed cost, or measured delegation savings."
+  ],
+  "outcome": "Helper source and local image views accepted; one CPU allocation failed before model launch; full checkpoint restore remains pending."
+}

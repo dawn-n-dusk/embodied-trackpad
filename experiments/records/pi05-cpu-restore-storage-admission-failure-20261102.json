@@ -1,0 +1,65 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-cpu-restore-storage-admission-failure-20261102",
+  "timestamp_utc": "2026-11-01T21:54:33.666078+00:00",
+  "source_revision": "c739aef205d37f335efadddcb85f411be92f4aae",
+  "status": "failed_before_model_import_checkpoint_preserved",
+  "kind": "independent_runtime_admission_audit",
+  "execution": {
+    "partition": "cpu",
+    "job_id": 735943,
+    "scheduler_state": "FAILED",
+    "exit_code": "46:0",
+    "elapsed_s": 1,
+    "allocated_cpu_count": 2,
+    "allocated_cpu_seconds": 2,
+    "gpu_count": 0,
+    "gpu_seconds": 0,
+    "model_imports": 0,
+    "full_model_restores": 0,
+    "optimizer_applications": 0,
+    "submissions": 1,
+    "retries": 0
+  },
+  "failure": {
+    "stage": "allocation_preflight",
+    "cause": "Preserved scratch checkpoint path was not visible on the selected CPU node. Project output storage was visible as NFS.",
+    "scope_limit": "This proves failure on the selected CPU allocation; it does not establish a universal property of every CPU node.",
+    "source_regression": false
+  },
+  "checkpoint_recheck": {
+    "files": 53,
+    "bytes": 31147685638,
+    "metadata_sha256": {
+      "_METADATA": "ad19c750f9ed1ae0bf46f43ce5e21269e393e1303c9750bea845ad5911a0176d",
+      "_CHECKPOINT_METADATA": "6709707341537c9b6d6e153e21532024722dd447265279251b031154d1dd8e5b"
+    },
+    "inventory_and_metadata_unchanged": true,
+    "payload_rehashed": false
+  },
+  "source_review": {
+    "launcher_checks": 14,
+    "driver_checks": 15,
+    "terminal_checks": 10,
+    "permit_sha256": "5a356f035a8e4a4d9847732d52dece2c868d544a582c7aad27d6ec5e75a0b8b3",
+    "driver_sha256": "09afb66da690da168facb4455f68c19331efebd7d8eb373c4dfe322c0bf66026",
+    "launcher_sha256": "24c7442f6bd8c35b27a8e4f6a7c1c2241305e83c570e7874f432d255bd573a60",
+    "expected_state_sha256": "7e654ce3b4821233641833d9c45c45e85720f4538a35aab5f640c9d7106f3fa9",
+    "bound_files": 16
+  },
+  "budget": {
+    "first_smoke_gpu_seconds_used": 1761,
+    "first_smoke_gpu_seconds_remaining": 39,
+    "automatic_gpu_retry": false
+  },
+  "limitations": [
+    "Tiny abstract-template JAX parity and complete-model restore were not entered.",
+    "No CPU or GPU restore/replay acceptance.",
+    "No optimizer or live stream running; no new precision-control result."
+  ],
+  "next": [
+    "Preserve existing checkpoint and do not repeat the CPU scratch path configuration.",
+    "Review a storage-visible restoration route before any new allocation or checkpoint copy.",
+    "Continue independent image-detail and action-time adaptation without GPU allocation."
+  ]
+}

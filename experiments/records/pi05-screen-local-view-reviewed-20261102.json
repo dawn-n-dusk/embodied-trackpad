@@ -1,0 +1,84 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-local-view-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T22:01:11.546438+00:00",
+  "source_revision": "c739aef205d37f335efadddcb85f411be92f4aae",
+  "status": "software_and_two_real_image_parity_accepted_model_integration_pending",
+  "kind": "independent_source_and_input_image_review",
+  "source_sha256": "7e531863c9091407629c4547054784b0765610b99bef1a9a11aa591b3a913631",
+  "test_sha256": "76469cff1884a46aa0ab42f957d2ab66b08324970c7c8ddbe129fa514686b896",
+  "software_checks": {
+    "passed": 88,
+    "failed": 0,
+    "elapsed_s": 0.26,
+    "files": [
+      "tests/test_leap_v1_screen_views.py",
+      "tests/test_leap_v1_visual_utils.py"
+    ],
+    "initial_failure": "One synthetic fixture placed a target outside the crop and used a negative expected slice; fixture corrected. Production source unchanged."
+  },
+  "actual_image_check": {
+    "input_npz_sha256": "a350e3032b50f8276dbe8bba67c553d31cbc11be559559aa3b890f260dd31418",
+    "sample_count": 2,
+    "results": [
+      {
+        "sample": 0,
+        "full_exact": true,
+        "local_exact": true,
+        "mask_exact": true,
+        "arrays_independent": true,
+        "origin": [
+          287,
+          187
+        ],
+        "cursor_confidence": 0.9666666666666667,
+        "preserved_cursor_pixels": 116
+      },
+      {
+        "sample": 1,
+        "full_exact": true,
+        "local_exact": true,
+        "mask_exact": true,
+        "arrays_independent": true,
+        "origin": [
+          287,
+          187
+        ],
+        "cursor_confidence": 0.9666666666666667,
+        "preserved_cursor_pixels": 116
+      }
+    ],
+    "all_passed": true,
+    "limitations": [
+      "Both source samples show the same initial cursor position; this is pixel-path parity, not localization/generalization or policy evaluation.",
+      "Not yet integrated into model views."
+    ]
+  },
+  "contract": {
+    "input_shape": [
+      600,
+      800,
+      3
+    ],
+    "input_dtype": "uint8",
+    "full_image_copy": true,
+    "local_shape": [
+      224,
+      224,
+      3
+    ],
+    "local_scale": 1.0,
+    "crop_source": "current RGB cursor estimate only; no target/oracle input",
+    "origin_rule": "floor(col)-112, floor(row)-112",
+    "border": "zero pad with pixel-valid mask; never shift origin",
+    "minimum_confidence": 0.5,
+    "invalid_local": "zeros, mask false, origin/cursor None; no stale fallback"
+  },
+  "limitations": [
+    "Fixed confined-app palette, not general Mac localization.",
+    "Both real samples have the same initial cursor position; this is deterministic input-path verification, not performance evaluation.",
+    "No model input-slot integration, optimizer update, simulation/control or live stream was run for this change.",
+    "The pixel-valid mask is not yet a model attention mask."
+  ],
+  "next": "Define full/local screen view slots explicitly, preserving absent wrist-camera masks, then test official Observation input integration."
+}

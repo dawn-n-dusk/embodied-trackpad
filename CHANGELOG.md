@@ -1,5 +1,9 @@
 # Changelog
 
+- Added standalone full-screen plus native-pixel cursor-local views with explicit edge padding and invalid-view masks. Independent checks: 88 software tests passed; two audited real frames preserved every cursor pixel. Model input-slot integration and policy evaluation remain pending.
+
+- The CPU-only restore attempt failed its allocation preflight after 1 second because the selected CPU node could not see the preserved scratch checkpoint. Recorded the failed denominator, zero GPU use, and unchanged checkpoint inventory/metadata; no model launch or retry.
+
 - Added a shape-only NNX/Optax restore-template helper and a bounded CPU recovery contract. Three new local checks passed and three JAX checks remain pending; no new GPU allocation or restoration result.
 
 - Verified two contiguous complete pi0.5 updates and a 31.15 GB step-1 checkpoint save. The 452-second allocation hit its deadline during the second fingerprint; disk restore/replay remain unverified. Recorded full-state transfer timings and the 39-second remaining smoke budget.
