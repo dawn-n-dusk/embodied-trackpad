@@ -30,9 +30,9 @@ from embodied_trackpad.leap_v1.small_policy import (
     MOTION4_INDICES,
     NUM_CHANNELS,
     OUTPUT_DIM,
-    TEST_TARGET_CLASSES,
     SmallPolicyError,
     SmallPolicyNormalizer,
+    STD_FLOOR,
     decode_controls_batched,
     extract_features,
     extract_label_delta,
@@ -52,6 +52,148 @@ DEFAULT_REPORT_PATH = REPO_ROOT / ".local" / "small-policy-source" / "report.jso
 MIN_REMAINING_S = 60
 OUTPUT_BUDGET_BYTES = 512 * 1024 * 1024
 RESUME_CHECK_TOLERANCE = 1e-5
+
+# Fine-tuning warm-start (whole-network initialization from an approved NPZ).
+INITIALIZATION_BIND_KEYS = ("mode", "npz_sha256", "normalizer_policy")
+FINETUNE_LR = 1e-4
+FINETUNE_MAX_UPDATES_CAP = 500
+REQUIRED_INIT_NPZ_KEYS = ("W1", "b1", "W2", "b2", "W3", "b3", "feature_mean", "feature_std")
+EXPECTED_INIT_NPZ_SHAPES = {
+    "W1": (HIDDEN_DIM, INPUT_DIM),
+    "b1": (HIDDEN_DIM,),
+    "W2": (HIDDEN_DIM, HIDDEN_DIM),
+    "b2": (HIDDEN_DIM,),
+    "W3": (OUTPUT_DIM, HIDDEN_DIM),
+    "b3": (OUTPUT_DIM,),
+    "feature_mean": (INPUT_DIM,),
+    "feature_std": (INPUT_DIM,),
+}
+
+
+def _is_64hex(value: Any) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(
+        c in "0123456789abcdef" for c in value.lower()
+    )
+
+
+def validate_initialization_spec(
+    permit: dict[str, Any],
+    init_npz_path: str | Path | None,
+    *,
+    resuming: bool = False,
+) -> dict[str, Any] | None:
+    """Validate the permit's initialization spec against the CLI init path.
+
+    Returns the bind spec ``{mode, npz_sha256, normalizer_policy}`` for
+    fine-tuning, or ``None`` for the default scratch run. A permit without an
+    initialization block never implies scratch acceptance of ``--init-npz``:
+    an init path without a matching permit spec is rejected, and a finetune
+    spec without ``--init-npz`` is rejected unless this is a strict resume
+    (whose checkpoint already carries the frozen initialization metadata).
+    ``--resume`` and ``--init-npz`` never combine.
+    """
+    if resuming and init_npz_path is not None:
+        raise SmallPolicyError("--init-npz cannot be combined with --resume")
+
+    spec = permit.get("initialization")
+    if spec is None:
+        if init_npz_path is not None:
+            raise SmallPolicyError(
+                "--init-npz requires permit initialization.mode 'finetune' with a matching npz_sha256"
+            )
+        return None
+    if not isinstance(spec, dict):
+        raise SmallPolicyError("permit initialization must be a dict")
+    if spec.get("mode") != "finetune":
+        raise SmallPolicyError(f"unsupported initialization.mode {spec.get('mode')!r}")
+    if spec.get("normalizer_policy") != "preserve_initial":
+        raise SmallPolicyError(
+            f"unsupported initialization.normalizer_policy {spec.get('normalizer_policy')!r}"
+        )
+    if not _is_64hex(spec.get("npz_sha256")):
+        raise SmallPolicyError("permit initialization.npz_sha256 is not a 64-character hex string")
+
+    if init_npz_path is None:
+        if resuming:
+            return {k: str(spec[k]) for k in INITIALIZATION_BIND_KEYS}
+        raise SmallPolicyError("permit initialization.mode 'finetune' requires --init-npz")
+
+    path = Path(init_npz_path)
+    if not path.is_file():
+        raise SmallPolicyError(f"init NPZ not found: {path}")
+    actual_sha = sha256_file(path)
+    if actual_sha.lower() != str(spec["npz_sha256"]).lower():
+        raise SmallPolicyError(
+            f"init NPZ sha256 mismatch: permit {str(spec['npz_sha256'])[:16]}... "
+            f"vs file {actual_sha[:16]}..."
+        )
+    return {k: str(spec[k]) for k in INITIALIZATION_BIND_KEYS}
+
+
+def load_init_npz(path: str | Path) -> dict[str, np.ndarray]:
+    """Load an initialization NPZ (allow_pickle=False) and validate it exactly.
+
+    All six weight arrays plus the frozen feature_mean/std must be present,
+    finite, exactly shaped, and the stored std must respect the small-policy
+    floor. A contract_json metadata entry must exist and parse as a JSON dict.
+    """
+    path = Path(path)
+    try:
+        npz = np.load(path, allow_pickle=False)
+    except (OSError, ValueError) as exc:
+        raise SmallPolicyError(f"init NPZ cannot be loaded with allow_pickle=False: {exc}") from exc
+
+    missing = [k for k in REQUIRED_INIT_NPZ_KEYS if k not in npz]
+    if missing:
+        raise SmallPolicyError(f"init NPZ missing keys: {missing}")
+    if "contract_json" not in npz:
+        raise SmallPolicyError("init NPZ missing contract_json metadata")
+
+    arrays: dict[str, np.ndarray] = {}
+    for name, shape in EXPECTED_INIT_NPZ_SHAPES.items():
+        raw = np.asarray(npz[name])
+        if raw.shape != shape:
+            raise SmallPolicyError(f"init NPZ {name} shape mismatch: got {raw.shape}, want {shape}")
+        if (
+            np.iscomplexobj(raw)
+            or raw.dtype == np.bool_
+            or not np.issubdtype(raw.dtype, np.number)
+        ):
+            raise SmallPolicyError(f"init NPZ {name} has unsupported dtype {raw.dtype}")
+        if not np.isfinite(raw).all():
+            raise SmallPolicyError(f"init NPZ {name} contains non-finite values")
+        with np.errstate(over="ignore", invalid="ignore"):
+            arr = raw.astype(np.float32, copy=False)
+        if not np.isfinite(arr).all():
+            raise SmallPolicyError(f"init NPZ {name} is non-finite after float32 conversion")
+        arrays[name] = arr
+
+    if (arrays["feature_std"] < STD_FLOOR).any():
+        raise SmallPolicyError(
+            f"init NPZ feature_std contains malformed values below STD_FLOOR ({STD_FLOOR})"
+        )
+
+    try:
+        contract = json.loads(bytes(npz["contract_json"]).decode("utf-8"))
+    except (TypeError, ValueError, UnicodeDecodeError) as exc:
+        raise SmallPolicyError(f"init NPZ contract_json is not valid JSON: {exc}") from exc
+    if not isinstance(contract, dict):
+        raise SmallPolicyError("init NPZ contract_json must decode to a JSON object")
+    return arrays
+
+
+def init_state_dict_torch(arrays: dict[str, np.ndarray]) -> Any:
+    """Map validated NPZ arrays to the MLP state dict (requires torch)."""
+    import torch
+
+    return {
+        "fc1.weight": torch.from_numpy(np.ascontiguousarray(arrays["W1"], dtype=np.float32)),
+        "fc1.bias": torch.from_numpy(np.ascontiguousarray(arrays["b1"], dtype=np.float32)),
+        "fc2.weight": torch.from_numpy(np.ascontiguousarray(arrays["W2"], dtype=np.float32)),
+        "fc2.bias": torch.from_numpy(np.ascontiguousarray(arrays["b2"], dtype=np.float32)),
+        "fc3.weight": torch.from_numpy(np.ascontiguousarray(arrays["W3"], dtype=np.float32)),
+        "fc3.bias": torch.from_numpy(np.ascontiguousarray(arrays["b3"], dtype=np.float32)),
+    }
 
 
 def _get_git_commit() -> str:
@@ -451,8 +593,10 @@ def validate_source_manifest(
 def validate_frozen_hyperparams(args: argparse.Namespace, permit: dict[str, Any]) -> dict[str, Any]:
     """Enforce the frozen baseline hyperparameters and permit limits.
 
-    lr=1e-3, weight_decay=1e-4, batch_size=64, grad_clip=1.0, seed=17,
-    val_every=100. max_updates must be <= 2000 and <= permit limits.
+    Scratch runs: lr=1e-3, weight_decay=1e-4, batch_size=64, grad_clip=1.0,
+    seed=17, val_every=100, max_updates <= 2000 and <= permit limits.
+    Fine-tuning warm-start runs (permit initialization.mode == 'finetune'):
+    lr=1e-4, max_updates <= 500, all other values unchanged.
     """
     hyperparams = {
         "lr": float(args.lr),
@@ -464,7 +608,15 @@ def validate_frozen_hyperparams(args: argparse.Namespace, permit: dict[str, Any]
         "val_every": int(args.val_every),
     }
 
-    if hyperparams["lr"] != 1e-3:
+    init = permit.get("initialization")
+    finetune = isinstance(init, dict) and init.get("mode") == "finetune"
+
+    if finetune:
+        if hyperparams["lr"] != FINETUNE_LR:
+            raise SmallPolicyError(
+                f"lr must be {FINETUNE_LR} for finetune initialization, got {hyperparams['lr']}"
+            )
+    elif hyperparams["lr"] != 1e-3:
         raise SmallPolicyError(f"lr must be 0.001, got {hyperparams['lr']}")
     if hyperparams["weight_decay"] != 1e-4:
         raise SmallPolicyError(f"weight_decay must be 0.0001, got {hyperparams['weight_decay']}")
@@ -476,7 +628,13 @@ def validate_frozen_hyperparams(args: argparse.Namespace, permit: dict[str, Any]
         raise SmallPolicyError(f"seed must be 17, got {hyperparams['seed']}")
     if hyperparams["val_every"] != 100:
         raise SmallPolicyError(f"val_every must be 100, got {hyperparams['val_every']}")
-    if hyperparams["max_updates"] > 2000:
+    if finetune:
+        if hyperparams["max_updates"] > FINETUNE_MAX_UPDATES_CAP:
+            raise SmallPolicyError(
+                f"max_updates must be <= {FINETUNE_MAX_UPDATES_CAP} for finetune initialization, "
+                f"got {hyperparams['max_updates']}"
+            )
+    elif hyperparams["max_updates"] > 2000:
         raise SmallPolicyError(f"max_updates must be <= 2000, got {hyperparams['max_updates']}")
     if hyperparams["max_updates"] < 101:
         raise SmallPolicyError(
@@ -509,6 +667,7 @@ def save_checkpoint(
     best_model_state_dict: dict[str, Any] | None = None,
     best_metric: float | None = None,
     best_checkpoint_path: Path | None = None,
+    initialization: dict[str, Any] | None = None,
 ) -> None:
     """Atomic write of a fully resumable checkpoint."""
     import torch
@@ -528,6 +687,7 @@ def save_checkpoint(
         "best_model_state_dict": best_model_state_dict,
         "best_metric": best_metric,
         "best_checkpoint_path": str(best_checkpoint_path) if best_checkpoint_path is not None else None,
+        "initialization": initialization,
     }
     tmp = path.with_suffix(path.suffix + ".tmp")
     torch.save(payload, tmp)
@@ -790,6 +950,15 @@ def _run_restored_step(
         if ckpt_contract.get(key) != current_contract.get(key):
             raise SmallPolicyError(f"resume checkpoint contract mismatch on {key}")
 
+    if ckpt_contract.get("initialization") != current_contract.get("initialization"):
+        raise SmallPolicyError("resume checkpoint contract initialization mismatch")
+
+    ckpt_init = ckpt.get("initialization")
+    current_init = current_contract.get("initialization")
+    for key in INITIALIZATION_BIND_KEYS:
+        if (ckpt_init or {}).get(key) != (current_init or {}).get(key):
+            raise SmallPolicyError(f"resume checkpoint initialization mismatch on {key}")
+
     ckpt_hyperparams = ckpt["hyperparams"]
     if not isinstance(ckpt_hyperparams, dict):
         raise SmallPolicyError("resume checkpoint hyperparams is not a dict")
@@ -875,6 +1044,7 @@ def _save_latest_checkpoint(
     best_model_state_dict: dict[str, Any] | None,
     best_metric: float | None,
     best_checkpoint_path: Path | None,
+    initialization: dict[str, Any] | None = None,
 ) -> None:
     """Persist the latest resumable state (overwrites previous latest)."""
     save_checkpoint(
@@ -892,6 +1062,7 @@ def _save_latest_checkpoint(
         best_model_state_dict,
         best_metric,
         best_checkpoint_path,
+        initialization=initialization,
     )
 
 
@@ -901,11 +1072,15 @@ def _validate_resume_checkpoint(
     contract: dict[str, Any],
     hyperparams: dict[str, Any],
     raw_features_train: np.ndarray,
+    initialization: dict[str, Any] | None = None,
 ) -> None:
     """Validate that a checkpoint is safe to resume from.
 
     Checks source manifest, contract, hyperparameters, normalizer agreement,
-    and step bounds. Raises SmallPolicyError on any mismatch.
+    and step bounds. Raises SmallPolicyError on any mismatch. Fine-tune
+    resumes bind the initialization metadata exactly and validate the
+    checkpoint normalizer against the stored frozen initialization instead of
+    a new train-only refit.
     """
     ckpt_manifest = ckpt.get("source_manifest")
     if not isinstance(ckpt_manifest, dict) or set(ckpt_manifest.keys()) != REQUIRED_SOURCE_FILES:
@@ -922,6 +1097,10 @@ def _validate_resume_checkpoint(
     for key in ("source_commit", "dataset_schema", "dataset_index_sha256", "split_counts_observed"):
         if ckpt_contract.get(key) != contract.get(key):
             raise SmallPolicyError(f"resume checkpoint contract mismatch on {key}")
+    # Duplicated provenance must agree in both directions: a scratch checkpoint
+    # under a finetune contract (or vice versa) is rejected, never coerced.
+    if ckpt_contract.get("initialization") != contract.get("initialization"):
+        raise SmallPolicyError("resume checkpoint contract initialization mismatch")
 
     ckpt_hyperparams = ckpt.get("hyperparams")
     if not isinstance(ckpt_hyperparams, dict):
@@ -932,15 +1111,40 @@ def _validate_resume_checkpoint(
 
     ckpt_norm = SmallPolicyNormalizer()
     ckpt_norm.load_state_dict(ckpt["normalizer"])
-    recomputed_norm = SmallPolicyNormalizer().fit(raw_features_train)
-    if not np.allclose(ckpt_norm.state_dict()["feature_mean"], recomputed_norm.state_dict()["feature_mean"]):
-        raise SmallPolicyError(
-            "resume checkpoint normalizer mean does not match recomputed train-only normalizer"
-        )
-    if not np.allclose(ckpt_norm.state_dict()["feature_std"], recomputed_norm.state_dict()["feature_std"]):
-        raise SmallPolicyError(
-            "resume checkpoint normalizer std does not match recomputed train-only normalizer"
-        )
+    if initialization is not None:
+        ckpt_init = ckpt.get("initialization")
+        if not isinstance(ckpt_init, dict):
+            raise SmallPolicyError("resume checkpoint missing initialization metadata")
+        for key in INITIALIZATION_BIND_KEYS:
+            if ckpt_init.get(key) != initialization.get(key):
+                raise SmallPolicyError(f"resume checkpoint initialization mismatch on {key}")
+        frozen_mean = np.asarray(ckpt_init.get("frozen_feature_mean"), dtype=np.float64)
+        frozen_std = np.asarray(ckpt_init.get("frozen_feature_std"), dtype=np.float64)
+        if frozen_mean.shape != (INPUT_DIM,) or frozen_std.shape != (INPUT_DIM,):
+            raise SmallPolicyError("resume checkpoint initialization lacks the frozen normalizer")
+        if not np.isfinite(frozen_mean).all() or not np.isfinite(frozen_std).all():
+            raise SmallPolicyError("resume checkpoint frozen normalizer is not finite")
+        if (frozen_std <= 0.0).any():
+            raise SmallPolicyError("resume checkpoint frozen normalizer std must be positive")
+        # Exact comparison: the frozen arrays are the float32-stored normalizer.
+        if not np.array_equal(frozen_mean.astype(np.float32), ckpt_norm.feature_mean):
+            raise SmallPolicyError(
+                "finetune resume normalizer mean does not match the frozen initialization"
+            )
+        if not np.array_equal(frozen_std.astype(np.float32), ckpt_norm.feature_std):
+            raise SmallPolicyError(
+                "finetune resume normalizer std does not match the frozen initialization"
+            )
+    else:
+        recomputed_norm = SmallPolicyNormalizer().fit(raw_features_train)
+        if not np.allclose(ckpt_norm.state_dict()["feature_mean"], recomputed_norm.state_dict()["feature_mean"]):
+            raise SmallPolicyError(
+                "resume checkpoint normalizer mean does not match recomputed train-only normalizer"
+            )
+        if not np.allclose(ckpt_norm.state_dict()["feature_std"], recomputed_norm.state_dict()["feature_std"]):
+            raise SmallPolicyError(
+                "resume checkpoint normalizer std does not match recomputed train-only normalizer"
+            )
 
     start_step = int(ckpt["step"])
     if not (0 <= start_step < hyperparams["max_updates"]):
@@ -956,6 +1160,14 @@ def train(args: argparse.Namespace) -> int:
     permit_path = Path(args.permit)
     with open(permit_path, "r", encoding="utf-8") as f:
         permit = json.load(f)
+
+    # Warm-start gate: an explicit permit initialization spec bound to --init-npz.
+    # Never implicit: a scratch permit rejects --init-npz, and a finetune spec
+    # requires --init-npz (or a strict --resume whose checkpoint carries it).
+    initialization = validate_initialization_spec(permit, args.init_npz, resuming=bool(args.resume))
+    init_arrays: dict[str, np.ndarray] | None = None
+    if initialization is not None and not args.resume:
+        init_arrays = load_init_npz(args.init_npz)
 
     source_manifest_path = Path(args.source_manifest)
     with open(source_manifest_path, "r", encoding="utf-8") as f:
@@ -996,6 +1208,8 @@ def train(args: argparse.Namespace) -> int:
 
     contract["dataset_index_sha256"] = dataset_sha
     contract["split_counts_observed"] = split_counts
+    if initialization is not None:
+        contract["initialization"] = dict(initialization)
 
     # Canonical source identity is always the current disk state, never a
     # checkpoint's stale manifest.
@@ -1017,7 +1231,15 @@ def train(args: argparse.Namespace) -> int:
     seed = hyperparams["seed"]
     rng_state = set_seed(seed)
 
-    raw_features, features, labels, normalizer = prepare_datasets(records)
+    # Fine-tuning preserves the frozen initial normalizer and never refits on
+    # the new data; scratch runs fit on the new training split only.
+    frozen_normalizer = None
+    if init_arrays is not None:
+        frozen_normalizer = SmallPolicyNormalizer()
+        frozen_normalizer.load_state_dict(
+            {"feature_mean": init_arrays["feature_mean"], "feature_std": init_arrays["feature_std"]}
+        )
+    raw_features, features, labels, normalizer = prepare_datasets(records, normalizer=frozen_normalizer)
 
     # Previous controls for cumulative reconstruction; fitted only on train for norm.
     previous_ctrls: dict[str, np.ndarray] = {}
@@ -1031,6 +1253,9 @@ def train(args: argparse.Namespace) -> int:
     zero_baseline = compute_zero_delta_baseline(labels["train"], previous_ctrls["train"])
 
     model = build_model(str(device))
+    if init_arrays is not None:
+        # Whole-network warm-start: all six tensors plus the frozen normalizer.
+        model.load_state_dict(init_state_dict_torch(init_arrays), strict=True)
     optimizer = torch.optim.AdamW(
         model.parameters(),
         lr=hyperparams["lr"],
@@ -1047,19 +1272,28 @@ def train(args: argparse.Namespace) -> int:
     best_metric: float | None = None
     best_checkpoint_path: Path | None = None
 
+    init_record: dict[str, Any] | None = None
     if args.resume:
         ckpt = load_checkpoint(Path(args.resume), str(device))
 
         # Strict identity validation: do not trust a checkpoint from a different
         # source commit, contract, or hyperparameter set.
-        _validate_resume_checkpoint(ckpt, source_manifest, contract, hyperparams, raw_features["train"])
+        _validate_resume_checkpoint(
+            ckpt, source_manifest, contract, hyperparams, raw_features["train"], initialization=initialization
+        )
 
         start_step = int(ckpt["step"])
 
         model.load_state_dict(ckpt["model_state_dict"])
         optimizer.load_state_dict(ckpt["optimizer_state_dict"])
         normalizer.load_state_dict(ckpt["normalizer"])
+        # Re-normalize with the resumed normalizer: for fine-tuning this is the
+        # frozen initialization (never a new-data refit), for scratch it is
+        # numerically identical to the fit used above.
+        features = {k: normalizer.transform(v) for k, v in raw_features.items()}
         set_rng_state(ckpt["rng_state"])
+        if initialization is not None:
+            init_record = ckpt.get("initialization")
 
         # Restore prior best validation state; never drop it just because no new
         # validation run has happened yet.
@@ -1083,6 +1317,56 @@ def train(args: argparse.Namespace) -> int:
     if args.resume:
         sampler.load_state_dict(ckpt["indices_state"])
 
+    init_parity: dict[str, Any] | None = None
+    initial_validation: dict[str, Any] | None = None
+    if initialization is not None and not args.resume:
+        # Behavior-jump guard: torch predictions on a fixed small batch from the
+        # new train split must equal the old NumPy forward of the init NPZ.
+        k = min(batch_size, N_train)
+        torch_deltas = model_forward_torch_batched(model, features["train"][:k])
+        numpy_deltas = forward_numpy(init_arrays, raw_features["train"][:k])
+        max_delta = float(np.max(np.abs(torch_deltas - numpy_deltas)))
+        init_parity = {
+            "max_abs_delta_rad": max_delta,
+            "within_tolerance": max_delta <= 1e-8,
+            "batch_records": k,
+        }
+        if max_delta > 1e-8:
+            raise SmallPolicyError(
+                f"init parity failed: torch/numpy max delta {max_delta} rad > 1e-8"
+            )
+
+        # Step-0 validation baseline; the step-0 checkpoint joins best selection
+        # so no sequence of bad updates can force an export worse than the init.
+        initial_validation = evaluate_split(
+            model, features["validation"], labels["validation"], previous_ctrls["validation"], str(device)
+        )
+        best_val_rmse = initial_validation["control_rmse_rad"]
+        best_metric = best_val_rmse
+        best_model_state_dict = {kk: vv.detach().cpu().clone() for kk, vv in model.state_dict().items()}
+        init_record = dict(initialization)
+        init_record["frozen_feature_mean"] = [float(x) for x in normalizer.feature_mean]
+        init_record["frozen_feature_std"] = [float(x) for x in normalizer.feature_std]
+        best_path = checkpoint_dir / "best_step_000000.pt"
+        save_checkpoint(
+            best_path,
+            model,
+            optimizer,
+            0,
+            normalizer,
+            contract,
+            sampler.state_dict(),
+            get_rng_state(),
+            {"best_val_rmse": best_val_rmse},
+            source_manifest,
+            hyperparams,
+            best_model_state_dict,
+            best_metric,
+            best_path,
+            initialization=init_record,
+        )
+        best_checkpoint_path = best_path
+
     report = {
         "contract": contract,
         "source_manifest": source_manifest,
@@ -1099,12 +1383,63 @@ def train(args: argparse.Namespace) -> int:
         "weight_hash_before": model_hash(model),
         "updates": [],
     }
+    if initialization is not None:
+        report["initialization"] = dict(initialization)
+        if init_parity is not None:
+            report["init_parity"] = init_parity
+        if initial_validation is not None:
+            report["initial_validation"] = initial_validation
 
     model.train()
     step = start_step
 
     pending_resume_check: dict[str, Any] | None = None
     comparison_updates = 0
+
+    if args.resume and start_step < max_updates:
+        # A resumed continuation never passes step 100 again, so prove
+        # checkpoint-restored equality here: run one disk-restored branch at the
+        # resumed start and compare it against the first actual post-resume
+        # update. Optimizer/RNG/sampler state is preserved (the branch is
+        # independent and restores the main RNG); no update is faked.
+        resume_check_path = checkpoint_dir / "resume_start_determinism_check.pt"
+        saved_rng = get_rng_state()
+        save_checkpoint(
+            resume_check_path,
+            model,
+            optimizer,
+            start_step,
+            normalizer,
+            contract,
+            sampler.state_dict(),
+            saved_rng,
+            {"best_val_rmse": best_val_rmse},
+            source_manifest,
+            hyperparams,
+            best_model_state_dict,
+            best_metric,
+            best_checkpoint_path,
+            initialization=init_record,
+        )
+        expected = _run_restored_step(
+            resume_check_path,
+            features["train"],
+            labels["train"],
+            previous_ctrls["train"],
+            str(device),
+            grad_clip,
+            source_manifest,
+            contract,
+            hyperparams,
+            saved_rng,
+        )
+        comparison_updates += 1
+        pending_resume_check = {
+            "expected": expected,
+            "checked_at_step": start_step,
+            "checkpoint_path": str(resume_check_path),
+        }
+
     train_start = time.monotonic()
     max_wall_s = contract["limits"]["max_wall_s"]
     failed = False
@@ -1132,6 +1467,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
             break
 
@@ -1163,6 +1499,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
             report["failed_at_step"] = step + 1
             report["failed_progress_checkpoint"] = str(failed_path)
@@ -1196,6 +1533,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
             report["failed_at_step"] = step + 1
             report["failed_progress_checkpoint"] = str(failed_path)
@@ -1225,6 +1563,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
             report["failed_at_step"] = step
             report["failed_progress_checkpoint"] = str(failed_path)
@@ -1271,6 +1610,7 @@ def train(args: argparse.Namespace) -> int:
                     best_model_state_dict,
                     best_metric,
                     best_path,
+                    initialization=init_record,
                 )
                 best_checkpoint_path = best_path
                 record["new_best"] = True
@@ -1289,6 +1629,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
 
             # Resume determinism check at step 100 (only if a next step will exist).
@@ -1310,6 +1651,7 @@ def train(args: argparse.Namespace) -> int:
                     best_model_state_dict,
                     best_metric,
                     best_checkpoint_path,
+                    initialization=init_record,
                 )
                 # Persist a progress receipt before running the expensive restored branch.
                 record["resume_check_checkpoint"] = str(check_path)
@@ -1387,6 +1729,7 @@ def train(args: argparse.Namespace) -> int:
                     best_model_state_dict,
                     best_metric,
                     best_checkpoint_path,
+                    initialization=init_record,
                 )
                 report["failed_at_step"] = step
                 report["failed_progress_checkpoint"] = str(failed_path)
@@ -1423,6 +1766,7 @@ def train(args: argparse.Namespace) -> int:
                 best_model_state_dict,
                 best_metric,
                 best_checkpoint_path,
+                initialization=init_record,
             )
             break
 
@@ -1461,9 +1805,14 @@ def train(args: argparse.Namespace) -> int:
             )
             report["test_metrics"] = test_metrics
 
-            # Per-target-class test breakdown.
+            # Per-target-class test breakdown over the classes actually present
+            # in the validated test split (legacy axial or diagonal curriculum).
             per_class: dict[str, Any] = {}
-            test_indices = {tc: [i for i, r in enumerate(splits["test"]) if r["target_class"] == tc] for tc in TEST_TARGET_CLASSES}
+            observed_test_classes = sorted({int(r["target_class"]) for r in splits["test"]})
+            test_indices = {
+                tc: [i for i, r in enumerate(splits["test"]) if int(r["target_class"]) == tc]
+                for tc in observed_test_classes
+            }
             for tc, idx in test_indices.items():
                 if idx:
                     per_class[str(tc)] = evaluate_split_with_channels(
@@ -1500,6 +1849,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--dataset-schema", default="v1-small-policy-smoke-v1", help="Dataset schema identifier")
     parser.add_argument("--checkpoint-dir", default=str(DEFAULT_CHECKPOINT_DIR))
     parser.add_argument("--resume", default=None, help="Resume from checkpoint path")
+    parser.add_argument(
+        "--init-npz",
+        default=None,
+        help="Whole-network fine-tuning initialization NPZ (requires permit initialization.mode 'finetune'; "
+        "never combinable with --resume)",
+    )
     parser.add_argument("--export-npz", default=None, help="Path for NumPy export")
     parser.add_argument("--report", default=None, help="Path for JSON report")
     parser.add_argument("--seed", type=int, default=17)
