@@ -1,5 +1,7 @@
 # Changelog
 
+- Audited existing runtime metadata and pinned OpenPI dependency/weight inventories; delegated isolated setup. Recorded the temporal-module timeout and separated native-time model smoke from longer-window execution adaptation.
+
 - Accepted the native RGB visual-policy corpus: full-resolution pixels, separated action/provenance, immutable index/image bindings and native time semantics. Independent 23 tests and 12 real-image comparisons passed; pretrained model training remains pending.
 
 - Corrected model priority after user review: retain the coordinate-only MLP as a fixed reference; advance full pretrained pi0.5 adaptation and a visual temporal ACT-style comparison.

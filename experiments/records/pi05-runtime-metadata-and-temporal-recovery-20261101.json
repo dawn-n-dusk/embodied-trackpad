@@ -1,0 +1,83 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-runtime-metadata-and-temporal-recovery-20261101",
+  "timestamp_utc": "2026-11-01T14:17:27.306829+00:00",
+  "kind": "independent_runtime_metadata_audit_and_bounded_temporal_recovery",
+  "status": "runtime_not_ready_isolated_staging_dispatched_temporal_unaccepted",
+  "source_commit": "cb910f81feb6f006015e9e1c4b3a413fca04d884",
+  "published_source_ci": {
+    "run_id": 41314691310,
+    "conclusion": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ]
+  },
+  "runtime_metadata": {
+    "python": "3.11.5",
+    "torch": "2.8.0",
+    "selected_venv_no_dist_info": [
+      "jax",
+      "flax",
+      "transformers",
+      "lerobot",
+      "openpi"
+    ],
+    "imports_performed": false,
+    "own_queue_empty_at_probe": true,
+    "last_project_allocation_terminal": true,
+    "last_project_allocation_elapsed_s": 19,
+    "new_gpu_jobs": 0,
+    "scope": "selected project environment metadata only; other environments unknown; shared disk space is not a personal quota"
+  },
+  "upstream": {
+    "repository": "https://github.com/Physical-Intelligence/openpi",
+    "commit": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "pyproject_sha256": "e1f457bd81622a47a4c4de17b92815977ac5fcd40116bec92398eb400bf76483",
+    "torch_requirement": "2.7.1",
+    "numpy_requirement": ">=1.22.4,<2.0.0",
+    "weights_prefix": "gs://openpi-assets/checkpoints/pi05_base/",
+    "official_objects": 29,
+    "total_checkpoint_bytes": 12441749581,
+    "inventory_paginated": false,
+    "weights_downloaded": false
+  },
+  "handoffs": {
+    "metadata": {
+      "elapsed_s": 240.1,
+      "status": "timeout_after_successful_ssh_before_final_report",
+      "evidence": "actual command output preserved and independently reviewed",
+      "usage": {
+        "uncached_input": 57172,
+        "cached_input": 654592,
+        "output": 7990
+      }
+    },
+    "temporal": {
+      "elapsed_s": 600.1,
+      "status": "timeout_no_saved_source_or_tests",
+      "acceptance": false,
+      "usage": {
+        "uncached_input": 66175,
+        "cached_input": 487680,
+        "output": 14671
+      }
+    },
+    "usage_scope": "provider records, not membership quota or billing; missing interrupted usage is unknown"
+  },
+  "recovery": {
+    "environment": "isolated official source and frozen dependencies, 600s worker / 510s remote / 420s package-sync, zero GPU, 20GiB cap; old runtime preserved",
+    "temporal": "narrowed pure numerical resampling helper, 300s, no index/window assembly or physical equivalence claim",
+    "first_model_smoke": "may retain original 25 native 2ms actions with matching model horizon; longer windows do not block model loading; no deployment time semantics inferred"
+  },
+  "remaining_gates": [
+    "source and frozen dependency installation evidence",
+    "checkpoint download integrity and complete pretrained model load",
+    "explicit native16-to-model32 handling; normalization and effective action loss dimensions",
+    "actual image resize/cursor visibility and optional crop review",
+    "finite full-parameter gradients, update, checkpoint and restore on bounded H800 allocation",
+    "independent closed-loop evaluation after execution-time adaptation"
+  ]
+}
