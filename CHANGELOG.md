@@ -1,5 +1,7 @@
 # Changelog
 
+- Preserved two offline-diagnosis timeouts and the saved analysis source. Independent offline execution produced partial JSON then hit a report-field error; contact missingness and feature-distance semantics also remain unaccepted. No new physics or optimizer was run. Named-suite integration CI passed on Python3.10–3.13.
+
 - Independently reviewed all eight diagonal trials: 2 successes,4 penetration stops,2 contact losses. Preserved every failure and distinguished pre-abort observations from terminal error. Actual batch took58seconds; Kimi dispatch took310.6seconds. At the user's request, validation now defaults to12conditions×2resets with time/failure stopping rules;90is optional. Offline diagnosis precedes new data/training.
 
 - Accepted named axis/diagonal evaluation suites after67focused checks; bound actual app bytes and native sources before execution. Preserved timeout, environment-resolution and fixture failures. The initially proposed90-episode comparison was superseded by the staged protocol above before any such trial ran.

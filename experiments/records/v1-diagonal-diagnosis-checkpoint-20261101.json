@@ -1,0 +1,49 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-diagnosis-checkpoint-20261101",
+  "timestamp_utc": "2026-11-01T07:14:28.255443+00:00",
+  "kind": "offline_diagnostic_checkpoint_review",
+  "status": "partial_json_preserved_analysis_not_accepted",
+  "source_commit": "a6f0e90ebf0a47603b60afb53b1b9871884c63a1",
+  "worker_calls": [
+    {
+      "wall_s": 240.1,
+      "status": "timeout",
+      "usage": null,
+      "saved": "private analysis source only"
+    },
+    {
+      "wall_s": 120.1,
+      "status": "timeout",
+      "usage": null,
+      "saved": "corrected private source only"
+    }
+  ],
+  "coordinator_independent_offline_check": {
+    "wall_s": 0.439729542,
+    "exit_code": 1,
+    "json_written": true,
+    "markdown_complete": false,
+    "failure": "KeyError: failure_intent_nearest_train in Markdown renderer after the normalized field was renamed.",
+    "simulation_steps": 0,
+    "app_launches": 0,
+    "optimizer_updates": 0
+  },
+  "review_findings": [
+    "First script used wrong repository root; corrected by Kimi before independent execution.",
+    "Contact-force min/last statistics omit no-contact rows rather than recording zero; not accepted as physical terminal-force statistics.",
+    "Nearest-state scaling differs from deployed feature normalization and has not been validated for nearly constant dimensions; do not infer a causal support threshold.",
+    "Successful rows misleadingly retain fields named failure_intent; no causal failure diagnosis accepted.",
+    "All eight original evaluation results remain valid and unchanged."
+  ],
+  "private_hashes": {
+    "latest_analysis_source": "e119e4f50625263029a5a0cedbca62d2b385f205debd9fb150cfb820e2010751",
+    "partial_json": "642923386a7463fc951f9f07985534f26111fd474a319fc85e6aadf9ab2941da"
+  },
+  "next_module": "Small JSON-only correction: include zero-contact rows, use saved model normalizer with explicit units/limits, distinguish successful last-intent fields, execute before adding narrative. No new physical trials from this checkpoint.",
+  "limitations": [
+    "Missing Kimi usage is unknown, not zero.",
+    "No new source implementation published; private script remains a recovery checkpoint.",
+    "This record does not establish training-data causality or authorize repeated failed-policy rollouts."
+  ]
+}
