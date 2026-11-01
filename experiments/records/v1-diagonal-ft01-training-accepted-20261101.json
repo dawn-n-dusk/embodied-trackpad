@@ -1,0 +1,153 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-ft01-training-accepted-20261101",
+  "timestamp_utc": "2026-11-01T12:46:07.397285+00:00",
+  "kind": "independent_existing_policy_full_finetuning_acceptance",
+  "status": "optimizer_and_restoration_accepted_closed_loop_pending",
+  "model": {
+    "type": "MLP",
+    "parameters": 74640,
+    "initial_npz_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+    "candidate_npz_sha256": "9467f3fd3ed2b953b6da5923f3af730c03ca0389a0f4e7e8fe7fd670c6962b54",
+    "normalizer": "exact original preserved",
+    "initialization": "full old model, new AdamW optimizer and sampler",
+    "all_six_parameter_tensors_trainable": true,
+    "best_step": 400
+  },
+  "source_commit": "ee659bf8f040fca589eb7c668b0b1dd6cf8c009b",
+  "data": {
+    "index_sha256": "825ceeb7f8a5f384f8c85c211f11a2e5a6cde1cd2e5f0a50b4fff5dbe5247eb4",
+    "split_counts": {
+      "train": 254,
+      "validation": 145,
+      "test": 151
+    },
+    "development_curriculum_not_blind_benchmark": true
+  },
+  "training": {
+    "device": "NVIDIA H800",
+    "allocated_gpu_count": 1,
+    "elapsed_allocation_s": 19,
+    "primary_updates": 500,
+    "primary_restore_comparison_updates": 1,
+    "external_resume_updates": 1,
+    "external_resume_comparison_updates": 1,
+    "lr": 0.0001,
+    "batch_size": 64,
+    "seed": 17,
+    "numeric_threads": 2,
+    "slurm_state": "COMPLETED",
+    "exit_code": "0:0",
+    "queue_absent_on_readback": true,
+    "live_optimizer": false
+  },
+  "independent_audit": {
+    "npz_forward_metrics_recomputed": true,
+    "all_ten_torch_checkpoints_read_on_CPU": true,
+    "step0_all_weights_exact": true,
+    "all_checkpoint_normalizers_exact": true,
+    "six_AdamW_counters_match_step_in_each_checkpoint": true,
+    "step100_external_resume_start_model_optimizer_rng_sampler_exact": true,
+    "candidate_npz_exact_to_step400": true,
+    "final_retrieval_hashes_matched": 24,
+    "primary_report_sha256": "db902355306e55a58c4a4bdf1c065afdff7dfaf7707365669e15e695cb2888ee",
+    "best_checkpoint_sha256": "477c6e32e7932545a06a3bcd7a3cbf1176dc0b329b6493f9a2037d5d825905d4",
+    "initial_output_parity_max_rad": 9.458744898438454e-11,
+    "final_output_parity_max_rad": 5.820766091346741e-11
+  },
+  "offline_comparison": {
+    "axial": {
+      "original": {
+        "train": {
+          "count": 453,
+          "control_rmse_rad": 4.974148625796698e-05
+        },
+        "validation": {
+          "count": 141,
+          "control_rmse_rad": 5.6478079511311994e-05
+        },
+        "test": {
+          "count": 80,
+          "control_rmse_rad": 7.876329590955538e-05
+        }
+      },
+      "ft01": {
+        "train": {
+          "count": 453,
+          "control_rmse_rad": 0.00019991618481119634
+        },
+        "validation": {
+          "count": 141,
+          "control_rmse_rad": 0.00019062854440209042
+        },
+        "test": {
+          "count": 80,
+          "control_rmse_rad": 0.00018333007117594764
+        }
+      }
+    },
+    "diagonal": {
+      "original": {
+        "train": {
+          "count": 254,
+          "control_rmse_rad": 0.00021800824499432052
+        },
+        "validation": {
+          "count": 145,
+          "control_rmse_rad": 0.00023610171825248812
+        },
+        "test": {
+          "count": 151,
+          "control_rmse_rad": 0.000341036224086424
+        }
+      },
+      "ft01": {
+        "train": {
+          "count": 254,
+          "control_rmse_rad": 0.00010668016016031139
+        },
+        "validation": {
+          "count": 145,
+          "control_rmse_rad": 0.0001808040852283151
+        },
+        "test": {
+          "count": 151,
+          "control_rmse_rad": 0.0002457117354754442
+        }
+      }
+    },
+    "scope": "CPU-only independent offline comparison on existing teacher states, float64 deployment controls; not closed-loop performance; reused development dataset."
+  },
+  "limitations": [
+    "Lower diagonal action error does not establish better physical closed-loop success.",
+    "Old axial test action RMSE increased about 2.33x; original policy remains available and candidate is not promoted.",
+    "Report zero_delta_baseline describes train split; independent test hold baseline is 0.00041425926610827446 rad.",
+    "In-job hash of still-growing Slurm stdout was stale; final retrieval-time hashes matched all 24 files including final stdout.",
+    "Local checkpoint reader used temporary in-process NumPy 2 pickle module aliases with existing NumPy 1.23; no packages changed or optimizer executed.",
+    "Original GPU handoff timed out after submission during result transfer; retrieval resumed existing job without resubmission."
+  ],
+  "next": "Frozen candidate closed-loop diagonal evaluation plus old axial regression through Kimi; no deployment or livestream claim",
+  "delegation": {
+    "dispatches": [
+      {
+        "phase": "GPU stage/submit/transfer",
+        "elapsed_s": 600.1,
+        "status": "timeout after known submission; no duplicate",
+        "usage": "not returned by runner; unknown in this receipt"
+      },
+      {
+        "phase": "existing-job reconciliation and output retrieval",
+        "elapsed_s": 201.4,
+        "status": "reported and independently reviewed",
+        "recorded_tokens": {
+          "input_uncached": 98581,
+          "input_cached": 1336064,
+          "output": 8845,
+          "total": 1443490
+        }
+      }
+    ],
+    "combined_dispatch_wall_s": 801.5,
+    "scope": "GPU dispatch/retrieval only; excludes prior implementation, collection, coordinator review, and pending closed-loop evaluation. Provider usage is not billing or quota."
+  }
+}

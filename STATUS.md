@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): eight fresh diagonal teacher episodes and their 550-sample index are independently accepted (254 train / 145 validation / 151 test). All 606 raw files are unchanged; 558 images, 34,150 physics steps and 910 touch messages were checked. Teacher terminal error averages 1.054 px, with safe release and no native press-threshold crossing. [Data record](experiments/records/v1-diagonal-ft01-data-accepted-20261101.json). A new source/data/initial-weight-bound permit authorizes 500 full-network fine-tuning updates on one H800, retaining the old normalizer. Learned performance remains two fixed axial passes and 2/8 diagonals until the new model is evaluated. No live stream is active; optimizer startup is not yet verified.
+Latest update (2026-11-01): existing-policy full fine-tuning is independently accepted: one H800 allocation, 19 s, 500 main updates, step-0 exact to original weights, preserved normalization and verified checkpoint restoration. Candidate step 400 lowers diagonal offline test action RMSE from 0.000341 to 0.000246 rad, but old axial test RMSE rises from 0.0000788 to 0.000183 rad. It is not promoted; frozen closed-loop diagonal/axial evaluation is dispatched. [Report](docs/experiments/2026-11-01-v1-diagonal-finetuning.zh-CN.md). Existing learned capability remains two fixed axial passes and 2/8 diagonals until candidate evaluation. GPU resources are released; no optimizer or live stream is active.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 
