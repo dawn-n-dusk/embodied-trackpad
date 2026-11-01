@@ -1,5 +1,7 @@
 # Changelog
 
+- Independently audited the fine-tuned candidate: diagonal 1/7 attempted, axial 0/2, one case unattempted due budget. Retained original policy; recorded contact, unintended click feedback, stale-frame and horizon failures.
+
 - 2026-11-01: Accepted 500-update full fine-tuning from the existing small policy, exact original normalization and checkpoint restore. Recorded both diagonal offline improvement and old axial regression; candidate promotion waits for closed-loop evaluation.
 
 - Independently accepted eight fresh diagonal teacher episodes and 550 samples (254/145/151), with 606 raw files unchanged. Issued a bounded 500-update full-network fine-tuning permit from the existing model; teacher success remains distinct from learned-policy evaluation.

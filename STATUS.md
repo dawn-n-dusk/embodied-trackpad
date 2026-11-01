@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): existing-policy full fine-tuning is independently accepted: one H800 allocation, 19 s, 500 main updates, step-0 exact to original weights, preserved normalization and verified checkpoint restoration. Candidate step 400 lowers diagonal offline test action RMSE from 0.000341 to 0.000246 rad, but old axial test RMSE rises from 0.0000788 to 0.000183 rad. It is not promoted; frozen closed-loop diagonal/axial evaluation is dispatched. [Report](docs/experiments/2026-11-01-v1-diagonal-finetuning.zh-CN.md). Existing learned capability remains two fixed axial passes and 2/8 diagonals until candidate evaluation. GPU resources are released; no optimizer or live stream is active.
+Latest update (2026-11-01): full fine-tuning from the existing policy completed 500 H800 updates with verified restoration, but its closed-loop regression failed: diagonal 1/7 attempted (one additional case unattempted due byte budget), old axial 0/2. The candidate is not promoted; original policy remains the baseline (axial 2/2, historical diagonal 2/8). Independent audit reconstructed 663 action blocks, 38,413 physics steps and 1,022 touch messages. Four failures involved unintended click feedback changing the target colour. [Report and next correction](docs/experiments/2026-11-01-v1-diagonal-finetuning.zh-CN.md). No GPU optimizer or live stream is active.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 
