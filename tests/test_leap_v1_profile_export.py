@@ -36,6 +36,18 @@ CLOCK_OFFSET = 0.001
 CLOCK_UNC = 0.0001
 PNG_BACKEND = "pillow"
 PNG_VERSION = "fixture-v1"
+TEACHER_CONTACT = "pointing-light-lowtarget"
+FORCE_CONFIG = {"target_force_n": 0.6, "gain_m_per_ns": 0.004,
+                "max_normal_speed_m_s": 0.002, "max_joint_step_rad": 0.0002,
+                "max_cycle_delta_rad": 0.005}
+GOVERNOR_CONFIG = {"substeps_per_frame": 25, "target_force_n": 0.6,
+                   "tangential_stop_force_n": 0.9,
+                   "per_substep_total_joint_delta_cap_rad": 0.0002,
+                   "max_cycle_delta_rad": 0.005}
+ACC_TEACHER_CONFIG = {"contact_mode": TEACHER_CONTACT,
+                      "planner_kind": "force-governed",
+                      "force_config": FORCE_CONFIG,
+                      "force_governor_config": GOVERNOR_CONFIG}
 ACC = {"controller_kind": "privileged_visual_teacher",
        "config": {"planner_kind": "force-governed"}}
 LEGACY_SAMPLE_KEYS = {"episode_id", "frame_id", "split", "target_class",
@@ -90,6 +102,30 @@ def _enrich_clock(ep):
     return ep
 
 
+def _enrich_teacher_config(ep):
+    """Test-only: give a synthetic episode a coherent teacher config.
+
+    Mirrors the real capture shape (force-governed planner, .6 N target,
+    .9 N tangential stop); summary and metadata.planner carry exactly the
+    same force/governor configs so the teacher-config helper validates.
+    """
+    meta = json.loads((ep / "metadata.json").read_text())
+    meta["contact_mode"] = TEACHER_CONTACT
+    meta["planner"] = {
+        "planner_kind": "force-governed",
+        "force_config": dict(FORCE_CONFIG),
+        "force_governor_config": dict(GOVERNOR_CONFIG),
+        "damping": 0.05,
+    }
+    (ep / "metadata.json").write_text(json.dumps(meta))
+    summ = json.loads((ep / "summary.json").read_text())
+    summ["contact_mode"] = TEACHER_CONTACT
+    summ["force_config"] = dict(FORCE_CONFIG)
+    summ["force_governor_config"] = dict(GOVERNOR_CONFIG)
+    (ep / "summary.json").write_text(json.dumps(summ))
+    return ep
+
+
 def _tagged(tmp_path, seed, profile=DIAG, collection=COLL):
     tmp_path.mkdir(parents=True, exist_ok=True)
     ep, _ = fx._make_fixture(tmp_path, seed=seed)
@@ -103,7 +139,7 @@ def _tagged(tmp_path, seed, profile=DIAG, collection=COLL):
     if collection is not None:
         summ["collection_id"] = collection
     (ep / "summary.json").write_text(json.dumps(summ))
-    return _enrich_clock(ep)
+    return _enrich_teacher_config(_enrich_clock(ep))
 
 
 def _mk_audit(seed, collection=COLL, accepted=True):
@@ -213,7 +249,8 @@ def test_acceptance_profile_gate(tmp_path):
                              task_profile=DIAG, collection_id=COLL)
     assert not audit.accepted  # absence no longer slips through for diagonal
     acc_ok = {"controller_kind": "privileged_visual_teacher",
-              "config": {"planner_kind": "force-governed", "task_profile": DIAG}}
+              "config": {"planner_kind": "force-governed", "task_profile": DIAG,
+                         **ACC_TEACHER_CONFIG}}
     audit, samples = audit_episode(ep, tmp_path / "ok", acceptance=acc_ok,
                                    task_profile=DIAG, collection_id=COLL)
     assert audit.accepted and samples

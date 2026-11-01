@@ -29,7 +29,9 @@ through the exact same path as action frames.
 """
 from __future__ import annotations
 
+import copy
 import math
+import re
 from typing import Any
 
 from embodied_trackpad.leap_v1.visual_servo import CONTACT_PROFILE
@@ -203,4 +205,143 @@ def validate_capture_timing(record: dict, summary: dict, metadata: dict,
         "capture_timing": dict(timing),
         "frame_age_ms": age_ms,
         "worst_frame_age_ms": worst_age_ms,
+    }
+
+
+_FORCE_CONFIG_KEYS = frozenset({
+    "target_force_n", "gain_m_per_ns", "max_normal_speed_m_s",
+    "max_joint_step_rad", "max_cycle_delta_rad",
+})
+_GOVERNOR_CONFIG_KEYS = frozenset({
+    "substeps_per_frame", "target_force_n", "tangential_stop_force_n",
+    "per_substep_total_joint_delta_cap_rad", "max_cycle_delta_rad",
+})
+_SOURCE_COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+
+
+def _require_positive_finite(value: Any, where: str) -> float:
+    if not _is_number(value):
+        raise ValueError(f"{where} must be a real number, got {value!r}")
+    value = float(value)
+    if not math.isfinite(value) or value <= 0.0:
+        raise ValueError(f"{where} must be finite and > 0, got {value!r}")
+    return value
+
+
+def _check_force_config(config: Any, where: str, *, governor: bool) -> dict:
+    if not isinstance(config, dict):
+        raise ValueError(f"{where} must be an object, got {config!r}")
+    keys = _GOVERNOR_CONFIG_KEYS if governor else _FORCE_CONFIG_KEYS
+    if set(config) != keys:
+        raise ValueError(
+            f"{where} keys {sorted(set(config) ^ keys)} differ from the "
+            f"frozen schema (extra or missing)")
+    for key in sorted(keys):
+        _require_positive_finite(config[key], f"{where}.{key}")
+    if governor:
+        sub = config["substeps_per_frame"]
+        if not isinstance(sub, int) or isinstance(sub, bool) or sub != 25:
+            raise ValueError(
+                f"{where}.substeps_per_frame must be integer 25, got {sub!r}")
+    return config
+
+
+def validate_teacher_configuration(
+    summary: dict,
+    metadata: dict,
+    acceptance: dict | None = None,
+    *,
+    required: bool = False,
+) -> dict:
+    """Validate the frozen force-governed teacher configuration.
+
+    ``required=False`` returns ``{}`` for legacy episodes. ``required=True``
+    validates the new diagonal teacher config: ``metadata.planner`` must be
+    an object whose ``force_config``/``force_governor_config`` match the
+    summary's exactly (no partial or silently mixed configs; the physical
+    policy values themselves are compared, never hardcoded). All schema
+    values must be finite, non-bool and strictly positive, with
+    ``substeps_per_frame`` exactly integer 25.
+
+    When ``acceptance`` is supplied its ``config`` must carry
+    ``contact_mode``/``planner_kind``/``force_config``/
+    ``force_governor_config`` exactly equal to the checked episode values;
+    a supplied ``source_commit`` must be full 40-char hex. Inputs are not
+    mutated and nothing here enters actor_input.
+    """
+    if not required:
+        return {}
+
+    planner = metadata.get("planner")
+    if not isinstance(planner, dict):
+        raise ValueError(f"metadata.planner must be an object, got {planner!r}")
+    contact_mode = metadata.get("contact_mode")
+    if not isinstance(contact_mode, str) or not contact_mode:
+        raise ValueError(
+            f"metadata.contact_mode must be a nonempty string, got {contact_mode!r}")
+    if summary.get("contact_mode") != contact_mode:
+        raise ValueError(
+            f"metadata.contact_mode={contact_mode!r} does not equal "
+            f"summary.contact_mode={summary.get('contact_mode')!r}")
+    planner_kind = planner.get("planner_kind")
+    if planner_kind != "force-governed" or summary.get("planner_kind") != planner_kind:
+        raise ValueError(
+            f"planner_kind must be 'force-governed' in metadata and summary, "
+            f"got metadata={planner_kind!r} summary={summary.get('planner_kind')!r}")
+
+    force_config = _check_force_config(
+        planner.get("force_config"), "metadata.planner.force_config",
+        governor=False)
+    summary_force = _check_force_config(
+        summary.get("force_config"), "summary.force_config", governor=False)
+    if force_config != summary_force:
+        raise ValueError("metadata.planner.force_config does not equal "
+                         "summary.force_config")
+    governor_config = _check_force_config(
+        planner.get("force_governor_config"),
+        "metadata.planner.force_governor_config", governor=True)
+    summary_governor = _check_force_config(
+        summary.get("force_governor_config"), "summary.force_governor_config",
+        governor=True)
+    if governor_config != summary_governor:
+        raise ValueError("metadata.planner.force_governor_config does not "
+                         "equal summary.force_governor_config")
+
+    source = None
+    if acceptance is not None:
+        acc_config = acceptance.get("config")
+        if not isinstance(acc_config, dict):
+            raise ValueError(f"acceptance.config must be an object, got {acc_config!r}")
+        _check_force_config(acc_config.get("force_config"),
+                            "acceptance.config.force_config", governor=False)
+        _check_force_config(acc_config.get("force_governor_config"),
+                            "acceptance.config.force_governor_config",
+                            governor=True)
+        expected = {
+            "contact_mode": contact_mode,
+            "planner_kind": planner_kind,
+            "force_config": force_config,
+            "force_governor_config": governor_config,
+        }
+        for key, want in expected.items():
+            if key not in acc_config:
+                raise ValueError(f"acceptance.config missing {key}")
+            if acc_config[key] != want:
+                raise ValueError(
+                    f"acceptance.config.{key} does not match the episode "
+                    f"teacher configuration")
+        source = acceptance.get("source_commit")
+        if source is not None and (
+                not isinstance(source, str) or not _SOURCE_COMMIT_RE.fullmatch(source)):
+            raise ValueError(
+                f"source_commit must be 40 hex chars, got {source!r}")
+
+    return {
+        "teacher_configuration": {
+            "contact_mode": contact_mode,
+            "planner_kind": planner_kind,
+            "force_config": copy.deepcopy(force_config),
+            "force_governor_config": copy.deepcopy(governor_config),
+        },
+        "collection_source_commit": source,
     }

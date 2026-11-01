@@ -1,0 +1,17 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-cli-dispatch-20261101",
+  "timestamp_utc": "2026-11-01T11:02:31.426442+00:00",
+  "kind": "profile_aware_global_collection_audit_dispatch",
+  "status": "dispatched_not_accepted",
+  "source_commit": "603cd7f146538dd45b8f03151536a8d9482498d1",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "fresh_session": true,
+  "budget_s": 300,
+  "scope": "CLI/global collection identity, frozen split/config/backend/source checks; synthetic fixtures only",
+  "limitations": [
+    "No real collection/index or optimizer authorized by this source-only task.",
+    "Capture source identity must remain distinct from auditor source hashes.",
+    "Existing axial behavior preserved; new diagonal data requires all further gates."
+  ]
+}

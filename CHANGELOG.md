@@ -1,5 +1,7 @@
 # Changelog
 
+- Integrated strict teacher-configuration agreement and capture-source metadata into diagonal episode auditing; 127 independent tests and 11 integration checks passed. Legacy outputs, 50D actor input and 25×16 executed labels preserved. CLI and training-loader adaptation remain pending.
+
 - Integrated per-frame clock validation into episode auditing, including terminal frames and accurate timing coverage. Fixed repo-relative PNG resolution and cross-episode symlink acceptance; 94 independent tests and a read-only 45-frame diagnostic audit passed. No new training index or optimizer run.
 
 - Added profile/collection-scoped data export and a capture timing validator, with 82 independent tests plus saved-trace and legacy-parity checks. Complete CLI/configuration/training-loader wiring remains pending.

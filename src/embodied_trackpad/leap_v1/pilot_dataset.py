@@ -15,7 +15,10 @@ from typing import Any
 
 import numpy as np
 
-from embodied_trackpad.leap_v1.pilot_provenance import validate_capture_timing
+from embodied_trackpad.leap_v1.pilot_provenance import (
+    validate_capture_timing,
+    validate_teacher_configuration,
+)
 from embodied_trackpad.leap_v1.visual_servo import decode_png_bytes, extract_visual_estimate
 
 N_JOINTS = 16
@@ -693,6 +696,17 @@ def audit_episode(
     if profile_conflict:
         return audit, samples
 
+    # Teacher-configuration gate BEFORE JSONL/PNG work. Legacy (axial)
+    # episodes get required=False and an empty provenance pass-through, so
+    # default sample/manifest output stays byte-identical.
+    try:
+        teacher_provenance = validate_teacher_configuration(
+            audit.summary, audit.metadata, acceptance,
+            required=task_profile == "near_diagonal_v1")
+    except ValueError as exc:
+        _reject(audit, f"teacher configuration invalid: {exc}")
+        return audit, samples
+
     # Load JSONL
     try:
         actor = load_jsonl(ep / "actor.jsonl")
@@ -911,6 +925,8 @@ def audit_episode(
         }
         if timing_info["clock_offset_s"] is not None:
             sample["metadata"].update(timing_info)
+        if teacher_provenance:
+            sample["metadata"].update(teacher_provenance)
         if audit.task_profile != DEFAULT_TASK_PROFILE:
             sample["task_profile"] = audit.task_profile
             sample["collection_id"] = audit.collection_id

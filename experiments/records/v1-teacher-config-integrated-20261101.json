@@ -1,0 +1,85 @@
+{
+  "record_version": "1.0",
+  "id": "v1-teacher-config-integrated-20261101",
+  "timestamp_utc": "2026-11-01T11:01:49.026957+00:00",
+  "kind": "independent_teacher_configuration_consistency_audit",
+  "status": "source_and_offline_integration_checks_passed",
+  "source_commit": "603cd7f146538dd45b8f03151536a8d9482498d1",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pilot_dataset.py": "d2a88dd4d3b5ffe59bef9593a7646e2b185070eb73cd5e8e0988d3a9a7183efe",
+    "src/embodied_trackpad/leap_v1/pilot_provenance.py": "c0cad3c928b3fbcf9791e86b0d0e1069d2145df679f2b1f9cf71305b94f78ff9",
+    "tests/test_leap_v1_profile_export.py": "7e010ab6436a92c59623ca5244ce4b82eba5de35b4de27d99ed2111f1443e6b1",
+    "tests/test_leap_v1_teacher_config.py": "f6d8ef2b288b7d7c427df39da77ca9af8674daaccab458956a0a990179b4965b",
+    "tests/test_leap_v1_pilot_config.py": "a2c2138d85081965257edd5339316c23e492ad549ebe019e31bd6bdb34e93131"
+  },
+  "independent_tests": {
+    "passed": 127,
+    "failed": 0,
+    "wall_s": 4.3
+  },
+  "independent_integration_checks": {
+    "checks": [
+      "legacy_exact_seed0",
+      "legacy_exact_seed4",
+      "legacy_exact_seed5",
+      "legacy_exact_seed7",
+      "actual_shaped_config_only_in_metadata_50D_25x16",
+      "absent_source_not_fabricated",
+      "acceptance_float_substeps_early_rejected",
+      "acceptance_missing_config_early_rejected",
+      "acceptance_mismatched_force_early_rejected",
+      "summary_mismatch_early_rejected",
+      "output_copy_does_not_mutate_input"
+    ],
+    "passed": 11,
+    "wall_s": 0.38549912499729544,
+    "scope": "synthetic fixtures and readonly config; no new raw collection/index or training eligibility"
+  },
+  "behavior": [
+    "Full force/governor configuration, contact mode and planner identity must agree across metadata, summary and supplied acceptance.",
+    "All configuration numbers must be finite, non-bool and positive; governor substeps must be integer25. Consistent0.6N or0.8N accepted; mismatches rejected.",
+    "Configuration rejection occurs before JSONL/image work for diagonal data. Legacy default output unchanged.",
+    "Capture source is retained only when supplied and valid; no fabricated source identity. Configurations remain metadata only; actor50D and executed25x16 labels unchanged."
+  ],
+  "retained_failures": [
+    {
+      "stage": "helper_source",
+      "status": "timeout",
+      "elapsed_s": 180.1
+    },
+    {
+      "stage": "integration_source",
+      "status": "timeout",
+      "elapsed_s": 240.1
+    },
+    {
+      "stage": "independent_schema_review",
+      "finding": "Acceptance float25.0 bypassed integer schema through dict equality; corrected with independent acceptance schema validation."
+    },
+    {
+      "stage": "worker_integration_tests",
+      "passed": 125,
+      "failed": 2,
+      "finding": "Test source_commit was incorrectly nested in config; missing-config fixture triggered earlier profile gate. Fixtures corrected without weakening assertions."
+    }
+  ],
+  "kimi_dispatches": 2,
+  "kimi_dispatch_wall_s": 420.2,
+  "requested_model": "kimi-code/kimi-for-coding",
+  "model_resolution": "requested CLI alias only; server-resolved backend not verified",
+  "recorded_usage": {
+    "records": 24,
+    "input_uncached": 33670,
+    "input_cached": 2656768,
+    "input_cache_write": 0,
+    "output": 14551,
+    "total": 2704989
+  },
+  "usage_note": "Provider-reported tokens including cache reads; not billing or subscription quota. Interrupted calls may have missing usage.",
+  "limitations": [
+    "Source-only change; no new episodes/index/optimizer/live stream.",
+    "Existing development diagnostic remains training_eligible=false.",
+    "CLI global collection checks and training-loader adaptation remain required before collection/training.",
+    "Learned diagonal result unchanged2/8."
+  ]
+}
