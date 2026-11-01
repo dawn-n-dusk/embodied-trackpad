@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): both the existing-policy fine-tuning entry point and diagonal collection CLI are independently accepted. CLI verification passed 72 tests and 10 independent checks; Kimi has been dispatched to collect eight fresh diagonal episodes and run the accepted offline auditor to produce an ineligible candidate index. [CLI record](experiments/records/v1-diagonal-cli-accepted-20261101.json), [fine-tuning source record](experiments/records/v1-small-policy-finetune-source-accepted-20261101.json). Original weights and normalization are retained for the next run. Learned performance remains two fixed axial passes and 2/8 diagonals. No optimizer or live stream is active.
+Latest update (2026-11-01): eight fresh diagonal teacher episodes and their 550-sample index are independently accepted (254 train / 145 validation / 151 test). All 606 raw files are unchanged; 558 images, 34,150 physics steps and 910 touch messages were checked. Teacher terminal error averages 1.054 px, with safe release and no native press-threshold crossing. [Data record](experiments/records/v1-diagonal-ft01-data-accepted-20261101.json). A new source/data/initial-weight-bound permit authorizes 500 full-network fine-tuning updates on one H800, retaining the old normalizer. Learned performance remains two fixed axial passes and 2/8 diagonals until the new model is evaluated. No live stream is active; optimizer startup is not yet verified.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 

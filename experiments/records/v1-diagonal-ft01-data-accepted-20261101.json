@@ -1,0 +1,79 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-ft01-data-accepted-20261101",
+  "timestamp_utc": "2026-11-01T12:25:26.531990+00:00",
+  "kind": "independent_fresh_diagonal_raw_and_index_acceptance",
+  "status": "data_accepted_for_bound_existing_policy_finetuning",
+  "collection_source_commit": "0ada8572c1f99f7cf4fc6f91aeffcb8135b650d9",
+  "training_source_commit": "ee659bf8f040fca589eb7c668b0b1dd6cf8c009b",
+  "sample_index_sha256": "825ceeb7f8a5f384f8c85c211f11a2e5a6cde1cd2e5f0a50b4fff5dbe5247eb4",
+  "dataset_manifest_sha256": "42b53c4b8be980ddba04ec267188bda31c65d0ac254fe06d8876268e492ebe05",
+  "initialization_npz_sha256": "2f38c5152647306a99be474f9ad93d05e890ae497312962911a19938ad4cb2d0",
+  "teacher_results": {
+    "passed": 8,
+    "attempted": 8,
+    "planned": 8,
+    "terminal_error_mean_px": 1.0535023514845427,
+    "terminal_errors_px": [
+      0.5055071852625388,
+      0.9479640313589544,
+      0.9170920256820474,
+      1.851865309308784,
+      1.5659493799910313,
+      0.93786571225759,
+      0.8543596165384718,
+      0.847415551476925
+    ],
+    "max_pad_force_n": 0.9519798286052039,
+    "max_penetration_mm": 0.6601774614665296,
+    "raw_force_steps_ge_1N": 0,
+    "safe_released_and_reaped": 8
+  },
+  "independent_audit": {
+    "raw_files_unchanged": 606,
+    "raw_wall_s": 45.67351587500889,
+    "index_wall_s": 44.56029966700589,
+    "totals": {
+      "steps": 34150,
+      "frames": 558,
+      "action_samples": 550,
+      "visual_steps": 13750,
+      "touch_messages": 910
+    },
+    "split_counts": {
+      "train": 254,
+      "validation": 145,
+      "test": 151
+    },
+    "max_actual_increment_rad": 0.00019597224470179614,
+    "all550_records_loaded_by_actual_training_loader": true
+  },
+  "capture": {
+    "wall_s": 66.317,
+    "sim_s": 68.3,
+    "controller_kind": "privileged_visual_teacher",
+    "task_profile": "near_diagonal_v1",
+    "normal_target_n": 0.6,
+    "tangential_stop_n": 0.9,
+    "png_backend": "pillow",
+    "png_backend_version": "12.0.0"
+  },
+  "next_run": {
+    "mode": "finetune_existing_all_parameters",
+    "parameter_count": 74640,
+    "learning_rate": 0.0001,
+    "max_primary_updates": 500,
+    "max_gpu": 1,
+    "max_wall_s": 1800,
+    "normalizer": "preserve_initial",
+    "initialization_parity_required": true,
+    "step_zero_best_selection": true
+  },
+  "optimizer_started": false,
+  "limitations": [
+    "Teacher8/8 is a data result, not a new learned-policy result; learned baseline remains2/8 diagonal.",
+    "Eight known development target conditions, not a blind generalization benchmark.",
+    "Raw and candidate flags remain false; separate frozen permit authorizes this specific optimizer run.",
+    "No hardware, arbitrary Mac tasks, click/drag/multifinger or long-horizon success."
+  ]
+}

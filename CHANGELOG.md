@@ -1,5 +1,7 @@
 # Changelog
 
+- Independently accepted eight fresh diagonal teacher episodes and 550 samples (254/145/151), with 606 raw files unchanged. Issued a bounded 500-update full-network fine-tuning permit from the existing model; teacher success remains distinct from learned-policy evaluation.
+
 - Accepted the diagonal collection CLI after 72 tests and 10 independent checks, preserving legacy index output and truthful rejected/missing episode reporting. Dispatched fresh collection and candidate export; training remains gated on actual data review.
 
 - Accepted whole-network fine-tuning from the existing policy with frozen input normalization, step-zero best selection and checkpoint provenance/restore checks. Independent 127 tests passed with four conditional skips; GPU execution is still pending.
