@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted Kimi2.8 offline statistics after independent recomputation:902/3000zero gates,1.2987%mean tangential gate,no recorded bound saturation. Accepted an opt-in0.6N target candidate after47independentstub checks and dispatched one seed3trial; physical outcome remains pending.
+
 - Switched shared Kimi handoffs to K2.8 Preview after user confirmation, three routing checks and a live read-only smoke. Recorded API-price proxies separately from membership billing; existing provider and billing controls remain unchanged.
 
 - Independently audited the one pointing-light teacher trial: no1.0N pressure crossing, safe release/exit, but120cycles exhausted without pointing success. Preserved missing terminal capture and excluded the failed data from training; resumed bounded offline diagnosis with Kimi2.8.

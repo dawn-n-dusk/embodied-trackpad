@@ -86,8 +86,13 @@ PLAN_CFG = vp.PlannerConfig(max_joint_delta_rad=0.005, max_planar_step_m=0.0005,
 FORCE_CFG = fsv.NormalForceConfig()
 FORCE_GOV_CFG = fgv.ForceGovernorConfig()
 LIGHT_GOV_CFG = fgv.ForceGovernorConfig(tangential_stop_force_n=0.9)
+# Lower normal-force-target candidate: both the admittance helper and the
+# governor target 0.6 N; tangential stop lowered to 0.9 N as in pointing-light.
+LOWTARGET_FORCE_CFG = fsv.NormalForceConfig(target_force_n=0.6)
+LOWTARGET_GOV_CFG = fgv.ForceGovernorConfig(target_force_n=0.6,
+                                            tangential_stop_force_n=0.9)
 PLANNER_KINDS = ("dls", "normal-priority", "force-admittance", "force-governed")  # default preserves historical behavior
-CONTACT_MODES = ("standard", "pointing-light")
+CONTACT_MODES = ("standard", "pointing-light", "pointing-light-lowtarget")
 TASK_PROFILES = ("near_pointing_v1", "near_diagonal_v1")
 DIAGONAL_SEED_COUNT = 8  # near_diagonal_v1 allows seeds 0..7
 
@@ -411,7 +416,7 @@ def visual_phase(R: dict) -> str:
                     intended_step = R["step_index"] + 1
                     normal_ctrl, force_info = fsv.normal_force_admittance(
                         R["ctrl"], prev, normal_row, force_n, TIMESTEP_S,
-                        env.index_map, FORCE_CFG)
+                        env.index_map, R.get("force_cfg", FORCE_CFG))
                     if kind == "force-governed":
                         gov_cfg = R.get("force_gov_cfg", FORCE_GOV_CFG)
                         corrected, gov_info = fgv.compose_governed_substep(
@@ -512,7 +517,14 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
         raise ValueError(f"unknown contact_mode {contact_mode!r}; choices {CONTACT_MODES}")
     if contact_mode == "pointing-light" and planner_kind != "force-governed":
         raise ValueError("contact_mode 'pointing-light' requires planner_kind 'force-governed'")
-    gov_cfg = LIGHT_GOV_CFG if contact_mode == "pointing-light" else FORCE_GOV_CFG
+    if contact_mode == "pointing-light-lowtarget" and planner_kind != "force-governed":
+        raise ValueError("contact_mode 'pointing-light-lowtarget' requires planner_kind 'force-governed'")
+    if contact_mode == "pointing-light":
+        force_cfg, gov_cfg = FORCE_CFG, LIGHT_GOV_CFG
+    elif contact_mode == "pointing-light-lowtarget":
+        force_cfg, gov_cfg = LOWTARGET_FORCE_CFG, LOWTARGET_GOV_CFG
+    else:
+        force_cfg, gov_cfg = FORCE_CFG, FORCE_GOV_CFG
     out = Path(out_dir)
     out.mkdir(parents=True)
     started_utc = datetime.now(timezone.utc).isoformat()  # actual start
@@ -521,7 +533,8 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
          "z_hold": None, "initial_error": None, "final_error": None,
          "errors": [], "success": False, "cleanup_records": [],
          "last_record": None, "planner_kind": planner_kind,
-         "contact_mode": contact_mode, "force_gov_cfg": gov_cfg}
+         "contact_mode": contact_mode, "force_cfg": force_cfg,
+         "force_gov_cfg": gov_cfg}
     with open(out / "metadata.json", "w") as fh:
         json.dump({"controller_kind": "privileged_visual_teacher",
                    "training_eligible": False, "seed": int(seed),
@@ -544,11 +557,11 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
                                "damping": PLAN_CFG.damping,
                                "px_per_m": PLAN_CFG.px_per_m,
                                **({"force_config": {
-                                   "target_force_n": FORCE_CFG.target_force_n,
-                                   "gain_m_per_ns": FORCE_CFG.gain_m_per_ns,
-                                   "max_normal_speed_m_s": FORCE_CFG.max_normal_speed_m_s,
-                                   "max_joint_step_rad": FORCE_CFG.max_joint_step_rad,
-                                   "max_cycle_delta_rad": FORCE_CFG.max_cycle_delta_rad}}
+                                   "target_force_n": force_cfg.target_force_n,
+                                   "gain_m_per_ns": force_cfg.gain_m_per_ns,
+                                   "max_normal_speed_m_s": force_cfg.max_normal_speed_m_s,
+                                   "max_joint_step_rad": force_cfg.max_joint_step_rad,
+                                   "max_cycle_delta_rad": force_cfg.max_cycle_delta_rad}}
                                   if planner_kind in ("force-admittance", "force-governed") else {}),
                                **({"force_governor_config": {
                                    "substeps_per_frame": gov_cfg.substeps_per_frame,
@@ -658,6 +671,13 @@ def run(seed: int, out_dir, planner_kind: str = "dls",
             "contact_mode": contact_mode,
             "controller_kind": "privileged_visual_teacher",
             "training_eligible": False,
+            **({"force_config": {
+                "target_force_n": force_cfg.target_force_n,
+                "gain_m_per_ns": force_cfg.gain_m_per_ns,
+                "max_normal_speed_m_s": force_cfg.max_normal_speed_m_s,
+                "max_joint_step_rad": force_cfg.max_joint_step_rad,
+                "max_cycle_delta_rad": force_cfg.max_cycle_delta_rad}}
+               if planner_kind in ("force-admittance", "force-governed") else {}),
             **({"force_governor_config": {
                 "substeps_per_frame": gov_cfg.substeps_per_frame,
                 "target_force_n": gov_cfg.target_force_n,
@@ -689,7 +709,9 @@ def main(argv=None) -> int:
     ap.add_argument("--contact-mode", choices=CONTACT_MODES, default="standard",
                     help="standard=historical force-governed caps (default); "
                          "pointing-light=lower tangential stop force (0.9 N), "
-                         "requires --planner force-governed")
+                         "requires --planner force-governed; "
+                         "pointing-light-lowtarget=0.6 N force target + 0.9 N "
+                         "tangential stop, requires --planner force-governed")
     args = ap.parse_args(argv)
     if args.seed < 0:
         ap.error("--seed must be >= 0")

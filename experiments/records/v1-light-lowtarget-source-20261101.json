@@ -1,0 +1,42 @@
+{
+  "record_version": "1.0",
+  "id": "v1-light-lowtarget-source-20261101",
+  "timestamp_utc": "2026-11-01T08:08:04.137256+00:00",
+  "kind": "teacher_lowtarget_source_acceptance",
+  "status": "source_accepted_single_trial_dispatched",
+  "source_commit": "28006092f3849db1964707f2734fb481448b7600",
+  "requested_worker_model": "kimi-code/kimi-for-coding",
+  "source_hashes": {
+    "tools/leap_v1_near_probe.py": "b9e529d78b8ddced375cd5858c7b80324fdccac30703d7e03c83670f111f9ff9",
+    "tests/test_leap_v1_near_probe.py": "775c26833cfc249d66c267f02b86d4905adffb7aaf2bc82403b8bea8322de08a"
+  },
+  "checks": {
+    "independent_stub_tests": 47,
+    "independent_test_s": 0.57,
+    "mode_config_reaches_both_helpers": true,
+    "metadata_summary_match_selection": true,
+    "existing_modes_preserved": true,
+    "invalid_combo_rejected_before_output": true
+  },
+  "candidate": {
+    "contact_mode": "pointing-light-lowtarget",
+    "normal_target_force_n": 0.6,
+    "governor_target_force_n": 0.6,
+    "tangential_stop_force_n": 0.9,
+    "other_limits_unchanged": true
+  },
+  "coordinator_change": "Corrected one explanatory test comment:1.0 minus0.6 is0.4N; executable implementation remains Kimi work.",
+  "kimi_elapsed_s": 225.7,
+  "kimi_recorded_usage": {
+    "input_uncached": 59174,
+    "input_cached": 974848,
+    "input_cache_write": 0,
+    "output": 8253,
+    "total": 1042275
+  },
+  "limitations": [
+    "Pure source/stub checks do not establish improved physical pointing.",
+    "Only one source-bound seed3trial authorized;no retries or parameter scans.",
+    "No new optimizer or learnedactor changes."
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "record_version": "1.0",
+  "id": "v1-pointing-light-stats-20261101",
+  "timestamp_utc": "2026-11-01T08:03:52.243019+00:00",
+  "kind": "independent_offline_controller_trace_statistics",
+  "status": "accepted_gate_suppression_observed",
+  "source_commit": "c56bbabc60858e3751b577c1d26f788db4a30868",
+  "requested_worker_model": "kimi-code/kimi-for-coding",
+  "kimi_elapsed_s": 95.3,
+  "stats": {
+    "input_sha256": "97e91a2a0eca48bb071b5193f447f182a6d35674f65555025e26e4e5a1dec033",
+    "row_filter": {
+      "kind": "force_substep_intent"
+    },
+    "total_rows": 3000,
+    "gate_counts": {
+      "gate_eq_0": 902,
+      "gate_gt_0": 2098,
+      "gate_other_or_missing": 0
+    },
+    "helper_bound_limited_histogram": {
+      "": 3000
+    },
+    "governor_bound_limited_histogram": {
+      "": 3000
+    },
+    "force_n_overall": {
+      "min": 0.8970204762337889,
+      "mean": 0.9051427192374213,
+      "max": 0.942364087260917,
+      "n": 3000
+    },
+    "mean_gate_overall": 0.01298732093193207,
+    "cycles": {
+      "1": {
+        "force_n": {
+          "min": 0.9403389821681541,
+          "mean": 0.941339317803773,
+          "max": 0.942364087260917,
+          "n": 25
+        },
+        "mean_gate": 0.0
+      },
+      "20": {
+        "force_n": {
+          "min": 0.9196025928714423,
+          "mean": 0.9201722230709646,
+          "max": 0.9207407096877234,
+          "n": 25
+        },
+        "mean_gate": 0.0
+      },
+      "60": {
+        "force_n": {
+          "min": 0.898614920175606,
+          "mean": 0.8986277354410263,
+          "max": 0.8986405361397557,
+          "n": 25
+        },
+        "mean_gate": 0.013722645589739103
+      },
+      "120": {
+        "force_n": {
+          "min": 0.8970204762337889,
+          "mean": 0.8970332654185124,
+          "max": 0.897046060889536,
+          "n": 25
+        },
+        "mean_gate": 0.029667345814876893
+      }
+    },
+    "sum_by_first4_joints": {
+      "normal_delta": [
+        -0.02679387733869687,
+        0.00035959982725392053,
+        -0.011686203200282574,
+        -0.0036446601352436714
+      ],
+      "applied_tangent": [
+        0.002366884889957011,
+        0.007065306369095769,
+        -0.003817180275691714,
+        -0.004140549940559404
+      ]
+    },
+    "ctrl_identity_residual_corrected_minus_prior_minus_total_delta": {
+      "max_abs": 5.5500986835890775e-17,
+      "max_signed": 5.5386637388011445e-17,
+      "min_signed": -5.5500986835890775e-17
+    },
+    "mean_predicted_normal_dz_m": 8.411417538993639e-07
+  },
+  "independent_checks": {
+    "raw_sha_matches": true,
+    "counts_and_means_recomputed": true,
+    "every_gate_matches_frozen_force_formula": true,
+    "all_helper_and_governor_common_scales_one": true,
+    "tracked_source_unchanged": true
+  },
+  "limitations": [
+    "Observed gate attenuation is not proof of the physical cause of force settling.",
+    "No new physics, data index or optimizer.",
+    "Lower normal-force target is a candidate, not a validated improvement."
+  ]
+}
