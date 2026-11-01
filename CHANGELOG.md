@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted source-bound train-only pi0.5 normalization and pure numeric valid-16 loss checks; integrated 72 passed/one private-fixture skip. Retained OpenPI attribution/license. Full-model runner timeout and tokenizer transport failure remain separate unaccepted steps.
+
 - Froze the native JAX full-model smoke contract, retained preparation failures and scoped corrections, and independently found that twelve action channels are constant in the current teacher corpus. No pi0.5 model execution is accepted.
 
 - Accepted native pi0.5 input repacking after 28 tests and six real-sample comparisons; preserved absent sensors and unapplied 16-of-32 loss mask. Audited 12 resized screenshots and recorded cursor detail loss before precision-control use.

@@ -15,3 +15,5 @@ Current LEAP v2 Advanced import uses a pinned official URDF/STL download manifes
 - Tart 2.41.1 is an optional external VM runtime, under FSL-1.1-ALv2 (with the upstream future-license terms); its binary and macOS guest images are not redistributed in this Apache-2.0 repository. Record archive/signature verification and guest OCI digest separately. Reference: https://github.com/openai/tart/tree/2.41.1.
 
 References and public source locations are listed in docs/references.md. Downloaded source snapshots and private audit receipts remain outside the release.
+
+- The flow-loss body in `pi05_jax_loss.py` adapts Physical Intelligence OpenPI `Pi0.compute_loss` at commit `215abfb217dbac7d5f1273282331b9b1866c0479` ([source](https://github.com/Physical-Intelligence/openpi/blob/215abfb217dbac7d5f1273282331b9b1866c0479/src/openpi/models/pi0.py)). GUI image augmentation is disabled and only the first 16 action dimensions contribute to loss. The upstream Apache-2.0 [license is retained](third_party/licenses/openpi-LICENSE); model weights and datasets are not redistributed.

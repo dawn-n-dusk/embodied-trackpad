@@ -1,0 +1,69 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-normalization-and-valid16-loss-20261101",
+  "timestamp_utc": "2026-11-01T15:21:34.144714+00:00",
+  "status": "normalization_and_numeric_loss_accepted_jax_execution_pending",
+  "source_files": {
+    "src/embodied_trackpad/leap_v1/pi05_normalization.py": "08ebc203cdb1cd7d410dbd9d76babcfcafc0e97d9b55f3fe25ed1825b60e1c69",
+    "tests/test_leap_v1_pi05_normalization.py": "9189bfab4537931dd1faf9b32726d25bb6f778bc283788a449bba07d10994826",
+    "src/embodied_trackpad/leap_v1/pi05_jax_loss.py": "ae647ef270e7aef2e341e4cd1d1cdb845fb735dbb97a00103e833b57551b7e54",
+    "tests/test_leap_v1_pi05_jax_loss.py": "1ef988eb0aceceba26c327f7d04c673e9ee5e7d35d2b45285137ac389fbd2094"
+  },
+  "normalization": {
+    "runtime_focused_tests_passed": 40,
+    "independent_exact_stat_vectors": 8,
+    "actual_samples_train_validation_test": 6,
+    "malformed_metadata_cases_rejected_independently": 6,
+    "train_state_rows": 707,
+    "train_action_reference_rows": 17675,
+    "train_rows_per_corpus": [
+      453,
+      254
+    ],
+    "quantile_formula": "(x-q01)/(q99-q01+1e-6)*2-1",
+    "clip": false,
+    "metadata_required": true,
+    "repeat_normalization_rejected": true,
+    "missing_views_zero_false": true,
+    "valid_loss_mask_exact_first16": true,
+    "all_other_transforms_pending": true,
+    "source_sha256": "08ebc203cdb1cd7d410dbd9d76babcfcafc0e97d9b55f3fe25ed1825b60e1c69",
+    "corrections": [
+      "Per-channel quantiles and one-dimensional outlier counts",
+      "Required corpus/hash binding; removed implicit unbound fixture exception",
+      "Updated actually-unbound test fixture and exact error assertion"
+    ]
+  },
+  "valid16_loss": {
+    "pure_numpy_tests_passed": 5,
+    "padding_only_1e6_error_does_not_change_loss": true,
+    "valid_action_errors_change_loss": true,
+    "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479",
+    "upstream_static_body_review": true,
+    "changes": [
+      "disable GUI augmentation",
+      "reduce over valid16 before final mean"
+    ],
+    "jax_runtime_executed": false,
+    "license": "Apache-2.0",
+    "coordinator_edit": "Documentation-only replacement of private attribution path with pinned public source and retained license"
+  },
+  "integration_tests": {
+    "passed": 72,
+    "skipped": 1,
+    "skip_reason": "private actual-corpus fixture absent in main checkout; covered separately in runtime"
+  },
+  "retained_failures": {
+    "normalization_strict_fix_caller_timeout_s": 241.5,
+    "independent_intermediate_result": "39 passed, one outdated fixture assertion failed; corrected and rerun",
+    "whole_model_smoke_source_call_timeout_s": 602.3,
+    "whole_model_runner_source_saved": false,
+    "tokenizer_staging": "failed before download due OAuth token endpoint fetch failure; no staged tokenizer accepted",
+    "later_kimi_call": "fresh valid16 module task completed in90.2s; no continuing blanket auth-block claim"
+  },
+  "limits": [
+    "No pi0.5 model loaded or actual parameter count measured",
+    "No GPU loss, full gradient, optimizer or restore check",
+    "No new closed-loop policy or live stream"
+  ]
+}
