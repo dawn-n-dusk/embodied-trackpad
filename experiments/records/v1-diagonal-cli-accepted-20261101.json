@@ -1,0 +1,55 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-cli-accepted-20261101",
+  "timestamp_utc": "2026-11-01T12:16:56.131059+00:00",
+  "kind": "independent_diagonal_collection_cli_acceptance",
+  "status": "cli_accepted_fresh_collection_dispatched",
+  "runtime_source_commit": "0ada8572c1f99f7cf4fc6f91aeffcb8135b650d9",
+  "source_hashes": {
+    "tools/audit_leap_v1_pilot.py": "1b35fdf5b71fc87b0fee920a669223a50c6dabcfe59512d3ae428a5ba7fab5d9",
+    "tests/test_leap_v1_diagonal_cli.py": "b34822433ca813962118e1965b3622255306215b02707624137c6989075aabda"
+  },
+  "tests": {
+    "passed": 72,
+    "failed": 0,
+    "wall_s": 27.78
+  },
+  "independent_checks": {
+    "passed": 10,
+    "checks": [
+      "legacy_cli_exact_sample_index",
+      "diagonal_8episodes_32samples_16_8_8_bound_source",
+      "summary_force_conflict_rejected",
+      "summary_backend_conflict_rejected",
+      "summary_asset_hash_conflict_rejected",
+      "acceptance_collection_missing_rejected",
+      "conflicting_secondary_index_rejected",
+      "mutually_swapped_frozen_split_rejected",
+      "claim_all_success_missing_one_rejected",
+      "missing_collection_rejected_before_outputs"
+    ],
+    "wall_s": 3.960563957982231,
+    "scope": "offline synthetic CLI audit only; no real collection/index/physics/training"
+  },
+  "corrections": [
+    "Serialize early-rejected episodes without accessing absent computed fields.",
+    "Validate collection/controller/configuration/backend/source and artifact claims across documents.",
+    "Keep invalid/missing/extra episode coverage truthful and export zero samples on global failures.",
+    "Tests separately copy configuration documents and distinguish unclaimed successes from claimed missing episodes."
+  ],
+  "collection": {
+    "planned_episodes": 8,
+    "profile": "near_diagonal_v1",
+    "contact_mode": "pointing-light-lowtarget",
+    "png_backend": "pillow",
+    "training_eligible": false,
+    "status": "dispatched_not_collected_or_accepted"
+  },
+  "optimizer_started": false,
+  "live_stream": false,
+  "limitations": [
+    "Offline synthetic fixtures do not establish accepted training data.",
+    "The earlier 600-second CLI repair timeout and two fixture failures remain retained.",
+    "Physics/probe/native app unchanged; accepted policy loader and auditor integrated at the new runtime source."
+  ]
+}

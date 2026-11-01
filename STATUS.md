@@ -1,6 +1,6 @@
 # Current status
 
-Latest update (2026-11-01): the existing-policy fine-tuning entry point is independently accepted: 127 passing tests, four conditional skips, and 17 independent checks. It preserves the original model/normalizer, includes step-zero in best selection, and supports verified continuation. GPU execution remains pending. The diagonal collection CLI is finishing focused corrections. [Fine-tuning source record](experiments/records/v1-small-policy-finetune-source-accepted-20261101.json), [training contract](docs/tasks/v1-diagonal-retraining.zh-CN.md). Learned performance remains two fixed axial passes and 2/8 diagonals. No optimizer or live stream is active.
+Latest update (2026-11-01): both the existing-policy fine-tuning entry point and diagonal collection CLI are independently accepted. CLI verification passed 72 tests and 10 independent checks; Kimi has been dispatched to collect eight fresh diagonal episodes and run the accepted offline auditor to produce an ineligible candidate index. [CLI record](experiments/records/v1-diagonal-cli-accepted-20261101.json), [fine-tuning source record](experiments/records/v1-small-policy-finetune-source-accepted-20261101.json). Original weights and normalization are retained for the next run. Learned performance remains two fixed axial passes and 2/8 diagonals. No optimizer or live stream is active.
 
 Updated: 2026-11-01 (Asia/Hong_Kong). Status is evidence-based, not inferred from a roadmap item.
 

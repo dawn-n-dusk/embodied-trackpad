@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the diagonal collection CLI after 72 tests and 10 independent checks, preserving legacy index output and truthful rejected/missing episode reporting. Dispatched fresh collection and candidate export; training remains gated on actual data review.
+
 - Accepted whole-network fine-tuning from the existing policy with frozen input normalization, step-zero best selection and checkpoint provenance/restore checks. Independent 127 tests passed with four conditional skips; GPU execution is still pending.
 
 - Saved and independently reviewed the initial diagonal CLI and whole-network fine-tuning changes. Retained both worker timeouts and failed checks; focused corrections are in progress, with no new optimizer run.

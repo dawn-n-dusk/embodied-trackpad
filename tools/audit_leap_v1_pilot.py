@@ -18,19 +18,49 @@ import json
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
+from embodied_trackpad.leap_v1 import pilot_collection, pilot_dataset, pilot_provenance
+from embodied_trackpad.leap_v1.pilot_collection import (
+    validate_diagonal_collection_identity,
+)
 from embodied_trackpad.leap_v1.pilot_dataset import (
+    DEFAULT_TASK_PROFILE,
+    _validate_collection_request,
     audit_episode,
     build_dataset_manifest,
     sha256_file,
     split_of,
 )
+from embodied_trackpad.leap_v1.pilot_provenance import (
+    validate_teacher_configuration,
+)
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
+
+DIAGONAL_PROFILE = pilot_collection.DIAGONAL_PROFILE
+DIAGONAL_PLANNED_SEEDS = list(pilot_collection.EXPECTED_SEEDS)
+DIAGONAL_SEED_SET = set(DIAGONAL_PLANNED_SEEDS)
+PRIVILEGED_CONTROLLER_KIND = "privileged_visual_teacher"
 
 
 def _valid_sha256(value: Any) -> bool:
     return isinstance(value, str) and len(value) == 64 and all(c in "0123456789abcdef" for c in value.lower())
+
+
+def _seed_dir_seed(d: Path) -> int | None:
+    """Parse the seed number from a seed-NNN directory name.
+
+    Returns ``None`` for malformed names (never raises), so callers report
+    issues instead of crashing on ``int()``/``split_of``.
+    """
+    parts = d.name.split("-")
+    if len(parts) != 2 or parts[0] != "seed" or not parts[1]:
+        return None
+    try:
+        return int(parts[1])
+    except ValueError:
+        return None
 
 
 def _rehash_source_files(manifest: dict[str, Any], acceptance: dict[str, Any], repo_root: Path) -> list[str]:
@@ -67,19 +97,14 @@ def _rehash_source_files(manifest: dict[str, Any], acceptance: dict[str, Any], r
     return issues
 
 
-def _verify_global(
-    manifest: dict[str, Any],
-    batch_summary: dict[str, Any],
-    acceptance: dict[str, Any],
-    repo_root: Path,
-    seed_dirs: list[Path],
-) -> list[str]:
-    issues = []
+def _verify_artifacts(manifest: dict[str, Any], batch_summary: dict[str, Any], acceptance: dict[str, Any], repo_root: Path) -> list[str]:
+    """Source-file rehash plus asset-manifest/native-binary hash checks.
 
-    if manifest.get("source_commit") != acceptance.get("source_commit"):
-        issues.append("manifest source_commit mismatch")
-    if batch_summary.get("source_commit") != acceptance.get("source_commit"):
-        issues.append("batch-summary source_commit mismatch")
+    Shared by the legacy and diagonal global checks; every claim is checked
+    against the actual files under ``repo_root`` with no cross-document
+    fallback, so a conflict can never be hidden.
+    """
+    issues = []
 
     issues += _rehash_source_files(manifest, acceptance, repo_root)
 
@@ -127,6 +152,134 @@ def _verify_global(
         if nb_valid_m and nb_valid_a and nb_claim_manifest != nb_claim_acceptance:
             issues.append("native binary manifest-vs-acceptance hash conflict")
 
+    return issues
+
+
+def _verify_global_diagonal(
+    manifest: dict[str, Any],
+    batch_summary: dict[str, Any],
+    acceptance: dict[str, Any],
+    repo_root: Path,
+    seed_dirs: list[Path],
+    collection_id: str | None,
+) -> list[str]:
+    """near_diagonal_v1 global checks.
+
+    Collection identity (profile/collection/source-commit/seed orderings/
+    frozen splits/every prospective index) comes from the pure identity
+    helper; source/artifact rehashing is shared with the legacy check. The
+    full frozen teacher configuration is validated across manifest +
+    batch summary + acceptance through the existing provenance validator
+    via a metadata.planner wrapper, and the png backend/version must be
+    declared identically in manifest, batch summary and acceptance.config
+    (no manifest-or-summary fallback can hide a conflict). The
+    privileged-visual-teacher controller kind is required in manifest,
+    batch summary and acceptance without fallback. Directory coverage is
+    exactly seed-000..seed-007; malformed or out-of-profile directory
+    names are reported, never crashed on.
+    """
+    issues = []
+
+    issues += validate_diagonal_collection_identity(manifest, batch_summary, acceptance, collection_id)
+    issues += _verify_artifacts(manifest, batch_summary, acceptance, repo_root)
+
+    for doc, name in ((manifest, "manifest"), (batch_summary, "batch-summary"), (acceptance, "acceptance")):
+        if doc.get("controller_kind") != PRIVILEGED_CONTROLLER_KIND:
+            issues.append(
+                f"{name} controller_kind must be {PRIVILEGED_CONTROLLER_KIND!r}, "
+                f"got {doc.get('controller_kind')!r}")
+
+    acc_asset = acceptance.get("asset_manifest", {}) or {}
+    acc_nb = acceptance.get("native_binary", {}) or {}
+    for key, label, acc_claim in (
+        ("asset_manifest_sha256", "asset manifest", acc_asset.get("sha256")),
+        ("native_binary_sha256", "native binary", acc_nb.get("sha256")),
+    ):
+        claim_m = manifest.get(key)
+        claim_b = batch_summary.get(key)
+        if not _valid_sha256(claim_b):
+            issues.append(f"batch-summary {label} hash missing or invalid")
+        else:
+            if _valid_sha256(acc_claim) and claim_b != acc_claim:
+                issues.append(f"batch-summary {label} hash != acceptance claim")
+            if _valid_sha256(claim_m) and claim_b != claim_m:
+                issues.append(f"batch-summary {label} hash != manifest claim")
+
+    wrapper_summary = {
+        "planner_kind": batch_summary.get("planner_kind"),
+        "contact_mode": batch_summary.get("contact_mode"),
+        "force_config": batch_summary.get("force_config"),
+        "force_governor_config": batch_summary.get("force_governor_config"),
+    }
+    wrapper_metadata = {
+        "planner": {
+            "planner_kind": manifest.get("planner_kind"),
+            "force_config": manifest.get("force_config"),
+            "force_governor_config": manifest.get("force_governor_config"),
+        },
+        "contact_mode": manifest.get("contact_mode"),
+    }
+    try:
+        validate_teacher_configuration(wrapper_summary, wrapper_metadata, acceptance, required=True)
+    except ValueError as exc:
+        issues.append(f"teacher configuration mismatch: {exc}")
+
+    backend_docs = (
+        (manifest, "manifest"),
+        (batch_summary, "batch-summary"),
+        ((acceptance.get("config") or {}), "acceptance.config"),
+    )
+    backends: set[str] = set()
+    versions: set[str] = set()
+    for doc, name in backend_docs:
+        backend = doc.get("png_backend")
+        version = doc.get("png_backend_version")
+        if not isinstance(backend, str) or not backend:
+            issues.append(f"{name} png_backend missing or invalid")
+        else:
+            backends.add(backend)
+        if not isinstance(version, str) or not version:
+            issues.append(f"{name} png_backend_version missing or invalid")
+        else:
+            versions.add(version)
+    if len(backends) > 1:
+        issues.append("png_backend mismatch across manifest/batch-summary/acceptance.config")
+    if len(versions) > 1:
+        issues.append("png_backend_version mismatch across manifest/batch-summary/acceptance.config")
+
+    parsed = [_seed_dir_seed(d) for d in seed_dirs]
+    malformed = sorted(d.name for d, s in zip(seed_dirs, parsed) if s is None)
+    if malformed:
+        issues.append(f"malformed seed directory names: {malformed}")
+    actual_seeds = sorted(s for s in parsed if s is not None)
+    if actual_seeds != DIAGONAL_PLANNED_SEEDS:
+        issues.append(f"seed directories {actual_seeds} do not match 0..7")
+
+    return issues
+
+
+def _verify_global(
+    manifest: dict[str, Any],
+    batch_summary: dict[str, Any],
+    acceptance: dict[str, Any],
+    repo_root: Path,
+    seed_dirs: list[Path],
+    *,
+    task_profile: str = DEFAULT_TASK_PROFILE,
+    collection_id: str | None = None,
+) -> list[str]:
+    if task_profile != DEFAULT_TASK_PROFILE:
+        return _verify_global_diagonal(manifest, batch_summary, acceptance, repo_root, seed_dirs, collection_id)
+
+    issues = []
+
+    if manifest.get("source_commit") != acceptance.get("source_commit"):
+        issues.append("manifest source_commit mismatch")
+    if batch_summary.get("source_commit") != acceptance.get("source_commit"):
+        issues.append("batch-summary source_commit mismatch")
+
+    issues += _verify_artifacts(manifest, batch_summary, acceptance, repo_root)
+
     planner_kind = manifest.get("planner_kind") or batch_summary.get("planner_kind")
     if planner_kind != acceptance.get("config", {}).get("planner_kind"):
         issues.append("planner_kind mismatch")
@@ -150,7 +303,11 @@ def _verify_global(
     if expected_seeds and seeds != expected_seeds:
         issues.append("manifest seeds differ from acceptance order")
 
-    actual_seeds = sorted(int(d.name.split("-")[1]) for d in seed_dirs if d.name.startswith("seed-"))
+    parsed = [_seed_dir_seed(d) for d in seed_dirs]
+    malformed = sorted(d.name for d, s in zip(seed_dirs, parsed) if s is None)
+    if malformed:
+        issues.append(f"malformed seed directory names: {malformed}")
+    actual_seeds = sorted(s for s in parsed if s is not None)
     if actual_seeds != list(range(12)):
         issues.append(f"seed directories {actual_seeds} do not match 0..11")
 
@@ -195,6 +352,116 @@ def _verify_global(
     return issues
 
 
+def _reconcile_diagonal(
+    audits: list[Any],
+    seed_dirs: list[Path],
+    batch_summary: dict[str, Any],
+    collection_backend: Any,
+    collection_version: Any,
+) -> dict[str, Any]:
+    """Post-audit truth: batch successful_seeds vs actually accepted seeds.
+
+    Missing directories, failed episodes and extra accepted episodes are
+    reported truthfully (never fabricated); every episode summary/metadata
+    must carry the collection-level png backend/version. The returned dict
+    includes the ``issues`` list used for the no-sample export gate.
+    """
+    issues: list[str] = []
+    parsed = [_seed_dir_seed(d) for d in seed_dirs]
+    observed = sorted(s for s in parsed if s is not None)
+    accepted_seeds = sorted({a.seed for a in audits if a.accepted})
+    rejected_seeds = sorted({a.seed for a in audits if not a.accepted})
+
+    successful = batch_summary.get("successful_seeds")
+    if not isinstance(successful, list):
+        issues.append("batch-summary successful_seeds must be a list")
+        successful = []
+    successful_clean = sorted({s for s in successful if isinstance(s, int) and not isinstance(s, bool)})
+    missing_episodes = [s for s in successful_clean if s not in accepted_seeds]
+    extra_episodes = [s for s in accepted_seeds if s not in successful_clean]
+    if missing_episodes:
+        issues.append(f"batch successful seeds {missing_episodes} not accepted after episode audit")
+    if extra_episodes:
+        issues.append(f"episodes accepted beyond batch successful seeds: {extra_episodes}")
+
+    for a in audits:
+        if a.summary.get("png_backend") != collection_backend:
+            issues.append(f"episode seed-{a.seed:03d} summary png_backend != collection backend")
+        if a.metadata.get("png_backend") != collection_backend:
+            issues.append(f"episode seed-{a.seed:03d} metadata png_backend != collection backend")
+        if a.summary.get("png_backend_version") != collection_version:
+            issues.append(f"episode seed-{a.seed:03d} summary png_backend_version != collection version")
+        if a.metadata.get("png_backend_version") != collection_version:
+            issues.append(f"episode seed-{a.seed:03d} metadata png_backend_version != collection version")
+
+    return {
+        "planned_seeds": list(DIAGONAL_PLANNED_SEEDS),
+        "observed_seed_dirs": observed,
+        "missing_seed_dirs": [s for s in DIAGONAL_PLANNED_SEEDS if s not in observed],
+        "malformed_seed_dirs": sorted(d.name for d, s in zip(seed_dirs, parsed) if s is None),
+        "rejected_seeds": rejected_seeds,
+        "accepted_seeds": accepted_seeds,
+        "batch_successful_seeds": successful_clean,
+        "missing_episodes": missing_episodes,
+        "extra_episodes": extra_episodes,
+        "issues": issues,
+    }
+
+
+def _auditor_source_sha256() -> dict[str, str]:
+    """SHA-256 of the actually loaded auditor modules and this CLI.
+
+    Paths come from the loaded module objects and this file, never from a
+    fixture ``--repo-root``, so the auditor identity is always the real
+    code that produced the outputs.
+    """
+    paths = {
+        "tools/audit_leap_v1_pilot.py": Path(__file__).resolve(),
+        "src/embodied_trackpad/leap_v1/pilot_dataset.py": Path(pilot_dataset.__file__).resolve(),
+        "src/embodied_trackpad/leap_v1/pilot_provenance.py": Path(pilot_provenance.__file__).resolve(),
+        "src/embodied_trackpad/leap_v1/pilot_collection.py": Path(pilot_collection.__file__).resolve(),
+    }
+    return {rel: sha256_file(path) for rel, path in paths.items()}
+
+
+def _episode_report(a: Any) -> dict[str, Any]:
+    """Serialize one episode audit, tolerating early-rejection audits.
+
+    Fields that are only computed partway through auditing (e.g.
+    ``touch_sequences``, set by the touch validator) are read with
+    ``getattr`` defaults so a rejected episode never crashes the report.
+    """
+    return {
+        "seed": a.seed,
+        "episode_dir": a.episode_dir,
+        "accepted": a.accepted,
+        "rejection_reasons": a.rejection_reasons,
+        "validation_issues": a.validation_issues,
+        "summary": a.summary,
+        "metadata": a.metadata,
+        "action_frames": getattr(a, "action_frames", 0),
+        "terminal_frame_present": getattr(a, "terminal_frame", None) is not None,
+        "terminal_png_sha256": getattr(a, "terminal_png_sha256", None),
+        "png_verified": getattr(a, "png_verified", 0),
+        "png_failed": getattr(a, "png_failed", 0),
+        "teacher_steps": getattr(a, "teacher_steps", 0),
+        "actor_entries": getattr(a, "actor_entries", 0),
+        "touch_messages": getattr(a, "touch_messages", 0),
+        "touch_sequences": getattr(a, "touch_sequences", 0),
+        "force_intents": getattr(a, "force_intents", 0),
+        "force_intent_mismatches": getattr(a, "force_intent_mismatches", 0),
+        "causality_mismatches": getattr(a, "causality_mismatches", 0),
+        "first_frame_time": getattr(a, "first_frame_time", None),
+        "last_frame_time": getattr(a, "last_frame_time", None),
+        "first_sim_time": getattr(a, "first_sim_time", None),
+        "last_sim_time": getattr(a, "last_sim_time", None),
+        "raw_bytes_counted": getattr(a, "raw_bytes_counted", 0),
+        "pre_summary_bytes": getattr(a, "pre_summary_bytes", 0),
+        "summary_bytes": getattr(a, "summary_bytes", 0),
+        "raw_identity": getattr(a, "raw_identity", {}),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Audit LEAP v1 pilot episodes.")
     parser.add_argument("--pilot-dir", required=True, help="Directory containing manifest.json and seed-NNN folders")
@@ -202,7 +469,15 @@ def main() -> int:
     parser.add_argument("--repo-root", default=str(REPO_ROOT), help="Repository root used to validate relative PNG paths")
     parser.add_argument("--out", required=True, help="Output directory for audit artifacts")
     parser.add_argument("--worker-elapsed-s", type=float, default=None, help="Optional previous worker invocation wall time (s) to preserve separately")
+    parser.add_argument("--task-profile", default=DEFAULT_TASK_PROFILE, help="Task profile: near_pointing_v1 (legacy default) or near_diagonal_v1")
+    parser.add_argument("--collection-id", default=None, help="Collection identifier (required for near_diagonal_v1)")
     args = parser.parse_args()
+
+    try:
+        _validate_collection_request(args.task_profile, args.collection_id)
+    except ValueError as exc:
+        print(f"invalid collection request: {exc}", file=sys.stderr)
+        return 2
 
     pilot_dir = Path(args.pilot_dir)
     repo_root = Path(args.repo_root)
@@ -234,22 +509,52 @@ def main() -> int:
     batch_summary_sha = sha256_file(batch_summary_path)
 
     seed_dirs = sorted([d for d in pilot_dir.iterdir() if d.is_dir() and d.name.startswith("seed-")])
-    if not seed_dirs:
+    diagonal = args.task_profile != DEFAULT_TASK_PROFILE
+    if not seed_dirs and not diagonal:
         print("no seed-NNN directories found", file=sys.stderr)
         return 1
 
     auditor_start = time.perf_counter()
-    global_issues = _verify_global(manifest, batch_summary, acceptance, repo_root, seed_dirs)
+    global_issues = _verify_global(
+        manifest, batch_summary, acceptance, repo_root, seed_dirs,
+        task_profile=args.task_profile, collection_id=args.collection_id,
+    )
 
     audits = []
-    all_samples: list[dict] = []
-
+    episode_samples: list[list[dict]] = []
     for ep_dir in seed_dirs:
+        seed_num = _seed_dir_seed(ep_dir)
+        if diagonal and seed_num not in DIAGONAL_SEED_SET:
+            # Out-of-profile or malformed directories are reported by the
+            # global checks; never fabricate an audit for them.
+            continue
         print(f"Auditing {ep_dir.name} ...", file=sys.stderr)
-        audit, samples = audit_episode(ep_dir, repo_root, acceptance)
+        audit, samples = audit_episode(
+            ep_dir, repo_root, acceptance,
+            task_profile=args.task_profile, collection_id=args.collection_id,
+        )
         audits.append(audit)
-        if audit.accepted and not global_issues:
-            all_samples.extend(samples)
+        episode_samples.append(samples)
+
+    reconciliation: dict[str, Any] | None = None
+    reconcile_issues: list[str] = []
+    if diagonal:
+        reconciliation = _reconcile_diagonal(
+            audits, seed_dirs, batch_summary,
+            manifest.get("png_backend"), manifest.get("png_backend_version"),
+        )
+        reconcile_issues = reconciliation["issues"]
+
+    # Sample export gate: global identity/config/source failures and
+    # post-audit reconciliation failures export NO samples, even when they
+    # were only detected after auditing. Individual failed episodes keep
+    # their failed denominators in the manifest but contribute no samples.
+    export_ok = not global_issues and not reconcile_issues
+    all_samples: list[dict] = []
+    if export_ok:
+        for audit, samples in zip(audits, episode_samples):
+            if audit.accepted:
+                all_samples.extend(samples)
 
     auditor_wall = round(time.perf_counter() - auditor_start, 3)
 
@@ -280,49 +585,29 @@ def main() -> int:
         "sample_index_sha256": sample_index_sha256,
         "global_issues": global_issues,
         "auditor_wall_s": auditor_wall,
-        "episodes": [
-            {
-                "seed": a.seed,
-                "episode_dir": a.episode_dir,
-                "accepted": a.accepted,
-                "rejection_reasons": a.rejection_reasons,
-                "validation_issues": a.validation_issues,
-                "summary": a.summary,
-                "metadata": a.metadata,
-                "action_frames": a.action_frames,
-                "terminal_frame_present": a.terminal_frame is not None,
-                "terminal_png_sha256": a.terminal_png_sha256,
-                "png_verified": a.png_verified,
-                "png_failed": a.png_failed,
-                "teacher_steps": a.teacher_steps,
-                "actor_entries": a.actor_entries,
-                "touch_messages": a.touch_messages,
-                "touch_sequences": a.touch_sequences,
-                "force_intents": a.force_intents,
-                "force_intent_mismatches": a.force_intent_mismatches,
-                "causality_mismatches": a.causality_mismatches,
-                "first_frame_time": a.first_frame_time,
-                "last_frame_time": a.last_frame_time,
-                "first_sim_time": a.first_sim_time,
-                "last_sim_time": a.last_sim_time,
-                "raw_bytes_counted": a.raw_bytes_counted,
-                "pre_summary_bytes": a.pre_summary_bytes,
-                "summary_bytes": a.summary_bytes,
-                "raw_identity": a.raw_identity,
-            }
-            for a in audits
-        ],
+        "episodes": [_episode_report(a) for a in audits],
     }
+    if diagonal:
+        audit_report["task_profile"] = args.task_profile
+        audit_report["collection_id"] = args.collection_id
+        audit_report["collection_source_commit"] = acceptance.get("source_commit")
+        audit_report["auditor_source_sha256"] = _auditor_source_sha256()
+        audit_report["reconciliation"] = reconciliation
     with open(out_dir / "audit.json", "w", encoding="utf-8") as f:
         json.dump(audit_report, f, indent=2)
 
     # Build dataset_manifest.json
     dataset_manifest = build_dataset_manifest(
-        audits, all_samples, acceptance, manifest_sha, batch_summary_sha, collection_info
+        audits, all_samples, acceptance, manifest_sha, batch_summary_sha, collection_info,
+        task_profile=args.task_profile, collection_id=args.collection_id,
     )
     dataset_manifest["created_utc"] = audit_report["created_utc"]
     dataset_manifest["sample_index_sha256"] = sample_index_sha256
-    if global_issues:
+    if diagonal:
+        dataset_manifest["collection_source_commit"] = acceptance.get("source_commit")
+        dataset_manifest["auditor_source_sha256"] = audit_report["auditor_source_sha256"]
+        dataset_manifest["reconciliation"] = reconciliation
+    if global_issues or reconcile_issues:
         dataset_manifest["accepted_episodes"] = 0
         dataset_manifest["rejected_episodes"] = len(audits)
         dataset_manifest["total_action_frames"] = 0
@@ -361,10 +646,27 @@ def main() -> int:
     ]
     for a in audits:
         lines.append(
-            f"| {a.seed} | {split_of(a.seed)} | "
+            f"| {a.seed} | {split_of(a.seed, task_profile=args.task_profile)} | "
             f"{a.accepted} | {a.action_frames} | {a.teacher_steps} | {a.png_verified} | {a.png_failed} | "
             f"{a.force_intents} | {a.force_intent_mismatches} | {a.causality_mismatches} | {a.touch_messages} | {len(a.validation_issues)} |"
         )
+    if diagonal and reconciliation is not None:
+        lines += [
+            "",
+            "## Reconciliation (near_diagonal_v1)",
+            "",
+            f"- planned_seeds: {reconciliation['planned_seeds']}",
+            f"- observed_seed_dirs: {reconciliation['observed_seed_dirs']}",
+            f"- missing_seed_dirs: {reconciliation['missing_seed_dirs']}",
+            f"- malformed_seed_dirs: {reconciliation['malformed_seed_dirs']}",
+            f"- rejected_seeds: {reconciliation['rejected_seeds']}",
+            f"- accepted_seeds: {reconciliation['accepted_seeds']}",
+            f"- batch_successful_seeds: {reconciliation['batch_successful_seeds']}",
+            f"- missing_episodes: {reconciliation['missing_episodes']}",
+            f"- extra_episodes: {reconciliation['extra_episodes']}",
+            f"- reconcile_issues: {reconcile_issues}",
+            f"- collection_source_commit: {acceptance.get('source_commit')}",
+        ]
     lines += ["", "## Limitations", ""]
     for lim in dataset_manifest["limitations"]:
         lines.append(f"- {lim}")
@@ -373,7 +675,7 @@ def main() -> int:
 
     print(f"Wrote {len(all_samples)} action frames to {sample_index_path}", file=sys.stderr)
     print(f"Audit report: {out_dir / 'report.md'}", file=sys.stderr)
-    ok = not global_issues and all(a.accepted for a in audits)
+    ok = not global_issues and not reconcile_issues and all(a.accepted for a in audits)
     return 0 if ok else 1
 
 
