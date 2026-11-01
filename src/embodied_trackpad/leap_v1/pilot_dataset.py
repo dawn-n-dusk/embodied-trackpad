@@ -32,6 +32,13 @@ TRAIN_SEEDS = {0, 2, 3, 5, 6, 8, 9, 11}
 VAL_SEEDS = {1, 7}
 TEST_SEEDS = {4, 10}
 
+# near_diagonal_v1 curriculum groups (whole episodes; seeds 0..3 are the short
+# 12px diagonal offsets, seeds 4..7 the matching 18px diagonals).
+DIAGONAL_TRAIN_SEEDS = {0, 1, 2, 3}
+DIAGONAL_VAL_SEEDS = {4, 6}
+DIAGONAL_TEST_SEEDS = {5, 7}
+DEFAULT_TASK_PROFILE = "near_pointing_v1"
+
 REQUIRED_STEP_CHECKS = {
     "pre_step_state_finite",
     "finite_state",
@@ -45,12 +52,24 @@ REQUIRED_STEP_CHECKS = {
 PERMITTED_CONTACT_KINDS = {"tip_pad_top"}
 
 
-def split_of(seed: int) -> str:
-    if seed in TRAIN_SEEDS:
+def split_of(seed: int, *, task_profile: str = DEFAULT_TASK_PROFILE) -> str:
+    """Whole-episode split for a seed under a task profile.
+
+    The default profile (near_pointing_v1) preserves the historical axial
+    mapping exactly. An unknown profile is rejected, never silently treated
+    as axial.
+    """
+    if task_profile == "near_pointing_v1":
+        train, val, test = TRAIN_SEEDS, VAL_SEEDS, TEST_SEEDS
+    elif task_profile == "near_diagonal_v1":
+        train, val, test = DIAGONAL_TRAIN_SEEDS, DIAGONAL_VAL_SEEDS, DIAGONAL_TEST_SEEDS
+    else:
+        return "rejected"
+    if seed in train:
         return "train"
-    if seed in VAL_SEEDS:
+    if seed in val:
         return "validation"
-    if seed in TEST_SEEDS:
+    if seed in test:
         return "test"
     return "rejected"
 

@@ -1,5 +1,7 @@
 # Changelog
 
+- Added optional task-profile-aware split mapping with 50 passing focused/regression tests; legacy axial mapping unchanged. Exporter wiring and fresh dataset acceptance remain pending. Updated the README to report the completed diagonal evaluation and distinguish the new teacher diagnostic from learned-policy results.
+
 - Accepted one actual Pillow teacher trial:18.143 to0.917px,45fresh frames,peak0.942N,safe release/exit; decode median3.093ms, maximum age+uncertainty42.854ms. Preserved prior failures and learned2/8baseline.
 
 - Integrated explicit teacher PNG backend selection, early dependency checks and backend/clock metadata. Independent106tests plus selector/clock audits passed; dispatched one seed2runtime diagnostic with unchanged limits.

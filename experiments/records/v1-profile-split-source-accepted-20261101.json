@@ -1,0 +1,34 @@
+{
+  "record_version": "1.0",
+  "id": "v1-profile-split-source-accepted-20261101",
+  "timestamp_utc": "2026-11-01T09:50:44.698658+00:00",
+  "kind": "independent_profile_split_helper_source_audit",
+  "status": "helper_and_regression_tests_passed",
+  "source_commit": "64363e1a12c0835b58c366ab2b28ec06b65ad381",
+  "tests": {
+    "passed": 50,
+    "failed": 0,
+    "wall_s": 2.67,
+    "new_focused_cases": 7,
+    "existing_auditor_cases": 43
+  },
+  "behavior": [
+    "Old implicit and explicit axial mappings unchanged.",
+    "Explicit diagonal mapping train0-3,validation4/6,test5/7.",
+    "Unknown profiles and out-of-range seeds rejected."
+  ],
+  "kimi_dispatch_s": 58.9,
+  "recorded_usage": {
+    "records": 6,
+    "input_uncached": 23701,
+    "input_cached": 750336,
+    "input_cache_write": 0,
+    "output": 2480,
+    "total": 776517
+  },
+  "limitations": [
+    "Existing exporter callers still use axial default; diagonal exporter wiring is NOT complete.",
+    "No collection, index creation or training approval.",
+    "No actor feature or checkpoint change."
+  ]
+}
