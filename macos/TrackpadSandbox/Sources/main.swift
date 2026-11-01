@@ -55,6 +55,7 @@ func layoutForSeed(_ seed: UInt64) -> Layout {
 // target, so the fixed-colour pixel extractor keeps >=200 visible blue
 // pixels even when the pressed red cursor ring overlaps the target centre.
 let NEAR_PROFILE_ID = "near_pointing_v1"
+let DIAGONAL_PROFILE_ID = "near_diagonal_v1"
 let DEFAULT_PROFILE_ID = "default"
 let NEAR_OFFSETS: [(dx: CGFloat, dy: CGFloat)] = [
     (12, 0), (18, 0), (24, 0),
@@ -62,9 +63,19 @@ let NEAR_OFFSETS: [(dx: CGFloat, dy: CGFloat)] = [
     (0, 12), (0, 18), (0, 24),
     (0, -12), (0, -18), (0, -24),
 ]
+let DIAGONAL_OFFSETS: [(dx: CGFloat, dy: CGFloat)] = [
+    (12, 12), (-12, 12), (-12, -12), (12, -12),
+    (18, 18), (-18, 18), (-18, -18), (18, -18),
+]
 
 func nearTargetForSeed(_ seed: UInt64) -> CGRect {
     let off = NEAR_OFFSETS[Int(seed % 12)]
+    return CGRect(x: CONTENT_W / 2 + off.dx - 16, y: CONTENT_H / 2 + off.dy - 16,
+                  width: 32, height: 32)
+}
+
+func diagonalTargetForSeed(_ seed: UInt64) -> CGRect {
+    let off = DIAGONAL_OFFSETS[Int(seed % 8)]
     return CGRect(x: CONTENT_W / 2 + off.dx - 16, y: CONTENT_H / 2 + off.dy - 16,
                   width: 32, height: 32)
 }
@@ -124,7 +135,7 @@ final class SandboxView: NSView {
         let flashing = CACurrentMediaTime() < clickFlashUntil
         (flashing ? NSColor.systemGreen : NSColor.systemBlue).setFill()
         NSBezierPath(roundedRect: layout.clickTarget, xRadius: 8, yRadius: 8).fill()
-        if taskProfile != NEAR_PROFILE_ID {
+        if taskProfile != NEAR_PROFILE_ID && taskProfile != DIAGONAL_PROFILE_ID {
             ("click target" as NSString).draw(at: NSPoint(x: layout.clickTarget.minX + 6, y: layout.clickTarget.midY - 8),
                 withAttributes: [.font: NSFont.systemFont(ofSize: 12), .foregroundColor: NSColor.white])
         }
@@ -264,9 +275,9 @@ final class Controller: NSObject, NSApplicationDelegate {
             // without resetting the existing episode state.
             var profile = DEFAULT_PROFILE_ID
             if let pv = msg["task_profile"], !(pv is NSNull) {
-                guard let p = pv as? String, p == NEAR_PROFILE_ID else {
+                guard let p = pv as? String, (p == NEAR_PROFILE_ID || p == DIAGONAL_PROFILE_ID) else {
                     emitError("bad_task_profile",
-                              "unknown task_profile; only \"\(NEAR_PROFILE_ID)\" is defined"); return
+                              "unknown task_profile; only \"\(NEAR_PROFILE_ID)\" and \"\(DIAGONAL_PROFILE_ID)\" are defined"); return
                 }
                 profile = p
             }
@@ -277,6 +288,8 @@ final class Controller: NSObject, NSApplicationDelegate {
             if profile == NEAR_PROFILE_ID {
                 // Fixed placement before any action; never follows the cursor.
                 view.layout.clickTarget = nearTargetForSeed(seed)
+            } else if profile == DIAGONAL_PROFILE_ID {
+                view.layout.clickTarget = diagonalTargetForSeed(seed)
             }
             view.targetHits = 0; view.dragDone = false
             view.resetObject()

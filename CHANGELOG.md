@@ -1,5 +1,7 @@
 # Changelog
 
+- Added the fixed eight-target diagonal GUI profile while preserving default and axis profiles. Kimi passed 12 actual native protocol checks; coordinator verified source, signed app, preserved baseline app and three saved PNGs. Learned diagonal evaluation remains separately gated.
+
 - Independently accepted the first learned physics/GUI trials: 2/2 fixed held-out near targets, final errors0.874/2.812px, 67 unassisted learned action blocks, complete contact/cursor evidence, safe release and app exit. Preserved narrow coverage, source/cache provenance and all failure denominators; dispatched a separate diagonal GUI test-profile module before broader evaluation.
 
 - Added the frozen learned-policy physics/GUI evaluator. Independently passed 42 focused tests after correcting incomplete and mismatched stubs; preserved source/checkpoint binding, exact control anchors, pre-action logging and terminal safety. Two fixed held-out trials are dispatched separately, with no optimizer or teacher rescue.

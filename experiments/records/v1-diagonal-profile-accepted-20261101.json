@@ -1,0 +1,119 @@
+{
+  "record_version": "1.0",
+  "id": "v1-diagonal-profile-accepted-20261101",
+  "timestamp_utc": "2026-11-01T06:33:15.654454+00:00",
+  "kind": "native_gui_diagonal_profile_independent_review",
+  "status": "profile_protocol_and_saved_images_accepted_learned_evaluation_pending",
+  "source_commit": "b1b1209df2e31194934ee4574fedae4f7b52dcf0",
+  "source_file_hashes": {
+    "macos/TrackpadSandbox/Sources/main.swift": "43d351e7854407449efd1d42271a037def1967a76130f4306521b2e3391f81e1",
+    "tools/mac_sandbox_client.py": "751c5dc3084b655d660e2e7149fcfffa34e972866be4b8a80382af911012c8a1",
+    "tests/test_mac_sandbox_protocol.py": "764e5061de8a81bb25aba20a832e3f5eeeb5e1b19dbee4f14826ac97bd7c7e88"
+  },
+  "native_binary_sha256": "17bf4aeff05ab205b84742aefdc30643a23cc570cb54674ef175f7e6f1597799",
+  "frozen_baseline_app_sha256": "7956984e15db4710d8ef4b3a5f42ebd84c15e5df560700ae5e234f40719256c2",
+  "profile": "near_diagonal_v1",
+  "offsets_logical_px": [
+    [
+      12,
+      12
+    ],
+    [
+      -12,
+      12
+    ],
+    [
+      -12,
+      -12
+    ],
+    [
+      12,
+      -12
+    ],
+    [
+      18,
+      18
+    ],
+    [
+      -18,
+      18
+    ],
+    [
+      -18,
+      -18
+    ],
+    [
+      18,
+      -18
+    ]
+  ],
+  "native_test_evidence": {
+    "passed": 12,
+    "deselected": 48,
+    "wall_s": 4.18,
+    "raw_output_independently_seen": true
+  },
+  "independent_review": {
+    "source_diff_reviewed": true,
+    "signed_binary_and_source_hashes_match": true,
+    "baseline_backup_identical": true,
+    "png_decoded": 3,
+    "opposite_target_images_visually_reviewed": 2,
+    "app_pid_absent": true,
+    "entitlements": [
+      "com.apple.security.app-sandbox"
+    ]
+  },
+  "saved_images": {
+    "diagonal-ownview-seed0.png": {
+      "sha256": "dbd3811ab4c5617499649bfb3ab9fcc796caab05647d650406f8012e458ecc6b",
+      "error_px": [
+        12.828767123287662,
+        12.828767123287662
+      ],
+      "shape": [
+        600,
+        800,
+        3
+      ]
+    },
+    "diagonal-ownview-seed2.png": {
+      "sha256": "7a789202819823031011e2e510d46b464935d710e4e818fad0cf1702e78e8105",
+      "error_px": [
+        -12.828767123287662,
+        -12.828767123287662
+      ],
+      "shape": [
+        600,
+        800,
+        3
+      ]
+    },
+    "diagonal-ownview-seed4-pressed.png": {
+      "sha256": "aa949b8e3a2441dca79fedc9f2dffe1fb1f1af671fe22ba3953640db47ef11c2",
+      "error_px": [
+        0.42612991381122356,
+        0.42612991381122356
+      ],
+      "shape": [
+        600,
+        800,
+        3
+      ]
+    }
+  },
+  "audit_tool_correction": "Decoder returns ndarray; corrected coordinator-only shape inspection after AttributeError. No source or data changes.",
+  "kimi": {
+    "elapsed_seconds": 134.8,
+    "input_uncached": 42431,
+    "input_cached": 1107200,
+    "output": 12461,
+    "counts_not_billing": true
+  },
+  "limitations": [
+    "Synthetic protocol tests are ineligible for training and are not learned robot success.",
+    "No new physics episode, GPU allocation, optimizer or live robot stream.",
+    "Eight-target learned evaluation remains gated on evaluator suite source and a new exact source/application/checkpoint permit.",
+    "Previous baseline application and all raw learned trial evidence preserved separately."
+  ]
+}

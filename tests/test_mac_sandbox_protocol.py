@@ -18,10 +18,12 @@ import pytest
 
 from tools.mac_sandbox_client import (
     APP_BINARY,
+    DIAGONAL_PROFILE_ID,
     NEAR_PROFILE_ID,
     SandboxClient,
     SandboxError,
     _slide_to,
+    diagonal_target_rect,
     near_target_rect,
 )
 
@@ -670,6 +672,108 @@ def test_near_profile_marker_extractable_under_pressed_cursor(client):
     assert abs(col - (rect["x"] + rect["w"] / 2)) < 2.0
     assert abs(row - (600 - (rect["y"] + rect["h"] / 2))) < 2.0
     client.touch([])
+
+
+# ---- near_diagonal_v1 fixed reset profile -----------------------------------
+def test_diagonal_profile_deterministic_offsets(client):
+    # All 8 published diagonal offsets land exactly, reproducibly, by seed % 8.
+    for seed in range(8):
+        r = client.reset(seed=seed, task_profile=DIAGONAL_PROFILE_ID)
+        assert r["profile"] == DIAGONAL_PROFILE_ID
+        st = client.state()
+        assert st["task_profile"] == DIAGONAL_PROFILE_ID
+        assert st["click_target"] == diagonal_target_rect(seed), f"seed {seed}"
+    # Wraparound: seed 8 selects the same offset as seed 0.
+    client.reset(seed=8, task_profile=DIAGONAL_PROFILE_ID)
+    assert client.state()["click_target"] == diagonal_target_rect(0)
+    # Same seed twice: identical fixed placement (never drifts between resets).
+    client.reset(seed=3, task_profile=DIAGONAL_PROFILE_ID)
+    a = client.state()["click_target"]
+    client.reset(seed=3, task_profile=DIAGONAL_PROFILE_ID)
+    assert client.state()["click_target"] == a
+
+test_diagonal_profile_deterministic_offsets.training_eligible = False
+
+
+def test_diagonal_profile_does_not_leak_into_default_reset(client):
+    client.reset(seed=42)
+    default_a = client.state()["click_target"]
+    assert (default_a["w"], default_a["h"]) == (90.0, 60.0)
+    client.reset(seed=5, task_profile=DIAGONAL_PROFILE_ID)
+    assert client.state()["click_target"] == diagonal_target_rect(5)
+    # A later plain reset restores the exact default layout and profile.
+    client.reset(seed=42)
+    st = client.state()
+    assert st["click_target"] == default_a
+    assert st["task_profile"] == "default"
+
+test_diagonal_profile_does_not_leak_into_default_reset.training_eligible = False
+
+
+def test_diagonal_profile_invalid_fails_atomically(client):
+    client.reset(seed=7, task_profile=DIAGONAL_PROFILE_ID)
+    before = client.state()
+    for bad in ("teleport_please", "", 123, True, 12.5, NEAR_PROFILE_ID + "_fake"):
+        r = client.raw({"cmd": "reset", "seed": 9, "task_profile": bad})
+        assert r["type"] == "error" and r["code"] == "bad_task_profile", r
+    after = client.state()
+    # Nothing was reset: seed, layout, cursor and counters are untouched.
+    assert after["seed"] == before["seed"] == 7
+    assert after["click_target"] == before["click_target"]
+    assert after["cursor"] == before["cursor"]
+    assert after["release_count"] == before["release_count"]
+    assert after["task_profile"] == DIAGONAL_PROFILE_ID
+
+test_diagonal_profile_invalid_fails_atomically.training_eligible = False
+
+
+def test_diagonal_profile_actor_role_stays_bounded():
+    with SandboxClient() as actor:  # normal actor launch, no evaluator role
+        r = actor.reset(seed=3, task_profile=DIAGONAL_PROFILE_ID)
+        assert r["type"] == "reset_ok" and r["profile"] == DIAGONAL_PROFILE_ID
+        for key in ("cursor", "click_target", "layout", "drag_source"):
+            assert key not in r
+        r = actor.raw({"cmd": "state"})  # actor still cannot query truth
+        assert r["type"] == "error" and r["code"] == "evaluator_required"
+        cap = actor.capture()  # capture stays the actual 800x600 own-window PNG
+        assert (cap["width"], cap["height"]) == (800, 600)
+        assert _png_ihdr(cap["png"]) == (800, 600)
+        actor.quit()
+
+test_diagonal_profile_actor_role_stays_bounded.training_eligible = False
+
+
+def test_diagonal_profile_target_never_follows_cursor(client):
+    client.reset(seed=0, task_profile=DIAGONAL_PROFILE_ID)  # offset (+12, +12)
+    rect0 = client.state()["click_target"]
+    _slide_to(client, 200.0, 450.0)  # hover far away from the target
+    assert client.state()["click_target"] == rect0  # fixed, not following
+    cap = client.capture()
+    n, col, row = _blue_stats(cap["png"])
+    assert n >= 200
+    assert abs(col - (rect0["x"] + rect0["w"] / 2)) < 2.0
+    assert abs(row - (600 - (rect0["y"] + rect0["h"] / 2))) < 2.0
+
+test_diagonal_profile_target_never_follows_cursor.training_eligible = False
+
+
+def test_diagonal_profile_marker_extractable_under_pressed_cursor(client):
+    client.reset(seed=4, task_profile=DIAGONAL_PROFILE_ID)  # offset (+18, +18)
+    cap = client.capture()
+    n_open, _, _ = _blue_stats(cap["png"])
+    assert n_open >= 800
+    rect = client.state()["click_target"]
+    _slide_to(client, rect["x"] + rect["w"] / 2, rect["y"] + rect["h"] / 2)
+    client.touch([("a", 0.0, 0.0, 1.5)])  # pressed red ring over the centre
+    pressed = client.capture()
+    n_under, col, row = _blue_stats(pressed["png"])
+    assert n_under >= 200, f"only {n_under} blue pixels under pressed ring"
+    assert _red_count(pressed["png"]) >= 24
+    assert abs(col - (rect["x"] + rect["w"] / 2)) < 2.0
+    assert abs(row - (600 - (rect["y"] + rect["h"] / 2))) < 2.0
+    client.touch([])
+
+test_diagonal_profile_marker_extractable_under_pressed_cursor.training_eligible = False
 
 
 # ---- diagnostics gating ---------------------------------------------------------

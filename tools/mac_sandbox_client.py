@@ -56,11 +56,16 @@ GAIN = 4000.0          # px per meter
 # exactly this published order (logical px, +x right / +y up). The target
 # never follows the cursor and distances never shrink during an episode.
 NEAR_PROFILE_ID = "near_pointing_v1"
+DIAGONAL_PROFILE_ID = "near_diagonal_v1"
 NEAR_OFFSETS_PX = (
     (12, 0), (18, 0), (24, 0),
     (-12, 0), (-18, 0), (-24, 0),
     (0, 12), (0, 18), (0, 24),
     (0, -12), (0, -18), (0, -24),
+)
+DIAGONAL_OFFSETS_PX = (
+    (12, 12), (-12, 12), (-12, -12), (12, -12),
+    (18, 18), (-18, 18), (-18, -18), (18, -18),
 )
 NEAR_TARGET_SIZE = 32
 RESET_CURSOR_PX = (400.0, 300.0)
@@ -69,6 +74,16 @@ RESET_CURSOR_PX = (400.0, 300.0)
 def near_target_rect(seed):
     """Expected privileged click_target rect (x, y, w, h) for a near seed."""
     dx, dy = NEAR_OFFSETS_PX[seed % 12]
+    return {
+        "x": RESET_CURSOR_PX[0] + dx - NEAR_TARGET_SIZE / 2,
+        "y": RESET_CURSOR_PX[1] + dy - NEAR_TARGET_SIZE / 2,
+        "w": float(NEAR_TARGET_SIZE), "h": float(NEAR_TARGET_SIZE),
+    }
+
+
+def diagonal_target_rect(seed):
+    """Expected privileged click_target rect for a diagonal seed."""
+    dx, dy = DIAGONAL_OFFSETS_PX[seed % 8]
     return {
         "x": RESET_CURSOR_PX[0] + dx - NEAR_TARGET_SIZE / 2,
         "y": RESET_CURSOR_PX[1] + dy - NEAR_TARGET_SIZE / 2,
@@ -171,10 +186,11 @@ class SandboxClient:
     def reset(self, seed=1, task_profile=None):
         """Reset the episode; optionally select a named fixed benchmark profile.
 
-        task_profile is a profile NAME only (currently "near_pointing_v1"),
-        never caller-provided coordinates. Unknown profiles are rejected by
-        the app atomically before any state is reset. The acknowledgement
-        echoes the profile name but carries no layout/cursor truth.
+        task_profile is a profile NAME only (currently "near_pointing_v1" or
+        "near_diagonal_v1"), never caller-provided coordinates. Unknown
+        profiles are rejected by the app atomically before any state is reset.
+        The acknowledgement echoes the profile name but carries no
+        layout/cursor truth.
         """
         msg = {"cmd": "reset", "seed": seed}
         if task_profile is not None:
