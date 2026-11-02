@@ -63,3 +63,7 @@
 模块 B 实际 CPU 检查在 21 秒后因 eager／JIT 梯度不一致而停止，未到优化器阶段。旧许可已消耗，不能复用或放宽容差重跑。下一步先保存完整梯度和逐叶误差，将比较拆成 eager 表示差异与 JIT 编译差异，再审查后续运行；[失败记录](../../experiments/records/pi05-screen-routing-jax-gate-b-gradient-failure-20261102.json)。完整 π0.5 检查点与 GPU 预算均不变。
 
 三路径梯度诊断用例已通过 14 项独立源码／NumPy 检查；新的 CPU 驱动、许可与真实运行仍待完成。后续先保存所有梯度数组再处理 mismatch，避免重演“断言退出但原始误差丢失”。本轮 Kimi 的 13 次调用与返工见[用量记录](../../experiments/records/kimi-screen-routing-jax-usage-20261102.json)。
+
+## 梯度差异已量化
+
+13 秒 CPU 诊断保存了 45 个数组，143 项独立核对通过。两种 eager 求导对全部 618 个元素完全一致；跨 JIT 编译的比较有 2 个元素超出原定容差，最大绝对差 8.76188e-6，整体相对 L2 差 9.72566e-8。三条路径损失完全一致。旧失败判据保留，不追认通过；下一步在相同 JIT 条件下比较两种求导接口，通过后才调用一次生产更新闭包并检查同一 step-1 状态的 NaN 拒绝。仍用原容差，不以此微型诊断替代完整模型训练。详见[实际记录](../../experiments/records/pi05-gradient-isolation-observed-20261102.json)。

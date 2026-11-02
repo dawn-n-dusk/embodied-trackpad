@@ -1,0 +1,116 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-gradient-isolation-observed-20261102",
+  "timestamp_utc": "2026-11-02T00:53:02.348663+00:00",
+  "source_revision": "8ab7e465727b516f959aebd484615bcfcc1d1e8a",
+  "kind": "independent_actual_three_path_gradient_diagnostic",
+  "status": "evidence_accepted_original_elementwise_gradient_gate_still_failed",
+  "execution": {
+    "job_id": 736109,
+    "state": "FAILED",
+    "exit_code": "2:0",
+    "submit_utc": "2026-11-02T00:48:36Z",
+    "start_utc": "2026-11-02T00:48:44Z",
+    "end_utc": "2026-11-02T00:48:57Z",
+    "allocated_s": 13,
+    "cpu_count": 2,
+    "allocated_cpu_s": 26,
+    "memory_request_gib": 16,
+    "peak_rss_kib": 1192704,
+    "gpu_count": 0,
+    "optimizer_applications": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "diagnostic_model": {
+    "parameters": 618,
+    "parameter_leaves": 11,
+    "pretrained_parameters": 0,
+    "policy_candidate": false
+  },
+  "audit": {
+    "source_checks": 19,
+    "independent_array_checks": 143,
+    "raw_arrays": 45,
+    "comparisons": {
+      "nnx_vs_pe": {
+        "max_abs": 0.0,
+        "violating_elements": 0,
+        "violating_leaves": 0,
+        "delta_l2": 0.0,
+        "reference_l2": 150.6739548714221,
+        "relative_l2": 0.0,
+        "worst_ratio": 0.0,
+        "worst_leaf": "PaliGemma/llm/pos_w"
+      },
+      "pe_vs_pj": {
+        "max_abs": 8.761882781982422e-06,
+        "violating_elements": 2,
+        "violating_leaves": 2,
+        "delta_l2": 1.4654030134396242e-05,
+        "reference_l2": 150.67395670200813,
+        "relative_l2": 9.725655617697692e-08,
+        "worst_ratio": 1.1218399792297642,
+        "worst_leaf": "action_out_proj/kernel"
+      },
+      "nnx_vs_pj": {
+        "max_abs": 8.761882781982422e-06,
+        "violating_elements": 2,
+        "violating_leaves": 2,
+        "delta_l2": 1.4654030134396242e-05,
+        "reference_l2": 150.67395670200813,
+        "relative_l2": 9.725655617697692e-08,
+        "worst_ratio": 1.1218399792297642,
+        "worst_leaf": "action_out_proj/kernel"
+      }
+    },
+    "losses": [
+      64.00735473632812,
+      64.00735473632812,
+      64.00735473632812
+    ],
+    "all_gradients_finite": true,
+    "frozen_rtol": 1e-05,
+    "frozen_atol": 1e-06
+  },
+  "artifact_sha256": {
+    "permit": "d0433629509359d751e78069bf0ea39aa5b95965343eb83febe22edbef6c5e38",
+    "npz": "7d41501141d57971884b86b080d60dca8053c859f91694e4f6436193ea460420",
+    "report": "38bdb46533045cc41a713ba9958c85998efee2f169ce565d67162c125cf772e2",
+    "independent_array_audit": "11ed7d0bc68e38f3dc5d5a560fc2577f10a31ca21cbaba1d38afa8214ea36908",
+    "fetch_audit": "594decd47129ba8ad62f6be84eff356db68aaf3d3f665ec66c0a75e50b987369"
+  },
+  "interpretation": [
+    "The NNX eager and pure eager gradients agree exactly for all618elements.",
+    "Only comparisons crossing the JIT boundary show a difference:2elements on2leaves exceed the original elementwise test, worst threshold ratio1.1218399792297642; vector relative L2 error9.725655617697692e-08.",
+    "All three scalar losses are exactly equal in the saved float32 values.",
+    "This localizes the observed discrepancy to the compiled path in this diagnostic. It does not identify a specific compiler optimization or prove complete-model behavior.",
+    "Exit2 records a genuine frozen-criterion mismatch while retaining complete evidence; it is not relabeled scheduler success or original GateB acceptance."
+  ],
+  "prospective_next_gate": {
+    "scope": "Compare NNX and pure autodiff under matched JIT compilation, then one production update and same-state NaN rejection.",
+    "tolerances": "Keep rtol1e-5/atol1e-6; change controlled comparison condition, not thresholds. Preserve existing eager/JIT mismatch as a separate observation.",
+    "before_optimizer": "Matched compiled gradients must pass before update; save diagnostic arrays even if mismatch.",
+    "resources": "Separate reviewed one-CPU-job contract; same180sSlurm/150sinternal/2CPU/16GiB/0GPU bounds, not submitted by this record."
+  },
+  "corrections": [
+    "Worker source-report copied one module hash incorrectly; coordinator recomputed all14source hashes for the permit, staged files and independent fetch matched exactly.",
+    "Worker summary NumPy version typo ignored; actual report and pinned source both1.26.4.",
+    "Submission receipt timestamp was recording time; scheduler Submit00:48:36Z is authoritative."
+  ],
+  "limitations": [
+    "Tiny interface diagnostic only. Complete pretrained pi0.5 remains3353433872trainableparameters with unchanged step1checkpoint.",
+    "No optimizer/sampler/physical control or precision result from this job.",
+    "Full model screen-pair execution and GPU continuation remain pending; first-smoke GPU use1761/1800s unchanged."
+  ]
+}

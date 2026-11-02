@@ -1,5 +1,7 @@
 # Changelog
 
+- Quantified the tiny-model gradient mismatch from 45 saved arrays and 143 independent checks: eager interfaces agree exactly, while eager/JIT comparisons exceed the frozen per-element tolerance at two elements. Preserved the failed gate and prepared a matched-compilation comparison without loosening tolerances.
+
 - Recorded the real screen-pair flow-gradient CPU failure: matching 11-leaf paths, frozen numeric parity failed before optimizer execution; preserved evidence and prepared a narrower gradient diagnostic without relaxing tolerances.
 - Accepted real CPU JIT screen-pair preprocessing and analytic/autodiff valid-16 loss-helper checks: 77 runtime checks plus 89 independent array checks in 11 seconds, with zero pixel error and exact zero padding derivatives. No model, optimizer or sampler ran; model-level routing remains pending.
 
