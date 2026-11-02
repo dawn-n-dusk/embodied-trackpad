@@ -1,0 +1,60 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-live-accepted-20261102",
+  "timestamp_utc": "2026-11-02T10:15:16.487351+00:00",
+  "kind": "actual_simulation_live_view_browser_acceptance",
+  "status": "live_debug_stream_accepted_until_deadline",
+  "source_revision": "963eb98cbbc8dfe04fc13138680f5fb660b87495",
+  "scene_source_sha256": "121f3fdf93b79defdeabb04e7809c571233def62e205ae24e17fc8c604c19880",
+  "viewer_source_sha256": "cff3c6cc0fef54206dc8904f987dd62185ca7081dc1c44aa5ae32e0b0bbf1e79",
+  "mode": "SIM DEBUG / DEMO",
+  "optimizer_training": false,
+  "cameras": [
+    "overview",
+    "wrist"
+  ],
+  "image_dimensions": [
+    640,
+    480
+  ],
+  "max_frame_rate_hz": 4,
+  "browser_observed_frames": [
+    267,
+    319,
+    521
+  ],
+  "browser_observed_sim_time_s": [
+    66.75,
+    79.75,
+    130.25
+  ],
+  "both_images_decoded": true,
+  "deadline_utc": "2026-11-02T10:32:03+00:00",
+  "latest_readback": {
+    "frame_id": 759,
+    "sim_time": 189.75000000017792,
+    "status": "LIVE",
+    "server_age_s": 193.023
+  },
+  "delegation": {
+    "calls": 1,
+    "elapsed_seconds": 596.2,
+    "recorded_usage": {
+      "input_uncached": 66690,
+      "input_cached": 5245696,
+      "output": 24085
+    },
+    "billing_or_membership_cost": "unknown",
+    "rework": [
+      "HTTP handler state reference corrected",
+      "renderer created/used/closed on same thread",
+      "stalled owned instances cleaned before final launch"
+    ]
+  },
+  "limits": [
+    "Bounded20-minute scene debug stream; no optimizer, learned policy, tap or slide task success.",
+    "Wrist image currently has finger occlusion.",
+    "Viewer/scene source remains in development worktree pending full integration; source saved is not full system acceptance.",
+    "Chrome browser verified; in-app browser failed to load in this check."
+  ]
+}
