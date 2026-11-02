@@ -1,0 +1,37 @@
+{
+  "record_version": "1.0",
+  "id": "dex-selection-recorder-draft-20261102",
+  "timestamp_utc": "2026-11-02T08:06:40.393684+00:00",
+  "kind": "user_direction_and_bounded_delegation_checkpoint",
+  "status": "model_choice_pending_recorder_draft_unaccepted",
+  "baseline_revision": "3d7c84e06f0a2a41325bef210cb862c1be39e6c0",
+  "model_choice": "Dex family confirmed; DexCap versus DexWild versus DexGraspVLA awaiting user selection",
+  "recording_task": {
+    "worker": "Kimi",
+    "requested_model": "kimi-code/kimi-for-coding",
+    "calls": 1,
+    "status": "timeout",
+    "elapsed_seconds": 600.1,
+    "recorded_usage": null,
+    "usage_limit": "interrupted usage unknown; not zero cost",
+    "source_draft_saved": true,
+    "source_published": false,
+    "build_accepted": false,
+    "self_test_accepted": false,
+    "wrapper_saved": false,
+    "capture_started": false
+  },
+  "execution": {
+    "new_gpu_jobs": 0,
+    "new_training_updates": 0,
+    "new_simulation_episodes": 0,
+    "actual_input_capture": false,
+    "automation_resumed": false
+  },
+  "limits": [
+    "No policy weights installed or model selected.",
+    "Read-only upstream README/config/release inspection, not model execution.",
+    "Recorder draft preserved privately for user-directed continuation; no automatic retry.",
+    "Published comparison and scene requirements do not establish new scene or hardware acceptance."
+  ]
+}
