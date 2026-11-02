@@ -1,0 +1,277 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-temporal-assembly-accepted-20261102",
+  "timestamp_utc": "2026-11-02T02:53:56.536524+00:00",
+  "source_revision": "c441a9b3b591d8956ab7eca4777cb2361f8a2171",
+  "kind": "independent_temporal_window_data_assembly_review",
+  "status": "offline_temporal_assembly_accepted_not_model_training",
+  "source_binding": {
+    "runtime_source_sha256": "58a86091fa8e561fa90cfe7794337050f3890eff56e6c1465db89a830a404736",
+    "published_source_sha256": "ce935e5932c017d93c62480cceea4702a303c81a42aab56c9a785d4d1241b8fb",
+    "only_module_docstring_changed": true,
+    "executable_ast_exactly_equal": true,
+    "coordinator_change": "Clarify current-image loader and nonmonotone-step rejection in module docstring only"
+  },
+  "tests": {
+    "passed": 110,
+    "failed": 0,
+    "elapsed_s": 0.72,
+    "independent_array_checks": 93,
+    "independent_images": 2
+  },
+  "data": {
+    "native_rows": 1224,
+    "episodes": 20,
+    "native_intervals": 30600,
+    "native_duration_s": 61.2,
+    "window_format": "leap_v1_temporal_window/v1",
+    "native_dt_s": 0.002,
+    "native_steps_per_window": 250,
+    "coarse_dt_s": 0.02,
+    "coarse_horizon": 25,
+    "horizon_s": 0.5,
+    "action_dimension": 16,
+    "action_semantics": "absolute actuator position command in radians",
+    "windows": 1044,
+    "splits": {
+      "train": 599,
+      "validation": 250,
+      "test": 195
+    },
+    "insufficient_suffixes": 180,
+    "overlap_stride_s": 0.05,
+    "independent_episodes_not_windows": 20,
+    "only_varying_channels": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "constant_channels": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "corpora": {
+    "pilot-audit-integrated-20261101": {
+      "windows": 566,
+      "splits": {
+        "train": 381,
+        "validation": 123,
+        "test": 62
+      },
+      "episodes": 12,
+      "native_intervals": 16850,
+      "native_duration_s": 33.7,
+      "overlap_weighted_global_rms_rad": [
+        1.8519445141259215e-06,
+        1.2321312096674116e-05,
+        2.9251589932588276e-06,
+        3.1858999037330007e-06,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "global_max_reconstruction_error_rad": [
+        6.831154173803089e-05,
+        0.000935115186604274,
+        0.00011777110933081092,
+        0.00012672104020067243,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_unique_interval_std_rad": [
+        0.010573948750720808,
+        0.02335414252863379,
+        0.0273247292959129,
+        0.026633992868810834,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "constant_channels_within_every_window": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "npz_sha256": "921e66a37e05049d9d0fbecf81c4b52cf3a34e75cfbd9d848add9c5fc1ee94ff",
+      "current_image_sha256": "a0f430c61af0a8afbab3f64566c8fecf800ecb9ea2e7cd76b452e4090fefffc5"
+    },
+    "diagonal-ft01-audit-20261101": {
+      "windows": 478,
+      "splits": {
+        "train": 218,
+        "validation": 127,
+        "test": 133
+      },
+      "episodes": 8,
+      "native_intervals": 13750,
+      "native_duration_s": 27.5,
+      "overlap_weighted_global_rms_rad": [
+        2.3407009296662005e-06,
+        1.8005289859960786e-05,
+        2.8575514606863716e-06,
+        3.1650258149913483e-06,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "global_max_reconstruction_error_rad": [
+        0.00011518471548199738,
+        0.000535427663727911,
+        0.00019343228410079183,
+        0.00020699418354586108,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "native_unique_interval_std_rad": [
+        0.01156508892627113,
+        0.028623805267731752,
+        0.026926108497593068,
+        0.02660436934085587,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "constant_channels_within_every_window": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "npz_sha256": "8ea3f6b1614b9c59145666dd5f8286f7980376bbd333413fe9cf0af11e044b05",
+      "current_image_sha256": "dbd3811ab4c5617499649bfb3ab9fcc796caab05647d650406f8012e458ecc6b"
+    }
+  },
+  "execution": {
+    "worker_audit_elapsed_s": 0.409,
+    "numeric_cpu_threads": 2,
+    "gpu_seconds": 0,
+    "optimizer_applications": 0,
+    "new_capture": false,
+    "gui": false,
+    "stream_live": false
+  },
+  "error_interpretation": {
+    "worker_rms": "mean of per-window per-channel RMS, overlap weighted",
+    "worker_max": "mean of per-window maxima, not global maximum",
+    "independent_rms": "sqrt of pooled squared residuals, overlap weighted",
+    "independent_max": "maximum over every candidate window/native interval",
+    "physical_tracking_error_measured": false
+  },
+  "evidence_sha256": {
+    "runtime-report.json": "ea16a55658efd062a81f0e7f908c3038e0d44d5fe4b41038f2e7e0006b38be9e",
+    "independent-array-audit.json": "f84fb3e9c19dc575c250837131b328127574d92376dd25906ee7e53caf7e6df3",
+    "independent-tests-final.txt": "333fd48b7a03dc047e95cdc469a9b5918824af798886616ad6e9b4d978bf38d2",
+    "independent-metadata-audit.json": "b268ec27170f9f5f883f738c72d145fb135f4a9b3f8d62b29120a3e0c5e2f8fb",
+    "independent-adjacency-audit.json": "abba5a7eb59edf2bfd124e78f87ad3ffeb58a38529dc0898c0dc2374f1e538f7"
+  },
+  "prior_failures_retained": [
+    {
+      "tests_failed": 27,
+      "tests_passed": 79
+    },
+    {
+      "tests_failed": 7,
+      "tests_passed": 103
+    },
+    {
+      "tests_failed": 1,
+      "tests_passed": 109
+    }
+  ],
+  "metadata_scan_correction": "Worker scan compared a truncated expected hash for the diagonal index; independent full hash matched the frozen original. Old report retained, not treated as data corruption.",
+  "limitations": [
+    "Numeric reconstruction only, no dynamics replay",
+    "Only two current images independently decoded",
+    "No phase/goal/reset annotations; accepted index sequence provenance only",
+    "No normalization fit, OpenPI20ms adapter, optimizer, GPU or closedloop run",
+    "Only near-target teacher pointing; 12 channels constant, no multi-finger gesture supervision",
+    "No long-horizon policy or GUI generalization conclusion",
+    "20ms normalization, OpenPI adapter and physical replay remain pending"
+  ],
+  "next_contract": "docs/tasks/pi05-gpu-continuation-screen-pair.zh-CN.md"
+}
