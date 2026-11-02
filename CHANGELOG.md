@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted matched-JIT derivative equality and the production screen-pair update/rejection closure on a tiny synthetic model: one real update, exact 36-leaf state preservation on NaN rejection, 163 saved arrays and 403 independent checks in a 26-second CPU allocation. Preserved the original eager/JIT failure; full-model training and sampler remain separate.
+
 - Quantified the tiny-model gradient mismatch from 45 saved arrays and 143 independent checks: eager interfaces agree exactly, while eager/JIT comparisons exceed the frozen per-element tolerance at two elements. Preserved the failed gate and prepared a matched-compilation comparison without loosening tolerances.
 
 - Recorded the real screen-pair flow-gradient CPU failure: matching 11-leaf paths, frozen numeric parity failed before optimizer execution; preserved evidence and prepared a narrower gradient diagnostic without relaxing tolerances.

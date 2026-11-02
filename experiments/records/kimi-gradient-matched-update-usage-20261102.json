@@ -1,0 +1,166 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-gradient-matched-update-usage-20261102",
+  "timestamp_utc": "2026-11-02T01:19:15.939530+00:00",
+  "kind": "delegation_usage_and_rework_audit",
+  "status": "recorded_usage_not_billing",
+  "dispatches": [
+    {
+      "task": "gradient-isolation-driver",
+      "status": "timeout",
+      "elapsed_s": 210.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 5,
+        "input_uncached": 27223,
+        "input_cached": 215552,
+        "input_cache_write": 0,
+        "output": 6532,
+        "total": 249307
+      },
+      "receipt_sha256": "d8e8f0fdee2dbfaff16f428c94f8bc27fe45b4a6e5638a0db58affbccfc61181",
+      "usage_recovery": "Recovered via exact task-text match; original receipt retained."
+    },
+    {
+      "task": "gradient-isolation-save",
+      "status": "reported",
+      "elapsed_s": 146.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 45371,
+        "input_cached": 450304,
+        "input_cache_write": 0,
+        "output": 11646,
+        "total": 507321
+      },
+      "receipt_sha256": "97ea8212bf63130dbcdac3b05a2d7105a7fb33eeb25804d9eefa86478f05edfc"
+    },
+    {
+      "task": "gradient-isolation-submit",
+      "status": "reported",
+      "elapsed_s": 153.8,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 15,
+        "input_uncached": 27630,
+        "input_cached": 1209344,
+        "input_cache_write": 0,
+        "output": 7537,
+        "total": 1244511
+      },
+      "receipt_sha256": "1df4433ae80006feedffe22899096dc59e12bb5b8b295a9be85dce77f6ecd40e"
+    },
+    {
+      "task": "matched-update-source",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 31226,
+        "input_cached": 837888,
+        "input_cache_write": 0,
+        "output": 12974,
+        "total": 882088
+      },
+      "receipt_sha256": "98e5ff98b050367e1e7ad82525f3b7926b58935694e2d36e417e5b07045a3ecc"
+    },
+    {
+      "task": "matched-update-fix",
+      "status": "timeout",
+      "elapsed_s": 210.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 14,
+        "input_uncached": 29231,
+        "input_cached": 1540922,
+        "input_cache_write": 0,
+        "output": 8842,
+        "total": 1578995
+      },
+      "receipt_sha256": "f2b77c768ad61e47d3850c7fa4e8170ee1869a988f77f5674b946966ef9c3fb2"
+    },
+    {
+      "task": "matched-update-launcher",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 19,
+        "input_uncached": 23752,
+        "input_cached": 2304512,
+        "input_cache_write": 0,
+        "output": 5386,
+        "total": 2333650
+      },
+      "receipt_sha256": "f38bbf8d0c825ef4c5e626254c67910ff8405b1deae4d6f49d0833a6b3a8f033"
+    },
+    {
+      "task": "matched-launcher-fresh",
+      "status": "timeout",
+      "elapsed_s": 180.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 27967,
+        "input_cached": 361728,
+        "input_cache_write": 0,
+        "output": 7248,
+        "total": 396943
+      },
+      "receipt_sha256": "3cb88c6976af3856a378cd44e9fc4785c4867f80bc6e81c50da9a4c33ffc689b",
+      "usage_recovery": "Recovered by exact task-text match and timestamp cutoff; original receipt retained."
+    },
+    {
+      "task": "matched-launcher-finish",
+      "status": "reported",
+      "elapsed_s": 99.2,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 3,
+        "input_uncached": 32538,
+        "input_cached": 151040,
+        "input_cache_write": 0,
+        "output": 4091,
+        "total": 187669
+      },
+      "receipt_sha256": "08a06f3e395752c876799cbffeb0e912ab92cc848dc9fd0829aa7a15f4898fcf"
+    },
+    {
+      "task": "matched-update-submit",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 12,
+        "input_uncached": 26918,
+        "input_cached": 874496,
+        "input_cache_write": 0,
+        "output": 8629,
+        "total": 910043
+      },
+      "receipt_sha256": "b4e4453e7603a6c0bdf9ae457d53c74593bf8d4b29c9c9aaa7e1ba0807bb92f5"
+    }
+  ],
+  "sum_elapsed_s": 1659.6,
+  "recorded_usage_totals": {
+    "records": 92,
+    "input_uncached": 271856,
+    "input_cached": 7945786,
+    "input_cache_write": 0,
+    "output": 72885,
+    "total": 8290527
+  },
+  "unknown_usage_dispatches": 0,
+  "rework": [
+    "Preserved gradient-driver timeout with recovered usage.",
+    "Matched-update source work timed out four times; case/probe saved, repeated erroneous string replacement assertions prevented launcher write. Narrow fresh session used after inspected error tail."
+  ],
+  "limits": [
+    "Recorded API tokens, including cache reads, are not membership usage or money.",
+    "Requested K2.8 Preview alias is not independently verified backend identity.",
+    "Dispatch time is not CPU or GPU allocation time.",
+    "No measured delegation savings comparison."
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-matched-jit-update-accepted-20261102",
+  "timestamp_utc": "2026-11-02T01:20:22.836007+00:00",
+  "source_revision": "8ab7e465727b516f959aebd484615bcfcc1d1e8a",
+  "integration_base": "8c940eac1040f0f4907816c374641ffd54a99c9e",
+  "kind": "independent_actual_cpu_matched_jit_and_production_update_rejection",
+  "status": "tiny_interface_and_update_mechanics_accepted_not_full_model_training",
+  "execution": {
+    "job_id": 736176,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "submit_utc": "2026-11-02T01:17:09Z",
+    "start_utc": "2026-11-02T01:17:09Z",
+    "end_utc": "2026-11-02T01:17:35Z",
+    "allocated_s": 26,
+    "cpu_count": 2,
+    "allocated_cpu_s": 52,
+    "requested_memory_gib": 16,
+    "peak_rss_kib": 1217448,
+    "driver_wall_s": 23.618,
+    "gpu_count": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "diagnostic_model": {
+    "parameters": 618,
+    "trainable_parameters": 618,
+    "parameter_leaves": 11,
+    "state_leaves": 36,
+    "pretrained_parameters": 0,
+    "image_input": "synthetic full/local screen observations on frozen tiny NNX interface model",
+    "action_tensor_shape": [
+      1,
+      25,
+      32
+    ],
+    "valid_action_dimensions": 16,
+    "physical_time_or_inference_rate_claim": false,
+    "policy_candidate": false
+  },
+  "audit": {
+    "source_checks": 16,
+    "case_checks": 10,
+    "driver_checks": 64,
+    "independent_array_checks": 403,
+    "raw_arrays": 163,
+    "compiled_gradient_max_abs_error": 0.0,
+    "compiled_gradient_relative_l2": 0.0,
+    "compiled_losses": [
+      64.00735473632812,
+      64.00735473632812
+    ],
+    "rtol": 1e-05,
+    "atol": 1e-06,
+    "parameter_leaves_changed": 11,
+    "parameter_delta_l2": 0.00021778116116095018,
+    "optimizer_applications": 1,
+    "rejected_attempts": 1,
+    "step_sequence": [
+      0,
+      1,
+      1
+    ],
+    "rejected_state_bytewise_identical": true,
+    "accepted_metrics": {
+      "loss": 2.9906325340270996,
+      "accepted": 1.0,
+      "grad_norm": 7.266683101654053,
+      "update_norm": 0.00021769848535768688,
+      "param_delta_norm": 0.00021778116934001446,
+      "step": 1.0
+    },
+    "rejected_metrics": {
+      "loss": "nan",
+      "accepted": 0.0,
+      "grad_norm": "nan",
+      "update_norm": 0.0,
+      "param_delta_norm": 0.0,
+      "step": 1.0
+    }
+  },
+  "artifact_sha256": {
+    "permit": "182e18e1dc499863767be6fd0a75392a9a71b0fd85d5f8ae937023f7a0e26900",
+    "report": "074cf534b72e838831d7d4c4cf46ff6175ff3efca7f5f2401b916a154936e10d",
+    "npz": "379b9e41a74c0bedb42b6c62ff8a807471a6b073fbc722ed659864a50270702d",
+    "independent_array_audit": "68ac2597447153483db57d3b6f1704a020d0b65ca4ad91879e783a4d12746aac",
+    "fetch_audit": "eeda0f5d0f433e3c28cda3a69679a7928ce0b4ed8e925d870d74622bfa2e5a1c",
+    "checkpoint_inventory": "9612391ad432df697eab87cf4276ecf8d94e8792728a65d44fd0f960502fb4d1"
+  },
+  "source_sha256": {
+    "src/embodied_trackpad/__init__.py": "fc66c08943fa8139642c7b829216bad6f3108df7550caad75dcdaad5c9b4adf9",
+    "src/embodied_trackpad/clock.py": "545381461ac64e7cb4f78c8acedd358ab0dc565a5fa03fad0ad428c918d84d43",
+    "src/embodied_trackpad/contracts.py": "5180ded46a09cf3dd696b3e17fffda5ddd14e17b20ee2b0902b9405fe5fe1c81",
+    "src/embodied_trackpad/errors.py": "e9e3a794746efcf3020ac4efb2d492c9d125989300906a06a7f5cf3e92d3959b",
+    "src/embodied_trackpad/recorder.py": "4365a0efa4c2453d578a857136d65c17dae42264c6925b5e30439f4c49c47df1",
+    "src/embodied_trackpad/validation.py": "407ea9230ffd032106714d797ddd4632d671f3b2ba37084440b5fce16b9f0ce7",
+    "src/embodied_trackpad/leap_v1/__init__.py": "c563c9e635c4ab02057da86e26725146de517b109b4175fa759daf0a26dad721",
+    "src/embodied_trackpad/leap_v1/pi05_image_layout.py": "b693fdb886a0d692fec8573b86b518172fbad11dc3295bf2ff082651601ec481",
+    "src/embodied_trackpad/leap_v1/pi05_jax_loss.py": "7827ec187a2cbc454b05542dd5f5d5fbda5eb8b9cd042774ea0f1ca1a9f85357",
+    "src/embodied_trackpad/leap_v1/pi05_update_core.py": "0202c0fd9030e8a7b14d8b03144d99b89fd62d18c62e228954ac3c12976b9561",
+    "probe.py": "4a2954eec2e30c506b24930ba2b809c00c1b01bd5d69e5d8cab8b2e4f69b2235",
+    "run.sbatch": "136631f04235c5c70c726364e96a1da7c7015efea1edbd44a6026a2fe5655f3a",
+    "matched_case.py": "affd520bbb72913b0e74476b89fe806566fb76e09db0e1ba901e59ec8ef02143",
+    "gate_b_case.py": "681086d18f18da608d08ed7cec882c5fbe9a63c8ee8aae263bb1acfa5969ef1f"
+  },
+  "boundary": [
+    "This is a prospective matched-compilation test with original rtol/atol, not a retroactive pass of the failed eager/JIT comparison.",
+    "NNX and pure paths both compile pure parameter wrappers and return loss plus gradients. All 618 compiled gradient elements match exactly.",
+    "The unchanged production screen_pair update closure changes parameters and optimizer moments, advances RNG and step, and rejects NaN on that same step1 state without changing any of36state leaves.",
+    "The tiny synthetic model is only an engineering diagnostic. Full pretrained pi0.5 remains3353433872FP32trainableparameters; complete-model screen-pair execution, GPU continuation, sampler GateC and20ms temporal assembly remain pending.",
+    "Full saved step1 checkpoint inventory rechecked:53files/31147685638bytes; no payload rehash or modification. GPU smoke remains1761/1800seconds.",
+    "No project optimizer or stream remains running; no physical or personal-desktop interaction."
+  ],
+  "worker_recovery": [
+    "Kimi operation wrapper timed out at240.1seconds after the job completed. A saved SSH readback contains a connection-closed error; submission receipt was preserved.",
+    "Coordinator independently fetched scheduler,14source hashes,permit,report and163arrays, then verified actual results. CLI timeout is not a Slurm failure, and Slurm success alone was not acceptance."
+  ]
+}
