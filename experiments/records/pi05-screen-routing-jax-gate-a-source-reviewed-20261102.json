@@ -1,0 +1,55 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-routing-jax-gate-a-source-reviewed-20261102",
+  "timestamp_utc": "2026-11-01T23:57:30.917994+00:00",
+  "source_revision": "89768b6e5fa45692364077a592c440796bf929dc",
+  "kind": "independent_bounded_cpu_probe_source_review",
+  "status": "gate_a_source_reviewed_runtime_pending",
+  "checks_passed": 42,
+  "staged_file_count": 11,
+  "resources": {
+    "job_submissions": 1,
+    "no_retry": true,
+    "gpu_count": 0,
+    "cpu_requested": 2,
+    "max_logical_cpu_allocated": 4,
+    "requested_host_memory_gib": 16,
+    "max_slurm_wall_s": 180,
+    "internal_deadline_s": 150,
+    "kill_grace_s": 10,
+    "numeric_threads": 2,
+    "max_output_bytes": 16777216
+  },
+  "artifact_sha256": {
+    "probe": "ed648d4978e1e5ad09b9fecd1d09f036c1898d1d66cb19af4bd26c8bc2cca835",
+    "launcher": "74f46201271c465ceb8aba620a27779038d61b367ddd66d9a437fea1beb587df",
+    "permit": "f090bfbd51f30dd019f36597f7c88f8b84c0dbac0b895b88aa96c0046c206d3c",
+    "independent_audit": "256f793bd88df567c606c51d56bd1868803030b9f206dc2705573de7238fbac9"
+  },
+  "source_modules_sha256": {
+    "src/embodied_trackpad/__init__.py": "fc66c08943fa8139642c7b829216bad6f3108df7550caad75dcdaad5c9b4adf9",
+    "src/embodied_trackpad/clock.py": "545381461ac64e7cb4f78c8acedd358ab0dc565a5fa03fad0ad428c918d84d43",
+    "src/embodied_trackpad/contracts.py": "5180ded46a09cf3dd696b3e17fffda5ddd14e17b20ee2b0902b9405fe5fe1c81",
+    "src/embodied_trackpad/errors.py": "e9e3a794746efcf3020ac4efb2d492c9d125989300906a06a7f5cf3e92d3959b",
+    "src/embodied_trackpad/recorder.py": "4365a0efa4c2453d578a857136d65c17dae42264c6925b5e30439f4c49c47df1",
+    "src/embodied_trackpad/validation.py": "407ea9230ffd032106714d797ddd4632d671f3b2ba37084440b5fce16b9f0ce7",
+    "src/embodied_trackpad/leap_v1/__init__.py": "c563c9e635c4ab02057da86e26725146de517b109b4175fa759daf0a26dad721",
+    "src/embodied_trackpad/leap_v1/pi05_image_layout.py": "b693fdb886a0d692fec8573b86b518172fbad11dc3295bf2ff082651601ec481",
+    "src/embodied_trackpad/leap_v1/pi05_jax_loss.py": "7827ec187a2cbc454b05542dd5f5d5fbda5eb8b9cd042774ea0f1ca1a9f85357"
+  },
+  "scope": "Actual JAX JIT screen-pair preprocessing and analytic/autodiff valid16 MSE; synthetic input only, zero model parameters and optimizer updates.",
+  "corrected_before_execution": [
+    "NumPy backend in JAX gradient path changed to explicit jax.numpy.",
+    "Root package dependencies and launcher included in hash-bound staging.",
+    "Mask-only negative case corrected to use frozen Observation.replace.",
+    "Raw result arrays and their manifest retained for independent comparison.",
+    "Pinned versions/source, PID/starttime and final deadline guards checked.",
+    "Float32 scalar reduction tolerance frozen before execution; measured bytes and report reserve separated."
+  ],
+  "review_limitations": [
+    "Source checks and syntax do not establish actual JAX execution.",
+    "First preparation timed out after240.1s with no source saved; exact receipt and recovered usage preserved.",
+    "Coordinator static fixture initially expected one literal spelling of replace; AST check corrected without changing production source.",
+    "Tiny NNX flow loss/update/sampler gate B and complete-model screen-pair execution remain pending."
+  ]
+}

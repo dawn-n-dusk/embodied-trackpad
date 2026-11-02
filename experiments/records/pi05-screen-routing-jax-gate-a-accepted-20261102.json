@@ -1,0 +1,72 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-routing-jax-gate-a-accepted-20261102",
+  "timestamp_utc": "2026-11-02T00:04:05.234218+00:00",
+  "source_revision": "89768b6e5fa45692364077a592c440796bf929dc",
+  "kind": "independent_actual_cpu_jit_and_analytic_autodiff_audit",
+  "status": "gate_a_jit_and_valid16_autodiff_accepted_model_update_sampler_pending",
+  "execution": {
+    "job_id": 736065,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "submitted_utc": "2026-11-01T23:58:17Z",
+    "start_utc": "2026-11-01T23:58:17Z",
+    "end_utc": "2026-11-01T23:58:28Z",
+    "allocated_elapsed_s": 11,
+    "allocated_cpus": 2,
+    "allocated_cpu_seconds": 22,
+    "requested_memory_gib": 16,
+    "time_v_peak_rss_kib": 919476,
+    "probe_wall_s": 9.115,
+    "gpu_count": 0,
+    "model_parameters": 0,
+    "optimizer_applications": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "checks": {
+    "runtime_checks": 77,
+    "independent_checks": 89,
+    "saved_arrays": 26,
+    "max_pixel_error": 0.0,
+    "max_gradient_error_vs_float64": {
+      "analytic_grad": 2.9802322387695312e-08,
+      "autodiff_grad_eager": 2.9802322387695312e-08,
+      "autodiff_grad_jit": 2.9802322387695312e-08
+    },
+    "jit_scalar_absolute_error_vs_numpy": 3.814697265625e-06,
+    "padding_gradient_exact_zero": true,
+    "mask_only_negative_cases": 3
+  },
+  "artifact_sha256": {
+    "permit": "f090bfbd51f30dd019f36597f7c88f8b84c0dbac0b895b88aa96c0046c206d3c",
+    "output_npz": "5c1151e5479e34106550108f2f97ec91ea696d2cb64fea52fb2420c411cda373",
+    "runtime_report": "137d7d5d85a5308fbdacddc4229ee6d975612b70f80a8132c0cad5b4b7912fcf",
+    "independent_array_audit": "ea82af7ff618a02ce9bc17ee3a65992b26dc85f4af0bac0189076e6e58c23815"
+  },
+  "interpretation": [
+    "Actual JAX JIT preserves synthetic full/local image pixels, state, tokens and masks under the new shared preprocessing route.",
+    "Actual eager and compiled automatic differentiation of the production valid16_mse helper agrees with an independent float64 analytic gradient; padding derivatives are exactly zero.",
+    "Host eager field-order rejection is distinct from JAX dictionary flattening, which sorts keys and cannot preserve original insertion order.",
+    "The measured scalar reduction error is within the pre-frozen float32 relative/absolute tolerance."
+  ],
+  "operational_correction": "A post-submission job-ID parsing check misfired; the assigned job was reconciled without any resubmission. Scheduler timestamps and terminal state independently read back.",
+  "limitations": [
+    "Inputs are synthetic arrays; prior actual-screen pixel acceptance remains a separate record.",
+    "No model was constructed and no model parameter gradient, flow-loss call, optimizer update, action sampler, or complete pi0.5 execution occurred.",
+    "Gate B remains pending for tiny NNX flow loss/update/sampler. Complete-model GPU continuation and step2 replay are separate.",
+    "First-smoke GPU budget unchanged:1761 of1800seconds used,39remaining.",
+    "Unrelated active jobs observed in the own-account queue were neither operated nor counted as trackpad training.",
+    "No live optimizer or livestream for this project."
+  ]
+}

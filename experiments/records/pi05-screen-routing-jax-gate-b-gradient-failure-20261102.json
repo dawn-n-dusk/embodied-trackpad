@@ -1,0 +1,78 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-screen-routing-jax-gate-b-gradient-failure-20261102",
+  "timestamp_utc": "2026-11-02T00:28:20.396633+00:00",
+  "source_revision": "89768b6e5fa45692364077a592c440796bf929dc",
+  "kind": "independent_actual_cpu_flow_gradient_failure_audit",
+  "status": "gradient_parity_failed_update_sampler_not_reached",
+  "execution": {
+    "job_id": 736085,
+    "state": "FAILED",
+    "exit_code": "1:0",
+    "submitted_utc": "2026-11-02T00:23:50Z",
+    "start_utc": "2026-11-02T00:23:58Z",
+    "end_utc": "2026-11-02T00:24:19Z",
+    "allocated_elapsed_s": 21,
+    "allocated_cpus": 2,
+    "allocated_cpu_seconds": 42,
+    "requested_memory_gib": 16,
+    "time_v_peak_rss_kib": 1191436,
+    "gpu_count": 0,
+    "submissions": 1,
+    "retries": 0,
+    "resources_released": true,
+    "driver_reported_optimizer_applications": null,
+    "optimizer_stage_reached": false
+  },
+  "source_review": {
+    "case_checks": 13,
+    "driver_and_artifact_helper_checks": 22,
+    "staged_sources_independently_hash_matched": 13,
+    "pre_submission_corrections": [
+      "Preserve rank-0 arrays rather than changing scalar shape to length one.",
+      "Reject nonnumeric dtypes and sanitized name collisions; record original array paths."
+    ]
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "observations": {
+    "driver_guards_passed": 53,
+    "failed_check": "grads_nnx_vs_pure_all_leaves",
+    "gradient_path_sets_equal": true,
+    "gradient_leaves_reported": 11,
+    "frozen_rtol": 1e-05,
+    "frozen_atol": 1e-06,
+    "raw_gradients_saved": false,
+    "actual_gradient_error_unknown": true,
+    "diagnostic_model_source_expected_parameters": 618,
+    "runtime_total_parameter_census_saved": false
+  },
+  "artifact_sha256": {
+    "permit": "833304204621c3d555b45ae4ccf21b15a57c4e03a3ee64fa435ddb0aa82d0dae",
+    "case_source": "681086d18f18da608d08ed7cec882c5fbe9a63c8ee8aae263bb1acfa5969ef1f",
+    "driver": "954c689614b3ec3cf6e8a7832c9a970f23469b71b25d86a2d677092ad65e11bd",
+    "failure_report": "8ddfa772bb0536bd2b1669a92cfdc7b9e4ca00d263a94f02ba3a11e7c0c9b47f",
+    "independent_fetch_audit": "6b64e7602c9c9d137cf44e1f3317bdc10016a045dc3cec7a24cf66ea75aea847"
+  },
+  "interpretation": [
+    "The production screen-pair flow loss and model-gradient paths actually ran on pinned CPU JAX/Flax. Their frozen eager/JIT per-leaf gradient comparison failed.",
+    "The preserved stack and exact source order show that build_full_update was not reached. The driver null count is preserved rather than rewritten as a measured zero.",
+    "The original case raised before returning raw gradient arrays. Numerical magnitude and cause cannot be determined from the existing failure report.",
+    "No tolerance was relaxed, and no identical CPU job was resubmitted."
+  ],
+  "next_step": "Prepare a separate no-optimizer diagnostic saving all eager NNX, pure eager and pure JIT gradients before comparisons, including per-leaf error/threshold ratios; independently review before any new job.",
+  "operational_failure": "The Kimi CLI lost OAuth connectivity after observing the terminal Slurm failure. Submission receipt was saved; coordinator independently fetched terminal evidence read-only, without a duplicate job.",
+  "limitations": [
+    "Synthetic tiny interface model only; not full pretrained pi0.5 or learned control.",
+    "Gate B is not accepted. Sampler Gate C, full-model screen-pair execution and GPU continuation remain pending.",
+    "Full-model saved step1 checkpoint unchanged. GPU smoke use remains1761/1800seconds.",
+    "No project optimizer or livestream active."
+  ]
+}

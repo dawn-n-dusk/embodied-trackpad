@@ -1,0 +1,232 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-screen-routing-jax-usage-20261102",
+  "timestamp_utc": "2026-11-02T00:33:49.511941+00:00",
+  "kind": "delegation_usage_and_rework_audit",
+  "status": "recorded_usage_not_billing",
+  "dispatches": [
+    {
+      "task": "screen-routing-jax-source",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 29473,
+        "input_cached": 461056,
+        "input_cache_write": 0,
+        "output": 8986,
+        "total": 499515
+      },
+      "receipt_sha256": "f39ed35aa0f6fec83ef6cdc71bfce27864a2b0614fa6f233a82617a045762c7f",
+      "usage_recovery": "Recovered by exact task-text match from private session; original null receipt retained."
+    },
+    {
+      "task": "screen-routing-jax-minimal",
+      "status": "reported",
+      "elapsed_s": 127.4,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 48491,
+        "input_cached": 382720,
+        "input_cache_write": 0,
+        "output": 8517,
+        "total": 439728
+      },
+      "receipt_sha256": "503e3bdd4900569a95494f7845462670428beffaf5accfea3b501a0076513ee8"
+    },
+    {
+      "task": "screen-routing-jax-fix",
+      "status": "reported",
+      "elapsed_s": 178.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 13,
+        "input_uncached": 31783,
+        "input_cached": 1093632,
+        "input_cache_write": 0,
+        "output": 12397,
+        "total": 1137812
+      },
+      "receipt_sha256": "079f42125307d40c3f07b9ac3e860fef08fc343ecf87655c0c934936c413421d"
+    },
+    {
+      "task": "screen-routing-jax-final-fix",
+      "status": "reported",
+      "elapsed_s": 70.7,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 13,
+        "input_uncached": 26859,
+        "input_cached": 1255424,
+        "input_cache_write": 0,
+        "output": 3085,
+        "total": 1285368
+      },
+      "receipt_sha256": "8b3e93767522efd7ecbb9757ef6e978f606863687cc1266500047056af5ca16a"
+    },
+    {
+      "task": "screen-routing-jax-submit",
+      "status": "reported",
+      "elapsed_s": 183.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 18680,
+        "input_cached": 1166336,
+        "input_cache_write": 0,
+        "output": 5075,
+        "total": 1190091
+      },
+      "receipt_sha256": "a47f4c65320f41edd972c1652820812aaf7dd22732577c861e6d488a45a6d283"
+    },
+    {
+      "task": "screen-routing-jax-gate-b-source",
+      "status": "timeout",
+      "elapsed_s": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 8,
+        "input_uncached": 30158,
+        "input_cached": 981760,
+        "input_cache_write": 0,
+        "output": 15193,
+        "total": 1027111
+      },
+      "receipt_sha256": "7270499c413210486bdafbfeffc3a93d61e8e4058db3f0ffd9f33f484e6558cb"
+    },
+    {
+      "task": "screen-routing-jax-gate-b-fix",
+      "status": "reported",
+      "elapsed_s": 120.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 27186,
+        "input_cached": 791296,
+        "input_cache_write": 0,
+        "output": 7222,
+        "total": 825704
+      },
+      "receipt_sha256": "d4c19c8195034e525973445f04a723fb38fcc54bee5f1bc3956dd9cec52a4690"
+    },
+    {
+      "task": "screen-routing-jax-gate-b-driver",
+      "status": "reported",
+      "elapsed_s": 141.7,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 21187,
+        "input_cached": 1000960,
+        "input_cache_write": 0,
+        "output": 10104,
+        "total": 1032251
+      },
+      "receipt_sha256": "8c96b3765f95d0e3c0329a16be297669ad418c0bff021c0a0febdbe7268f93c4"
+    },
+    {
+      "task": "screen-routing-jax-gate-b-driver-fix",
+      "status": "reported",
+      "elapsed_s": 143.4,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 15,
+        "input_uncached": 24037,
+        "input_cached": 2318848,
+        "input_cache_write": 0,
+        "output": 7685,
+        "total": 2350570
+      },
+      "receipt_sha256": "86af17a9f93dd44d27d99530c7c7ebebf2ba5708e6d270a7fd7273414406da6e"
+    },
+    {
+      "task": "screen-routing-jax-gate-b-submit",
+      "status": "failed",
+      "elapsed_s": 190.7,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 18506,
+        "input_cached": 1464832,
+        "input_cache_write": 0,
+        "output": 3953,
+        "total": 1487291
+      },
+      "receipt_sha256": "0266753c0a95de7d15f1935c33a03e3b11625e525f5900f0816da8b5ef1e072e"
+    },
+    {
+      "task": "screen-routing-jax-gradient-evidence",
+      "status": "reported",
+      "elapsed_s": 92.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 13684,
+        "input_cached": 1187584,
+        "input_cache_write": 0,
+        "output": 4800,
+        "total": 1206068
+      },
+      "receipt_sha256": "7618bf200b4c6ddae7eb6da6f8202aa0eadbfc2f769d3ee3615a81ec77343893"
+    },
+    {
+      "task": "screen-routing-jax-gradient-source-fix",
+      "status": "reported",
+      "elapsed_s": 133.3,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 16805,
+        "input_cached": 1959424,
+        "input_cache_write": 0,
+        "output": 7396,
+        "total": 1983625
+      },
+      "receipt_sha256": "6132fc120cc5793a2b2dc80bafda880f3d583de8ea66d9a1470f28faab8c2652"
+    },
+    {
+      "task": "screen-routing-jax-gradient-final-fix",
+      "status": "reported",
+      "elapsed_s": 83.0,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 10,
+        "input_uncached": 16705,
+        "input_cached": 1855744,
+        "input_cache_write": 0,
+        "output": 4042,
+        "total": 1876491
+      },
+      "receipt_sha256": "a4840de72200d05e2668cf5aa62a8a365671843d2d9098c368bd681414bd44c4"
+    }
+  ],
+  "total_dispatches": 13,
+  "timeout_dispatches": 2,
+  "failed_dispatches": 1,
+  "summed_dispatch_elapsed_s": 1943.6,
+  "recorded_usage_totals": {
+    "records": 127,
+    "input_uncached": 323554,
+    "input_cached": 15919616,
+    "input_cache_write": 0,
+    "output": 98455,
+    "total": 16341625
+  },
+  "rework": [
+    "First source preparation timed out without source; exact task/session usage recovered. Gate A was reduced and independently reviewed before runtime.",
+    "Gate B source preparation timed out with files; constructor, tensor shapes, gradient ordering and donation-state copies corrected before submission.",
+    "Gate B driver array saving corrected to preserve scalar shape, reject name collisions/non-numeric arrays and record original paths.",
+    "Gate B real gradient comparison failed before optimizer code. No raw gradients were returned; frozen failure evidence retained and no identical retry.",
+    "Kimi CLI OAuth connection timeout occurred after observing the terminal job. Recovery restored access without changing authentication settings or submitting another job.",
+    "Gradient-only follow-up source review found invalid JIT string returns, insufficient nonfinite/structural failure handling, an always-false path-set test, incomplete mismatch-array preservation and missing shape guards. Corrections remain source work, not runtime acceptance.",
+    "Coordinator source-audit fixture corrections are not runtime/model failures; original artifacts remain private."
+  ],
+  "limits": [
+    "Requested CLI alias is not independently verified server-resolved model identity.",
+    "Recorded token counts are not monetary charges or membership quota; interrupted unreported requests may be absent.",
+    "Summed dispatch seconds are not wall-clock project time or measured savings.",
+    "Actual runtime this heartbeat: two CPU allocations,11s accepted numeric-helper gate and21s failed model-gradient gate; zero GPU or full-model optimizer work."
+  ]
+}

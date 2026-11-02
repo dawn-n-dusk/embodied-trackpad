@@ -1,5 +1,8 @@
 # Changelog
 
+- Recorded the real screen-pair flow-gradient CPU failure: matching 11-leaf paths, frozen numeric parity failed before optimizer execution; preserved evidence and prepared a narrower gradient diagnostic without relaxing tolerances.
+- Accepted real CPU JIT screen-pair preprocessing and analytic/autodiff valid-16 loss-helper checks: 77 runtime checks plus 89 independent array checks in 11 seconds, with zero pixel error and exact zero padding derivatives. No model, optimizer or sampler ran; model-level routing remains pending.
+
 - Complete local regression passed 1,148 tests with 31 optional skips. Preserved six initial native protocol failures and the stale ignored app, then rebuilt unchanged source and verified the corrected binary. No source assertions were relaxed.
 
 - Added shared static screen-layout routing to the valid-16 loss, full-update closure and official action sampler. Independent focused tests: 103 passed, 8 dependency skips; real compiled JAX and full-model execution remain pending. Preserved the legacy default and upstream sampler attribution.

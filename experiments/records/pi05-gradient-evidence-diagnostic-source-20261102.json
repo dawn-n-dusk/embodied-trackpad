@@ -1,0 +1,29 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-gradient-evidence-diagnostic-source-20261102",
+  "timestamp_utc": "2026-11-02T00:34:16.511019+00:00",
+  "source_revision": "89768b6e5fa45692364077a592c440796bf929dc",
+  "kind": "independent_source_and_numpy_diagnostic_review",
+  "status": "case_source_reviewed_driver_and_runtime_pending",
+  "checks_passed": 14,
+  "source_sha256": "65aee0b1952e948c98e44d360ad9e84e1030b89aad69403791edb23bd46b7681",
+  "audit_sha256": "1c5e9b2fc3d78b8fa8502bc76af54551a5c4f5cd1bb8cd95940af602e835bbf8",
+  "scope": [
+    "Reuse frozen tiny model and exact shared inputs; compare NNX eager, pure eager and pure JIT gradients separately.",
+    "Return every available gradient/parameter array before interpreting mismatch; preserve extra or missing path evidence.",
+    "Use float64 error analysis with unchanged1e-5/1e-6 tolerances; reject nonfinite or structural mismatches.",
+    "No optimizer or sampler."
+  ],
+  "source_corrections": [
+    "JIT returns an Observation array pytree; string image keys inspected on host.",
+    "Compare contents of all four path sets rather than tuple length.",
+    "Save all paths independently; only compute pair metrics for matching shapes.",
+    "Overall result depends on all structural, numeric and tolerance checks."
+  ],
+  "limitations": [
+    "No actual JAX execution of this diagnostic; new bounded driver and source-bound permit remain to be reviewed.",
+    "The failed Gate B result remains unaccepted; source repair does not establish runtime gradient agreement.",
+    "Nonfinite scalar strings do not preserve negative infinity sign; worker signed-tag claim is not credited. Full arrays and explicit nonfinite rejection remain available.",
+    "No tolerance relaxation or new CPU/GPU submission."
+  ]
+}
