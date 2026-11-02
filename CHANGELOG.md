@@ -1,5 +1,7 @@
 # Changelog
 
+- Verified user-requested continuous local debug streaming and interactive observation camera; removed the viewer deadline, corrected reset camera geometry, and added separate per-image freshness. Robot pose and training remained unchanged.
+
 - Recorded the user-directed wrist-pitch/wrist-camera, simulated touch/xy/force inputs, and first tap/slide system scope. Preserved old checkpoints and paused automation; implementation acceptance and learned-task results are tracked separately.
 
 - Added a distinct raw 20 ms window sample with strict time/identity/action semantics, independent copies and missing-sensor masks. Independent review passed 93 focused tests and 95 checks on two real frames; normalization and model execution remain pending.

@@ -1,0 +1,74 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-continuous-interactive-live-20261102",
+  "timestamp_utc": "2026-11-02T10:45:27.125318+00:00",
+  "kind": "user_requested_continuous_interactive_debug_stream",
+  "status": "independently_browser_verified",
+  "continuous": true,
+  "deadline_utc": null,
+  "training": false,
+  "scene_source_sha256": "121f3fdf93b79defdeabb04e7809c571233def62e205ae24e17fc8c604c19880",
+  "viewer_source_sha256": "3e895cea1b8e22b2f37215d6c30f6e35b81b1b20f4b8aa3e1ac81f1bddefae8e",
+  "view_only": true,
+  "geometry_edited": false,
+  "browser": "in-app browser",
+  "checks": {
+    "focused_tests_passed": 10,
+    "focused_tests_elapsed_s": 0.08,
+    "actual_mjv_updateScene_reset_eye_error_limit_m": 0.0001,
+    "drag_and_wheel_observed": {
+      "frame": 555,
+      "sim_time_s": 138.75,
+      "camera_revision": 2,
+      "azimuth": 132.774934,
+      "elevation": -18.878755,
+      "distance_m": 0.3970411
+    },
+    "side_observed": {
+      "frame": 797,
+      "sim_time_s": 199.25,
+      "camera_revision": 3,
+      "azimuth": 90,
+      "elevation": -5
+    },
+    "reset_observed": {
+      "frame_id": 1079,
+      "sim_time": 269.7500000005599,
+      "camera": {
+        "azimuth": 136.97493401088198,
+        "elevation": -20.078754756849207,
+        "distance": 0.43692104549906957,
+        "lookat": [
+          0.02,
+          0.0,
+          0.13
+        ],
+        "revision": 4
+      },
+      "status": "LIVE"
+    },
+    "both_image_views_loaded": true,
+    "source_eye_formula_review": "Verified against actual MuJoCo camera convention; default view is above board.",
+    "per_image_freshness": true
+  },
+  "delegation": {
+    "calls": 3,
+    "timeouts": 2,
+    "elapsed_seconds_sum": 895.0,
+    "recorded_input_uncached": 142061,
+    "recorded_input_cached": 7646208,
+    "recorded_output": 36362,
+    "billing_or_membership_usage": "unknown",
+    "rework": [
+      "corrected free-camera coordinate convention",
+      "per-image decoding freshness",
+      "final launch separated after worker timeout stopped prior instance"
+    ]
+  },
+  "limits": [
+    "User cancelled viewer deadline only; no training, hardware, recorder or automation resumed.",
+    "Stream requires host process to remain running; no auto-start or sleep prevention installed.",
+    "Current physical board orientation and hand pose unchanged; user feedback recorded.",
+    "Scene/viewer implementation remains in development worktrees pending full source integration."
+  ]
+}
