@@ -1,0 +1,32 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-working-contact-review-20261102",
+  "timestamp_utc": "2026-11-02T10:06:28.354643+00:00",
+  "kind": "physics_pilot_coordinator_review",
+  "status": "contact_observed_tap_slide_not_accepted",
+  "source_revision": "db007b78b9e4f9f0f4f9d75c828bb90b7b240d72",
+  "worker_claim": {
+    "episodes_attempted": 2,
+    "episodes_passed": 2,
+    "episodes_failed": 0,
+    "corrected_episodes_used": 0
+  },
+  "independent_interpretation": {
+    "contact_release_observed": true,
+    "tap_task_passes": 0,
+    "slide_task_passes": 0,
+    "requested_slide_mm": 5,
+    "reported_slide_mm": 0.3273437448721786,
+    "physical_wall_seconds": 0.727,
+    "peak_pad_force_n": 1.6613115546965456,
+    "peak_penetration_mm": 0.43191254510831223
+  },
+  "limitations": [
+    "Worker 2/2 label measures absence of safety failures, not task completion.",
+    "touch event1.302 to touch_off1.952=650ms exceeds virtual tap maximum350ms; full device replay still required.",
+    "slide requested5mm, reported achieved0.3273437mm; no minimum-distance success gate in pilot.",
+    "Saved contacts.jsonl contains aggregate summaries, not complete raw contact records promised by task.",
+    "Wrist image has close finger occlusion; working geometry needs user visual review."
+  ],
+  "new_model_training": false
+}

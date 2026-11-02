@@ -1,0 +1,32 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-device-reviewed-20261102",
+  "timestamp_utc": "2026-11-02T10:04:13.955390+00:00",
+  "kind": "virtual_device_gui_software_acceptance",
+  "status": "software_semantics_accepted_no_physics_claim",
+  "source_revision": "db007b78b9e4f9f0f4f9d75c828bb90b7b240d72",
+  "checks": {
+    "independent_focused_tests": 29,
+    "independent_focused_tests_passed": 29,
+    "elapsed_seconds": 0.031,
+    "counterexamples": [
+      "stale release cannot click",
+      "ID replacement cannot click until all-up",
+      "multi-contact to single-contact cannot click until all-up",
+      "off-target click cannot show success",
+      "absent actor force remains masked and xy retained",
+      "rejected raw device frame is atomic"
+    ]
+  },
+  "files_sha256": {
+    "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+    "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+    "tests/test_tap_slide_device.py": "5498b453e27c2ef785e4cc4980dec0e5009ef76784d7a1091002ba2f9270f95f",
+    "tests/test_tap_slide_gui.py": "9cd91d677189850affebc8046c02693930ed3ed0c3415ecfbb1f099f25395069"
+  },
+  "limits": [
+    "Software fixtures only; no physical tap/slide or learned policy success.",
+    "Device reads raw physical contacts; actor receives a separate simulated sensor packet.",
+    "Full integration with the new 17-channel physical scene remains pending."
+  ]
+}

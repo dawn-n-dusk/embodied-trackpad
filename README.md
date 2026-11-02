@@ -4,6 +4,8 @@ Research software for a robot that operates a computer through physical trackpad
 
 机器人通过触控板使用电脑：连续视觉反馈、灵巧手运动控制与长程任务记忆。
 
+**Latest user-directed scope (2026-11-02):** build the [wrist-pitch + wrist-camera tap/slide system](docs/tasks/tap-slide-system.zh-CN.md) with explicitly simulated contact/coordinate/force inputs, then integrate the discussed DexWild training framework. Prior pi0.5 work and automation remain paused. The historical results below do not establish success for the new 17-channel scene.
+
 The intended action path is **policy → robot dynamics → touch contacts → device behavior → GUI**. Screen images close the loop. Software click commands are not the robot action space.
 
 **Current target:** the user has selected **LEAP v1 Full**, four fingers and 16 independent motor channels. Its [hand-only CPU baseline](docs/leap-v1-model.md) has been implemented and reviewed: 11,000 steps / 22 simulated seconds, with explicit collision/tracking limitations. A separate [P1 contact profile](docs/experiments/2026-10-31-v1-contact-p1.zh-CN.md) now passes the fixed-trajectory continuous-contact checks; after three failed controller diagnostics, a [force-governed visual episode](docs/experiments/2026-10-31-v1-governed-pointing.zh-CN.md) now passes four fixed directional near-target tasks (final errors 0.72–2.88px), with sustained contact and safe release. [ADR 0007](docs/decisions/0007-leap-v1-full-and-learning-priorities.zh-CN.md) records the hardware choice. [ADR 0008](docs/decisions/0008-full-finetuning-and-simulation-first.zh-CN.md) confirms full fine-tuning and simulation-first validation, with physical FSR/conductive-fingertip checks deferred.
