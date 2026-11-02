@@ -1,0 +1,18 @@
+{
+  "record_version": "1.0",
+  "id": "live-viewer-unavailable-20261102",
+  "timestamp_utc": "2026-11-02T05:13:24.515523+00:00",
+  "status": "local_viewer_unavailable",
+  "checks": {
+    "configured_http_route_status": 500,
+    "configured_http_route_message": "relay failed to loopback viewer",
+    "direct_loopback": "connection refused",
+    "local_listening_socket_found": false
+  },
+  "scope": "Read-only HTTP and local listening-socket checks on the documented viewer port; no remote streamer process inventory.",
+  "limits": [
+    "No current live frame accepted.",
+    "No viewer restart, simulation, GUI interaction or training launched.",
+    "A later viewer must report its actual source and WAITING/EVALUATION/TRAINING lifecycle; historical frames do not prove ongoing training."
+  ]
+}
