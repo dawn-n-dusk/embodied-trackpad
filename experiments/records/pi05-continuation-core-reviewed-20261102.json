@@ -1,0 +1,34 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-continuation-core-reviewed-20261102",
+  "timestamp_utc": "2026-11-02T03:11:17.002846+00:00",
+  "source_revision_before": "b466e511e99b3b7f28bb4bf6e88b876fdfbe908e",
+  "status": "source_and_local_checks_accepted_actual_jax_pending",
+  "change": "initialize_state=False builds the same donated full-update closure and census without initializing fresh optimizer, step or RNG state",
+  "default_behavior": "unchanged; initializer statement and update closure AST independently identical",
+  "independent_tests": {
+    "passed": 28,
+    "skipped": 7,
+    "runtime": "frozen local numpy-only environment",
+    "new_actual_jax_checks_pending": 3
+  },
+  "files": {
+    "src/embodied_trackpad/leap_v1/pi05_update_core.py": "a1baf74c4151495e755218396368f5e167385d29ee3d47a16a2ec7f20a0081a8",
+    "tests/test_pi05_update_core.py": "7379bc13743ef67f47b5aeb45b22b86c486f469fe0fa14690d2bf5dc0880daa2"
+  },
+  "expected_allocation_avoided_bytes": 26827470976,
+  "allocation_note": "two fresh FP32 Adam moment arrays; arithmetic estimate, not measured GPU peak saving",
+  "limitations": [
+    "not an actual GPU restore or update",
+    "unchanged full step-1 checkpoint remains source",
+    "no new GPU allocation, capture, hardware, optimizer or live stream"
+  ],
+  "delegation": {
+    "requested_model": "kimi-code/kimi-for-coding",
+    "backend_verified": false,
+    "calls": 2,
+    "first_call_timeout_s": 180,
+    "second_call_reported_s": 175.2,
+    "coordinator_task_correction": "initial task named a nonexistent test file; follow-up used the actual tracked owner"
+  }
+}

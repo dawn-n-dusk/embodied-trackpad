@@ -5,7 +5,11 @@
 ``(state, step_fn, census)``:
 
 - ``state``: plain dict ``{'params': nnx.State, 'opt_state': optax state,
-  'step': int32 scalar, 'rng': PRNG key}``. The model ``graphdef`` and the
+  'step': int32 scalar, 'rng': PRNG key}``, or ``None`` when built with
+  ``initialize_state=False`` (continuation admission: the caller restores an
+  existing complete optimizer state; no ``tx.init``/``jnp.zeros``/``PRNGKey``
+  or other initializer is called and abstract FP32 leaves are accepted). The
+  model ``graphdef`` and the
   optax ``tx`` live in step-function closures. The state dict is a pytree and
   is donated to each compiled step (callers must not reuse the old dict).
   Every leaf of ``params`` must be a ``nnx.Param``-typed ``nnx.VariableState``
@@ -58,7 +62,13 @@ def _leaf_path(path: tuple) -> str:
     return "/".join(str(p) for p in path)
 
 
-def build_full_update(model: Any, seed: int = 17, *, image_layout: str = "legacy"):
+def build_full_update(
+    model: Any,
+    seed: int = 17,
+    *,
+    image_layout: str = "legacy",
+    initialize_state: bool = True,
+):
     """Build ``(state, step_fn, census)`` for full fine-tuning of ``model``.
 
     ``image_layout`` is validated here (pure Python, before any heavy import)
@@ -69,8 +79,21 @@ def build_full_update(model: Any, seed: int = 17, *, image_layout: str = "legacy
     preprocess with the explicit two screen keys. Layout/optimizer/RNG/state
     tree, parameter count, and FP32 dtypes are unchanged; all parameters
     remain trainable (no LoRA, no freezing, no action-time change).
+
+    ``initialize_state`` (keyword-only, validated before any heavy import)
+    selects whether this build allocates fresh optimizer/RNG/step state:
+    ``True`` (default) is the original behavior — ``tx.init(params)``,
+    ``jnp.zeros`` step, and ``jax.random.PRNGKey(seed)`` are allocated and
+    returned as the state dict. ``False`` is the continuation-admission path
+    for a caller that restores an existing complete optimizer state: it
+    returns ``state=None`` and performs NO state allocation (no ``tx.init``,
+    ``jnp.zeros``, ``PRNGKey``, or other initializer), so the model may carry
+    abstract FP32 ``ShapeDtypeStruct`` leaves from ``nnx.eval_shape``. The
+    same jitted step closure and census are returned either way.
     """
     layout = validate_image_layout(image_layout)  # pure Python, pre-import
+    if not isinstance(initialize_state, bool):
+        raise TypeError(f"initialize_state must be a bool, got {initialize_state!r}")
 
     import jax  # noqa: PLC0415 - deferred heavy import
     import jax.numpy as jnp  # noqa: PLC0415
@@ -121,12 +144,18 @@ def build_full_update(model: Any, seed: int = 17, *, image_layout: str = "legacy
             weight_decay=_OPTIMIZER_KW["weight_decay"],
         ),
     )
-    state = {
-        "params": params,
-        "opt_state": tx.init(params),
-        "step": jnp.zeros((), dtype=jnp.int32),
-        "rng": jax.random.PRNGKey(int(seed)),
-    }
+    if initialize_state:
+        state = {
+            "params": params,
+            "opt_state": tx.init(params),
+            "step": jnp.zeros((), dtype=jnp.int32),
+            "rng": jax.random.PRNGKey(int(seed)),
+        }
+    else:
+        # Continuation admission: no fresh state allocation of any kind; the
+        # caller restores the complete params/opt_state/step/rng state and
+        # donates it to the returned step function.
+        state = None
 
     def step_fn(state, observation, actions):
         if tuple(actions.shape) != _ACTIONS_SHAPE:

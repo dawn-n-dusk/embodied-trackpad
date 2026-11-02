@@ -1,5 +1,7 @@
 # Changelog
 
+- Added a continuation-only full-update construction path that skips fresh optimizer/RNG/step initialization; retained default and update semantics. Independent focused checks: 28 passed, 7 optional skips; actual JAX continuation remains pending.
+
 - Accepted independent 20 ms temporal assembly: 1,044 windows from 20 existing teacher episodes, 180 short suffixes excluded, 110 tests and 93 evidence checks. Preserved native timing and current-image provenance, rejected conflicts and resets, quantified reconstruction error and 12 constant channels. Prepared a separate complete-model GPU continuation contract; no training or physical-control claim.
 
 - Accepted the limited CPU sampler case: eager/JIT and Python Euler parity for 2/5 steps and fixed/generated noise, image sensitivity and masked-image invariance; 53 saved arrays, 236 independent checks, 14 CPU allocation seconds. Prepared a separate 20 ms temporal-window contract while retaining full-model and physical-control limitations.

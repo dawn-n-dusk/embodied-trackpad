@@ -36,6 +36,24 @@ def test_leaf_path_rendering():
     assert core._leaf_path(("PaliGemma", "llm", "layers", 0, "kernel")) == "PaliGemma/llm/layers/0/kernel"
 
 
+def test_initialize_state_kwarg_defaults_true():
+    import inspect  # noqa: PLC0415
+
+    sig = inspect.signature(core.build_full_update)
+    param = sig.parameters["initialize_state"]
+    assert param.kind is inspect.Parameter.KEYWORD_ONLY
+    assert param.default is True
+
+
+@pytest.mark.parametrize("bad_flag", ["false", 1, 0, None, object()])
+def test_initialize_state_rejects_nonbool_before_model_access(bad_flag):
+    # A non-bool flag must fail before heavy imports and before the model is
+    # touched: a plain object() model would raise AttributeError from
+    # nnx.split if validation did not come first. Runs without JAX too.
+    with pytest.raises(TypeError):
+        core.build_full_update(object(), initialize_state=bad_flag)
+
+
 # --- JAX-dependent behavior on an explicitly tiny NNX model (skipped locally) ---
 
 
@@ -104,3 +122,111 @@ def test_tiny_model_finite_update_and_nonfinite_rejection(monkeypatch):
     for key in ("params", "opt_state", "step", "rng"):
         same = jax.tree.map(jnp.array_equal, new_state2[key], snapshot1[key])
         assert all(jax.tree.leaves(same)), key
+
+
+# --- initialize_state continuation admission (JAX-dependent, skipped locally) ---
+
+
+def _tiny_model():
+    import jax.numpy as jnp  # noqa: PLC0415
+    from flax import nnx  # noqa: PLC0415
+
+    class Tiny(nnx.Module):
+        def __init__(self):
+            self.w = nnx.Param(jnp.full((4, 4), 0.5, dtype=jnp.float32))
+            self.b = nnx.Param(jnp.full((4,), 0.25, dtype=jnp.float32))
+
+    return Tiny()
+
+
+def _abstract_like(model):
+    """Return an equivalent model whose param leaves are abstract FP32
+    ShapeDtypeStruct stand-ins (nnx.eval_shape semantics), as used by the
+    continuation-admission path."""
+    import jax  # noqa: PLC0415
+    from flax import nnx  # noqa: PLC0415
+
+    graphdef, state = nnx.split(model)
+    abstract = jax.tree.map(lambda x: jax.ShapeDtypeStruct(x.shape, x.dtype), state)
+    return nnx.merge(graphdef, abstract)
+
+
+def test_initialize_state_false_skips_all_state_initializers(monkeypatch):
+    jax = pytest.importorskip("jax")
+    jnp = pytest.importorskip("jax.numpy")
+    pytest.importorskip("flax.nnx")
+    optax = pytest.importorskip("optax")
+    pytest.importorskip("embodied_trackpad.leap_v1.pi05_jax_loss")
+
+    def _fail_prng(*args, **kwargs):
+        raise AssertionError("jax.random.PRNGKey called with initialize_state=False")
+
+    def _fail_zeros(*args, **kwargs):
+        raise AssertionError("jnp.zeros called with initialize_state=False")
+
+    real_chain = optax.chain
+
+    def _chain_forbidding_init(*args, **kwargs):
+        tx = real_chain(*args, **kwargs)
+
+        class _NoInitTx:
+            def init(self, params):
+                raise AssertionError("tx.init called with initialize_state=False")
+
+            def update(self, updates, state, params=None):
+                return tx.update(updates, state, params)
+
+        return _NoInitTx()
+
+    monkeypatch.setattr(jax.random, "PRNGKey", _fail_prng)
+    monkeypatch.setattr(jnp, "zeros", _fail_zeros)
+    monkeypatch.setattr(optax, "chain", _chain_forbidding_init)
+
+    model = _abstract_like(_tiny_model())
+    state, step_fn, census = core.build_full_update(model, seed=17, initialize_state=False)
+    assert state is None
+    assert callable(step_fn)
+    assert census["leaf_count"] == 2
+    assert census["total_params"] == 20
+    assert census["all_fp32"] is True
+    assert {leaf["path"] for leaf in census["leaves"]} == {"w", "b"}
+
+
+def test_initialize_state_census_parity_and_default_state():
+    pytest.importorskip("jax")
+    pytest.importorskip("jax.numpy")
+    pytest.importorskip("flax.nnx")
+    pytest.importorskip("optax")
+    pytest.importorskip("embodied_trackpad.leap_v1.pi05_jax_loss")
+
+    model = _tiny_model()
+    state_default, _, census_default = core.build_full_update(model, seed=17)
+    state_explicit, _, census_explicit = core.build_full_update(model, seed=17, initialize_state=True)
+    state_none, _, census_none = core.build_full_update(model, seed=17, initialize_state=False)
+    assert state_none is None
+    for st in (state_default, state_explicit):
+        assert set(st) == {"params", "opt_state", "step", "rng"}
+        assert int(st["step"]) == 0
+    assert census_default == census_explicit == census_none
+
+
+def test_initialize_state_false_both_image_layouts():
+    pytest.importorskip("jax")
+    pytest.importorskip("jax.numpy")
+    pytest.importorskip("flax.nnx")
+    pytest.importorskip("optax")
+    pytest.importorskip("embodied_trackpad.leap_v1.pi05_jax_loss")
+
+    model = _abstract_like(_tiny_model())
+    for layout in ("legacy", "screen_pair"):
+        state, step_fn, census = core.build_full_update(
+            model, seed=17, image_layout=layout, initialize_state=False
+        )
+        assert state is None
+        assert callable(step_fn)
+        assert census["leaf_count"] == 2
+        assert census["total_params"] == 20
+    # Layout must not affect census on the state-initializing path either.
+    _, _, census_legacy = core.build_full_update(_tiny_model(), image_layout="legacy")
+    _, _, census_pair = core.build_full_update(_tiny_model(), image_layout="screen_pair")
+    assert census_legacy == census_pair
