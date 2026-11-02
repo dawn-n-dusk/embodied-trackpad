@@ -1,0 +1,16 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-system-authorized-20261102",
+  "timestamp_utc": "2026-11-02T08:49:22.875338+00:00",
+  "kind": "user_direction_and_system_contract",
+  "status": "implementation_authorized_not_executed",
+  "source_revision": "cfb9e51785f10108b74d686d796d990b302ed491",
+  "contract": "docs/decisions/0010-wrist-tap-slide-system.zh-CN.md",
+  "hardware": "LEAP v1 Full 16 joints + 1 wrist pitch, wrist RGB",
+  "tasks": [
+    "tap_to_click",
+    "single_finger_cursor_slide"
+  ],
+  "new_training_updates": 0,
+  "automation": "paused"
+}

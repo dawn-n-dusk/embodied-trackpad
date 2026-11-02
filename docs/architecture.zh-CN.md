@@ -1,3 +1,5 @@
+> 2026-11-02 当前实施范围见 [ADR 0010](decisions/0010-wrist-tap-slide-system.zh-CN.md)：16手指＋1腕部俯仰、腕部与屏幕双图、显式模拟触控反馈，先点按和滑动。本段覆盖下文旧候选；实现/运行成绩以STATUS为准。
+
 > Public export, 2026-10-30. Host/account identifiers and private evidence paths are removed. This is a design snapshot; current implementation and experiment status are maintained in STATUS.md and experiments/ledger.jsonl.
 
 > 2026-10-31 后续确认：[ADR 0008](decisions/0008-full-finetuning-and-simulation-first.zh-CN.md)采用全量微调主线，先推进仿真与初步模型验证；FSR/导电指腹实测后置。当前[触控识别机制](simulation-touch-model.zh-CN.md)基于物理接触与软件设备状态机，尚未仿真 Apple 电容硬件。

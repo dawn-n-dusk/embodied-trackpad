@@ -1,5 +1,7 @@
 # Current status
 
+2026-11-02 latest decision: the user authorized a new **LEAP v1 Full + wrist pitch + wrist-camera tap/slide system**, with simulated touch/coordinate/force inputs and DexWild-framework integration. [ADR 0010](docs/decisions/0010-wrist-tap-slide-system.zh-CN.md). Implementation is starting; no new scene, dataset, optimizer run or learned success is accepted yet. Prior training and automation remain paused. The following design snapshot is superseded only where ADR 0010 explicitly changes it.
+
 2026-11-02 user-directed revision: **prioritize a policy with demonstrated dexterous-hand use; exact Dex model selection remains pending**. The user requested a comparison of DexCap, DexWild and DexGraspVLA before selection. Direct screen RGB, no hand camera, adjustable palm geometry, and an optional one-axis wrist are the current design requirements. [Comparison and scene/data decisions](docs/research/2026-11-02-dex-selection-and-scene.zh-CN.md). The only new implementation call prepared a human-input recorder draft, then timed out after 600.1 seconds; compilation, wrapper and real capture are not accepted. The draft is preserved outside the published source. No GPU allocation, training, new scene run or capture started; automation stays paused. [Record](experiments/records/dex-selection-recorder-draft-20261102.json).
 
 The following results describe the earlier pi0.5 route and remain historical evidence, not an instruction to resume it.
