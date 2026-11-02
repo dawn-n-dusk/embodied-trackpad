@@ -1,5 +1,7 @@
 # Changelog
 
+- Rebuilt the live viewer with canvas orbit/zoom controls, serialized camera updates, decoded-frame freshness and a responsive layout. Corrected pad yaw, palm inclination and relaxed hand height; preserved the continuous stream and paused training. Published the scene/viewer with53 local focused checks and real browser acceptance.
+
 - Verified user-requested continuous local debug streaming and interactive observation camera; removed the viewer deadline, corrected reset camera geometry, and added separate per-image freshness. Robot pose and training remained unchanged.
 
 - Recorded the user-directed wrist-pitch/wrist-camera, simulated touch/xy/force inputs, and first tap/slide system scope. Preserved old checkpoints and paused automation; implementation acceptance and learned-task results are tracked separately.

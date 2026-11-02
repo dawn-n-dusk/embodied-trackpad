@@ -1,5 +1,7 @@
 # Project instructions
 
+- User-directed exception (2026-11-02): Codex directly implements, deploys and visually verifies the current scene orientation/height and live-viewer redesign. Keep this exception scoped to that request; no training, hardware, recording or automation resumption.
+
 - Latest user decision (2026-11-02): implement the user-directed tap/slide system under ADR 0010. LEAP v1 Full + one active wrist-pitch joint + wrist camera; screen RGB + joint state + explicitly simulated pad-contact/xy/force observations. The discussed DexWild training framework is the implementation route. Build and validate the complete minimal pipeline, then run bounded training under its contract. This supersedes pending-camera/wrist design and old model-selection pause only for this named scope. Old pi0.5 work, human recording, hardware and heartbeat automation remain paused. Ordinary implementation within this approved scope needs no repeated permission; do not expand to new tasks or resources.
 
 - Read README.md, STATUS.md, docs/architecture.zh-CN.md, and the current bounded task before editing.

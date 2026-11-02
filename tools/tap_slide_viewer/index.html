@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Trackpad Lab · 实时场景</title>
+  <link rel="stylesheet" href="/viewer.css">
+  <script defer src="/viewer.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">↗</span><div><span class="eyebrow">TRACKPAD LAB</span><h1>触控板 · 实时场景</h1></div></div>
+    <div class="connection"><span class="badge" id="connection" role="status">正在连接</span><span class="continuous" id="lifetime">持续直播</span></div>
+  </header>
+  <main>
+    <section class="stage card" aria-label="场景总览">
+      <div class="stage-bar">
+        <div class="view-tabs" role="group" aria-label="选择观察视角">
+          <button data-preset="reset" aria-pressed="true">自由视角</button>
+          <button data-preset="top" aria-pressed="false">俯视</button>
+          <button data-preset="side" aria-pressed="false">侧视</button>
+        </div>
+        <div class="actions">
+          <button class="icon" id="zoomOut" aria-label="缩小" title="缩小">−</button>
+          <button class="icon" id="zoomIn" aria-label="放大" title="放大">＋</button>
+          <span class="divider"></span>
+          <button id="reset" title="恢复默认视角">↺ <span>复位</span></button>
+          <button class="icon" id="expand" aria-label="展开场景" title="展开场景">⛶</button>
+        </div>
+      </div>
+      <div id="viewport" tabindex="0" aria-label="三维场景，拖动旋转，滚轮缩放，双击复位，方向键旋转">
+        <canvas id="overview" width="800" height="600" aria-label="机械手与触控板实时总览"></canvas>
+        <div class="scene-tag">LEAP v1 Full <span>＋ wrist pitch</span></div>
+        <div class="frame-state" id="overviewState">等待画面</div>
+        <div class="view-hint">拖动旋转 <i>·</i> 滚轮缩放 <i>·</i> 双击复位</div>
+        <div class="notice" id="notice" hidden>连接中断，正在重连…</div>
+      </div>
+      <footer class="stage-footer"><span><b class="tiny-dot"></b> <span id="viewLabel">自由视角</span></span><span id="cameraReadout">—</span></footer>
+    </section>
+    <aside>
+      <section class="card wrist-card">
+        <div class="section-heading"><h2>腕部相机</h2><span class="small-label" id="wristState">等待画面</span></div>
+        <canvas id="wrist" width="800" height="600" aria-label="固定在手掌上的腕部相机实时画面"></canvas>
+        <p class="caption">跟随手掌，观察指尖与板面。</p>
+      </section>
+      <section class="card configuration">
+        <div class="section-heading"><h2>场景布置</h2><span class="small-label">仿真</span></div>
+        <dl>
+          <div><dt>触控板</dt><dd>160 × 110 <small>mm</small></dd></div>
+          <div><dt>长边方向</dt><dd>横跨手指</dd></div>
+          <div><dt>手腕自由度</dt><dd>1 轴俯仰</dd></div>
+          <div><dt>手掌距板面</dt><dd id="palmHeight">—</dd></div>
+          <div><dt>指尖预留间隙</dt><dd id="clearance">—</dd></div>
+        </dl>
+        <p class="footnote">高度与间隙为初始姿态的几何测量。</p>
+      </section>
+      <div class="mode-note"><span class="mode-label">场景预览</span><p>当前保持初始姿态，尚未运行点按、滑动策略。</p></div>
+    </aside>
+  </main>
+  <footer class="page-footer"><span>MuJoCo 实时仿真 <span class="sep">/</span> <span id="simTime">—</span></span><span id="frameInfo">等待数据</span></footer>
+</body>
+</html>

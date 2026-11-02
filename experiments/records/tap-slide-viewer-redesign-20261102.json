@@ -1,0 +1,103 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-viewer-redesign-20261102",
+  "timestamp_utc": "2026-11-02T11:22:17.943722+00:00",
+  "kind": "user_directed_scene_and_viewer_revision",
+  "status": "local_simulation_and_browser_verified",
+  "implementation_owner": "Codex, explicitly requested for this task",
+  "base_revision": "94a855c",
+  "files_sha256": {
+    "src/embodied_trackpad/tap_slide/scene.py": "097ee6fd5c530eed7f6a36b9a3baa7a0996ef3eb1e7ac5059a347b7fc01bba46",
+    "src/embodied_trackpad/tap_slide/__init__.py": "222d69b4e09aca86c79a9d2aac2896a1507b95c67bd66be8b4e5b64800f6d819",
+    "tools/tap_slide_live_view.py": "01002c3162fb52b5c2775f809c1032c6e918ff7fafd3b48ce4ed4f39702d6c16",
+    "tools/tap_slide_viewer/index.html": "d0b8590c67894f3efcaeb0493c178ffc917779373e7acde9a34691c2de19bf50",
+    "tools/tap_slide_viewer/viewer.css": "e356c58a225376d6c2381a03aa34d9bc586bb1090b593514146f11470e23f974",
+    "tools/tap_slide_viewer/viewer.js": "72153def8ef6512b35fe63e88b0ccecdb7efbf499649c4ecebc82a97ecb7d4fb"
+  },
+  "geometry": {
+    "pad_yaw_deg": 90,
+    "palm_rise_toward_fingers_deg": 10,
+    "reset_palm_clearance_m": 0.04799118999999999,
+    "reset_index_clearance_m": 0.006,
+    "hold_sim_seconds": 10.000000000000009,
+    "minimum_tip_surface_clearance_m": {
+      "index": 0.001200561114631113,
+      "middle": 0.0011830818420769246,
+      "ring": 0.009672165612976985,
+      "thumb": 0.014741083488239382
+    },
+    "pad_contact_samples": 0,
+    "max_pad_penetration_m": 0,
+    "warning_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "software_checks": {
+    "focused_scene_viewer_device_gui_passed": 53,
+    "published_scene_viewer_tests": 24
+  },
+  "browser_checks": {
+    "drag_pixels": [
+      120,
+      20
+    ],
+    "camera_delta_deg": [
+      -36,
+      6
+    ],
+    "wheel_distance_m": [
+      0.35344730866141844,
+      0.2775870040077391
+    ],
+    "verified_controls": [
+      "drag",
+      "wheel",
+      "top",
+      "side",
+      "reset",
+      "expand"
+    ],
+    "viewport_checked": [
+      891,
+      604
+    ],
+    "default_viewport_restored": true
+  },
+  "stream": {
+    "continuous": true,
+    "deadline_utc": null,
+    "frame_id_at_readback": 4571,
+    "sim_time_at_readback": 383.96400000110526,
+    "resolution": [
+      800,
+      600
+    ],
+    "producer_fps_cap": 12,
+    "browser_observed_fps_range": [
+      9,
+      10
+    ],
+    "loopback_only": true,
+    "mode": "SIM_PREVIEW_HOLD_POSE"
+  },
+  "limitations": [
+    "No trained policy or tap/slide task success",
+    "No GPU, hardware, recording or automation resumed",
+    "Visual table has no collision; no wrist bracket hardware calibration",
+    "Only initial-pose 10-second hold audited, not a trajectory envelope"
+  ],
+  "rework_preserved": [
+    "800x600 render initially exceeded default 640 framebuffer; explicit framebuffer fixed",
+    "MuJoCo light API mismatch corrected before final tests",
+    "Initial detached launcher child did not survive; current desktop-owned process verified",
+    "Side-view found original inclination sign reversed; corrected and rechecked",
+    "Mesh AABB clearance replaced with actual mesh support",
+    "Old viewer shutdown could overwrite newer runtime receipt; ownership guard and regression test added"
+  ]
+}
