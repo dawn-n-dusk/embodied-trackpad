@@ -1,0 +1,125 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-window-inputs-accepted-20261102",
+  "timestamp_utc": "2026-11-02T05:06:50.812401+00:00",
+  "status": "raw_sample_source_tests_and_two_real_frames_accepted",
+  "baseline_revision": "0c78e3b8104763771cab8c193020031bb5ff2c74",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pi05_window_inputs.py": "4243816448bb500a70cf005b21b563692b176cb4ae561a9321661d98beb0cc88",
+    "tests/test_leap_v1_pi05_window_inputs.py": "f6f0de61d9962882b3ac53527538c0703181dcea40b541ce36e4ab307f9f0818"
+  },
+  "sample_contract": {
+    "format_version": "leap-v1-pi05-window-sample-v1",
+    "independent_from_native_sample_type": true,
+    "native_dt_s": 0.002,
+    "target_dt_s": 0.02,
+    "horizon": 25,
+    "horizon_s": 0.5,
+    "source_action_semantics": "absolute_executed_actuator_command_rad",
+    "canonical_action_semantics": "absolute_executed_joint_reference_rad",
+    "numeric_transform_in_semantics_mapping": false,
+    "raw_action_dtype": "float32",
+    "preserved_original_action_dtype": "float64",
+    "raw_main_image_shape": [
+      600,
+      800,
+      3
+    ],
+    "raw_main_image_dtype": "uint8",
+    "state_channels": 16,
+    "loss_valid_channels": 16,
+    "loss_mask_size": 32,
+    "missing_sensors": [
+      "wrist",
+      "FSR",
+      "motor_current"
+    ],
+    "pending_transforms": [
+      "normalization",
+      "padding",
+      "resize",
+      "tokenization",
+      "loss_application"
+    ]
+  },
+  "independent_tests": {
+    "passed": 93,
+    "failed": 0,
+    "elapsed_s": 0.31,
+    "synthetic_cases": true,
+    "new_module_tests": 54,
+    "boundaries": [
+      "exact image/state/label retention",
+      "float32 rounding record and overflow rejection",
+      "native/coarse temporal separation",
+      "typed missing-sensor masks",
+      "strict corpus and index identity syntax",
+      "no oracle or teacher fields in raw model data",
+      "source and output copy isolation"
+    ]
+  },
+  "limitations": [
+    "No normalization application, resize, padding, tokenization or model execution",
+    "Raw representation is not model-ready",
+    "Data source remains 20 teacher episodes / 61.2 seconds; only action channels 0-3 vary",
+    "No learned-control, physical accuracy or long-horizon claim"
+  ],
+  "real_application": {
+    "unique_samples": 2,
+    "successful_application_runs": 2,
+    "first_run_s": 0.403,
+    "second_run_s": 0.427,
+    "total_application_s": 0.83,
+    "independent_checks": 95,
+    "independent_check_elapsed_s": 0.119486,
+    "method": "Direct bound JSON and PNG reads; concatenate raw 10-row native labels and take [9::10]; no production assembler or repacker imports",
+    "metrics": {
+      "pilot-audit-integrated-20261101": {
+        "max_f32_rounding_error_rad": 2.857094416608419e-08,
+        "source_png_sha256": "a0f430c61af0a8afbab3f64566c8fecf800ecb9ea2e7cd76b452e4090fefffc5",
+        "saved_npz_sha256": "94a25d068a9d62b5ae4f8404a1831ca6f4668ad83011f8e93e964a148ef7c187",
+        "row_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      },
+      "diagonal-ft01-audit-20261101": {
+        "max_f32_rounding_error_rad": 2.6565027511082917e-08,
+        "source_png_sha256": "dbd3811ab4c5617499649bfb3ab9fcc796caab05647d650406f8012e458ecc6b",
+        "saved_npz_sha256": "6e66b578034965653da909fa6ebaddbf3db351ef989ba614030cc11ded37d8e0",
+        "row_indices": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ]
+      }
+    },
+    "pixel_difference": 0,
+    "state_and_float64_label_difference": 0,
+    "artifact_bytes": 5810153,
+    "model_ready": false,
+    "mask_evidence_note": "Wrist image zeros are source/test checked; saved artifact contains base image only."
+  },
+  "rework": [
+    "Initial implementation call timed out without source; resumed exact recovered session for saved module and tests.",
+    "Identity syntax validation added during review.",
+    "First real-application shell command used the wrong relative directory and failed before numerical work; corrected to repository root.",
+    "Worker inspection encountered a missing elapsed_s field, moved the timing assignment before JSON save, and repeated the two-sample application once. The first console output is preserved privately.",
+    "Initial module report used the heartbeat timestamp instead of execution time; retained privately but not used as acceptance time."
+  ]
+}

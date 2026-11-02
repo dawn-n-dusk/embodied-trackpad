@@ -1,5 +1,9 @@
 # Changelog
 
+- Added a distinct raw 20 ms window sample with strict time/identity/action semantics, independent copies and missing-sensor masks. Independent review passed 93 focused tests and 95 checks on two real frames; normalization and model execution remain pending.
+
+- Recorded the 1,172-second H800 continuation attempt: its deadline expired during restoration, with zero optimizer updates and no new checkpoint. Preserved the prior step-1 checkpoint and all transport failures; finer restore diagnostics precede any new allocation.
+
 - Accepted train-only 20 ms window statistics: 599 states / 14,975 overlapping action references, 87 focused tests and independent raw-label numerical/provenance reconstruction. Preserved constant channels and original data size. Added a separate time/version-bound input-adapter contract; no optimizer, physics, GPU or improved-control claim. Recorded worker timeouts and the corrected corpus-path failure.
 
 - Source-reviewed the staged full-model GPU restore/one-update/save/restore driver and resource guards, including 5 labelled orchestration cases. Corrected fingerprint transcription and progress/reporting issues before execution. Final SSH preflight was closed before authentication; no permit, GPU job or new training result.

@@ -1,0 +1,94 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-gpu-restore-deadline-20261102",
+  "timestamp_utc": "2026-11-02T05:09:11.789018+00:00",
+  "status": "restore_stage_deadline_no_update",
+  "baseline_revision": "c0f4f475e5584c5590517bd810f508160b4f8fd6",
+  "actual_submissions": 1,
+  "allocation": {
+    "gpu_kind": "H800",
+    "gpu_count": 1,
+    "logical_cpus": 16,
+    "requested_host_memory_gib": 128,
+    "numeric_threads": 2,
+    "scheduler_elapsed_s": 1172,
+    "internal_elapsed_s": 1171,
+    "scheduler_state": "FAILED",
+    "scheduler_exit_code": "9:0",
+    "probe_exit_code": 137,
+    "watchdog_exit_code": 42,
+    "guard_reason": "deadline_epoch",
+    "start_utc": "2026-11-02T04:47:43Z",
+    "end_utc": "2026-11-02T05:07:15Z",
+    "resources_released": true
+  },
+  "model": {
+    "total_params": 3353433872,
+    "trainable_params": 3353433872,
+    "parameter_leaves": 51,
+    "parameter_dtype": "float32",
+    "compute_dtype": "bfloat16",
+    "abstract_template_state_leaves": 156,
+    "abstract_template_payload_bytes": 40241206480,
+    "template_metadata_elapsed_s": 1.45,
+    "pretrained_source": "official OpenPI pi0.5; preserved full-update step-1 checkpoint",
+    "upstream_revision": "215abfb217dbac7d5f1273282331b9b1866c0479"
+  },
+  "execution": {
+    "last_recorded_phase": "before-restore",
+    "last_phase_utc": "2026-11-02T04:48:15Z",
+    "restore_stage_report_final_write": "inflight remains from before deadline; not a running signal",
+    "full_gpu_restore_accepted": false,
+    "optimizer_applications": 0,
+    "new_checkpoint": false,
+    "sampler_calls": 0,
+    "input_layout": "legacy",
+    "native_action_dt_s": 0.002,
+    "action_horizon": 25,
+    "source_files_frozen": 54
+  },
+  "resource_observations": {
+    "sampled_peak_rss_bytes": 44314001408,
+    "sampled_peak_rss_gib": 41.2706,
+    "run_output_bytes_including_staged_sources": 4013548,
+    "guard_memory_or_size_trigger": false,
+    "no_cuda_oom_observed_in_saved_logs": true
+  },
+  "checkpoint_preservation": {
+    "step": 1,
+    "file_count": 53,
+    "stored_bytes": 31147685638,
+    "metadata_sha256": {
+      "_CHECKPOINT_METADATA": "6709707341537c9b6d6e153e21532024722dd447265279251b031154d1dd8e5b",
+      "_METADATA": "ad19c750f9ed1ae0bf46f43ce5e21269e393e1303c9750bea845ad5911a0176d"
+    },
+    "expected_full_state_fingerprint": "7e654ce3b4821233641833d9c45c45e85720f4538a35aab5f640c9d7106f3fa9",
+    "inventory_and_metadata_rechecked_after_job": true,
+    "payload_rehashed_this_job": false,
+    "prior_complete_cpu_restore_still_accepted": true
+  },
+  "budget": {
+    "first_smoke_used_s": 1761,
+    "first_smoke_limit_s": 1800,
+    "this_separate_later_stage_gpu_s": 1172,
+    "rolling_24h_project_gpu_s": 2974,
+    "rolling_24h_limit_gpu_s": 21600,
+    "other_project_jobs_excluded": true,
+    "permit_consumed": true,
+    "automatic_retry": false
+  },
+  "transport_rework": [
+    "Initial submission transport closed without acknowledgement; coordinator reconciled duplicate-inclusive scheduler history plus exact output directory and found no submitted job.",
+    "Second operation timed out after quoting/stdin errors: all 54 staged sources matched, but permit bytes did not. No submission intent or runtime job artifacts; reconciled again.",
+    "A narrower single-connection helper preserved malformed permit, restored exact approved bytes and submitted once; no source or resource changes.",
+    "One subsequent read-only monitoring connection reset; later terminal accounting and artifacts were retrieved successfully."
+  ],
+  "limits": [
+    "This job did not complete GPU restoration or update model parameters.",
+    "Current before/after markers do not distinguish Orbax disk I/O, transfer, close or synchronization within restore.",
+    "Earlier CPU restore timing and different storage paths do not prove this timeout was caused by storage.",
+    "No simulation, GUI, hardware, screen-pair execution or live stream ran.",
+    "No learned-control or accuracy improvement established."
+  ],
+  "next_action": "Preserve failure and frozen inputs; add finer restore/close/synchronization telemetry and prepare a bounded restore-only diagnostic with independently refreshed source inventory and a new reviewed permit. Do not repeat this full continuation configuration."
+}

@@ -1,0 +1,112 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-gpu-continuation-window-inputs-usage-20261102",
+  "timestamp_utc": "2026-11-02T05:06:50.812401+00:00",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "model_note": "K2.8 Preview alias requested; backend version not independently verified",
+  "dispatch_count": 7,
+  "timeouts": 2,
+  "elapsed_seconds": 1374.6,
+  "recorded_usage": {
+    "input_uncached": 229183,
+    "input_cached": 4243456,
+    "input_cache_write": 0,
+    "output": 58778,
+    "total": 4531417
+  },
+  "initial_timeout_usage_recovery": "Fresh session total minus explicit subsequent dispatch deltas after exact session identity reconciliation. Unreported interrupted requests remain unknown.",
+  "per_dispatch": [
+    {
+      "name": "submit-kimi-receipt.json",
+      "status": "reported",
+      "elapsed_seconds": 186.2,
+      "recorded_usage": {
+        "records": 17,
+        "input_uncached": 39929,
+        "input_cached": 931840,
+        "input_cache_write": 0,
+        "output": 6196,
+        "total": 977965
+      }
+    },
+    {
+      "name": "submit-origin-kimi-receipt.json",
+      "status": "timeout",
+      "elapsed_seconds": 240.1,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 53272,
+        "input_cached": 619264,
+        "input_cache_write": 0,
+        "output": 7417,
+        "total": 679953
+      }
+    },
+    {
+      "name": "submit-single-kimi-receipt.json",
+      "status": "reported",
+      "elapsed_seconds": 174.1,
+      "recorded_usage": {
+        "records": 7,
+        "input_uncached": 21370,
+        "input_cached": 288512,
+        "input_cache_write": 0,
+        "output": 7488,
+        "total": 317370
+      }
+    },
+    {
+      "name": "window-sample-finish-kimi-receipt.json",
+      "status": "reported",
+      "elapsed_seconds": 178.9,
+      "recorded_usage": {
+        "records": 5,
+        "input_uncached": 33988,
+        "input_cached": 267264,
+        "input_cache_write": 0,
+        "output": 11365,
+        "total": 312617
+      }
+    },
+    {
+      "name": "window-sample-kimi-receipt.json",
+      "status": "timeout",
+      "elapsed_seconds": 240.1,
+      "recorded_usage": {
+        "records": 9,
+        "input_uncached": 21400,
+        "input_cached": 414208,
+        "input_cache_write": 0,
+        "output": 5708,
+        "total": 441316
+      }
+    },
+    {
+      "name": "window-sample-real-kimi-receipt.json",
+      "status": "reported",
+      "elapsed_seconds": 146.8,
+      "recorded_usage": {
+        "records": 12,
+        "input_uncached": 30714,
+        "input_cached": 1029120,
+        "input_cache_write": 0,
+        "output": 8030,
+        "total": 1067864
+      }
+    },
+    {
+      "name": "window-sample-tests-kimi-receipt.json",
+      "status": "reported",
+      "elapsed_seconds": 208.4,
+      "recorded_usage": {
+        "records": 10,
+        "input_uncached": 28510,
+        "input_cached": 693248,
+        "input_cache_write": 0,
+        "output": 12574,
+        "total": 734332
+      }
+    }
+  ],
+  "limits": "Provider usage only, not membership quota, billing or measured cost savings. Worker completion is independently audited."
+}
