@@ -86,7 +86,7 @@ viewport.addEventListener('pointermove', event => {
   if (!pointer || event.pointerId !== pointer.id) return;
   event.preventDefault();
   desired.azimuth -= (event.clientX - pointer.x) * 0.3;
-  desired.elevation += (event.clientY - pointer.y) * 0.3;
+  desired.elevation -= (event.clientY - pointer.y) * 0.3;
   pointer.x = event.clientX; pointer.y = event.clientY;
   selectView('reset');
   changed();
@@ -109,8 +109,8 @@ viewport.addEventListener('keydown', event => {
   const step = 4;
   if (event.key === 'ArrowLeft') desired.azimuth += step;
   else if (event.key === 'ArrowRight') desired.azimuth -= step;
-  else if (event.key === 'ArrowUp') desired.elevation -= step;
-  else if (event.key === 'ArrowDown') desired.elevation += step;
+  else if (event.key === 'ArrowUp') desired.elevation += step;
+  else if (event.key === 'ArrowDown') desired.elevation -= step;
   else if (event.key === '+' || event.key === '=') { event.preventDefault(); zoom(.88); return; }
   else if (event.key === '-') { event.preventDefault(); zoom(1.12); return; }
   else if (event.key.toLowerCase() === 'r') { preset('reset'); return; }

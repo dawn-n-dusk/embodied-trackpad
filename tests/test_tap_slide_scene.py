@@ -141,7 +141,7 @@ def test_working_pose_has_landscape_pad_and_rising_palm(scene):
     mujoco.mj_forward(m, d)
     assert d.geom_xmat[working.pad_geom_id].reshape(3, 3)[:, 0] == pytest.approx([0, 1, 0])
     assert d.body('palm').xmat.reshape(3, 3)[2, 0] > 0  # +X rises toward fingers
-    assert .14 < d.body('palm').xpos[2] < .16
+    assert .19 < d.body('palm').xpos[2] < .21
     assert info['measured_working']['knuckle_xpos_m'][2] > d.body('wrist_link').xpos[2]
     tips = working.fingertip_positions(d)
     assert (tips['index'][:2] + tips['middle'][:2]) / 2 == pytest.approx([0, 0], abs=1e-7)
@@ -150,7 +150,7 @@ def test_working_pose_has_landscape_pad_and_rising_palm(scene):
                        for g in working.tip_geom_ids[finger])
         measured = ts._lowest_collision_z(working, d, finger) - .1
         assert measured == pytest.approx(distance, abs=2e-6)
-        assert .0059 < distance < .0061
+        assert .0559 < distance < .0561
     for finger in ('ring', 'thumb'):
         assert ts._lowest_collision_z(working, d, finger) > .11
     visual = m.geom('visual_table').id
@@ -174,3 +174,15 @@ def test_working_mount_preserves_base_configuration(scene):
     rot = np.array(info['measured_working']['palm_xmat']).reshape(3, 3)
     eye = np.array(info['measured_working']['palm_xpos_m']) + rot @ working.config.wrist_cam_local_pos
     assert eye == pytest.approx(info['wrist_cam']['world_eye_at_reset'], abs=2e-7)
+
+
+def test_user_height_offset_moves_hand_and_camera_together(scene):
+    import numpy as np
+    low, li = ts.load_working_scene(mount=ts.WorkingMountConfig(height_offset_m=0))
+    high, hi = ts.load_working_scene()
+    for key in ('palm_xpos_m', 'wrist_xpos_m', 'knuckle_xpos_m'):
+        assert np.array(hi['measured_working'][key]) - li['measured_working'][key] == pytest.approx([0, 0, .05], abs=1e-7)
+    assert high.config.wrist_cam_local_pos == pytest.approx(low.config.wrist_cam_local_pos)
+    assert high.config.wrist_cam_local_target == pytest.approx(low.config.wrist_cam_local_target)
+    assert np.array(hi['wrist_cam']['world_eye_at_reset']) - li['wrist_cam']['world_eye_at_reset'] == pytest.approx([0, 0, .05])
+    assert high.config.pad_center == low.config.pad_center

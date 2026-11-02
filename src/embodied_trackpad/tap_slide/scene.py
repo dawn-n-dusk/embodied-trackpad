@@ -610,6 +610,8 @@ class WorkingMountConfig:
 
     palm_inclination_deg: float = 10.0
     index_clearance_m: float = 0.006
+    # User-requested vertical translation of the entire hand/camera assembly.
+    height_offset_m: float = 0.05
     contact_zone_center: tuple[float, float] = (0.0, 0.0)
     nominal_wrist_pos: tuple[float, float, float] = (0.0, 0.0, 0.2)
     # Wrist camera placement in WORLD frame at the working reset (converted to
@@ -740,7 +742,8 @@ def load_working_scene(
     cam_target_local = rot_palm.T @ (cam_target_world - palm_xpos)
 
     new_wrist_pos = tuple(
-        float(v) for v in (np.asarray(mount.nominal_wrist_pos) + shift)
+        float(v) for v in (np.asarray(mount.nominal_wrist_pos) + shift
+                          + np.array([0.0, 0.0, mount.height_offset_m]))
     )
     cfg_b = replace(base,
         wrist=replace(wrist_cfg,
@@ -756,7 +759,9 @@ def load_working_scene(
         "pose": {k: float(v) for k, v in pose.qpos17().items()},
         "mount": {
             "palm_inclination_deg": mount.palm_inclination_deg,
-            "index_clearance_target_m": mount.index_clearance_m,
+            "index_clearance_target_m": mount.index_clearance_m + mount.height_offset_m,
+            "base_contact_clearance_m": mount.index_clearance_m,
+            "height_offset_m": mount.height_offset_m,
             "contact_zone_center": list(mount.contact_zone_center),
             "nominal_wrist_pos": list(mount.nominal_wrist_pos),
             "computed_wrist_pos": list(new_wrist_pos),
@@ -768,8 +773,8 @@ def load_working_scene(
         "wrist_cam": {
             "local_pos": [float(v) for v in cam_eye_local],
             "local_target": [float(v) for v in cam_target_local],
-            "world_eye_at_reset": [float(v) for v in cam_eye_world],
-            "world_target_at_reset": [float(v) for v in cam_target_world],
+            "world_eye_at_reset": [float(v) for v in cam_eye_world + [0, 0, mount.height_offset_m]],
+            "world_target_at_reset": [float(v) for v in cam_target_world + [0, 0, mount.height_offset_m]],
         },
     }
     return scene_b, info
