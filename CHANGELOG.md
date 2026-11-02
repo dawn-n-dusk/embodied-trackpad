@@ -1,5 +1,7 @@
 # Changelog
 
+- Accepted the limited CPU sampler case: eager/JIT and Python Euler parity for 2/5 steps and fixed/generated noise, image sensitivity and masked-image invariance; 53 saved arrays, 236 independent checks, 14 CPU allocation seconds. Prepared a separate 20 ms temporal-window contract while retaining full-model and physical-control limitations.
+
 - Accepted matched-JIT derivative equality and the production screen-pair update/rejection closure on a tiny synthetic model: one real update, exact 36-leaf state preservation on NaN rejection, 163 saved arrays and 403 independent checks in a 26-second CPU allocation. Preserved the original eager/JIT failure; full-model training and sampler remain separate.
 
 - Quantified the tiny-model gradient mismatch from 45 saved arrays and 143 independent checks: eager interfaces agree exactly, while eager/JIT comparisons exceed the frozen per-element tolerance at two elements. Preserved the failed gate and prepared a matched-compilation comparison without loosening tolerances.

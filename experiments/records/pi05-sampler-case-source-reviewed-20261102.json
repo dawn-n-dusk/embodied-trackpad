@@ -1,0 +1,51 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-sampler-case-source-reviewed-20261102",
+  "timestamp_utc": "2026-11-02T01:40:14.628643+00:00",
+  "source_revision": "c17f27eec4236b3a72f7dd6b86fca424a8c8a078",
+  "kind": "independent_sampler_case_source_review",
+  "status": "case_source_reviewed_actual_cpu_runtime_pending",
+  "source_checks": 17,
+  "case_sha256": "653474c34852d7e2b40355fb1a4357efcb9701d9b250f832247927403df414c1",
+  "frozen_tiny_helper_sha256": "681086d18f18da608d08ed7cec882c5fbe9a63c8ee8aae263bb1acfa5969ef1f",
+  "scope": {
+    "model": "Frozen tiny synthetic NNX interface,618parameters/11leaves; not complete pi0.5",
+    "image_layout": "screen_pair only",
+    "integration_steps": [
+      2,
+      5
+    ],
+    "noise_modes": [
+      "fixed NumPy seeded",
+      "internal JAX normal eager and compiled"
+    ],
+    "comparisons": [
+      "production eager vs Python Euler reference",
+      "production JIT pure-params wrapper vs Python Euler reference"
+    ],
+    "rtol": 1e-05,
+    "atol": 1e-06,
+    "image_probes": [
+      "full-image constant perturbation",
+      "local-image constant perturbation",
+      "local mask toggle",
+      "masked local image perturbation"
+    ],
+    "zero_optimizer_and_backward": true,
+    "reference_independence": "Python integration composition only; lower-level model forward pieces are shared."
+  },
+  "review_corrections": [
+    "Adjacent frozen helper import replaces invalid relative runtime path.",
+    "Save N+1 states/times and N velocities; prior pre-step-only trace made final-time assertion inevitably false.",
+    "Pass None in compiled generated-noise case to actually exercise internal noise generation.",
+    "Save each parameter path/shape/dtype and full census instead of an unlabelled flat vector.",
+    "Record zero optimizer/backward calls and mismatch case status accurately.",
+    "Require shape and finite values for all five perturbation outputs."
+  ],
+  "next": "Review guarded driver and launcher before fresh hash-bound one CPU submission. No sampler result is accepted by this record.",
+  "limits": [
+    "Initial source call timed out300.1s before saving code; session and recorded usage recovered, no job submitted.",
+    "No isolated position/KV/adarms ablation, legacy runtime acceptance, language understanding or physical inference-rate claim.",
+    "Full pi0.5 checkpoint and1761/1800GPU-second smoke budget unchanged."
+  ]
+}

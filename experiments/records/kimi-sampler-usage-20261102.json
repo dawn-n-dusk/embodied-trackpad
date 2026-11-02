@@ -1,0 +1,106 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-sampler-usage-20261102",
+  "timestamp_utc": "2026-11-02T01:51:48.696986+00:00",
+  "kind": "delegation_usage_and_rework_audit",
+  "status": "recorded_usage_not_billing",
+  "dispatches": [
+    {
+      "task": "sampler-case",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 6,
+        "input_uncached": 24131,
+        "input_cached": 244224,
+        "input_cache_write": 0,
+        "output": 6401,
+        "total": 274756
+      },
+      "receipt_sha256": "6d78b2dc5191355f0590cf492aafcf013e6c12b86e80e75c083b2021b6b6094f",
+      "usage_recovery": "Recovered exact task session and timestamp interval; original interrupted receipt retained."
+    },
+    {
+      "task": "sampler-save",
+      "status": "reported",
+      "elapsed_s": 98.2,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 4,
+        "input_uncached": 29790,
+        "input_cached": 202752,
+        "input_cache_write": 0,
+        "output": 5046,
+        "total": 237588
+      },
+      "receipt_sha256": "969a16827b6cb51633974561cf3efb20dbcb3c9b14d200f247e3a8a2378d2c11"
+    },
+    {
+      "task": "sampler-case-fix",
+      "status": "reported",
+      "elapsed_s": 120.5,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 5,
+        "input_uncached": 13740,
+        "input_cached": 311808,
+        "input_cache_write": 0,
+        "output": 6208,
+        "total": 331756
+      },
+      "receipt_sha256": "399252193e1723c83d4f14ffa653fdd99e2147356f3d3d33f94065148e8c5102"
+    },
+    {
+      "task": "sampler-driver",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 11,
+        "input_uncached": 35744,
+        "input_cached": 897024,
+        "input_cache_write": 0,
+        "output": 16255,
+        "total": 949023
+      },
+      "receipt_sha256": "ef784ce3eaeefe74328e8a7de1021c627f5f2cb6061ed854abef5cffb0813979"
+    },
+    {
+      "task": "sampler-submit",
+      "status": "timeout",
+      "elapsed_s": 300.1,
+      "requested_model": "kimi-code/kimi-for-coding",
+      "recorded_usage": {
+        "records": 15,
+        "input_uncached": 39438,
+        "input_cached": 1481728,
+        "input_cache_write": 0,
+        "output": 5978,
+        "total": 1527144
+      },
+      "receipt_sha256": "efde098e2a3a494ddd402f0fca6e4a7ca688a7b68137b82868b95226ef74c7b2"
+    }
+  ],
+  "sum_elapsed_s": 1119.0,
+  "recorded_usage_totals": {
+    "records": 41,
+    "input_uncached": 142843,
+    "input_cached": 3137536,
+    "input_cache_write": 0,
+    "output": 39888,
+    "total": 3320267
+  },
+  "unknown_usage_dispatches": 0,
+  "rework": [
+    "Initial300.1s source task timed out before saving; continuation saved the planned case.",
+    "Independent review found6test-source defects, including missing final time/state and untested compiled internal-noise path; corrected before runtime.",
+    "Driver source task timed out after saving files; coordinator reviewed diff, hashes and syntax before issuing runtime permit."
+  ],
+  "limits": [
+    "These recorded tokens and elapsed dispatch times are not subscription-quota charges or money.",
+    "Interrupted provider calls may lack usage records; no missing values are treated as billed zero.",
+    "K2.8 Preview requested through the configured alias, not an independently verified backend version.",
+    "No measured savings comparison; CPU/GPU allocation time recorded separately."
+  ]
+}

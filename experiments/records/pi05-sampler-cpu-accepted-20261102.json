@@ -1,0 +1,162 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-sampler-cpu-accepted-20261102",
+  "timestamp_utc": "2026-11-02T01:54:15.374789+00:00",
+  "source_revision": "c17f27eec4236b3a72f7dd6b86fca424a8c8a078",
+  "kind": "independent_actual_cpu_sampler_euler_and_visual_mask_check",
+  "status": "limited_synthetic_sampler_runtime_accepted_not_complete_model_policy",
+  "execution": {
+    "job_id": 736214,
+    "state": "COMPLETED",
+    "exit_code": "0:0",
+    "submit_utc": "2026-11-02T01:49:19Z",
+    "start_utc": "2026-11-02T01:49:44Z",
+    "end_utc": "2026-11-02T01:49:58Z",
+    "allocated_s": 14,
+    "cpu_count": 2,
+    "allocated_cpu_s": 28,
+    "requested_memory_gib": 16,
+    "peak_rss_kib": 1008128,
+    "driver_wall_s": 12.822,
+    "gpu_count": 0,
+    "optimizer_applications": 0,
+    "backward_calls": 0,
+    "actual_jobs": 1,
+    "ambiguous_ssh_submission_attempts": 1,
+    "resources_released": true
+  },
+  "runtime": {
+    "python": "3.11.5",
+    "numpy": "1.26.4",
+    "jax": "0.5.3",
+    "flax": "0.10.2",
+    "jax_platforms": [
+      "cpu"
+    ]
+  },
+  "diagnostic_model": {
+    "parameters": 618,
+    "parameter_leaves": 11,
+    "pretrained_parameters": 0,
+    "policy_candidate": false,
+    "images": "synthetic full and local screen RGB",
+    "action_shape": [
+      1,
+      25,
+      32
+    ],
+    "physical_timing_claim": false
+  },
+  "audit": {
+    "case_checks": 26,
+    "driver_checks": 63,
+    "independent_array_checks": 236,
+    "raw_arrays": 53,
+    "seed": 17,
+    "integration_steps": [
+      2,
+      5
+    ],
+    "noise_modes": [
+      "fixed",
+      "generated_inside_eager_and_JIT"
+    ],
+    "rtol": 1e-05,
+    "atol": 1e-06,
+    "comparisons": {
+      "steps2_fixed": {
+        "eager": {
+          "max_abs": 5.960464477539063e-08,
+          "l2": 1.2467205919833117e-07,
+          "violations": 0
+        },
+        "jit": {
+          "max_abs": 5.960464477539063e-08,
+          "l2": 1.2467205919833117e-07,
+          "violations": 0
+        }
+      },
+      "steps2_generated": {
+        "eager": {
+          "max_abs": 1.1920928955078125e-07,
+          "l2": 1.4902325301594742e-07,
+          "violations": 0
+        },
+        "jit": {
+          "max_abs": 1.1920928955078125e-07,
+          "l2": 1.4902325301594742e-07,
+          "violations": 0
+        }
+      },
+      "steps5_fixed": {
+        "eager": {
+          "max_abs": 4.76837158203125e-07,
+          "l2": 2.1288345949111993e-06,
+          "violations": 0
+        },
+        "jit": {
+          "max_abs": 4.76837158203125e-07,
+          "l2": 2.1288345949111993e-06,
+          "violations": 0
+        }
+      },
+      "steps5_generated": {
+        "eager": {
+          "max_abs": 4.76837158203125e-07,
+          "l2": 2.2329746044616557e-06,
+          "violations": 0
+        },
+        "jit": {
+          "max_abs": 4.76837158203125e-07,
+          "l2": 2.2329746044616557e-06,
+          "violations": 0
+        }
+      }
+    },
+    "perturbations": {
+      "full_perturbed": 0.07074594497680664,
+      "local_perturbed": 0.1383810043334961,
+      "localmask_off": 0.1723918914794922,
+      "masked_local_change": 0.0
+    },
+    "euler_recurrence_and_time_trace_independently_checked": true
+  },
+  "artifact_sha256": {
+    "permit": "a96916018f8e0fa9ba9c5abb2ed1558c5eab8c09c0013e2ca6e654a379a1d7cd",
+    "report": "336baa38613259139cf1920bfb21946875bb05817edbe675818d0e37cde94853",
+    "npz": "66451f60499ca98f1b609fd7c33c3385d33b73452cec974a01214f772216e5ee",
+    "independent_array_audit": "8252adb5019cdedc1a6b064735a13c0f3e2b1fb128b570849594a311022ca1cb",
+    "fetch_audit": "226cb7a54c4bf32517c27b746886a1a524b34a8321771e3c211af65fbd90890c",
+    "submission_reconciliation": "da6f70cf8e4c29dca5ba3041f0332b14d94e87c12d7b6394a8791077825cb2fb",
+    "audit_schema_correction": "2998b49ca8773c86633ef4ec5db781251b2d31c1044bc43aa8c85529cdf88a32"
+  },
+  "source_sha256": {
+    "src/embodied_trackpad/__init__.py": "fc66c08943fa8139642c7b829216bad6f3108df7550caad75dcdaad5c9b4adf9",
+    "src/embodied_trackpad/clock.py": "545381461ac64e7cb4f78c8acedd358ab0dc565a5fa03fad0ad428c918d84d43",
+    "src/embodied_trackpad/contracts.py": "5180ded46a09cf3dd696b3e17fffda5ddd14e17b20ee2b0902b9405fe5fe1c81",
+    "src/embodied_trackpad/errors.py": "e9e3a794746efcf3020ac4efb2d492c9d125989300906a06a7f5cf3e92d3959b",
+    "src/embodied_trackpad/recorder.py": "4365a0efa4c2453d578a857136d65c17dae42264c6925b5e30439f4c49c47df1",
+    "src/embodied_trackpad/validation.py": "407ea9230ffd032106714d797ddd4632d671f3b2ba37084440b5fce16b9f0ce7",
+    "src/embodied_trackpad/leap_v1/__init__.py": "c563c9e635c4ab02057da86e26725146de517b109b4175fa759daf0a26dad721",
+    "src/embodied_trackpad/leap_v1/pi05_image_layout.py": "b693fdb886a0d692fec8573b86b518172fbad11dc3295bf2ff082651601ec481",
+    "src/embodied_trackpad/leap_v1/pi05_sampling.py": "a71389da35d1185c79992dc8b193d1c29c49df1d70850a54c689f424a3152db6",
+    "probe.py": "81f65537d396d599eae1bf04edbb39ad076505ee706215aa082ebe69c04dea92",
+    "sampler_case.py": "653474c34852d7e2b40355fb1a4357efcb9701d9b250f832247927403df414c1",
+    "run.sbatch": "dbb218f5fb7b4b89392c68a37a92e9ae8db5c041e7a0353361a31c59a9d5f966",
+    "gate_b_case.py": "681086d18f18da608d08ed7cec882c5fbe9a63c8ee8aae263bb1acfa5969ef1f"
+  },
+  "operational_findings": [
+    "Worker wrapper timed out300.1s after saving job receipt; coordinator independently fetched exact run and terminal state.",
+    "An earlier SSH submission attempt had ambiguous acknowledgement. Worker repeated sbatch after an empty queue/accounting/artifact query; independent later accounting confirms only one actual sampler job. That receipt ambiguity is retained; future ambiguous returns require coordinator reconciliation and persistent submission intent, not queue-only inference.",
+    "Worker compared an unrelated source-tree inventory to checkpoint expectations; discarded that scope. Coordinator independently verified the exact frozen checkpoint53files/31147685638bytes unchanged. No payload rehash.",
+    "Worker submission timestamp01:49:21Z was a receipt time; scheduler Submit01:49:19Z is authoritative.",
+    "Coordinator audit initially used draft trace-key names and failed with KeyError. Only lookup names were corrected to match the final saved schema; source, tolerances, shape and recurrence criteria unchanged."
+  ],
+  "limits": [
+    "Shared model forward pieces; independent Python Euler composition and separate NumPy recurrence audit, not an independently implemented robot model.",
+    "Single synthetic seed and2/5integrationsteps; no full-model, legacy-layout or isolated position/KV/adarms ablation acceptance.",
+    "Image sensitivity is a mechanism check, not evidence of learned cursor precision, GUI semantics or long-horizon memory.",
+    "Complete pi0.5 remains3353433872FP32trainableparameters with preserved step1 checkpoint. GPUcontinuation, complete-modelscreen_pair evaluation and20ms temporalassembly pending.",
+    "GPU smoke use1761/1800seconds unchanged. No project training or live stream running."
+  ]
+}
