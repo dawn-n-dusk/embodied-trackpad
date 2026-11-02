@@ -611,7 +611,7 @@ class WorkingMountConfig:
     palm_inclination_deg: float = 10.0
     index_clearance_m: float = 0.006
     # User-requested vertical translation of the entire hand/camera assembly.
-    height_offset_m: float = 0.05
+    height_offset_m: float = 0.02
     contact_zone_center: tuple[float, float] = (0.0, 0.0)
     nominal_wrist_pos: tuple[float, float, float] = (0.0, 0.0, 0.2)
     # Wrist camera placement in WORLD frame at the working reset (converted to

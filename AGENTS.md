@@ -1,5 +1,7 @@
 # Project instructions
 
+- Latest user authorization (2026-11-02): lower the current hand and attached wrist camera by 30 mm (working offset now +20 mm from the original relaxed mount) and retry bounded simulated tap/slide diagnostics. Keep pad/palm orientation and original evidence intact; no GPU/model training, hardware or automation resumption.
+
 - Latest user request (2026-11-02): reverse vertical viewer drag, lift the hand AND attached wrist camera vertically by50mm, then delegate actual simulated touch/slide attempts and an initial expert-data batch to Kimi. This authorizes that bounded continuation; no optimizer/GPU, real hardware, personal-desktop recording or automation resumption. Preserve failed episodes; require physical contact and device/GUI evidence before training eligibility.
 
 - User-directed exception (2026-11-02): Codex directly implements, deploys and visually verifies the current scene orientation/height and live-viewer redesign. Keep this exception scoped to that request; no training, hardware, recording or automation resumption.
