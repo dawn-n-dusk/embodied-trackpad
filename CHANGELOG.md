@@ -1,5 +1,7 @@
 # Changelog
 
+- Audited six lower-height contact retries; all stop at the penetration ceiling. Identical applied trajectories expose a late creep threshold, not a validated height comparison. Preserved failures, source snapshots and bounded Kimi usage; no training-ready demonstrations.
+
 - Lowered the hand/camera assembly by the user-requested 30 mm, verified current 26 mm initial fingertip gap and continuous live preview, and dispatched isolated contact retries while preserving prior failures.
 
 - Preserved and independently audited two failed raised-scene physical expert episodes: tap too long, slide contact loss and spurious clicks. Real RGB/state/contact evidence exists, but no success demonstrations or training acceptance; retained both Kimi timeouts and alignment gaps.

@@ -1,0 +1,655 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-lower30-contact-retry-20261102",
+  "timestamp_utc": "2026-11-02T12:28:42.666912+00:00",
+  "kind": "bounded_physical_contact_retry_independent_review",
+  "status": "six_failed_attempts_preserved",
+  "scene_source_revision": "ea160e4",
+  "worker_base_revision": "67fb08d",
+  "height_offset_m": 0.02,
+  "lowered_from_previous_m": 0.03,
+  "attempts": {
+    "configs": 3,
+    "physical_episodes": 6,
+    "tap_successes": 0,
+    "tap_attempts": 3,
+    "slide_successes": 0,
+    "slide_attempts": 3
+  },
+  "runs": {
+    "lower30-baseline": {
+      "wall_s": 0.688,
+      "physics_wall_s": 0.221,
+      "mount": {
+        "palm_inclination_deg": 10.0,
+        "height_offset_m": 0.02,
+        "index_clearance_target_m": 0.026000000000000002,
+        "computed_wrist_pos": [
+          -0.11785029648649098,
+          0.014620184297765206,
+          0.14299119263664195
+        ],
+        "pad_top_m": 0.1,
+        "measured_index_lowest_collision_z_m": 0.12599999736335804,
+        "measured_middle_lowest_collision_z_m": 0.1259826325455746,
+        "measured_wrist_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.14299119
+        ],
+        "measured_palm_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.16799118999999998
+        ]
+      },
+      "aggregate": {
+        "episodes_attempted": 2,
+        "episodes_passed": 0,
+        "episodes_failed": 2,
+        "denominator": "all attempted episodes, including failures",
+        "tap_pass_rate": [
+          0,
+          1
+        ],
+        "slide_pass_rate": [
+          0,
+          1
+        ],
+        "slide_gui_endpoint_err_px_mean": 12.0,
+        "slide_gui_endpoint_err_px_p90": 12.0,
+        "slide_physical_disp_mm": [
+          0.0
+        ]
+      },
+      "episodes": {
+        "slide_xpos_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "slide_xpos_diag",
+            "kind": "slide",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "slide": {
+              "requested_disp_m": 0.003,
+              "measured_disp_m": 0.0,
+              "endpoint_err_m": null,
+              "endpoint_tol_m": 0.0015,
+              "phys_disp_ok": false,
+              "gui_err_px": 12.0,
+              "gui_err_ok": false,
+              "click_count": 0
+            },
+            "success_criteria": [
+              "measured physical contact-centroid displacement >= requested",
+              "slide endpoint within tolerance of the requested endpoint",
+              "device cursor displacement toward the GUI target (error within tol px)",
+              "no click during the slide episode",
+              "complete release with no unintended contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "abb1bbc7446de063d5687684124cc27f5cb528a4bbafe06a43bae2248460a52c",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0"
+          }
+        },
+        "tap_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "tap_diag",
+            "kind": "tap",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "tap": {
+              "click_count": 0,
+              "click_in_target_count": 0,
+              "contact_window_in_device_limits": false
+            },
+            "success_criteria": [
+              "exactly one device click during the episode",
+              "the click lands inside the GUI target bounds",
+              "measured contact window within device tap limits [0.03, 0.35] s",
+              "complete release (touch_off) with no other contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "abb1bbc7446de063d5687684124cc27f5cb528a4bbafe06a43bae2248460a52c",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0"
+          }
+        }
+      }
+    },
+    "lower30-fix1": {
+      "wall_s": 0.518,
+      "physics_wall_s": 0.174,
+      "mount": {
+        "palm_inclination_deg": 10.0,
+        "height_offset_m": 0.02,
+        "index_clearance_target_m": 0.026000000000000002,
+        "computed_wrist_pos": [
+          -0.11785029648649098,
+          0.014620184297765206,
+          0.14299119263664195
+        ],
+        "pad_top_m": 0.1,
+        "measured_index_lowest_collision_z_m": 0.12599999736335804,
+        "measured_middle_lowest_collision_z_m": 0.1259826325455746,
+        "measured_wrist_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.14299119
+        ],
+        "measured_palm_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.16799118999999998
+        ]
+      },
+      "aggregate": {
+        "episodes_attempted": 2,
+        "episodes_passed": 0,
+        "episodes_failed": 2,
+        "denominator": "all attempted episodes, including failures",
+        "tap_pass_rate": [
+          0,
+          1
+        ],
+        "slide_pass_rate": [
+          0,
+          1
+        ],
+        "slide_gui_endpoint_err_px_mean": 12.0,
+        "slide_gui_endpoint_err_px_p90": 12.0,
+        "slide_physical_disp_mm": [
+          0.0
+        ]
+      },
+      "episodes": {
+        "slide_xpos_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "slide_xpos_diag",
+            "kind": "slide",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "slide": {
+              "requested_disp_m": 0.003,
+              "measured_disp_m": 0.0,
+              "endpoint_err_m": null,
+              "endpoint_tol_m": 0.0015,
+              "phys_disp_ok": false,
+              "gui_err_px": 12.0,
+              "gui_err_ok": false,
+              "click_count": 0
+            },
+            "success_criteria": [
+              "measured physical contact-centroid displacement >= requested",
+              "slide endpoint within tolerance of the requested endpoint",
+              "device cursor displacement toward the GUI target (error within tol px)",
+              "no click during the slide episode",
+              "complete release with no unintended contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "abb1bbc7446de063d5687684124cc27f5cb528a4bbafe06a43bae2248460a52c",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0",
+            "teacher_config": "40277f66d08face3cb72bcde21c9cbe7f577b321d5aef7e01fdd9bf04b05ce88"
+          }
+        },
+        "tap_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "tap_diag",
+            "kind": "tap",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "tap": {
+              "click_count": 0,
+              "click_in_target_count": 0,
+              "contact_window_in_device_limits": false
+            },
+            "success_criteria": [
+              "exactly one device click during the episode",
+              "the click lands inside the GUI target bounds",
+              "measured contact window within device tap limits [0.03, 0.35] s",
+              "complete release (touch_off) with no other contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "abb1bbc7446de063d5687684124cc27f5cb528a4bbafe06a43bae2248460a52c",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0",
+            "teacher_config": "40277f66d08face3cb72bcde21c9cbe7f577b321d5aef7e01fdd9bf04b05ce88"
+          }
+        }
+      }
+    },
+    "lower30-fix2": {
+      "wall_s": 0.533,
+      "physics_wall_s": 0.194,
+      "mount": {
+        "palm_inclination_deg": 10.0,
+        "height_offset_m": 0.02,
+        "index_clearance_target_m": 0.026000000000000002,
+        "computed_wrist_pos": [
+          -0.11785029648649098,
+          0.014620184297765206,
+          0.14299119263664195
+        ],
+        "pad_top_m": 0.1,
+        "measured_index_lowest_collision_z_m": 0.12599999736335804,
+        "measured_middle_lowest_collision_z_m": 0.1259826325455746,
+        "measured_wrist_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.14299119
+        ],
+        "measured_palm_xpos_m": [
+          -0.1178503,
+          0.014620184,
+          0.16799118999999998
+        ]
+      },
+      "aggregate": {
+        "episodes_attempted": 2,
+        "episodes_passed": 0,
+        "episodes_failed": 2,
+        "denominator": "all attempted episodes, including failures",
+        "tap_pass_rate": [
+          0,
+          1
+        ],
+        "slide_pass_rate": [
+          0,
+          1
+        ],
+        "slide_gui_endpoint_err_px_mean": 12.0,
+        "slide_gui_endpoint_err_px_p90": 12.0,
+        "slide_physical_disp_mm": [
+          0.0
+        ]
+      },
+      "episodes": {
+        "slide_xpos_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "slide_xpos_diag",
+            "kind": "slide",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "slide": {
+              "requested_disp_m": 0.003,
+              "measured_disp_m": 0.0,
+              "endpoint_err_m": null,
+              "endpoint_tol_m": 0.0015,
+              "phys_disp_ok": false,
+              "gui_err_px": 12.0,
+              "gui_err_ok": false,
+              "click_count": 0
+            },
+            "success_criteria": [
+              "measured physical contact-centroid displacement >= requested",
+              "slide endpoint within tolerance of the requested endpoint",
+              "device cursor displacement toward the GUI target (error within tol px)",
+              "no click during the slide episode",
+              "complete release with no unintended contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "d90179606bb524596286a5927c432b7bc47e1169da42f114b0cc57c5eede8a23",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0",
+            "teacher_config": "404646d074b5d223d4ba72d7dd5ee294c8ebf4c54e499c050a7d6866d7c1d0a9"
+          }
+        },
+        "tap_diag": {
+          "reported_pass": false,
+          "training_eligible": false,
+          "raw_contact_intervals": [
+            [
+              0.166,
+              null
+            ]
+          ],
+          "clicks": 0,
+          "max_force_n": 0.631534,
+          "max_penetration_m": 0.00111069,
+          "raw_rows": 87,
+          "state_rows": 4,
+          "device_rows": 4,
+          "dt_unique": [
+            0.002
+          ],
+          "image_shapes": {
+            "wrist": [
+              1,
+              480,
+              640,
+              3
+            ],
+            "wrist_t": [
+              1
+            ],
+            "screen": [
+              1,
+              600,
+              800,
+              3
+            ],
+            "screen_t": [
+              1
+            ]
+          },
+          "metrics": {
+            "episode": "tap_diag",
+            "kind": "tap",
+            "safety_failures": [
+              "penetration 1.111 mm > 1 mm at t=0.174"
+            ],
+            "stop_reason": "penetration",
+            "contact_window_s": null,
+            "max_total_force_n": 0.631533707213779,
+            "max_index_force_n": 0.631533707213779,
+            "max_penetration_mm": 1.1106867509247547,
+            "max_unintended_force_n": 0.0,
+            "click_events": [],
+            "tap": {
+              "click_count": 0,
+              "click_in_target_count": 0,
+              "contact_window_in_device_limits": false
+            },
+            "success_criteria": [
+              "exactly one device click during the episode",
+              "the click lands inside the GUI target bounds",
+              "measured contact window within device tap limits [0.03, 0.35] s",
+              "complete release (touch_off) with no other contacts",
+              "no safety failures"
+            ]
+          },
+          "source_hashes": {
+            "src/embodied_trackpad/tap_slide/scene.py": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+            "src/embodied_trackpad/tap_slide/device.py": "f58a90f09d69e659afcba8bf000a7047b34db07c02306ba233778db86d15c918",
+            "src/embodied_trackpad/tap_slide/gui.py": "8d6dd1e392511123fa5fde0290dabb22fae08181f462182b007e8eaa69393754",
+            "src/embodied_trackpad/tap_slide/physical_pilot.py": "d90179606bb524596286a5927c432b7bc47e1169da42f114b0cc57c5eede8a23",
+            "src/embodied_trackpad/tap_slide/expert.py": "d25759dab174d9f41e2e6bbc498f6c17f263624a57fd4f19fc39a7eca93186b4",
+            "scene_integrity": "19cd5cea98700f1cbe4c4e7d233f0fcb189d630f6aca4860f9214c50674315b0",
+            "teacher_config": "404646d074b5d223d4ba72d7dd5ee294c8ebf4c54e499c050a7d6866d7c1d0a9"
+          }
+        }
+      }
+    }
+  },
+  "independent_findings": [
+    "All6episodes abort at sim0.174s due1.110687mm penetration exceeding unchanged1mm ceiling",
+    "All3configs have identical recorded t/qpos17/ctrl17/ctrl17_target arrays through failure",
+    "First correction changes force/hold/release gains but leaves precontact approach unchanged",
+    "Second correction adds creep below.02rad gap; actual remaining gap.028343rad still takes a full step, crossing contact before next20Hz decision",
+    "These retries do not establish whether the lower mount improves successful task performance",
+    "No successful new expert demonstrations; all episodes remain training_eligible=false",
+    "Only4samples per episode and no slide stage reached; mean/p90 of these failures is not a precision estimate"
+  ],
+  "checks": {
+    "scene_viewer_tests_passed": 25,
+    "device_gui_expert_tests_passed": 39,
+    "source_snapshots_preserved": true,
+    "current_live_mode": "SIM_PREVIEW_HOLD_POSE",
+    "hardware_gpu_optimizer_resumed": false
+  },
+  "dispatch": {
+    "status": "timeout",
+    "elapsed_s": 420.1,
+    "recorded_usage": {
+      "records": 19,
+      "input_uncached": 30118,
+      "input_cached": 2469632,
+      "input_cache_write": 0,
+      "output": 13308,
+      "total": 2513058
+    },
+    "usage_note": "Recorded provider usage; cache reads included separately. Missing/interrupted requests may not report usage; not a billing total."
+  },
+  "next_proposed_fix": "Cap step before entering contact region and verify applied targets actually change; preserve geometry and safety limits. Not executed in this bounded retry."
+}
