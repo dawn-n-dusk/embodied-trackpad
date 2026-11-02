@@ -1,0 +1,68 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-lower30-scene-20261102",
+  "timestamp_utc": "2026-11-02T12:21:31.004693+00:00",
+  "kind": "user_authorized_height_revision",
+  "status": "scene_and_live_browser_verified",
+  "source_revision": "ea160e4",
+  "geometry": {
+    "shift_from_prior_m": {
+      "palm_xpos_m": [
+        0.0,
+        0.0,
+        -0.03
+      ],
+      "wrist_xpos_m": [
+        0.0,
+        0.0,
+        -0.03
+      ],
+      "knuckle_xpos_m": [
+        0.0,
+        0.0,
+        -0.03
+      ]
+    },
+    "mount_offset_m": 0.02,
+    "initial_index_gap_m": 0.026,
+    "palm_reference_height_m": 0.06799119,
+    "wrist_camera_local_extrinsics_unchanged": true,
+    "pad_unchanged": true
+  },
+  "hold": {
+    "sim_seconds": 10.000000000000009,
+    "pad_contact_samples": 0,
+    "max_pad_penetration_m": 0,
+    "min_tip_geom_clearance_m": {
+      "index": 0.021200561114631117,
+      "middle": 0.021183081842076942,
+      "ring": 0.029672165612976975,
+      "thumb": 0.034741083488239344
+    },
+    "warnings": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "finite_qpos": true
+  },
+  "software_tests_passed": 25,
+  "browser": {
+    "height_display": "6.8 cm",
+    "gap_display": "26.0 mm",
+    "continuous": true,
+    "mode": "SIM_PREVIEW_HOLD_POSE",
+    "frame_at_screenshot": 406,
+    "sim_seconds_at_screenshot": 34.4
+  },
+  "contact_retries": "Delegated separately to Kimi at same fixed geometry; not accepted by this record",
+  "source_sha256": "2d61adfe180eccc94982a9a861efcdeee0fbd5534e7c5891490f774b5b8f6194",
+  "limitations": [
+    "No optimizer, model training or hardware resumed",
+    "Initial hold test is not contact task success"
+  ]
+}
