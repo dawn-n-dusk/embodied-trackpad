@@ -1,0 +1,106 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-gpu-continuation-preparation-usage-20261102",
+  "timestamp_utc": "2026-11-02T03:41:30.058950+00:00",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "backend_version_verified": false,
+  "calls": [
+    {
+      "call": "core",
+      "status": "timeout",
+      "elapsed_seconds": 180.0,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "core-fix",
+      "status": "reported",
+      "elapsed_seconds": 175.2,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "sequence",
+      "status": "timeout",
+      "elapsed_seconds": 300.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "launcher",
+      "status": "timeout",
+      "elapsed_seconds": 240.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "sequence-resume",
+      "status": "timeout",
+      "elapsed_seconds": 180.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "restore-only",
+      "status": "timeout",
+      "elapsed_seconds": 180.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "restore-fix",
+      "status": "timeout",
+      "elapsed_seconds": 120.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "restore-finish",
+      "status": "reported",
+      "elapsed_seconds": 86.3,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "guards-only",
+      "status": "reported",
+      "elapsed_seconds": 107.7,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "probe-only",
+      "status": "reported",
+      "elapsed_seconds": 212.3,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "update-stage",
+      "status": "reported",
+      "elapsed_seconds": 145.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "probe-integration",
+      "status": "timeout",
+      "elapsed_seconds": 90.1,
+      "requested_model": "kimi-code/kimi-for-coding"
+    },
+    {
+      "call": "update-fix",
+      "status": "reported",
+      "elapsed_seconds": 66.6,
+      "requested_model": "kimi-code/kimi-for-coding"
+    }
+  ],
+  "summed_dispatch_seconds": 2083.8,
+  "timeouts": 7,
+  "usage": {
+    "records": 101,
+    "input_uncached": 323616,
+    "input_cached": 7427072,
+    "input_cache_write": 0,
+    "output": 61449,
+    "total": 7812137
+  },
+  "usage_note": "Recorded provider session usage across three fresh task sessions; interrupted requests may be missing. Cached input is separate. Not billing or membership quota and no delegation-savings claim.",
+  "rework": [
+    "Initial coordinator task named a nonexistent test file; corrected to actual owner.",
+    "First sequence and launcher tasks timed out without source files; split into restore, update and guard modules.",
+    "Restoration SHA transcription error corrected before runtime.",
+    "Phase persistence, attempted-call ordering and caller-report mapping corrected before runtime.",
+    "An ambiguous whole-wire session match was resolved using creation time; both original workers had ended before reassignment; no concurrent writers to one file."
+  ],
+  "operations": "No GPU staging, permit or job submission; final preflight failed before SSH key exchange."
+}

@@ -1,0 +1,95 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-gpu-continuation-driver-reviewed-20261102",
+  "timestamp_utc": "2026-11-02T03:41:30.058950+00:00",
+  "source_revision": "440d0a9bf5b85fbf9ddbbaeb06d902d3b4d8209e",
+  "status": "source_reviewed_runtime_blocked_before_submission",
+  "model": {
+    "total_trainable_fp32_parameters": 3353433872,
+    "parameter_leaves": 51,
+    "compute_dtype": "bfloat16",
+    "start_checkpoint_step": 1,
+    "original_full_fingerprint": "7e654ce3b4821233641833d9c45c45e85720f4538a35aab5f640c9d7106f3fa9",
+    "action_horizon": 25,
+    "native_action_dt_s": 0.002,
+    "chunk_duration_s": 0.05
+  },
+  "source_checks": {
+    "focused_tests_passed": 28,
+    "focused_tests_skipped": 7,
+    "core_labelled_double_checks": 9,
+    "update_labelled_double_cases": 5,
+    "defaults_and_update_ast_unchanged": true,
+    "shell_syntax_and_preserved_guards": true,
+    "restore_template_fp_pin_exact": true,
+    "driver_stage_reporting_mapped": true,
+    "all_python_compiled": true
+  },
+  "frozen_staging_files": 54,
+  "private_driver_sha256": {
+    "probe.py": "250003990f14f872d836ec055b5ae08e129db845aee48f33e56945048bc37ab1",
+    "restore_stage.py": "a6244ab7780b0eb19f67e8d173015ae9f8fc3b3875ad3a87c65352abace755c5",
+    "update_stage.py": "d48a0370acc036b8c7b16f924f7d3b2ea455d96846fe54c925e0eaf7054e1e4e",
+    "sequence_support.py": "a8946d8971afbeb975dc22a3362c68e786b047d9c81e74b477ab04154b84591d",
+    "run.sbatch": "01b41744d2e1566827b6607769f79d0e4c843b62a7bad851b5145d37ad491cac",
+    "rss_watchdog.sh": "f992d0a9349f631213ff8680d2e6e906d3ed065bfaeea31e08b796fb596aa61e",
+    "dir_size.py": "02405c7f7398f3bae88436e0fd2d8af39c1c1f9d13cd2911fd0eb11bf788de27"
+  },
+  "behavior": [
+    "Construct abstract FP32 model/template; restore complete existing state and compare all 156 fingerprint leaves before an update.",
+    "Exactly one legacy-layout update with original sample index 1; persist attempted/accepted calls, all gradient metrics and RNG advancement.",
+    "Synchronously save step 2 before fingerprinting, release state, restore and compare complete state; report partial on insufficient remaining time.",
+    "Preserve original checkpoint; no sampler, new data, desktop, hardware or streaming operations."
+  ],
+  "proposed_limits": {
+    "optimizer_permission": true,
+    "maxwall_s": 1200,
+    "internal_deadline_s": 1170,
+    "kill_grace_s": 10,
+    "gpu_count": 1,
+    "device_kind": "H800",
+    "cpu_requested": 8,
+    "max_logical_cpu_allocated": 16,
+    "requested_host_memory_gib": 128,
+    "sampled_rss_limit_gib": 116,
+    "numeric_threads": 2,
+    "job_submissions": 1,
+    "no_retry": true,
+    "maxoutput_bytes": 51539607552,
+    "full_pi05_max_optimizer_calls": 1,
+    "required_start_step": 1,
+    "max_end_step": 2
+  },
+  "permit_issued": false,
+  "jobs_submitted": 0,
+  "actual_gpu_seconds_this_round": 0,
+  "first_smoke_budget": {
+    "used_gpu_seconds": 1761,
+    "limit_gpu_seconds": 1800,
+    "unchanged": true
+  },
+  "latest_successful_rolling_accounting": {
+    "utc": "2026-11-02T03:07:39.498694+00:00",
+    "project_gpu_seconds": 1802,
+    "separate_proposed_max_seconds": 1200,
+    "rolling_limit_gpu_seconds": 21600,
+    "note": "Other projects excluded; must refresh before any later submission."
+  },
+  "blocker": {
+    "stage": "read-only pre-submit SSH check",
+    "observed": "TCP connection established, remote host closed during key exchange, before authentication; same result with multiplexing disabled for the probe.",
+    "authentication_or_quota_failure_proven": false,
+    "no_borrowed_account_fallback": true
+  },
+  "last_verified_checkpoint_inventory": {
+    "files": 53,
+    "stored_bytes": 31147685638,
+    "note": "Earlier preflight unchanged; no new payload rehash and remote state could not be freshly read at final SSH failure."
+  },
+  "limitations": [
+    "All new orchestration checks are source or explicitly labelled dependency doubles.",
+    "GPU restoration, continuation and new step-2 disk recovery remain unaccepted.",
+    "No learned cursor-accuracy or long-horizon task result."
+  ],
+  "next_step": "When personal SSH works, refresh exact queue/history/checkpoint and rolling accounting; recheck frozen source hashes; issue a new single-use runtime permit, then delegate staging/submission to Kimi."
+}
