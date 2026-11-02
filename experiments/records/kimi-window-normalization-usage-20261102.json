@@ -1,0 +1,57 @@
+{
+  "record_version": "1.0",
+  "id": "kimi-window-normalization-usage-20261102",
+  "timestamp_utc": "2026-11-02T04:16:38.206071+00:00",
+  "requested_model": "kimi-code/kimi-for-coding",
+  "model_note": "K2.8 Preview alias requested; backend version not independently verified",
+  "dispatch_count": 7,
+  "timeouts": 3,
+  "elapsed_seconds": 1206.4,
+  "calls_with_missing_usage": 1,
+  "recorded_usage_known_calls_only": {
+    "input_uncached": 145437,
+    "input_cached": 3432704,
+    "input_cache_write": 0,
+    "output": 33730,
+    "total": 3611871
+  },
+  "per_dispatch": [
+    {
+      "task": "module",
+      "status": "timeout",
+      "elapsed_seconds": 240.1
+    },
+    {
+      "task": "numeric-core",
+      "status": "reported",
+      "elapsed_seconds": 80.3
+    },
+    {
+      "task": "wrapper",
+      "status": "reported",
+      "elapsed_seconds": 217.4
+    },
+    {
+      "task": "tests",
+      "status": "timeout",
+      "elapsed_seconds": 240.1
+    },
+    {
+      "task": "tests-minimal",
+      "status": "timeout",
+      "elapsed_seconds": 150.1
+    },
+    {
+      "task": "tests-guards",
+      "status": "reported",
+      "elapsed_seconds": 102.7
+    },
+    {
+      "task": "real-fit",
+      "status": "reported",
+      "elapsed_seconds": 175.7
+    }
+  ],
+  "rework": "Initial whole-module and broad-test calls timed out without source; split into numeric core, corpus wrapper, minimal tests and negative guards. Minimal-test call timed out after saving source; coordinator independently executed it successfully. Preserved all receipts.",
+  "limits": "Provider records only; interrupted requests may be unreported. Not money, subscription quota, or a measured savings comparison."
+}

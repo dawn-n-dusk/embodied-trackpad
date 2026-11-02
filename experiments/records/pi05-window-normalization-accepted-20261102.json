@@ -1,0 +1,101 @@
+{
+  "record_version": "1.0",
+  "id": "pi05-window-normalization-accepted-20261102",
+  "timestamp_utc": "2026-11-02T04:16:38.206071+00:00",
+  "status": "offline_train_only_statistics_accepted",
+  "baseline_revision": "64f34c01bf6935059d78780307e53a7b73121c84",
+  "source_hashes": {
+    "src/embodied_trackpad/leap_v1/pi05_window_normalization.py": "351d999e94b7a58385b8722e4d988a24f9580a65c4202fb10f0f2db6d0ca04a1",
+    "tests/test_leap_v1_pi05_window_normalization.py": "598550ada83de98af7a7465e8261ddae8e6a0031c9bbf0f75ce76a2b28277893"
+  },
+  "inputs": {
+    "teacher_episodes": 20,
+    "original_control_duration_s": 61.2,
+    "training_windows_per_corpus": {
+      "pilot-audit-integrated-20261101": 381,
+      "diagonal-ft01-audit-20261101": 218
+    },
+    "state_rows": 599,
+    "overlap_weighted_action_references": 14975,
+    "weighting": "one state and 25 absolute references per eligible full train window; overlapping actions intentionally repeated"
+  },
+  "time_contract": {
+    "format_version": "leap-v1-pi05-window-norm-v1",
+    "native_dt_s": 0.002,
+    "target_dt_s": 0.02,
+    "horizon": 25,
+    "horizon_s": 0.5,
+    "action_semantics": "absolute_executed_joint_reference_rad"
+  },
+  "statistics": {
+    "dtype": "float64",
+    "std_ddof": 0,
+    "quantiles": "linear 0.01/0.99",
+    "fit_split": "train",
+    "constant_channel_indices": {
+      "actions": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "state": [
+        4
+      ]
+    },
+    "ordered_training_provenance_sha256": "87269299da803373c543865b1bf201bfdf81bba648a8ec13a67559398724516e",
+    "private_stats_file_sha256": "da15b921f98bf54900a25d0f73e06c55b965a1a22d015f873699a37fbc045984"
+  },
+  "verification": {
+    "first_fit_elapsed_s": 0.353,
+    "two_fits_elapsed_s": 0.689,
+    "deterministic_refit": true,
+    "artifact_bytes": 8991,
+    "independent_artifact_checks": 12,
+    "check_count_note": "Assertions over existing rows/vectors, not independent task scenarios",
+    "focused_tests_passed": 87,
+    "focused_tests_skipped": 1,
+    "skip": "legacy optional host-local corpus path lookup; new two-corpus runtime fit separately checked",
+    "independent_checks": 1239,
+    "independent_method": "raw JSON labels, contiguous 10-row starts, native[9::10] endpoints; Python math.fsum, sorted linear quantiles; no imports from production fitter/assembler",
+    "max_abs_numeric_error": {
+      "state": {
+        "mean": 6.661338147750939e-16,
+        "std": 3.7999638272877964e-16,
+        "q01": 0.0,
+        "q99": 0.0
+      },
+      "actions": {
+        "mean": 6.8833827526759706e-15,
+        "std": 7.632783294297951e-17,
+        "q01": 0.0,
+        "q99": 0.0
+      }
+    },
+    "full_metadata_and_provenance_digest_match": true,
+    "no_png_decoding": true
+  },
+  "runtime_rework": {
+    "initial_attempt": "failed before fitting due to wrong corpus-root resolution; corrected within the bounded operation",
+    "failure_evidence": "Initial failed stdout and path-resolution messages preserved privately; structured failure report was overwritten by success, contrary to the worker summary",
+    "successful_fit_calls": 2,
+    "note": "Worker added one deterministic refit; total numerical fitting time 0.689 seconds"
+  },
+  "limits": [
+    "20 existing teacher episodes only; windows are not independent demonstrations",
+    "Only action channels 0-3 vary; channels 4-15 stay constant",
+    "Statistics fitting does not apply normalization, tokenize, pad, call a model, update an optimizer or run physics",
+    "New 20 ms input type, format/time validation, model adapter and physical closed-loop evaluation remain pending",
+    "Legacy normalization does not automatically distinguish this new stats version; new stats must not be passed through the old native API",
+    "54 frozen GPU continuation files still match their hashes; no runtime permit or GPU submission this heartbeat",
+    "Personal SSH preflight closed before key exchange; current remote queue/checkpoint cannot be freshly confirmed while access is unavailable"
+  ]
+}
