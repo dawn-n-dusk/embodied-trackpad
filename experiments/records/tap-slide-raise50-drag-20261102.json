@@ -1,0 +1,51 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-raise50-drag-20261102",
+  "timestamp_utc": "2026-11-02T11:57:58.806116+00:00",
+  "kind": "user_requested_vertical_lift_and_drag_correction",
+  "status": "scene_and_browser_verified",
+  "source_revision": "cbd0237",
+  "geometry": {
+    "world_z_shift_m": 0.05,
+    "hand_and_attached_camera_shifted": true,
+    "pad_unchanged": true,
+    "palm_height_above_pad_m": 0.09799119,
+    "initial_index_clearance_m": 0.056,
+    "hold_sim_seconds": 10.000000000000009,
+    "minimum_tip_clearance_m": {
+      "index": 0.05120056111463109,
+      "middle": 0.05118308184207693,
+      "ring": 0.059672165612976974,
+      "thumb": 0.06474108348823934
+    },
+    "pad_contact_samples": 0,
+    "max_pad_penetration_m": 0,
+    "warning_counts": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "browser": {
+    "upward_drag_px": 40,
+    "elevation_change_deg": 12,
+    "continuous": true,
+    "deadline": null,
+    "mode": "SIM_PREVIEW_HOLD_POSE"
+  },
+  "tests": {
+    "scene_viewer_passed": 25
+  },
+  "limits": [
+    "Hold-pose verification only; contact reachability and expert trajectories pending independent acceptance",
+    "No optimizer, GPU, hardware, personal-desktop recording or automation resumed"
+  ],
+  "source_sha256": {
+    "src/embodied_trackpad/tap_slide/scene.py": "232c8486d257f879250860add025af531dadbbbc9d2f76bf4ce0fef45e64fbbc",
+    "tools/tap_slide_viewer/viewer.js": "27327e445900190fb6bf9ecccccbedb71816812109880c4bed8099ebfcc01352"
+  }
+}

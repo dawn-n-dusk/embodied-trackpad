@@ -1,5 +1,7 @@
 # Changelog
 
+- Applied the user-confirmed vertical 50 mm hand/camera lift and reversed vertical orbit drag. Verified 25 scene/viewer checks, a clean 10-second hold and actual upward browser drag; preserved continuous preview and delegated contact/expert attempts separately.
+
 - Rebuilt the live viewer with canvas orbit/zoom controls, serialized camera updates, decoded-frame freshness and a responsive layout. Corrected pad yaw, palm inclination and relaxed hand height; preserved the continuous stream and paused training. Published the scene/viewer with53 local focused checks and real browser acceptance.
 
 - Verified user-requested continuous local debug streaming and interactive observation camera; removed the viewer deadline, corrected reset camera geometry, and added separate per-image freshness. Robot pose and training remained unchanged.
