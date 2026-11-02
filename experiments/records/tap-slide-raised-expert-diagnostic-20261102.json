@@ -1,0 +1,303 @@
+{
+  "record_version": "1.0",
+  "id": "tap-slide-raised-expert-diagnostic-20261102",
+  "timestamp_utc": "2026-11-02T12:12:04.643958+00:00",
+  "kind": "independent_review_of_physical_teacher_attempts",
+  "status": "two_failed_episodes_preserved_no_training_acceptance",
+  "base_revision": "cbd0237",
+  "implementation_owner": "Kimi via kimi-handoff; coordinator independent audit",
+  "scope": "Fixed raised scene; actuator-driven CPU MuJoCo only",
+  "dispatches": [
+    {
+      "timeout_s": 900,
+      "elapsed_s": 900.1,
+      "result": "timeout_after_draft_code_and_38_pass_1_fail_software_checks"
+    },
+    {
+      "timeout_s": 300,
+      "elapsed_s": 300.1,
+      "result": "timeout_after_constructor_fix_and_two_saved_failed_physics_episodes"
+    }
+  ],
+  "recorded_session_usage": {
+    "records": 47,
+    "input_uncached": 184534,
+    "input_cached": 4106496,
+    "input_cache_write": 0,
+    "output": 42329,
+    "total": 4333359
+  },
+  "usage_note": "Provider token counts; cached reads included separately; not billing or membership quota. Interrupted unreported requests may be missing.",
+  "attempts": {
+    "collector_invocations": 2,
+    "first_invocation": "constructor_exception_before_physics",
+    "physical_episodes": 2,
+    "accepted_taps": 0,
+    "tap_attempts": 1,
+    "accepted_slides": 0,
+    "slide_attempts": 1
+  },
+  "independent_raw_checks": {
+    "slide_xpos_diag": {
+      "training_eligible": false,
+      "raw_rows": 1451,
+      "trace_rows": 58,
+      "device_rows": 59,
+      "physics_dt_unique": [
+        0.002
+      ],
+      "max_force": 1.852286,
+      "max_penetration_m": 0.00078936,
+      "contact_intervals_at_0_05N": [
+        [
+          0.432,
+          1.466
+        ],
+        [
+          1.472,
+          1.51
+        ],
+        [
+          1.554,
+          1.61
+        ],
+        [
+          1.674,
+          1.714
+        ],
+        [
+          1.756,
+          1.81
+        ],
+        [
+          1.864,
+          1.894
+        ],
+        [
+          1.904,
+          1.958
+        ],
+        [
+          1.976,
+          1.996
+        ],
+        [
+          2.004,
+          2.012
+        ],
+        [
+          2.016,
+          2.058
+        ],
+        [
+          2.128,
+          2.138
+        ],
+        [
+          2.154,
+          2.16
+        ],
+        [
+          2.164,
+          2.208
+        ],
+        [
+          2.304,
+          2.308
+        ],
+        [
+          2.314,
+          2.358
+        ],
+        [
+          2.432,
+          2.436
+        ],
+        [
+          2.454,
+          2.462
+        ],
+        [
+          2.468,
+          2.508
+        ],
+        [
+          2.614,
+          2.658
+        ],
+        [
+          2.726,
+          2.746
+        ],
+        [
+          2.754,
+          2.762
+        ],
+        [
+          2.766,
+          2.81
+        ],
+        [
+          2.882,
+          2.894
+        ]
+      ],
+      "device_clicks": 10,
+      "trace_arrays": {
+        "t": [
+          58
+        ],
+        "ctrl17": [
+          58,
+          17
+        ],
+        "ctrl17_target": [
+          58,
+          17
+        ],
+        "qpos17": [
+          58,
+          17
+        ],
+        "qvel17": [
+          58,
+          17
+        ],
+        "actuator_names": [
+          17
+        ]
+      },
+      "image_arrays": {
+        "wrist": [
+          16,
+          480,
+          640,
+          3
+        ],
+        "wrist_t": [
+          16
+        ],
+        "screen": [
+          16,
+          600,
+          800,
+          3
+        ],
+        "screen_t": [
+          16
+        ]
+      },
+      "source_matches": {
+        "src/embodied_trackpad/tap_slide/scene.py": true,
+        "src/embodied_trackpad/tap_slide/device.py": true,
+        "src/embodied_trackpad/tap_slide/gui.py": true,
+        "src/embodied_trackpad/tap_slide/physical_pilot.py": true,
+        "src/embodied_trackpad/tap_slide/expert.py": true
+      }
+    },
+    "tap_diag": {
+      "training_eligible": false,
+      "raw_rows": 801,
+      "trace_rows": 32,
+      "device_rows": 33,
+      "physics_dt_unique": [
+        0.002
+      ],
+      "max_force": 0.577233,
+      "max_penetration_m": 0.00074802,
+      "contact_intervals_at_0_05N": [
+        [
+          0.432,
+          1.304
+        ]
+      ],
+      "device_clicks": 0,
+      "trace_arrays": {
+        "t": [
+          32
+        ],
+        "ctrl17": [
+          32,
+          17
+        ],
+        "ctrl17_target": [
+          32,
+          17
+        ],
+        "qpos17": [
+          32,
+          17
+        ],
+        "qvel17": [
+          32,
+          17
+        ],
+        "actuator_names": [
+          17
+        ]
+      },
+      "image_arrays": {
+        "wrist": [
+          11,
+          480,
+          640,
+          3
+        ],
+        "wrist_t": [
+          11
+        ],
+        "screen": [
+          11,
+          600,
+          800,
+          3
+        ],
+        "screen_t": [
+          11
+        ]
+      },
+      "source_matches": {
+        "src/embodied_trackpad/tap_slide/scene.py": true,
+        "src/embodied_trackpad/tap_slide/device.py": true,
+        "src/embodied_trackpad/tap_slide/gui.py": true,
+        "src/embodied_trackpad/tap_slide/physical_pilot.py": true,
+        "src/embodied_trackpad/tap_slide/expert.py": true
+      }
+    }
+  },
+  "measured_result": {
+    "tap_raw_threshold_window_s": 0.872,
+    "tap_teacher_reported_window_s": 0.95,
+    "tap_click_count": 0,
+    "tap_window_limit_s": 0.35,
+    "slide_requested_m": 0.003,
+    "slide_reported_peak_centroid_displacement_m": 0.015110155528325264,
+    "slide_reported_endpoint_error_m": 0.015189531107400019,
+    "slide_threshold_contact_segments": 23,
+    "slide_device_clicks": 10,
+    "slide_gui_endpoint_error_px": 2.4934052632344335
+  },
+  "software_checks": {
+    "focused_passed": 39,
+    "does_not_establish_task_success": true
+  },
+  "audit_findings": [
+    "Original constructor missing records argument fixed before physical episodes",
+    "Live scene SHA matches frozen raised source; no base lowering",
+    "Saved actual wrist RGB 640x480 and GUI RGB 800x600 visually inspected",
+    "39 focused tests pass; no expert policy or dataset acceptance",
+    "Teacher-reported tap window uses sampled control timing; raw 500Hz threshold gives 0.872s, both exceed 0.35s",
+    "Device callbacks have one extra terminal row relative to state/action arrays; alignment not accepted",
+    "Past applied ctrl and computed future targets are separately saved, but interval alignment still requires review",
+    "GUI endpoint alone masks broken slide: repeated release/recontact and spurious clicks fail task",
+    "Displacement across contact-loss segments is not a stable continuous slide",
+    "Both episodes remain training_eligible=false",
+    "Collector source contains private asset path and remains an unpublished draft"
+  ],
+  "stream": {
+    "mode": "SIM_PREVIEW_HOLD_POSE",
+    "continuous": true,
+    "expert_attempts_displayed": false
+  },
+  "next_proposed_checkpoint": "Fix release duration and coupled vertical/lateral contact regulation using preserved evidence; correct terminal row/time alignment before collecting success demonstrations. No broad training or batch launched."
+}
