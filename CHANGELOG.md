@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-17: Adopted SharpaWave right hand + full7-DoF arm direction. Extracted14 video-reference groups (13 moving/result pairs and one static card), added source/crop/hash manifests and guarded reproduction tools. Robot-action BC eligibility remains zero; native scene review continues.
+
 - Audited six lower-height contact retries; all stop at the penetration ceiling. Identical applied trajectories expose a late creep threshold, not a validated height comparison. Preserved failures, source snapshots and bounded Kimi usage; no training-ready demonstrations.
 
 - Lowered the hand/camera assembly by the user-requested 30 mm, verified current 26 mm initial fingertip gap and continuous live preview, and dispatched isolated contact retries while preserving prior failures.

@@ -1,0 +1,38 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-video-materials-20261117",
+  "reviewed_utc": "2026-11-17T13:19:41.662813+00:00",
+  "status": "accepted_source_reference_material_only",
+  "sources": [
+    {
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "sha256": "7c5fa763fce19ff7f90501d58ec22cfcbd20e44d741bbf73f4e6a70e9f5d434c",
+      "kind": "creator_hand_pip_plus_screen_recording"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "sha256": "6f35c93de87ab9cbec0cf221fcccb1525b2a1fe90234ea29b48978eda8a35d7c",
+      "kind": "os_instructional_demonstration"
+    }
+  ],
+  "groups": 14,
+  "motion_paired": 13,
+  "static_reference_only": 1,
+  "source_seconds": 178.2,
+  "media_files": 42,
+  "paired_frame_counts_match": true,
+  "media_hashes_verified": true,
+  "robot_action_bc_eligible": 0,
+  "training_started": false,
+  "source_spec": "tools/sharpa_video_episodes.json",
+  "tool_hashes": {
+    "tools/sharpa_video_cut.py": "4070251de2f58d988e8f571a97c85f8b2aa1d0e43beeb2855c481848ccc7c7d6",
+    "tools/sharpa_video_report.py": "ef9396ada9363b06816d1b0e00dcaea8992a941fea2823588747b631f79d4e0a"
+  },
+  "limitations": [
+    "Single-view edited tutorials, not synchronized robot sensors",
+    "No robot joint action or force labels",
+    "Crops can contain caption overlap, occlusion, lifted fingers or mixed gestures",
+    "Third-party videos remain private and are not redistributed in this repository"
+  ]
+}

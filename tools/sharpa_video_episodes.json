@@ -1,0 +1,502 @@
+{
+  "episodes": [
+    {
+      "id": "srcA_a01_click_tap",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 22.8,
+      "end": 26.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "1-finger tap/click",
+        "chapter": "1- und 2-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "App Store window opens within the clip (visible by relative ~3.4s = source ~26.2s); single index finger on pad.",
+      "pairing_confidence": "high",
+      "limitations": "Single-finger core of a mixed demonstration (2-finger segment ~26.5-33s excluded); hand enters frame during first ~0.5s.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a02_two_finger_scroll_article",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 44.0,
+      "end": 66.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "2-finger scroll (article/webpage)",
+        "chapter": "1- und 2-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Article/webpage content scrolls vertically.",
+      "pairing_confidence": "high",
+      "limitations": "Fade-in trimmed from start; PIP instability / thumb-index pinch-like motion after ~66.5s excluded; label reflects dominant gesture.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a03_pinch_rotate",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 75.0,
+      "end": 80.0,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "2-finger pinch + rotate (mixed; page rotates ~45 deg at ~77.5s)",
+        "chapter": "1- und 2-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Fullscreen image rotates (~45 deg at ~77.5s) and zooms.",
+      "pairing_confidence": "high",
+      "limitations": "Mixed 2-finger rotate+zoom; not an isolated pinch. PiP position wobbles slightly within fixed crop.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a04_two_finger_scroll_web",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 83.0,
+      "end": 103.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "2-finger scroll (apple.com iPhone page)",
+        "chapter": "1- und 2-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "apple.com iPhone page scrolls vertically.",
+      "pairing_confidence": "high",
+      "limitations": "PiP position wobbles slightly within fixed crop.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a05_three_finger_swipe",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 106.0,
+      "end": 128.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "3-finger swipe (pages/full-screen apps)",
+        "chapter": "3-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Screen content changes with 3-finger swipes (page/full-screen app switching).",
+      "pairing_confidence": "high",
+      "limitations": "Multiple swipe cycles in one clip; PiP position wobbles slightly within fixed crop.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a06_swipe_139",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 139.5,
+      "end": 150.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "4-finger swipe block 1 (desktop/widgets)",
+        "chapter": "4-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Desktop/widget view changes with 4-finger swipes.",
+      "pairing_confidence": "high",
+      "limitations": "PiP fades briefly mid-clip around calculator widget segments; label reflects dominant content.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a07_swipe_174",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 174.5,
+      "end": 183.0,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "4-finger swipe block 2 (desktop/widgets)",
+        "chapter": "4-Finger-Gesten",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Desktop/widget view changes with 4-finger swipes.",
+      "pairing_confidence": "high",
+      "limitations": "PiP position wobbles slightly within fixed crop.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcA_a08_recap_swipes",
+      "source_file": "srcA_lMqXhcpIXSc.mp4",
+      "url": "https://www.youtube.com/watch?v=lMqXhcpIXSc",
+      "uploader": "Sebtech",
+      "upload_date": "20250624",
+      "start": 187.0,
+      "end": 208.5,
+      "hand_crop": [
+        1235,
+        680,
+        685,
+        400
+      ],
+      "hand_crop_effective": [
+        1234,
+        680,
+        684,
+        400
+      ],
+      "result_crop": null,
+      "labels": {
+        "gesture": "recap: 3/4-finger swipes",
+        "chapter": "Das Wichtigste zusammengefasst",
+        "hand_view": "real_footage_pip",
+        "language": "de"
+      },
+      "source_kind": "creator_hand_pip_plus_screen_recording",
+      "provenance": "creator_hand_pip_plus_screen_recording",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Recap of swipe gestures; screen changes accordingly.",
+      "pairing_confidence": "high",
+      "limitations": "Recap segment mixing several gestures; not isolated single gestures.",
+      "flags_note": "Real hand/pad PiP synchronized with screen on shared source timeline; no robot joints/forces available."
+    },
+    {
+      "id": "srcB_b01_tap_to_click_demo",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 58.5,
+      "end": 64.5,
+      "hand_crop": [
+        1040,
+        600,
+        880,
+        480
+      ],
+      "result_crop": [
+        1040,
+        0,
+        880,
+        600
+      ],
+      "labels": {
+        "gesture": "Tap to click (1 finger, moving OS instructional demo)",
+        "chapter": "Tap to Click",
+        "hand_view": "os_instructional_demonstration",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "App window (photo thumbnails) responds to trackpad tap in producer-composited demonstration.",
+      "pairing_confidence": "medium",
+      "limitations": "Producer-composited OS instructional demo; hand-footage/screen alignment is producer-defined, not sensor-verified; narrator caption overlays part of the hand view, and the hand briefly lifts/moves out of view mid-clip; do not assert fully visible continuous contact.",
+      "flags_note": "macOS built-in instructional demonstration; shared source timeline only; do not infer live control or real camera causality."
+    },
+    {
+      "id": "srcB_b02_secondary_click",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 71.5,
+      "end": 82.0,
+      "hand_crop": [
+        1040,
+        600,
+        880,
+        480
+      ],
+      "result_crop": [
+        1040,
+        0,
+        880,
+        600
+      ],
+      "labels": {
+        "gesture": "Secondary/right click (2-finger click, real hand on trackpad)",
+        "chapter": "Secondary or Right Click",
+        "hand_view": "real_footage",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Right-click context menu appears over image in live screen.",
+      "pairing_confidence": "medium",
+      "limitations": "Real footage within OS instructional video; producer sensor alignment unknown.",
+      "flags_note": "Real footage inside OS instructional demonstration; shared source timeline only."
+    },
+    {
+      "id": "srcB_b03_zoom_real_footage",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 139.5,
+      "end": 147.0,
+      "hand_crop": [
+        1040,
+        600,
+        880,
+        480
+      ],
+      "result_crop": [
+        1040,
+        0,
+        880,
+        600
+      ],
+      "labels": {
+        "gesture": "Pinch to zoom in/out (real hand on MacBook trackpad)",
+        "chapter": "Zoom in or out",
+        "hand_view": "real_footage",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Photos image zooms in/out under pinch gesture.",
+      "pairing_confidence": "medium",
+      "limitations": "Real footage within OS instructional video; producer sensor alignment unknown.",
+      "flags_note": "Real footage inside OS instructional demonstration; shared source timeline only."
+    },
+    {
+      "id": "srcB_b04_scroll",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 150.5,
+      "end": 158.0,
+      "hand_crop": [
+        1040,
+        600,
+        880,
+        480
+      ],
+      "result_crop": [
+        1040,
+        0,
+        880,
+        600
+      ],
+      "labels": {
+        "gesture": "Scroll (2-finger slide, real hand on trackpad)",
+        "chapter": "Scroll",
+        "hand_view": "real_footage",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Architecture article scrolls under 2-finger slide.",
+      "pairing_confidence": "medium",
+      "limitations": "Real footage within OS instructional video; producer sensor alignment unknown.",
+      "flags_note": "Real footage inside OS instructional demonstration; shared source timeline only."
+    },
+    {
+      "id": "srcB_b05_launchpad_card",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 170.0,
+      "end": 181.0,
+      "hand_crop": [
+        1040,
+        0,
+        880,
+        1080
+      ],
+      "result_crop": [
+        0,
+        0,
+        1040,
+        1080
+      ],
+      "labels": {
+        "gesture": "Launchpad (thumb+3-finger pinch) - caption card",
+        "chapter": "Launchpad",
+        "hand_view": "os_instructional_card",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": false,
+      "reference_only": true,
+      "observed_result": "Static caption card with hand photo and animated arrows; no continuous hand motion.",
+      "pairing_confidence": "reference_only",
+      "limitations": "Static illustration card; do not treat as continuous hand motion; excluded from motion-paired counts.",
+      "flags_note": "macOS built-in instructional card; reference only."
+    },
+    {
+      "id": "srcB_b06_swipe_between_pages",
+      "source_file": "srcB_tDa8m3euZU8.mp4",
+      "url": "https://www.youtube.com/watch?v=tDa8m3euZU8",
+      "uploader": "Show Me on Mac",
+      "upload_date": "20210520",
+      "start": 257.5,
+      "end": 278.0,
+      "hand_crop": [
+        1040,
+        600,
+        880,
+        480
+      ],
+      "result_crop": [
+        1040,
+        0,
+        880,
+        600
+      ],
+      "labels": {
+        "gesture": "Swipe between pages (2-finger, real hand on trackpad)",
+        "chapter": "Swipe Between Pages",
+        "hand_view": "real_footage",
+        "language": "en"
+      },
+      "source_kind": "os_instructional_demonstration",
+      "provenance": "os_instructional_demonstration",
+      "visible_hand_motion": true,
+      "reference_only": false,
+      "observed_result": "Web pages swipe left/right (ONES to WATCH / Armin Heinemann pages).",
+      "pairing_confidence": "medium",
+      "limitations": "Real footage within OS instructional video; producer sensor alignment unknown.",
+      "flags_note": "Real footage inside OS instructional demonstration; shared source timeline only."
+    }
+  ]
+}
