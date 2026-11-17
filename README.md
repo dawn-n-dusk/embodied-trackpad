@@ -1,6 +1,6 @@
 # Embodied Trackpad
 
-**2026-11-17 current direction:** SharpaWave **right hand + 7-DoF arm**, screen-facing and wrist cameras; demonstration/BC → student-state corrections → RL, with world-model comparisons later. [Fourteen video-reference groups](docs/video-materials.zh-CN.md) are extracted and reviewed; the native simulator scene is still under review. The videos do not yet contain robot action labels. See [ADR 0011](docs/decisions/0011-sharpa-arm-video-and-learning.zh-CN.md) and [STATUS](STATUS.md). Earlier LEAP/pi0.5 results below retain their historical attribution.
+**2026-11-17 current direction:** SharpaWave **right hand + 7-DoF arm**, screen-facing and wrist cameras; demonstration/BC → student-state corrections → RL, with world-model comparisons later. [Fourteen video-reference groups](docs/video-materials.zh-CN.md) are extracted and reviewed; the [native 29-DoF scene](docs/sharpa-scene.zh-CN.md) has passed a single-environment 14-second scripted motion/rendering check. The videos do not yet contain robot action labels. See [ADR 0011](docs/decisions/0011-sharpa-arm-video-and-learning.zh-CN.md) and [STATUS](STATUS.md). Earlier LEAP/pi0.5 results below retain their historical attribution.
 
 Research software for a robot that operates a computer through physical trackpad interaction and visual feedback.
 
@@ -38,7 +38,7 @@ The [local live viewer](docs/leap-v1-live.md) renders v1 physics with displayed-
 
 The [pad-contact guide](docs/leap-pad.md) and [acceptance record](experiments/records/leap-pad-contact-20261031.json) document the first scripted fingertip cycle. The [model guide](docs/leap-model.md) describes the pinned asset downloader, optional CPU dependencies, runtime probe and calibration limits. Models remain in an ignored cache; the published code does not bundle meshes. [Measured results and failed candidates](experiments/records/leap-v2-cpu-20261031.json) retain the distinction between a scripted diagnostic and an autonomous learned task.
 
-## Design
+## Historical design (LEAP phase)
 
 - LEAP v1 Full is the selected four-finger research target, using 16 XC330 motor channels. Optional [FSR fingertips](docs/hardware/leap-v1-fsr.zh-CN.md) are designed but not built. Existing v2 and Allegro results remain separate regression references. Independently articulated two-finger hardware is a later comparison.
 - MuJoCo CPU reference and NVIDIA GPU batch simulation through MuJoCo Warp, subject to backend validation.

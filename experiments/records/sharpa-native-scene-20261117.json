@@ -1,0 +1,102 @@
+{
+  "id": "sharpa-native-scene-20261117",
+  "timestamp_utc": "2026-11-17T14:20:55.347466+00:00",
+  "status": "accepted_native_scene_and_scripted_motion_only",
+  "run_id": "run-20261117T141130Z",
+  "runtime": {
+    "isaacsim_package": "6.0.1.0",
+    "isaacsim_log": "6.0.1-rc.7",
+    "physics": "CPU PhysX",
+    "render": "single RTX GPU0",
+    "envs": 1
+  },
+  "hand": "SharpaWave right with_flange",
+  "hand_upstream_commit": "d323b371d02f4fc04a0873c19c5234cae6d803dd",
+  "arm": "temporary official Franka Panda; original gripper deactivated",
+  "metrics": {
+    "actual_steps": 1680,
+    "actual_seconds": 14.0,
+    "rows": 841,
+    "dofs": 29,
+    "initial_tip_error_mm": 0.117,
+    "settled_tip_error_mm": 2.212,
+    "weld_position_error_max_m": 9.497991381803808e-08,
+    "contact_proxy_frames": 0
+  },
+  "media": {
+    "overview.mp4": {
+      "width": 1280,
+      "height": 720,
+      "avg_frame_rate": "15/1",
+      "duration": "14.000000",
+      "nb_frames": "210"
+    },
+    "wrist_rgb.mp4": {
+      "width": 640,
+      "height": 480,
+      "avg_frame_rate": "15/1",
+      "duration": "14.000000",
+      "nb_frames": "210"
+    }
+  },
+  "artifact_sha256": {
+    "wrist_rgb.mp4": "81af5040285cac2b2a4d5e4da2fe656d9d31839c391ff39385d16e31e381fc8a",
+    "RESULT.json": "98e690fb158fb454d97133bc6137c5954effdb81e028f86d23d2e2398a44084d",
+    "overview.png": "9e0b7ee6a7f50d4d96cefa8cdfa74e0704540cfdcca355ceb12271bd91324875",
+    "series.jsonl": "15d2174c845f7f01309918afc3e2d1efd1f96616e0b259360f2bc98574b5fe4f",
+    "overview.mp4": "c3c8d17c52d469b3ed7ca123b73570120fdb78c4654f144935e0e043eadf92ae",
+    "screen_rgb.png": "184f2e58113bdf73eea07e07dd1ed4af44b1e26133df312b90293273eb0e3a2b",
+    "wrist_rgb.png": "9bdcd1487b3c198d69e726af7ef0ccf787474f76b061d6dd198399a1bb3dbce5"
+  },
+  "runtime_source_sha256": {
+    "src/embodied_trackpad/sharpa_sim/__init__.py": "3288baf810f07a1016171e021e8bdc1a7a93e56b2f865d56fae402bc6d7cd98c",
+    "src/embodied_trackpad/sharpa_sim/config.py": "02d8d2439804257afd7cb9c80ea8502c8072f6e2831a17e8b6e11a6a31d239ce",
+    "src/embodied_trackpad/sharpa_sim/device.py": "8021ccefd0b90a4477dd425eec8bbee98d27b170d70f118789a1cc658711c348",
+    "src/embodied_trackpad/sharpa_sim/isaac_scene.py": "34a99cf3e7e6d64dc263249c5177aefeb3e57d255c0a50e43cc5c21429b9911f",
+    "src/embodied_trackpad/sharpa_sim/isaac_runner.py": "e942c58354b9c15d797fd04392b7e9e639371677a32000772dad7e65ec041c75",
+    "src/embodied_trackpad/sharpa_sim/kinematics.py": "9fc5843d4cbf6af359716018f840cdf3b3d348ee9dea19a4feba478a8311bdf7",
+    "tests/test_sharpa_sim_config.py": "8a13b261882a1c18c2b1edcd784457abc4a2a7ed71d8c8dcaf76406eec11dbfd",
+    "tests/test_sharpa_sim_device.py": "93b1e0084a4bfcc301dcc3331e2a51537193f2ae3218efcd287ba730ac529577"
+  },
+  "integrated_source_sha256": {
+    "src/embodied_trackpad/sharpa_sim/__init__.py": "3288baf810f07a1016171e021e8bdc1a7a93e56b2f865d56fae402bc6d7cd98c",
+    "src/embodied_trackpad/sharpa_sim/config.py": "28a168033b44cef444fcec277293d0de11e66b7df7cb96923b1de95fd7214ca5",
+    "src/embodied_trackpad/sharpa_sim/device.py": "8021ccefd0b90a4477dd425eec8bbee98d27b170d70f118789a1cc658711c348",
+    "src/embodied_trackpad/sharpa_sim/isaac_scene.py": "34a99cf3e7e6d64dc263249c5177aefeb3e57d255c0a50e43cc5c21429b9911f",
+    "src/embodied_trackpad/sharpa_sim/isaac_runner.py": "e942c58354b9c15d797fd04392b7e9e639371677a32000772dad7e65ec041c75",
+    "src/embodied_trackpad/sharpa_sim/kinematics.py": "7366c2c1c8c6cce95c55b0945940301063179533da88dfa7a013c807a5c2361f",
+    "tests/test_sharpa_sim_config.py": "8a13b261882a1c18c2b1edcd784457abc4a2a7ed71d8c8dcaf76406eec11dbfd",
+    "tests/test_sharpa_sim_device.py": "93b1e0084a4bfcc301dcc3331e2a51537193f2ae3218efcd287ba730ac529577"
+  },
+  "coordinator_source_changes": "documentation-only: NumPy/SciPy dependency wording, verification reference, base-yaw comment",
+  "checks": {
+    "config_device_tests_passed": 35,
+    "kinematics": "independent CPU SO3 pi-angle and actual fingertip/orientation checks",
+    "visual": "three images independently viewed",
+    "data": "29 finite joint positions/velocities; monotonic actual clock;210 frames/15fps/14s each"
+  },
+  "not_accepted": [
+    "robot BC data",
+    "learned policy",
+    "tap or slide success",
+    "real contact force",
+    "real Mac/VM interaction",
+    "batch training",
+    "generalized placement"
+  ],
+  "limitations": [
+    "single default scene only",
+    "scripted hover/sway/index curl",
+    "geometric device proxy uncalibrated",
+    "no Gym reset/step interface",
+    "no Isaac Lab integration"
+  ],
+  "prior_candidates_preserved": [
+    "run-e1-s0",
+    "run-20261117T130216Z",
+    "run-20261117T134318Z",
+    "run-20261117T135135Z",
+    "run-20261117T140229Z",
+    "run-20261117T140716Z"
+  ]
+}

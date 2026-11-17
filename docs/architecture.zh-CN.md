@@ -1,4 +1,4 @@
-> 2026-11-17 当前方向以 [ADR 0011](decisions/0011-sharpa-arm-video-and-learning.zh-CN.md) 为准：SharpaWave 右手＋完整7轴机械臂，屏幕相机＋腕部相机；示范/BC与学生状态纠错后明确进入RL，世界模型另作对照。当前搭建采用原生Isaac系仿真候选，尚待实际运行验收。下面LEAP、pi0.5及条件式RL的选型描述作为历史保留，不覆盖本次用户决定。
+> 2026-11-17 当前方向以 [ADR 0011](decisions/0011-sharpa-arm-video-and-learning.zh-CN.md) 为准：SharpaWave 右手＋完整7轴机械臂，屏幕相机＋腕部相机；示范/BC与学生状态纠错后明确进入RL，世界模型另作对照。[原生 Isaac 场景](sharpa-scene.zh-CN.md)已通过单环境、29自由度、14秒脚本运动与三路画面验收；CPU PhysX与单卡RTX渲染，不代表接触任务、BC或批量训练成功。下面LEAP、pi0.5及条件式RL的选型描述作为历史保留，不覆盖本次用户决定。
 
 > 历史范围（2026-11-02）见 [ADR 0010](decisions/0010-wrist-tap-slide-system.zh-CN.md)：16手指＋1腕部俯仰、腕部与屏幕双图、显式模拟触控反馈，先点按和滑动。本段保留历史；现行方向以上方2026-11-17决定和STATUS为准。
 
