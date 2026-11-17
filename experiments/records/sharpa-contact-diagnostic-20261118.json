@@ -1,0 +1,35 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-contact-diagnostic-20261118",
+  "timestamp_utc": "2026-11-17T19:48:53.870367+00:00",
+  "status": "completed_without_fingertip_contact_not_training_eligible",
+  "simulation_steps_reported": 1506,
+  "simulation_seconds_reported": 12.55,
+  "independent_trace": {
+    "rows": 751,
+    "joints_per_row": 29,
+    "finite_state_rows": 751,
+    "finger_observations": 3755,
+    "contact_pairs": 0,
+    "max_force_n": 0.0
+  },
+  "visual_review": [
+    "overview",
+    "wrist_rgb",
+    "screen_rgb"
+  ],
+  "rejected_result_field": {
+    "name": "any_real_contact",
+    "reported": true,
+    "reason": "Counts valid sensor frames rather than contact pairs/forces"
+  },
+  "limitations": [
+    "direct joint-target diagnostic, not autonomous policy",
+    "GUI device loop not validated",
+    "reported4.33mm is rigid-body-reference-point height, not measured collision-surface clearance",
+    "environment and worldmodel candidates remain unaccepted"
+  ],
+  "accepted_bc_episodes": 0,
+  "formal_optimizer_updates": 0,
+  "superpod_new_jobs": 0
+}
