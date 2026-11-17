@@ -28,3 +28,15 @@ Sharpa 上并非 BPTT 普遍更好：作者报告 CubeMedium 达 99.78%，而 wa
 触控板有相对位移、落指基准、点按计时、移动阈值和释放等记忆，必须用时间状态或显式设备记忆建模。只预测下一帧画面或关节位置不足以解释点击。接触切换和点击采用的可微近似必须与真实设备适配器分别验证，最终成功由实际接触及 GUI 结果决定。[Sharpa 迁移方法的真实/想象语义处理](https://github.com/Hxxxz0/Supermimic-dex/blob/c5c9f5ca2923d6c63641f9a3ff453b3b62ebaf6c/docs/METHOD.md)
 
 本轮采用相同初始数据和独立测试，分别记录 BC、纠错、PPO 与 BPTT 策略的实际交互量、模型更新和完整成功率。先检验时间展开、动作梯度、接触预测与真实闭环，再提高并行规模；论文的人形加速比不作为本项目的预计加速比。
+
+## 迁移实现的数学验收
+
+有限时域 actor 目标采用
+
+$$J=\sum_{t=0}^{H-1}\gamma^t\left(\prod_{k=0}^{t-1}c_k\right)r_t+\gamma^H\left(\prod_{k=0}^{H-1}c_k\right)V(s_H).$$
+
+这里的空乘积为 1。末端价值包含全部 H 个 continuation；固定 critic 参数时仍保留价值对末端状态的梯度。critic 的递归目标为
+
+$$G_t=r_t+\gamma c_t\big[(1-\lambda)V(s_{t+1})+\lambda G_{t+1}\big],\qquad G_H=V(s_H).$$
+
+用于 critic 拟合的目标与输入状态脱离 actor 图。三个可手算检查为：一步终止后的价值贡献应为 0；奖励 `[1,2]`、折扣与 lambda 均为 1、末端价值为 0 时，目标应为 `[3,2]`；只有末端价值依赖动作时，actor 仍应获得非零梯度。这些是软件正确性检查，不是机器人训练或任务成功。

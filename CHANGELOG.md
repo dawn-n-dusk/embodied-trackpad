@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-18: Added the experimental visual BC/correction/PPO module with 14 independently passing software checks; documented SuperMimic transfer and analytical BPTT acceptance. Physical integration, new demonstrations and formal training remain unaccepted.
+
 - 2026-11-17: Integrated the official Sharpa right hand with a complete temporary 7-DoF Panda arm. Independently verified a29-DoF,14-second native scene, clear screen/wrist views and correctly timed videos. Preserved prior failures; no contact-task success or learned-policy claim.
 
 - 2026-11-17: Adopted SharpaWave right hand + full7-DoF arm direction. Extracted14 video-reference groups (13 moving/result pairs and one static card), added source/crop/hash manifests and guarded reproduction tools. Robot-action BC eligibility remains zero; native scene review continues.

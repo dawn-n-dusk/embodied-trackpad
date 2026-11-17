@@ -1,0 +1,36 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-bcppo-software-reviewed-20261118",
+  "timestamp_utc": "2026-11-17T19:36:45.755812+00:00",
+  "status": "experimental_software_checks_passed_physical_integration_pending",
+  "tests": {
+    "passed": 14,
+    "failed": 0,
+    "fixtures": "software_only",
+    "independently_rerun": true
+  },
+  "source_sha256": {
+    "src/embodied_trackpad/sharpa_learning/bc_ppo.py": "e528c06505f98055d31c21dac3d85e9d31eea2d66c1f2c29aafbbe1d3764debf",
+    "tests/test_bc_ppo.py": "6e55dabfbf3d1f8f2194028f4ee70e658e6146d615882808aea255002378f653"
+  },
+  "formal_training": {
+    "accepted_episodes": 0,
+    "optimizer_updates": 0,
+    "heldout_physics_evaluations": 0
+  },
+  "coverage": [
+    "29-channel actor and recurrent PPO rollout",
+    "unchanged-policy probability ratio",
+    "terminal versus timeout GAE",
+    "dataset hashes, alignment and actor whitelist",
+    "uninterrupted versus resumed BC updates",
+    "student-state correction format and measured timestamps"
+  ],
+  "not_validated": [
+    "real SharpaEnv integration",
+    "GPU training",
+    "autonomous point-and-click performance",
+    "batch resource/deadline orchestration"
+  ],
+  "dependencies": "PyTorch optional; tests skip explicitly when absent"
+}
