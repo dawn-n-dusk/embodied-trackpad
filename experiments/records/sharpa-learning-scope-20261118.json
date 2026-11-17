@@ -1,0 +1,17 @@
+{
+  "id": "sharpa-learning-scope-20261118",
+  "timestamp_utc": "2026-11-17T19:07:57.066154+00:00",
+  "kind": "authorized_parallel_learning_scope_and_source_review",
+  "status": "implementation_in_progress_not_training_acceptance",
+  "source_revision": "1a585744773a281cf6da59a02a630dd8fa0971dd",
+  "routes": [
+    "visual_bc_corrections_ppo",
+    "visual_supermimic_style_world_model_bptt"
+  ],
+  "accepted_new_bc_episodes": 0,
+  "formal_optimizer_updates": 0,
+  "scope": "docs/decisions/0012-parallel-world-model-and-bc-ppo.zh-CN.md",
+  "source_review": "docs/research/2026-11-18-supermimic-transfer.zh-CN.md",
+  "upstream_claims_reproduced": false,
+  "physical_hardware_started": false
+}
