@@ -71,7 +71,7 @@ def collect_episode(env: SharpaEnv, expert, episode_dir: str,
             truncated = True
         writer.add_step(action, info, reward, terminated, truncated)
         writer.add_observation(obs, sim_time=sim_time)
-        if terminated:
+        if terminated or truncated:
             break
     # success requires explicit on-target click AND clean lift, not raw
     # termination (which may be a safety/limit failure in future variants).

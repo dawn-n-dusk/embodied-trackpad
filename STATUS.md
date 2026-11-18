@@ -1,5 +1,7 @@
 # Current status
 
+2026-11-18 actual learning: **BC completed 20,000 optimizer steps on 69 successful native expert episodes / 10,217 actions; world model completed 2,000 dynamics + 5,000 actor + 5,000 critic steps.** Initial BC64 native evaluation was0/2; WM actor reported1/2 with limited trace evidence and worse prediction errors than persistence. Expanded BC evaluation is pending. 98 focused software checks pass; actual DAgger/PPO updates remainzero. [Results, provenance and limits](docs/experiments/2026-11-18-sharpa-first-learning.zh-CN.md). Earlier milestone counts below remain historical.
+
 2026-11-18 continuation: real finger-body contact and final release independently observed; learning-module integration passes **50 focused software checks**. This diagnostic does not execute GUI actions and is not BC-eligible. Formal new Sharpa training remains zero at this milestone. [Evidence and limits](docs/experiments/2026-11-18-sharpa-contact-and-worldmodel.zh-CN.md).
 
 2026-11-18 contact diagnostic: a new native run completed1506 physics steps /12.55 simulation seconds, but independent review of751 records found **zero fingertip-pad contact pairs and zero force**. The reported `any_real_contact=true` incorrectly counted valid sensor frames and is rejected. This is not a successful touch demonstration; formal training remains zero. [Diagnostic record](experiments/records/sharpa-contact-diagnostic-20261118.json).

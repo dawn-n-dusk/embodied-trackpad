@@ -675,10 +675,11 @@ def open_loop_eval(model: SharpaWorldModel, episodes: Sequence[Episode],
                    samples_per_episode: int = 4) -> Dict[str, Any]:
     """Multi-step action-conditioned prediction error vs persistence baseline.
 
-    Persistence predicts proprio/touch/reward stay at their rollout-start
-    values (zero delta). The model roll consumes only actions after the start
-    frame. Reports per-horizon MSE on proprio, touch (contact), reward and
-    1-step latent embedding.
+    Persistence predicts proprio/touch stay at their rollout-start values and
+    reward stays at the last observed value (reward[start-1], with start>=1).
+    The model rollout consumes only actions after the start frame. Reports
+    per-horizon MSE on proprio, touch (contact), reward and k-step latent
+    embedding.
     """
     model.eval()
     dev = next(model.parameters()).device
@@ -688,15 +689,17 @@ def open_loop_eval(model: SharpaWorldModel, episodes: Sequence[Episode],
             "persistence_proprio": [], "persistence_touch": [],
             "persistence_reward": []}
         for k in horizons}
+    max_h = max(horizons)
     for ep in episodes:
-        if ep.T < max(horizons) + 2:
+        if ep.T < max_h + 2:
             continue
         for _ in range(samples_per_episode):
-            start = int(rng.integers(0, ep.T - max(horizons)))
+            # start >= 1 so a valid last-observed reward exists for the
+            # persistence baseline; the rollout still has max_h future steps.
+            start = int(rng.integers(1, ep.T - max_h))
             obs0 = ep.actor_obs(start)
             e0 = model.encode_obs_dict(obs0)
             h = model.advance(model.init_state(1), e0)
-            max_h = max(horizons)
             acts = torch.as_tensor(
                 ep.arrays["action"][start:start + max_h],
                 dtype=torch.float32, device=dev)
@@ -704,9 +707,14 @@ def open_loop_eval(model: SharpaWorldModel, episodes: Sequence[Episode],
             for k in horizons:
                 pred_reward = imagined["reward"][0, k - 1].item()
                 hh = h
-                for t in range(k):
+                for t in range(k - 1):
                     pred = model.predict(hh, acts[t].unsqueeze(0))
                     hh = model.advance(hh, pred["next_emb"].mean(dim=0))
+                # k-step latent prediction: embedding predicted for the final
+                # transition (start+k-1 -> start+k), not a fixed 1-step embedding.
+                pred_emb = model.predict(hh, acts[k - 1].unsqueeze(0))["next_emb"].mean(dim=0)
+                pred = model.predict(hh, acts[k - 1].unsqueeze(0))
+                hh = model.advance(hh, pred["next_emb"].mean(dim=0))
                 recon = model.reconstruct(hh)["proprio_touch"][0]
                 pred_proprio = recon[:PROPRIO_DIM].cpu().numpy()
                 pred_touch = recon[PROPRIO_DIM:PROPRIO_DIM + TOUCH_DIM].cpu().numpy()
@@ -715,7 +723,7 @@ def open_loop_eval(model: SharpaWorldModel, episodes: Sequence[Episode],
                 true_reward = float(ep.arrays["reward"][start + k - 1])
                 base_proprio = obs0["proprio"]
                 base_touch = obs0["touch"]
-                base_reward = float(ep.arrays["reward"][start])
+                base_reward = float(ep.arrays["reward"][start - 1])
                 acc[k]["proprio"].append(float(np.mean((pred_proprio - true_proprio) ** 2)))
                 acc[k]["touch"].append(float(np.mean((pred_touch - true_touch) ** 2)))
                 acc[k]["reward"].append((pred_reward - true_reward) ** 2)
@@ -725,7 +733,6 @@ def open_loop_eval(model: SharpaWorldModel, episodes: Sequence[Episode],
                     float(np.mean((base_touch - true_touch) ** 2)))
                 acc[k]["persistence_reward"].append((base_reward - true_reward) ** 2)
                 e_true_next = model.encode_obs_dict(ep.actor_obs(start + k))
-                pred_emb = model.predict(h, acts[0].unsqueeze(0))["next_emb"].mean(dim=0)
                 acc[k]["latent"].append(float(F.mse_loss(pred_emb, e_true_next).item()))
     out: Dict[str, Any] = {"horizons": {}}
     for k in horizons:

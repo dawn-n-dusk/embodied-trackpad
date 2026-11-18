@@ -12,6 +12,8 @@ import numpy as np
 import pytest
 torch = pytest.importorskip("torch")
 
+from types import SimpleNamespace
+
 from embodied_trackpad.sharpa_learning.bc_ppo import (
     ACTION_DIM,
     PROPRIO_DIM,
@@ -19,10 +21,12 @@ from embodied_trackpad.sharpa_learning.bc_ppo import (
     TOUCH_VALID_DIM,
     IMAGE_SIZE,
     ContractError,
+    Episode,
     HistoryActorCritic,
     ModelConfig,
     PPOConfig,
     bc_loss,
+    build_arg_parser,
     collect_ppo_rollout,
     compute_gae,
     gather_corrections,
@@ -33,6 +37,7 @@ from embodied_trackpad.sharpa_learning.bc_ppo import (
     save_checkpoint,
     train_bc,
     _obs_to_tensors,
+    _teacher_label_valid,
 )
 
 torch.set_num_threads(2)
@@ -63,7 +68,8 @@ def small_cfg() -> ModelConfig:
     )
 
 
-def make_arrays(T: int, seed: int = 0, eligible: bool = True, image_size: int = IMAGE_SIZE) -> dict:
+def make_arrays(T: int, seed: int = 0, eligible: bool = True, image_size: int = IMAGE_SIZE,
+                source_kind: str = "sim_geometric_expert") -> dict:
     rng = np.random.default_rng(seed)
     arrays = {
         "screen_rgb": rng.integers(0, 256, size=(T + 1, image_size, image_size, 3), dtype=np.uint8),
@@ -75,16 +81,22 @@ def make_arrays(T: int, seed: int = 0, eligible: bool = True, image_size: int = 
         "reward": rng.normal(size=(T,)).astype(np.float32),
         "terminated": np.zeros((T,), dtype=np.uint8),
         "truncated": np.zeros((T,), dtype=np.uint8),
-        "sim_time": np.arange(T + 1, dtype=np.float32) * 0.05 + 1.0,
+        "sim_time": np.arange(T + 1, dtype=np.float64) * 0.05 + 1.0,
         "executed_q_ref": rng.normal(size=(T, ACTION_DIM)).astype(np.float32),
     }
     if not eligible:
         arrays["touch_valid"] = np.zeros((T + 1, TOUCH_VALID_DIM), dtype=np.uint8)
+    if source_kind == "student_rollin_correction":
+        arrays["teacher_action"] = rng.uniform(-1, 1, size=(T, ACTION_DIM)).astype(np.float32)
+        arrays["teacher_valid"] = np.ones((T,), dtype=np.uint8)
+        if not eligible:
+            arrays["teacher_valid"] = np.zeros((T,), dtype=np.uint8)
     return arrays
 
 
 def write_episode(ep_dir: Path, arrays: dict, seed: int = 0, split: str = "train",
-                  eligible: bool = True, manifest_overrides: dict | None = None) -> Path:
+                  eligible: bool = True, manifest_overrides: dict | None = None,
+                  source_kind: str = "sim_geometric_expert") -> Path:
     ep_dir = Path(ep_dir)
     ep_dir.mkdir(parents=True, exist_ok=True)
     np.savez(ep_dir / "trajectory.npz", **arrays)
@@ -93,7 +105,7 @@ def write_episode(ep_dir: Path, arrays: dict, seed: int = 0, split: str = "train
     manifest = {
         "schema": "sharpa-learning-v1",
         "episode_id": ep_dir.name,
-        "source_kind": "sim_geometric_expert",
+        "source_kind": source_kind,
         "action_names": [f"a{i}" for i in range(ACTION_DIM)],
         "delta_scale": [0.1] * ACTION_DIM,
         "joint_limits": [[-1.0] * ACTION_DIM, [1.0] * ACTION_DIM],
@@ -442,3 +454,337 @@ def test_obs_to_tensors_rejects_missing_and_extra_keys():
     obs["extra"] = np.zeros(1)
     with pytest.raises(ContractError):
         _obs_to_tensors(obs, cfg, torch.device("cpu"))
+
+
+# ---------------------------------------------------------------------------
+# Correction-learning integrity
+# ---------------------------------------------------------------------------
+
+def test_correction_bc_target_uses_teacher_action():
+    """For student_rollin_correction the BC label is teacher_action, not action."""
+    cfg = small_cfg()
+    T = 3
+    arrays = make_arrays(T, source_kind="student_rollin_correction")
+    arrays["action"][:] = 0.7
+    arrays["teacher_action"][:] = -0.7
+    with tempfile.TemporaryDirectory() as td:
+        ep_dir = write_episode(Path(td) / "cor", arrays, source_kind="student_rollin_correction")
+        ep = Episode.load(ep_dir)
+        tensors = ep.bc_batch_tensors(cfg, torch.device("cpu"))
+        assert torch.allclose(tensors["action"], torch.full((T, ACTION_DIM), -0.7))
+        batch = pad_episodes([ep], cfg, torch.device("cpu"))
+        assert torch.allclose(batch["action"], torch.full((1, T, ACTION_DIM), -0.7))
+        assert torch.allclose(batch["mask"], torch.ones(1, T))
+
+
+def test_correction_invalid_teacher_step_masked():
+    """teacher_valid=0 steps must be masked out in the BC batch."""
+    cfg = small_cfg()
+    T = 4
+    arrays = make_arrays(T, source_kind="student_rollin_correction")
+    arrays["teacher_valid"] = np.array([1, 0, 0, 1], dtype=np.uint8)
+    with tempfile.TemporaryDirectory() as td:
+        ep_dir = write_episode(Path(td) / "cor", arrays, source_kind="student_rollin_correction")
+        ep = Episode.load(ep_dir)
+        batch = pad_episodes([ep], cfg, torch.device("cpu"))
+        expected = torch.tensor([[1.0, 0.0, 0.0, 1.0]])
+        assert torch.allclose(batch["mask"], expected)
+
+
+def test_train_bc_rejects_ordinary_expert_as_corrections(tmp_path):
+    """Passing a non-correction dataset as --corrections must fail."""
+    cfg = small_cfg()
+    ds_root = tmp_path / "ds"
+    ep_dir = write_episode(ds_root / "ep", make_arrays(T=4, seed=1))
+    idx_path = write_dataset(ds_root, [ep_dir])
+    dataset = load_dataset(idx_path)
+
+    corr_root = tmp_path / "cor"
+    corr_ep = write_episode(corr_root / "ord", make_arrays(T=4, seed=2))
+    corr_idx = write_dataset(corr_root, [corr_ep])
+
+    with pytest.raises(ContractError, match="corrections must be student_rollin_correction"):
+        train_bc(dataset, tmp_path / "out", steps=1, seed=7, cfg=cfg,
+                 corrections=[corr_idx], batch_episodes=1, lr=1e-3)
+
+
+def test_correction_episode_requires_teacher_arrays():
+    arrays = make_arrays(T=3, source_kind="student_rollin_correction")
+    del arrays["teacher_action"]
+    with tempfile.TemporaryDirectory() as td:
+        ep_dir = write_episode(Path(td) / "cor", arrays, source_kind="student_rollin_correction")
+        with pytest.raises(ContractError, match="correction episode missing teacher_action"):
+            load_dataset(write_dataset(Path(td), [ep_dir]))
+
+
+def test_correction_eligible_requires_one_valid():
+    arrays = make_arrays(T=3, source_kind="student_rollin_correction")
+    arrays["teacher_valid"] = np.zeros((3,), dtype=np.uint8)
+    with tempfile.TemporaryDirectory() as td:
+        ep_dir = write_episode(Path(td) / "cor", arrays, source_kind="student_rollin_correction", eligible=True)
+        with pytest.raises(ContractError, match="no teacher_valid==1"):
+            load_dataset(write_dataset(Path(td), [ep_dir]))
+
+
+class FakeEligibilityEnv(FakeCorrectionEnv):
+    """Alternates valid/invalid labels across rollouts via teacher._phase."""
+
+    def __init__(self, cfg: ModelConfig, rng: np.random.Generator, max_steps: int = 3):
+        super().__init__(cfg, rng, max_steps=max_steps)
+        self._rollout_count = -1
+        self.teacher = type("Teacher", (), {"_phase": "ok"})()
+
+    def reset(self, seed=None, options=None):
+        self._rollout_count += 1
+        self.teacher._phase = "ok" if self._rollout_count % 2 == 0 else "fail"
+        return super().reset(seed=seed, options=options)
+
+
+def test_gather_corrections_per_episode_eligibility_preserved(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakeEligibilityEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    corr_idx = gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=4, seed=1, max_steps=3)
+    bundle = load_dataset(corr_idx)
+    assert len(bundle.episodes) == 4
+    # Rollouts alternate eligible/ineligible, so two True and two False.
+    eligibilities = [ep.training_eligible_for_bc for ep in bundle.episodes]
+    assert eligibilities.count(True) == 2
+    assert eligibilities.count(False) == 2
+
+
+class FakeSystemExitEnv(FakeCorrectionEnv):
+    def close(self):
+        raise SystemExit("simulator fast shutdown")
+
+
+def test_gather_corrections_writes_index_before_systemexit_close(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakeSystemExitEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    with pytest.raises(SystemExit):
+        gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+
+    index_path = tmp_path / "corr" / "corrections.json"
+    assert index_path.is_file()
+    bundle = load_dataset(index_path)
+    assert len(bundle.episodes) == 1
+
+
+class FakePhaseFailEnv(FakeCorrectionEnv):
+    def __init__(self, cfg: ModelConfig, rng: np.random.Generator, max_steps: int = 3):
+        super().__init__(cfg, rng, max_steps=max_steps)
+        self.teacher = type("Teacher", (), {"_phase": "fail"})()
+
+    def expert_action(self):
+        # Legal zero label that must still be rejected because teacher is in fail phase.
+        return np.zeros(ACTION_DIM, dtype=np.float64)
+
+
+def test_gather_corrections_teacher_phase_fail_invalidates_label(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakePhaseFailEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    corr_idx = gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+    bundle = load_dataset(corr_idx)
+    ep = bundle.episodes[0]
+    assert ep.arrays["teacher_valid"].sum() == 0
+    assert not ep.training_eligible_for_bc
+
+
+class FakeExplicitInvalidEnv(FakeCorrectionEnv):
+    def __init__(self, cfg: ModelConfig, rng: np.random.Generator, max_steps: int = 3):
+        super().__init__(cfg, rng, max_steps=max_steps)
+        self.expert_label_valid = False
+
+    def expert_action(self):
+        return np.zeros(ACTION_DIM, dtype=np.float64)
+
+
+def test_gather_corrections_expert_label_valid_false_invalidates(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakeExplicitInvalidEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    corr_idx = gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+    bundle = load_dataset(corr_idx)
+    ep = bundle.episodes[0]
+    assert ep.arrays["teacher_valid"].sum() == 0
+    assert not ep.training_eligible_for_bc
+
+
+def test_gather_corrections_refuses_overwrite(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    # Pre-create the episode directory and trajectory.npz that gather_corrections would write.
+    existing = tmp_path / "corr" / "episodes" / "corrections-0000"
+    existing.mkdir(parents=True)
+    np.savez(existing / "trajectory.npz", dummy=np.zeros(1))
+
+    def factory():
+        return FakeCorrectionEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    with pytest.raises(ContractError, match="refusing to overwrite"):
+        gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+
+
+def test_gather_corrections_sim_time_float64(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakeCorrectionEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    corr_idx = gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+    bundle = load_dataset(corr_idx)
+    assert bundle.episodes[0].arrays["sim_time"].dtype == np.float64
+
+
+def test_feedback_expert_v1_source_kind_accepted(tmp_path):
+    arrays = make_arrays(T=3, source_kind="feedback_expert_v1")
+    ep_dir = write_episode(tmp_path / "fb", arrays, source_kind="feedback_expert_v1")
+    bundle = load_dataset(write_dataset(tmp_path, [ep_dir]))
+    assert bundle.episodes[0].source_kind == "feedback_expert_v1"
+
+
+def test_train_bc_correction_counts_valid_steps_only(tmp_path):
+    """correction_steps must count teacher_valid==1 steps, not all frames."""
+    cfg = small_cfg()
+    ds_root = tmp_path / "ds"
+    ep_dir = write_episode(ds_root / "ep", make_arrays(T=4, seed=1))
+    idx_path = write_dataset(ds_root, [ep_dir])
+    dataset = load_dataset(idx_path)
+
+    corr_arrays = make_arrays(T=5, source_kind="student_rollin_correction")
+    corr_arrays["teacher_valid"] = np.array([1, 1, 0, 0, 1], dtype=np.uint8)
+    corr_ep = write_episode(tmp_path / "cor" / "c0", corr_arrays, source_kind="student_rollin_correction")
+    corr_idx = write_dataset(tmp_path / "cor", [corr_ep])
+
+    out = tmp_path / "out"
+    train_bc(dataset, out, steps=1, seed=7, cfg=cfg, corrections=[corr_idx],
+             batch_episodes=1, lr=1e-3, checkpoint_every=100)
+
+    log_lines = (out / "train_log.jsonl").read_text(encoding="utf-8").strip().split("\n")
+    begin = json.loads(log_lines[0])
+    assert begin["event"] == "train_begin"
+    assert begin["data_counts"]["correction_steps"] == 3
+
+
+def test_train_bc_rejects_duplicate_correction_id(tmp_path):
+    cfg = small_cfg()
+    ds_root = tmp_path / "ds"
+    base_ep = write_episode(ds_root / "ep", make_arrays(T=4, seed=1))
+    idx_path = write_dataset(ds_root, [base_ep])
+    dataset = load_dataset(idx_path)
+
+    corr_arrays = make_arrays(T=4, source_kind="student_rollin_correction")
+    corr_ep = write_episode(tmp_path / "cor" / "ep", corr_arrays, source_kind="student_rollin_correction")
+    corr_idx = write_dataset(tmp_path / "cor", [corr_ep])
+
+    with pytest.raises(ContractError, match="duplicates an already-used episode"):
+        train_bc(dataset, tmp_path / "out", steps=1, seed=7, cfg=cfg,
+                 corrections=[corr_idx], batch_episodes=1, lr=1e-3)
+
+
+# ---------------------------------------------------------------------------
+# Coordinator second-review cases
+# ---------------------------------------------------------------------------
+
+def test_teacher_label_valid_calls_callable_false():
+    """Callable expert_label_valid returning False must invalidate the label."""
+    env = SimpleNamespace(expert_label_valid=lambda: False)
+    expert = np.zeros(ACTION_DIM, dtype=np.float64)
+    assert not _teacher_label_valid(env, None, expert)
+
+
+def test_gather_corrections_factory_exception_preserved(tmp_path):
+    """A factory RuntimeError must propagate unchanged, not become UnboundLocalError."""
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        raise RuntimeError("factory_sentinel")
+
+    with pytest.raises(RuntimeError, match="factory_sentinel"):
+        gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+
+
+class FakeToggleValidEnv(FakeCorrectionEnv):
+    """Pre-step flag is False; post-step info flag is True (must stay invalid)."""
+
+    def __init__(self, cfg: ModelConfig, rng: np.random.Generator, max_steps: int = 3):
+        super().__init__(cfg, rng, max_steps=max_steps)
+        self.expert_label_valid = False
+
+    def step(self, action):
+        obs, reward, terminated, truncated, info = super().step(action)
+        info["expert_label_valid"] = True
+        return obs, reward, terminated, truncated, info
+
+
+def test_gather_corrections_pre_invalid_and_post_valid_stays_invalid(tmp_path):
+    cfg = small_cfg()
+    model = HistoryActorCritic(cfg)
+    ckpt = tmp_path / "ckpt.pt"
+    save_checkpoint(ckpt, model, None, cfg, "bc", 0, {})
+
+    def factory():
+        return FakeToggleValidEnv(cfg, np.random.default_rng(0), max_steps=3)
+
+    corr_idx = gather_corrections(factory, ckpt, tmp_path / "corr", rollouts=1, seed=1, max_steps=3)
+    bundle = load_dataset(corr_idx)
+    ep = bundle.episodes[0]
+    assert ep.arrays["teacher_valid"].sum() == 0
+
+
+def test_retrain_bc_parser_accepts_batch_episodes():
+    parser = build_arg_parser()
+    args = parser.parse_args([
+        "retrain-bc",
+        "--dataset", "ds.json",
+        "--corrections", "c1.json",
+        "--checkpoint", "ckpt.pt",
+        "--output", "out",
+        "--steps", "10",
+        "--seed", "0",
+        "--batch-episodes", "16",
+    ])
+    assert args.batch_episodes == 16
+
+    parser2 = build_arg_parser()
+    args2 = parser2.parse_args([
+        "retrain-bc",
+        "--dataset", "ds.json",
+        "--corrections", "c1.json",
+        "--checkpoint", "ckpt.pt",
+        "--output", "out",
+        "--steps", "10",
+        "--seed", "0",
+    ])
+    assert args2.batch_episodes == 8

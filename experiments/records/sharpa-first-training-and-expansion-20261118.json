@@ -1,0 +1,157 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-first-training-and-expansion-20261118",
+  "timestamp_utc": "2026-11-18T05:40:08.858040+00:00",
+  "status": "actual_training_verified_early_control_not_generalization",
+  "review_base_commit": "7f0a425d56e4898bc2a4d142a5878171a645552c",
+  "runtime": "Lab RTX server; Isaac Sim 6.0.1 CPU PhysX with RTX cameras and separate CUDA training",
+  "initial_common_dataset": {
+    "sha256": "39c790f98bf0c0b242d2bfd39eb0bf3278df1e31d39b3bf58ee50d8014a575fb",
+    "unique_episodes": 10,
+    "actions": 1987,
+    "train_episodes": 6,
+    "train_actions": 1274,
+    "bc_success_episodes": 3,
+    "bc_actions": 478,
+    "val_episodes": 2,
+    "test_episodes": 2
+  },
+  "expanded_common_dataset": {
+    "sha256": "0c929ad8052ce5c69362e903d4405bd93e0094b683508ebbe04dd534b40f1c9e",
+    "unique_episodes": 111,
+    "splits": {
+      "train": {
+        "episodes": 107,
+        "eligible": 69,
+        "actions": 19619,
+        "eligible_actions": 10217
+      },
+      "val": {
+        "episodes": 2,
+        "eligible": 2,
+        "actions": 350,
+        "eligible_actions": 350
+      },
+      "test": {
+        "episodes": 2,
+        "eligible": 1,
+        "actions": 363,
+        "eligible_actions": 167
+      }
+    },
+    "duplicate_ids": 0,
+    "duplicate_payloads": 0,
+    "derived_identity_views": 101,
+    "heldout_manifest_and_payloads_unchanged": true,
+    "new_training_source_files_sha_checked": 62,
+    "all_111_array_and_payload_hashes_and_timestamps_pass": true,
+    "successful_episodes_other_finger_contact": 0
+  },
+  "bc": {
+    "seed": 42,
+    "clean_resume_step": 65,
+    "clean_resume_sha256": "665bb7db672b0388104c898d031594e76b4aa90cee9fe6fe75701ab89ea833c0",
+    "latest_verified_step": 20000,
+    "optimizer_steps": [
+      20000
+    ],
+    "checkpoint_sha256": "bd96862b015f1f6e6b2fd5b5719fb015071babbfdb4170a535928d436b271d7f",
+    "finite": true,
+    "changed_tensors_from_step65": 27,
+    "correction_updates": 0,
+    "ppo_updates": 0,
+    "initial_64_step_evaluation": {
+      "attempts": 2,
+      "successes": 0,
+      "transitions": 800,
+      "failure": "evaluation step limit",
+      "paired_trajectory_video_saved": false
+    },
+    "training_completed_utc": "2026-11-18T05:38:28Z",
+    "stop_reason": "steps",
+    "expanded_policy_evaluation": "pending"
+  },
+  "world_model": {
+    "seed": 0,
+    "wm_updates": 2000,
+    "actor_updates": 5000,
+    "critic_updates": 5000,
+    "checkpoint_sha256": "6cffb8cdfbaad629dc87d02410ea03a97ac9730873439c15d49ca7344a8e10ad",
+    "actor_native_evaluation": {
+      "attempts": 2,
+      "successes_reported": 1,
+      "transitions": 714,
+      "actual_env_seeds": [
+        10000300,
+        10000301
+      ],
+      "mean_return": -34.984729588586205,
+      "result_sha256": "a14441065b12f4d6d4a933ed4152cabddac20deffd483b8b039d03a63c5a626d",
+      "paired_trajectory_video_saved": false
+    },
+    "prediction_protocol": "v2: previous observed reward persistence, matching k-step latent comparison",
+    "prediction_eval_sha256": "adf1151533b496d88df161fd90ea93ddea51cddf9bd1a1ffe77ebb33999aa567",
+    "prediction_mse": {
+      "1": {
+        "proprio": 0.002025085657805903,
+        "touch": 0.9738923423428787,
+        "reward": 0.0005804022488952869,
+        "latent": 0.0010668350113292036,
+        "persistence_proprio": 0.0002578743384278326,
+        "persistence_touch": 0.007085311392415861,
+        "persistence_reward": 4.100686849080044e-06
+      },
+      "4": {
+        "proprio": 0.003011171397702128,
+        "touch": 8.727645336548449,
+        "reward": 0.0008565590896246829,
+        "latent": 0.00842532787419259,
+        "persistence_proprio": 0.0010589829636149517,
+        "persistence_touch": 0.11091191841114778,
+        "persistence_reward": 6.075283685077397e-05
+      },
+      "8": {
+        "proprio": 0.0019251453900324123,
+        "touch": 4.594002127763815,
+        "reward": 0.0020572851056056846,
+        "latent": 0.010333515220963818,
+        "persistence_proprio": 0.0015642890255946895,
+        "persistence_touch": 0.1630710121244192,
+        "persistence_reward": 9.954901466950756e-05
+      }
+    }
+  },
+  "software": {
+    "independent_focused_tests_passed": 98,
+    "fixtures_not_training": true,
+    "command": "OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 PYTHONPATH=src python -m pytest -q tests/test_bc_ppo.py tests/test_sharpa_learning_collect.py tests/test_sharpa_feedback_expert.py tests/test_run_feedback_campaign.py tests/test_sharpa_world_model.py tests/test_sharpa_supermimic.py tests/test_supermimic_eval_close.py tests/test_world_model_open_loop.py",
+    "local_full_suite": {
+      "status": "collection_blocked_by_missing_optional_dev_dependencies",
+      "missing": [
+        "Pillow",
+        "jsonschema"
+      ],
+      "collection_errors": 7,
+      "skipped": 12,
+      "note": "No dependency installation or source workaround performed; hosted CI installs declared dev dependencies."
+    }
+  },
+  "limitations": [
+    "No real Mac/trackpad hardware execution or new SuperPOD job.",
+    "Video references have no robot-action labels and are not action-BC demonstrations.",
+    "Initial collector source-manifest coverage was incomplete; preserved as engineering provenance limitation.",
+    "Different actor-evaluation seeds and training amounts prevent method ranking.",
+    "Native actor results lack per-step trajectory/video evidence.",
+    "World-model proprio/touch/reward prediction errors exceed persistence on the two validation episodes.",
+    "Old mislabeled 478 correction-step restore branch is ordinary expert replay and excluded.",
+    "100-episode installation/gain/camera heldout evaluation not completed.",
+    "BC correction/PPO software is tested, but actual correction/PPO training remains zero.",
+    "Capacitive recognition remains an uncalibrated force proxy."
+  ],
+  "bulk_collection": {
+    "attempts": 128,
+    "teacher_successes_reported": 85,
+    "frozen_new_episodes_in_current_training_index": 101,
+    "late_episodes_not_automatically_used": 27
+  }
+}

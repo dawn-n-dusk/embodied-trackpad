@@ -542,6 +542,14 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                         "step": step,
                         "losses": {k: round(v.item(), 6) for k, v in losses.items()},
                         "elapsed_s": round(time.time() - started, 1)}) + "\n")
+            # Periodic warmup checkpoint: first step and every 200 steps.
+            if step == 1 or step % 200 == 0:
+                _save(f"wm_{step}")
+                with open(log_path, "a", encoding="utf-8") as log:
+                    log.write(json.dumps({
+                        "phase": "wm_warmup_checkpoint",
+                        "step": step,
+                        "elapsed_s": round(time.time() - started, 1)}) + "\n")
 
         if stop_reason == "steps":
             # 2. Actor + critic BPTT training.
@@ -736,26 +744,28 @@ def evaluate_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                 "terminated": terminated, "truncated": truncated,
                 "success": success})
     finally:
+        # Assemble and persist the report BEFORE env.close() because Isaac
+        # SimulationApp.close() exits the Python process.
+        n_succ = sum(1 for e in episodes_out if e["success"] is True)
+        result = {
+            "schema": RUN_SCHEMA,
+            "mode": "closed_loop_actor",
+            "env_factory": args.env_factory,
+            "checkpoint": args.checkpoint,
+            "episodes": len(episodes_out),
+            "total_steps": total_steps,
+            "success_rate": n_succ / max(1, len(episodes_out)),
+            "mean_return": (float(np.mean([e["return"] for e in episodes_out]))
+                            if episodes_out else 0.0),
+            "episode_records": episodes_out,
+        }
+        if args.output:
+            os.makedirs(args.output, exist_ok=True)
+            with open(os.path.join(args.output, "closed_loop_eval.json"), "w") as fh:
+                json.dump(result, fh, indent=2)
         close = getattr(env, "close", None)
         if callable(close):
             close()
-    n_succ = sum(1 for e in episodes_out if e["success"] is True)
-    result = {
-        "schema": RUN_SCHEMA,
-        "mode": "closed_loop_actor",
-        "env_factory": args.env_factory,
-        "checkpoint": args.checkpoint,
-        "episodes": len(episodes_out),
-        "total_steps": total_steps,
-        "success_rate": n_succ / max(1, len(episodes_out)),
-        "mean_return": (float(np.mean([e["return"] for e in episodes_out]))
-                        if episodes_out else 0.0),
-        "episode_records": episodes_out,
-    }
-    if args.output:
-        os.makedirs(args.output, exist_ok=True)
-        with open(os.path.join(args.output, "closed_loop_eval.json"), "w") as fh:
-            json.dump(result, fh, indent=2)
     return result
 
 

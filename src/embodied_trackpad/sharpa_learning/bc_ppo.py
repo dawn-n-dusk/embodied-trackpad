@@ -93,7 +93,7 @@ IMAGE_SIZE = 128         # both cameras, uint8 HWC.
 # Episode source kinds accepted by the loader. Old LEAP / raw source-video /
 # mock / proxy material is rejected at validation time.
 ALLOWED_SOURCE_KINDS = frozenset(
-    {"sim_geometric_expert", "video_retargeted_sim",
+    {"sim_geometric_expert", "video_retargeted_sim", "feedback_expert_v1",
      "student_rollin_correction", "policy_rollout"}
 )
 ALLOWED_SPLITS = frozenset({"train", "val", "test"})
@@ -666,6 +666,17 @@ class Episode:
             _require(tuple(a[key].shape) == want, f"{key} shape {tuple(a[key].shape)} != {want}: {where}")
             if a[key].dtype.kind == "f":
                 _check_finite(a[key], key, where)
+        if self.source_kind == "student_rollin_correction":
+            for key in ("teacher_action", "teacher_valid"):
+                _require(key in a, f"correction episode missing {key}: {where}")
+            ta = a["teacher_action"]
+            tv = a["teacher_valid"]
+            _check_finite(ta, "teacher_action", where)
+            _require(bool(np.all(ta >= -1.0) and np.all(ta <= 1.0)), f"teacher_action must be in [-1,1]: {where}")
+            _require(tv.dtype == np.uint8, f"teacher_valid must be uint8: {where}")
+            _require(bool(np.all((tv == 0) | (tv == 1))), f"teacher_valid must be 0/1: {where}")
+            if self.manifest["training_eligible_for_bc"] is True:
+                _require(bool(np.any(tv == 1)), f"correction episode eligible but no teacher_valid==1: {where}")
         # Verify per-array content digests recorded in the manifest.
         recorded = self.manifest["array_sha256"]
         _require(isinstance(recorded, dict), f"array_sha256 must be a mapping: {where}")
@@ -682,16 +693,36 @@ class Episode:
         return {k: self.arrays[k][t] for k in ACTOR_OBS_KEYS}
 
     def bc_batch_tensors(self, cfg: ModelConfig, device: torch.device) -> dict[str, torch.Tensor]:
-        """(obs[0:T], action) tensors for BC; obs[t] precedes action[t]."""
+        """(obs[0:T], action) tensors for BC; obs[t] precedes action[t].
+
+        For ``student_rollin_correction`` episodes the executed ``action`` is
+        the student's own output and must not be imitated; the BC target is
+        ``teacher_action`` and ``teacher_valid`` selects which steps are usable.
+        Ordinary expert episodes continue to use ``action`` with an all-ones
+        validity mask.
+        """
         a = self.arrays
         T = self.T
+        if self.source_kind == "student_rollin_correction":
+            for key in ("teacher_action", "teacher_valid"):
+                _require(key in a, f"correction episode missing {key}: {self.path}")
+            target = a["teacher_action"]
+            valid = a["teacher_valid"]
+            _require(target.shape == (T, ACTION_DIM), f"teacher_action shape {tuple(target.shape)} != [T,{ACTION_DIM}]: {self.path}")
+            _require(valid.shape == (T,), f"teacher_valid shape {tuple(valid.shape)} != [T]: {self.path}")
+            _require(valid.dtype == np.uint8, f"teacher_valid must be uint8: {self.path}")
+            _require(bool(np.all((valid == 0) | (valid == 1))), f"teacher_valid must be 0/1: {self.path}")
+        else:
+            target = a["action"]
+            valid = np.ones(T, dtype=np.uint8)
         return {
             "screen_rgb": torch.as_tensor(a["screen_rgb"][:T], device=device),
             "wrist_rgb": torch.as_tensor(a["wrist_rgb"][:T], device=device),
             "proprio": torch.as_tensor(a["proprio"][:T], device=device),
             "touch": torch.as_tensor(a["touch"][:T], device=device),
             "touch_valid": torch.as_tensor(a["touch_valid"][:T], device=device),
-            "action": torch.as_tensor(a["action"], device=device),
+            "action": torch.as_tensor(target, device=device),
+            "teacher_valid": torch.as_tensor(valid, device=device),
         }
 
 
@@ -819,7 +850,11 @@ def dataset_summary(bundle: DatasetBundle) -> dict:
 def pad_episodes(
     episodes: list[Episode], cfg: ModelConfig, device: torch.device
 ) -> dict:
-    """Pad episodes into one batched, masked dict of tensors (obs[0:T], action)."""
+    """Pad episodes into one batched, masked dict of tensors (obs[0:T], action).
+
+    The BC loss mask is ``teacher_valid`` for correction episodes and all ones
+    for ordinary expert episodes, so invalid correction labels are ignored.
+    """
     tensors = [ep.bc_batch_tensors(cfg, device) for ep in episodes]
     maxlen = max(t["action"].shape[0] for t in tensors)
     b = len(tensors)
@@ -837,7 +872,7 @@ def pad_episodes(
         n = t["action"].shape[0]
         for key in ("screen_rgb", "wrist_rgb", "proprio", "touch", "touch_valid", "action"):
             batch[key][i, :n] = t[key]
-        batch["mask"][i, :n] = 1.0
+        batch["mask"][i, :n] = t["teacher_valid"].to(dtype=batch["mask"].dtype)
     return batch
 
 
@@ -1013,13 +1048,30 @@ def train_bc(
                    "heldout_steps_used": 0}
     data_counts["train_steps"] = sum(ep.T for ep in pool)
     corr_bundles: list[DatasetBundle] = []
+    seen_ids = {ep.episode_id for ep in pool}
+    seen_shas = {ep.manifest.get("trajectory_sha256") for ep in pool if ep.manifest.get("trajectory_sha256")}
     for cpath in corrections or []:
         cb = load_dataset(cpath)
         cpool = cb.bc_train_pool()
+        for ep in cpool:
+            if ep.source_kind != "student_rollin_correction":
+                raise ContractError(
+                    f"corrections must be student_rollin_correction, got {ep.source_kind!r}: {ep.episode_id}"
+                )
+            if ep.episode_id in seen_ids:
+                raise ContractError(f"correction episode_id {ep.episode_id!r} duplicates an already-used episode")
+            sha = ep.manifest.get("trajectory_sha256")
+            if sha and sha in seen_shas:
+                raise ContractError(f"correction episode {ep.episode_id!r} duplicates an already-used trajectory")
+            seen_ids.add(ep.episode_id)
+            if sha:
+                seen_shas.add(sha)
         pool.extend(cpool)
-        data_counts["correction_steps"] += sum(ep.T for ep in cpool)
+        valid_steps = sum(int(ep.arrays["teacher_valid"].sum()) for ep in cpool)
+        data_counts["correction_steps"] += valid_steps
         provenance["corrections"].append(
-            {"path": str(cpath), "sha256": _sha256_file(Path(cpath)), "episodes": len(cpool)}
+            {"path": str(cpath), "sha256": _sha256_file(Path(cpath)),
+             "episodes": len(cpool), "valid_steps": valid_steps}
         )
         corr_bundles.append(cb)
     if not pool:
@@ -1234,6 +1286,29 @@ def _env_scalar_list(env: Any, attr: str, what: str) -> list:
     return [float(v) for v in np.asarray(val, dtype=np.float64).reshape(-1)]
 
 
+def _teacher_label_valid(env: Any, info: dict | None, expert: np.ndarray) -> bool:
+    """Return False if the env signals the current expert label is unusable.
+
+    A label can be rejected because it is numerically illegal, because the
+    env's teacher is in a failure phase, or because the env/info explicitly
+    flags ``expert_label_valid=False``. Callable flags are invoked (e.g.
+    provider properties); non-callable flags are cast with bool().
+    """
+    ok = bool(np.all(np.isfinite(expert)) and np.all(expert >= -1.0) and np.all(expert <= 1.0))
+    teacher = getattr(env, "teacher", None)
+    if teacher is not None:
+        phase = getattr(teacher, "_phase", None)
+        if isinstance(phase, str) and "fail" in phase.lower():
+            ok = False
+    explicit = getattr(env, "expert_label_valid", None)
+    if explicit is not None:
+        ok = ok and bool(explicit() if callable(explicit) else explicit)
+    info_valid = (info or {}).get("expert_label_valid")
+    if info_valid is not None:
+        ok = ok and bool(info_valid() if callable(info_valid) else info_valid)
+    return ok
+
+
 def gather_corrections(
     env_factory: Callable[..., Any],
     checkpoint: Path,
@@ -1255,37 +1330,96 @@ def gather_corrections(
     Output uses the same manifest.json + trajectory.npz format as every other
     episode, plus a dataset.json index. There is no teacher-action fallback
     anywhere in evaluation or training.
+
+    All filesystem artifacts (episodes, index, log) are finalized before the
+    env is closed, because some simulators exit the process on close.
     """
     checkpoint = Path(checkpoint)
     dev = torch.device("cpu")
     model, payload = load_checkpoint(checkpoint, dev)
     model.eval()
     cfg = ModelConfig.from_dict(payload["model_config"])
-    env = make_env(env_factory, env_kwargs, require_expert=True)
-    provenance = getattr(env, "provenance", {}) or {}
-    contact_backend = str(provenance.get("contact_backend", ""))
-    _require("physx" in contact_backend.lower() and
-             not any(b in contact_backend.lower() for b in _CONTACT_BACKEND_BANNED_MARKERS),
-             f"env contact backend is not a measured PhysX backend: {contact_backend!r}")
-    action_names = list(getattr(env, "action_names", None) or [])
-    _require(len(action_names) == cfg.action_dim, "env action_names length mismatch")
-    delta_scale = _env_scalar_list(env, "delta_scale", "manifest delta_scale")
-    _require(len(delta_scale) == cfg.action_dim, "env delta_scale length mismatch")
-    limits = getattr(env, "joint_limits", None)
-    _require(limits is not None, "env does not expose joint_limits")
-    config = dict(getattr(env, "config", None) or {})
-    config.setdefault("env_kwargs", dict(env_kwargs or {}))
-    config["student_checkpoint"] = checkpoint.name
-    config["student_checkpoint_sha256"] = _sha256_file(checkpoint)
+    env: Any = None
+    provenance = {}
+    action_names: list[str] = []
+    delta_scale: list[float] = []
+    limits: Any = None
+    config: dict = {}
     ckpt_stage = str(payload.get("stage", "unknown"))
-
+    contact_backend = ""
     out = Path(output)
-    out.mkdir(parents=True, exist_ok=True)
-    _require(rollouts >= 1, "gather_corrections needs rollouts >= 1")
-    _require(max_steps >= 1, "gather_corrections needs max_steps >= 1")
-    rng = random.Random(seed)
-    episode_dirs: list[tuple[str, Path]] = []
+    episode_dirs: list[tuple[str, Path, bool]] = []
+    index_path = out / f"{stage}.json"
+
+    def _write_index() -> Path:
+        """Write dataset.json index and the gathered log for completed episodes."""
+        index_doc = {
+            "schema": DATASET_SCHEMA,
+            "action_names": action_names,
+            "delta_scale": delta_scale,
+            "created_utc": _utc_now(),
+            "episodes": [
+                {
+                    "path": str(ep_dir.relative_to(out)),
+                    "episode_id": ep_id,
+                    "split": "train",
+                    "source_kind": "student_rollin_correction",
+                    "training_eligible_for_bc": eligible,
+                }
+                for ep_id, ep_dir, eligible in episode_dirs
+            ],
+            "provenance": {
+                "generator": "bc_ppo.gather_corrections",
+                "student_checkpoint": checkpoint.name,
+                "student_checkpoint_sha256": config.get("student_checkpoint_sha256", ""),
+                "student_checkpoint_stage": ckpt_stage,
+                "seed": seed,
+                "rollouts": rollouts,
+                "split_options": "train",
+            },
+        }
+        index_path = out / f"{stage}.json"
+        index_path.write_text(json.dumps(index_doc, indent=2, sort_keys=True), encoding="utf-8")
+        valid_steps = sum(
+            int(np.load(d / "trajectory.npz")["teacher_valid"].sum()) for _, d, _ in episode_dirs
+        )
+        append_log(
+            out,
+            {
+                "event": "corrections_gathered",
+                "stage": stage,
+                "data_counts": {
+                    "rollouts": rollouts,
+                    "correction_steps": valid_steps,
+                },
+                "student_checkpoint": checkpoint.name,
+                "output": str(index_path),
+            },
+        )
+        return index_path
+
     try:
+        env = make_env(env_factory, env_kwargs, require_expert=True)
+        provenance = getattr(env, "provenance", {}) or {}
+        contact_backend = str(provenance.get("contact_backend", ""))
+        _require("physx" in contact_backend.lower() and
+                 not any(b in contact_backend.lower() for b in _CONTACT_BACKEND_BANNED_MARKERS),
+                 f"env contact backend is not a measured PhysX backend: {contact_backend!r}")
+        action_names = list(getattr(env, "action_names", None) or [])
+        _require(len(action_names) == cfg.action_dim, "env action_names length mismatch")
+        delta_scale = _env_scalar_list(env, "delta_scale", "manifest delta_scale")
+        _require(len(delta_scale) == cfg.action_dim, "env delta_scale length mismatch")
+        limits = getattr(env, "joint_limits", None)
+        _require(limits is not None, "env does not expose joint_limits")
+        config = dict(getattr(env, "config", None) or {})
+        config.setdefault("env_kwargs", dict(env_kwargs or {}))
+        config["student_checkpoint"] = checkpoint.name
+        config["student_checkpoint_sha256"] = _sha256_file(checkpoint)
+
+        out.mkdir(parents=True, exist_ok=True)
+        _require(rollouts >= 1, "gather_corrections needs rollouts >= 1")
+        _require(max_steps >= 1, "gather_corrections needs max_steps >= 1")
+        rng = random.Random(seed)
         for ep_idx in range(rollouts):
             ep_seed = rng.randrange(2**31)
             obs, _info = _env_reset(env, seed=ep_seed, options={"split": "train", "task_id": task_id})
@@ -1308,13 +1442,18 @@ def gather_corrections(
                     obs_frames[k].append(np.array(obs[k], copy=True))
                 expert = np.asarray(env.expert_action(), dtype=np.float64).reshape(-1)
                 _require(expert.shape == (cfg.action_dim,), "expert_action must be [29]")
-                label_ok = bool(np.all(np.isfinite(expert)) and np.all(expert >= -1.0) and np.all(expert <= 1.0))
+                pre_ok = _teacher_label_valid(env, None, expert)
                 obs_t = _obs_to_tensors(obs, cfg, dev)
                 with torch.no_grad():
                     action, _raw, _lp, _v, hidden = model.act(obs_t, hidden)
                 student_action = action[0].cpu().numpy().astype(np.float32)
                 obs, reward, terminated, truncated, info = _env_step(env, student_action)
                 _check_exact_obs_keys(obs)
+                # Re-check label validity after the step and combine with pre-step.
+                # A label that was invalid before the student moved cannot become
+                # valid just because the state changed.
+                post_ok = _teacher_label_valid(env, info, expert)
+                label_ok = pre_ok and post_ok
                 sim_time = float((info or {}).get("sim_time", math.nan))
                 _require(math.isfinite(sim_time), "env step info must provide finite sim_time")
                 sim_times.append(sim_time)
@@ -1354,14 +1493,18 @@ def gather_corrections(
                 "reward": np.asarray(rewards, dtype=np.float32),
                 "terminated": np.asarray(terminated_flags, dtype=np.uint8),
                 "truncated": np.asarray(truncated_flags, dtype=np.uint8),
-                "sim_time": np.asarray(sim_times, dtype=np.float32),
+                "sim_time": np.asarray(sim_times, dtype=np.float64),
             }
             _require(arrays_np["screen_rgb"].shape == (T + 1, IMAGE_SIZE, IMAGE_SIZE, 3),
                      "screen_rgb frames must be [128,128,3]")
             ep_id = f"{stage}-{ep_idx:04d}"
             ep_dir = out / "episodes" / ep_id
             ep_dir.mkdir(parents=True, exist_ok=True)
-            np.savez(ep_dir / "trajectory.npz", **arrays_np)
+            npz_path = ep_dir / "trajectory.npz"
+            manifest_path = ep_dir / "manifest.json"
+            _require(not npz_path.exists(), f"refusing to overwrite existing trajectory.npz: {npz_path}")
+            _require(not manifest_path.exists(), f"refusing to overwrite existing manifest.json: {manifest_path}")
+            np.savez(npz_path, **arrays_np)
             manifest = {
                 "schema": DATASET_SCHEMA,
                 "episode_id": ep_id,
@@ -1382,58 +1525,22 @@ def gather_corrections(
                 "measured_contact_backend": contact_backend,
                 "timestamps": {"created_utc": _utc_now(), "decision_hz": 15.0, "physics_hz": 120.0},
                 "array_sha256": {k: _sha256_array(v) for k, v in arrays_np.items()},
-                "trajectory_sha256": _sha256_file(ep_dir / "trajectory.npz"),
+                "trajectory_sha256": _sha256_file(npz_path),
             }
-            (ep_dir / "manifest.json").write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
-            episode_dirs.append((ep_id, ep_dir))
+            manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True), encoding="utf-8")
+            episode_dirs.append((ep_id, ep_dir, eligible))
+        index_path = _write_index()
+    except Exception:
+        if episode_dirs:
+            _write_index()
+        raise
     finally:
-        # Env is closed only after every episode artifact above is written.
-        close = getattr(env, "close", None)
-        if callable(close):
-            close()
+        # Env is closed only after every episode/index/log artifact is written.
+        if env is not None:
+            close = getattr(env, "close", None)
+            if callable(close):
+                close()
 
-    index_doc = {
-        "schema": DATASET_SCHEMA,
-        "action_names": action_names,
-        "delta_scale": delta_scale,
-        "created_utc": _utc_now(),
-        "episodes": [
-            {
-                "path": str(ep_dir.relative_to(out)),
-                "episode_id": ep_id,
-                "split": "train",
-                "source_kind": "student_rollin_correction",
-                "training_eligible_for_bc": eligible,
-            }
-            for ep_id, ep_dir in episode_dirs
-        ],
-        "provenance": {
-            "generator": "bc_ppo.gather_corrections",
-            "student_checkpoint": checkpoint.name,
-            "student_checkpoint_sha256": config["student_checkpoint_sha256"],
-            "student_checkpoint_stage": ckpt_stage,
-            "seed": seed,
-            "rollouts": rollouts,
-            "split_options": "train",
-        },
-    }
-    index_path = out / f"{stage}.json"
-    index_path.write_text(json.dumps(index_doc, indent=2, sort_keys=True), encoding="utf-8")
-    append_log(
-        out,
-        {
-            "event": "corrections_gathered",
-            "stage": stage,
-            "data_counts": {
-                "rollouts": rollouts,
-                "correction_steps": sum(
-                    int(np.load(d / "trajectory.npz")["action"].shape[0]) for _, d in episode_dirs
-                ),
-            },
-            "student_checkpoint": checkpoint.name,
-            "output": str(index_path),
-        },
-    )
     return index_path
 
 
@@ -1957,6 +2064,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--steps", type=int, required=True)
     p.add_argument("--seed", type=int, required=True)
     p.add_argument("--lr", type=float, default=1e-4)
+    p.add_argument("--batch-episodes", type=int, default=8)
     p.add_argument("--stage", default="bc+corrections")
     p.add_argument("--grad-clip", type=float, default=1.0)
     p.add_argument("--checkpoint-every", type=int, default=500)
