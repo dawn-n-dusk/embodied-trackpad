@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-18: Recorded expanded BC20000 autonomous evaluation0/2 on two new nominal targets, with verified paired video and raw trajectories. Preserved evaluator truncation/reporting limitations; no DAgger/PPO or generalization success claimed.
+
 - 2026-11-18: Integrated the feedback expert and native collector, corrected student-state BC labels and invalid-label masking, prevented future parallel episode-ID collisions, and fixed world-model reward/latent evaluation. Verified98 focused tests,20,000 actual BC updates and completed WM/actor/critic training; autonomous robustness remains unproven.
 
 - 2026-11-18: Fixed contact attribution to actual finger collision bodies and collection timing; integrated experimental world-model/BPTT learner with deterministic resume and 50 focused integration checks. Measured contact/release is separate from full GUI success and formal training.

@@ -1,0 +1,166 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-bc20000-evaluation-20261118",
+  "timestamp_utc": "2026-11-18T05:46:03.706677+00:00",
+  "status": "two_nominal_target_failures_after_actual_20000_updates",
+  "source_commit": "e16373382009eab0332987b6b93ec295487f94e4",
+  "training_source_note": "Actual training/evaluation used a separately pinned62-file runtime source; public integration additionally fixes future collector IDs and correction/evaluation code.",
+  "checkpoint_sha256": "bd96862b015f1f6e6b2fd5b5719fb015071babbfdb4170a535928d436b271d7f",
+  "attempts": 2,
+  "successes": 0,
+  "environment_actions": 800,
+  "episodes": [
+    {
+      "seed": 50000,
+      "T": 400,
+      "observations": 401,
+      "target": [
+        172.0,
+        354.0
+      ],
+      "cursor_start": [
+        320.0,
+        240.0
+      ],
+      "cursor_end": [
+        290.4815521836281,
+        187.35239148139954
+      ],
+      "initial_distance": 186.81541692269406,
+      "final_distance": 204.47323451447258,
+      "on_target_clicks": 0,
+      "any_clicks": 7,
+      "max_force": [
+        2.360966205596924,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "last_force": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "joint_excursion_max": 2.226311683654785,
+      "success": false,
+      "manifest_outcome": "truncated",
+      "truncated_flags_sum": 0,
+      "terminal_flags_sum": 0,
+      "sha256": "3ea8bd3671af0b691ee54bde92465b845c8dba0877043d8725b19100e27fdf25",
+      "raw_sha_ok": true,
+      "array_sha_ok": true,
+      "clock_ok": true,
+      "videos": {
+        "screen_rgb.mp4": {
+          "sha256": "836f76f324f0e9e1a47c35d01e0b96e22a5d80ab53b0a335ea5c757616395b7d",
+          "probe": {
+            "width": 128,
+            "height": 128,
+            "avg_frame_rate": "15/1",
+            "nb_frames": "401"
+          }
+        },
+        "wrist_rgb.mp4": {
+          "sha256": "4b147538020362df50a783b98ffac5d7864444af539d73f1b8ac4ad8ec31dcc6",
+          "probe": {
+            "width": 128,
+            "height": 128,
+            "avg_frame_rate": "15/1",
+            "nb_frames": "401"
+          }
+        }
+      }
+    },
+    {
+      "seed": 50001,
+      "T": 400,
+      "observations": 401,
+      "target": [
+        169.0,
+        272.0
+      ],
+      "cursor_start": [
+        320.0,
+        240.0
+      ],
+      "cursor_end": [
+        286.52523279190063,
+        178.19921016693115
+      ],
+      "initial_distance": 154.35349040433132,
+      "final_distance": 150.36877507015208,
+      "on_target_clicks": 0,
+      "any_clicks": 4,
+      "max_force": [
+        2.9186108112335205,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "last_force": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "joint_excursion_max": 2.244053602218628,
+      "success": false,
+      "manifest_outcome": "truncated",
+      "truncated_flags_sum": 0,
+      "terminal_flags_sum": 0,
+      "sha256": "60c8bf342ebe30ef230bab3a8866efc35a837c965de770b30dab109456027510",
+      "raw_sha_ok": true,
+      "array_sha_ok": true,
+      "clock_ok": true,
+      "videos": {
+        "screen_rgb.mp4": {
+          "sha256": "cfd72fc27e80ae4ce310dca4aa3c87c6c9fe65f0980b6ca05fd88c6f86f04536",
+          "probe": {
+            "width": 128,
+            "height": 128,
+            "avg_frame_rate": "15/1",
+            "nb_frames": "401"
+          }
+        },
+        "wrist_rgb.mp4": {
+          "sha256": "92d520b4098fdf4283f4a0d03b76f7edefeca11b0feafabec8c67a2d7b493535",
+          "probe": {
+            "width": 128,
+            "height": 128,
+            "avg_frame_rate": "15/1",
+            "nb_frames": "401"
+          }
+        }
+      }
+    }
+  ],
+  "heldout_target_check": {
+    "method": "same frozen VirtualGUI LCG evaluated over all initial/bulk train seeds (superset of admitted data)",
+    "matches_training_target": false
+  },
+  "limitations": [
+    "Private evaluator writes summary after Isaac close; summary is reconstructed from persisted raw episodes, no rerun.",
+    "Raw truncated flags remain false at outer400step cap; preserve originals and treat as diagnostic only, not training-ready data.",
+    "Two targets in the same nominal layout; not100episode/domain-generalization benchmark."
+  ],
+  "interpretation": "Both runs produced measured index contact and cursor movement but no on-target clicks. This demonstrates some action/contact execution, not reliable visual target control.",
+  "software_ci": {
+    "tested_commit": "e16373382009eab0332987b6b93ec295487f94e4",
+    "status": "success",
+    "python_versions": [
+      "3.10",
+      "3.11",
+      "3.12",
+      "3.13"
+    ],
+    "url": "https://github.com/dawn-n-dusk/embodied-trackpad/actions/runs/44245853302"
+  },
+  "actual_correction_rollouts": 0,
+  "actual_correction_training_updates": 0,
+  "actual_ppo_updates": 0
+}
