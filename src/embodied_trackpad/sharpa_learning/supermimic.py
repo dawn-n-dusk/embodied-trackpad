@@ -290,6 +290,20 @@ def _optimizer_to_device(optimizer: torch.optim.Optimizer, device: torch.device)
                 state[k] = v.to(device)
 
 
+def _grads_finite(model: nn.Module) -> bool:
+    for p in model.parameters():
+        if p.grad is not None and not bool(torch.isfinite(p.grad).all()):
+            return False
+    return True
+
+
+def _param_l2(model: nn.Module) -> float:
+    total = 0.0
+    for p in model.parameters():
+        total += float(p.detach().pow(2).sum())
+    return total ** 0.5
+
+
 def save_supermimic_checkpoint(
     path: str,
     wm: SharpaWorldModel,
@@ -429,12 +443,22 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
 
     resume_payload: Optional[Dict[str, Any]] = None
     resume_provenance: Dict[str, Any] = {}
-    if args.resume_from:
-        if not os.path.isfile(args.resume_from):
-            raise FileNotFoundError(f"--resume-from not found: {args.resume_from}")
-        payload = torch.load(args.resume_from, map_location="cpu", weights_only=False)
+    finetune_payload: Optional[Dict[str, Any]] = None
+    finetune_parent_provenance: Dict[str, Any] = {}
+    finetune_parent_sha256: Optional[str] = None
+    resume_from = getattr(args, "resume_from", None)
+    finetune_from = getattr(args, "finetune_from", None)
+    if resume_from and finetune_from:
+        raise ValueError("--resume-from and --finetune-from are mutually exclusive")
+    if getattr(args, "small_config", False) and finetune_from:
+        raise ValueError("--small-config cannot be combined with --finetune-from "
+                         "(parent dimensions must be retained exactly)")
+    if resume_from:
+        if not os.path.isfile(resume_from):
+            raise FileNotFoundError(f"--resume-from not found: {resume_from}")
+        payload = torch.load(resume_from, map_location="cpu", weights_only=False)
         if payload.get("format") != SUPERMIMIC_CHECKPOINT_FORMAT:
-            raise ValueError(f"not a {SUPERMIMIC_CHECKPOINT_FORMAT}: {args.resume_from}")
+            raise ValueError(f"not a {SUPERMIMIC_CHECKPOINT_FORMAT}: {resume_from}")
         resume_provenance = payload.get("provenance") or {}
         if resume_provenance.get("dataset_sha256") != dataset_sha256:
             raise ValueError(
@@ -446,7 +470,29 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
         cfg = SuperMimicConfig(**cfg_dict)
         resume_payload = payload
 
-    run_id = resume_provenance.get("run_id") or str(uuid.uuid4())
+    if finetune_from:
+        if not os.path.isfile(finetune_from):
+            raise FileNotFoundError(f"--finetune-from not found: {finetune_from}")
+        payload = torch.load(finetune_from, map_location="cpu", weights_only=False)
+        if payload.get("format") != SUPERMIMIC_CHECKPOINT_FORMAT:
+            raise ValueError(f"not a {SUPERMIMIC_CHECKPOINT_FORMAT}: {finetune_from}")
+        finetune_parent_provenance = payload.get("provenance") or {}
+        finetune_parent_sha256 = _sha256_file(finetune_from)
+        finetune_payload = payload
+        parent_cfg_dict = dict(payload["config"])
+        parent_cfg_dict["wm_config"] = WorldModelConfig(**parent_cfg_dict["wm_config"])
+        parent_cfg = SuperMimicConfig(**parent_cfg_dict)
+        # Explicit new-dataset finetune: keep the parent architecture/dimensions
+        # exactly; training targets and loop knobs stay from the CLI.
+        cfg = dataclasses.replace(
+            cfg,
+            wm_config=parent_cfg.wm_config,
+            actor_hidden_dim=parent_cfg.actor_hidden_dim,
+            critic_hidden_dim=parent_cfg.critic_hidden_dim,
+        )
+
+    run_id = (str(uuid.uuid4()) if finetune_payload
+              else resume_provenance.get("run_id") or str(uuid.uuid4()))
     torch.manual_seed(cfg.seed)
     np.random.seed(cfg.seed)
     if device.type == "cuda":
@@ -468,6 +514,7 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
 
     start_wm_step = 0
     start_actor_step = 0
+    finetune_from_counters: Optional[Dict[str, int]] = None
     if resume_payload:
         wm.load_state_dict(resume_payload["model_state"]["wm"])
         actor.load_state_dict(resume_payload["model_state"]["actor"])
@@ -487,6 +534,32 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
         if rng_state is None:
             raise ValueError("checkpoint missing rng_state; cannot resume reproducibly")
         restore_rng_state(rng_state)
+    elif finetune_payload:
+        # Explicit new-dataset finetune: restore models, all three optimizers
+        # and the actual cumulative counters, but keep the freshly seeded
+        # batchers (they index only the new dataset) and the fresh RNG seed.
+        wm.load_state_dict(finetune_payload["model_state"]["wm"])
+        actor.load_state_dict(finetune_payload["model_state"]["actor"])
+        critic.load_state_dict(finetune_payload["model_state"]["critic"])
+        wm_optimizer.load_state_dict(finetune_payload["optimizer_state"]["wm"])
+        actor_optimizer.load_state_dict(finetune_payload["optimizer_state"]["actor"])
+        critic_optimizer.load_state_dict(finetune_payload["optimizer_state"]["critic"])
+        _optimizer_to_device(wm_optimizer, device)
+        _optimizer_to_device(actor_optimizer, device)
+        _optimizer_to_device(critic_optimizer, device)
+        metrics = dict(finetune_payload.get("metrics", {}))
+        start_wm_step = int(metrics.get("wm_updates", 0))
+        start_actor_step = int(metrics.get("actor_updates", 0))
+        finetune_from_counters = {
+            "wm_updates": start_wm_step,
+            "actor_updates": start_actor_step,
+            "critic_updates": int(metrics.get("critic_updates", 0)),
+        }
+        metrics["finetune"] = True
+        metrics["run_id"] = run_id
+        metrics["finetune_parent_checkpoint_sha256"] = finetune_parent_sha256
+        metrics["finetune_parent_run_id"] = finetune_parent_provenance.get("run_id")
+        metrics["nonfinite_grad_events"] = int(metrics.get("nonfinite_grad_events", 0))
     else:
         metrics: Dict[str, Any] = {
             "updates": 0,
@@ -510,6 +583,28 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
         "dataset_sha256": dataset_sha256,
         "run_id": run_id,
     }
+    if finetune_payload:
+        provenance.update({
+            "finetune": True,
+            "resume_kind": "finetune_new_dataset",
+            "parent_checkpoint_path": os.path.abspath(finetune_from),
+            "parent_checkpoint_sha256": finetune_parent_sha256,
+            "parent_run_id": finetune_parent_provenance.get("run_id"),
+            "parent_dataset_sha256": finetune_parent_provenance.get("dataset_sha256"),
+            "parent_dataset_path": finetune_parent_provenance.get("dataset_path"),
+            "finetune_from_counters": finetune_from_counters,
+            "lineage": {
+                "parent_run_id": finetune_parent_provenance.get("run_id"),
+                "parent_checkpoint_sha256": finetune_parent_sha256,
+                "child_run_id": run_id,
+                "kind": "finetune_new_dataset",
+            },
+        })
+
+    wm_ckpt_every = max(1, int(getattr(args, "wm_checkpoint_interval", 200) or 200))
+    actor_ckpt_every = max(
+        1, int(getattr(args, "actor_checkpoint_interval", cfg.actor_log_every * 5)
+               or cfg.actor_log_every * 5))
 
     def _save(step_label: str) -> None:
         save_supermimic_checkpoint(
@@ -532,18 +627,27 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
             wm_optimizer.zero_grad(set_to_none=True)
             losses["loss"].backward()
             torch.nn.utils.clip_grad_norm_(wm.parameters(), wm_cfg.grad_clip)
+            if not _grads_finite(wm):
+                metrics["nonfinite_grad_events"] = int(
+                    metrics.get("nonfinite_grad_events", 0)) + 1
+                _save("latest")
+                stop_reason = "nonfinite_grad"
+                break
             wm_optimizer.step()
             metrics["wm_updates"] = step
             metrics["updates"] = step
-            if step == 1 or step % cfg.actor_log_every == 0:
+            if step == start_wm_step + 1 or step % cfg.actor_log_every == 0:
                 with open(log_path, "a", encoding="utf-8") as log:
                     log.write(json.dumps({
                         "phase": "wm_warmup",
                         "step": step,
                         "losses": {k: round(v.item(), 6) for k, v in losses.items()},
+                        "grad_finite": _grads_finite(wm),
+                        "wm_param_l2": round(_param_l2(wm), 6),
                         "elapsed_s": round(time.time() - started, 1)}) + "\n")
-            # Periodic warmup checkpoint: first step and every 200 steps.
-            if step == 1 or step % 200 == 0:
+            # Periodic warmup checkpoint: first update of this run and every
+            # configured interval (global step in the checkpoint name).
+            if step == start_wm_step + 1 or step % wm_ckpt_every == 0:
                 _save(f"wm_{step}")
                 with open(log_path, "a", encoding="utf-8") as log:
                     log.write(json.dumps({
@@ -568,6 +672,12 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                     wm_optimizer.zero_grad(set_to_none=True)
                     losses["loss"].backward()
                     torch.nn.utils.clip_grad_norm_(wm.parameters(), wm_cfg.grad_clip)
+                    if not _grads_finite(wm):
+                        metrics["nonfinite_grad_events"] = int(
+                            metrics.get("nonfinite_grad_events", 0)) + 1
+                        _save("latest")
+                        stop_reason = "nonfinite_grad"
+                        break
                     wm_optimizer.step()
                     metrics["wm_updates"] += 1
 
@@ -588,6 +698,12 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                 actor_optimizer.zero_grad(set_to_none=True)
                 actor_loss.backward()
                 torch.nn.utils.clip_grad_norm_(actor.parameters(), cfg.actor_grad_clip)
+                if not _grads_finite(actor):
+                    metrics["nonfinite_grad_events"] = int(
+                        metrics.get("nonfinite_grad_events", 0)) + 1
+                    _save("latest")
+                    stop_reason = "nonfinite_grad"
+                    break
                 actor_optimizer.step()
                 metrics["actor_updates"] = step
 
@@ -610,6 +726,12 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                 critic_optimizer.zero_grad(set_to_none=True)
                 critic_loss.backward()
                 torch.nn.utils.clip_grad_norm_(critic.parameters(), cfg.critic_grad_clip)
+                if not _grads_finite(critic):
+                    metrics["nonfinite_grad_events"] = int(
+                        metrics.get("nonfinite_grad_events", 0)) + 1
+                    _save("latest")
+                    stop_reason = "nonfinite_grad"
+                    break
                 critic_optimizer.step()
                 metrics["critic_updates"] = step
 
@@ -618,7 +740,7 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                     p.requires_grad = True
 
                 metrics["updates"] = cfg.wm_warmup_steps + step
-                if step == 1 or step % cfg.actor_log_every == 0:
+                if step == start_actor_step + 1 or step % cfg.actor_log_every == 0:
                     with open(log_path, "a", encoding="utf-8") as log:
                         log.write(json.dumps({
                             "phase": "actor_critic",
@@ -626,10 +748,18 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                             "actor_loss": round(actor_loss.item(), 6),
                             "critic_loss": round(critic_loss.item(), 6),
                             "mean_return": round(rollout["actor_return"].mean().item(), 6),
+                            "actor_grad_finite": _grads_finite(actor),
+                            "critic_grad_finite": _grads_finite(critic),
+                            "actor_param_l2": round(_param_l2(actor), 6),
+                            "critic_param_l2": round(_param_l2(critic), 6),
                             "elapsed_s": round(time.time() - started, 1)}) + "\n")
 
-                if step == cfg.actor_updates or step % max(1, cfg.actor_log_every * 5) == 0:
+                if (step == start_actor_step + 1 or step % actor_ckpt_every == 0
+                        or step == cfg.actor_updates):
                     _save("latest")
+                if step % actor_ckpt_every == 0 or step == cfg.actor_updates:
+                    # Named actor milestones are immutable; "latest" rotates.
+                    _save(f"actor_{step}")
     finally:
         _save("latest")
         restore_sigterm()
@@ -647,6 +777,119 @@ def train_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
 # --------------------------------------------------------------------------- #
 # Evaluation
 # --------------------------------------------------------------------------- #
+def _mp4_encoded_ok(path: str) -> bool:
+    """A video counts as encoded only if it exists, is non-empty, and a real
+    decoder opens it and reads at least one frame."""
+    try:
+        if not os.path.isfile(path) or os.path.getsize(path) <= 0:
+            return False
+    except OSError:
+        return False
+    try:
+        import imageio
+        with imageio.get_reader(path) as reader:
+            for _ in reader:
+                return True
+        return False
+    except Exception:
+        pass
+    try:
+        import cv2
+        cap = cv2.VideoCapture(path)
+        try:
+            ok = bool(cap.isOpened()) and cap.read()[0]
+        finally:
+            cap.release()
+        return bool(ok)
+    except Exception:  # noqa: BLE001 - no decoder available
+        return False
+
+
+@torch.no_grad()
+def _write_trace(trace_dir: str, ep_i: int, step_records: List[Dict[str, Any]],
+                 raw: Dict[str, np.ndarray], success: Optional[bool],
+                 seed: int) -> None:
+    """Persist one evaluated episode immediately: raw npz arrays (copies of the
+    actual backend buffers), per-step metadata jsonl, and both RGB videos.
+
+    Refuses to overwrite any pre-existing episode output so a retried or
+    duplicated evaluation can never silently mix fresh and stale evidence."""
+    os.makedirs(trace_dir, exist_ok=True)
+    stem = os.path.join(trace_dir, f"episode_{ep_i:03d}")
+    finals = [stem + "_raw.npz", stem + ".jsonl", stem + "_video_meta.json"]
+    finals += [stem + f"_{v}.mp4" for v in ("screen_rgb", "wrist_rgb")]
+    for existing in finals:
+        if os.path.exists(existing):
+            raise FileExistsError(
+                f"refusing to overwrite existing trace output: {existing}")
+    arrays = {k: np.stack(v) for k, v in raw.items()}
+    arrays["_seed"] = np.asarray([seed], dtype=np.int64)
+    arrays["_success"] = np.asarray(
+        [-1 if success is None else int(bool(success))], dtype=np.int64)
+    tmp = stem + "_raw.tmp.npz"
+    np.savez_compressed(tmp, **arrays)
+    os.replace(tmp, stem + "_raw.npz")
+    tmp = stem + ".jsonl.tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        for rec in step_records:
+            fh.write(json.dumps(rec) + "\n")
+    os.replace(tmp, stem + ".jsonl")
+    video_meta: Dict[str, Any] = {}
+    for view, fps in (("screen_rgb", 20), ("wrist_rgb", 20)):
+        frames = arrays.get(view)
+        if frames is None or frames.ndim != 4:
+            continue
+        encoded = False
+        for encoder in ("imageio", "cv2"):
+            try:
+                tmp_path = stem + f"_{view}.tmp.mp4"
+                if encoder == "imageio":
+                    import imageio
+                    imageio.mimsave(tmp_path, list(frames), fps=fps)
+                else:
+                    import cv2
+                    h, w = frames.shape[1:3]
+                    writer = cv2.VideoWriter(
+                        tmp_path, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+                    for frame in frames:
+                        writer.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
+                    writer.release()
+                if _mp4_encoded_ok(tmp_path):
+                    os.replace(tmp_path, stem + f"_{view}.mp4")
+                    video_meta[view] = "mp4"
+                    encoded = True
+                    break
+                try:
+                    os.remove(tmp_path)
+                except OSError:
+                    pass
+            except Exception:  # noqa: BLE001 - try the next encoder
+                try:
+                    os.remove(stem + f"_{view}.tmp.mp4")
+                except OSError:
+                    pass
+        if not encoded:
+            video_meta[view] = "unavailable: encode verification failed"
+    tmp = stem + "_video_meta.json.tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(video_meta, fh, indent=2)
+    os.replace(tmp, stem + "_video_meta.json")
+
+
+def _obs_small(obs: Dict[str, Any]) -> Dict[str, Any]:
+    """Inline the small state/contact/cursor fields; raw arrays go to npz."""
+    small: Dict[str, Any] = {}
+    for k, v in (obs or {}).items():
+        try:
+            a = np.asarray(v)
+        except Exception:  # pragma: no cover - non-array obs field
+            small[k] = str(v)
+            continue
+        if a.size <= 4096:
+            small[k] = a.tolist()
+    return small
+
+
 @torch.no_grad()
 def evaluate_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
     device = resolve_device(args.device)
@@ -707,31 +950,54 @@ def evaluate_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
     env = env_factory(env_config)
     episodes_out: List[Dict[str, Any]] = []
     total_steps = 0
+    save_trace = max(0, int(getattr(args, "save_trace", 0) or 0))
+    trace_dir = (os.path.join(args.output, "traces")
+                 if (save_trace and args.output) else None)
+    seed_base = getattr(args, "episode_seed_base", None)
     try:
         for ep_i in range(args.episodes):
             options: Dict[str, Any] = {"split": "heldout"}
             if args.task:
                 options["task_id"] = args.task
-            obs, info = env.reset(seed=args.seed * 100003 + ep_i, options=options)
+            ep_seed = (int(seed_base) + ep_i if seed_base is not None
+                       else args.seed * 100003 + ep_i)
+            obs, info = env.reset(seed=ep_seed, options=options)
             h = wm.init_state(1).to(device)
             a_state = actor.init_state(1, device)
             steps = 0
             ep_return = 0.0
             terminated = truncated = False
             done = False
+            tracing = trace_dir is not None and ep_i < save_trace
+            step_records: List[Dict[str, Any]] = []
+            raw_trace: Dict[str, List[np.ndarray]] = {}
             while not done:
                 e = wm.encode_obs_dict(obs)
                 h = wm.advance(h, e)
                 action_t, a_state = actor(h, a_state)
                 action = action_t[0].detach().cpu().numpy().astype(np.float32)
+                if tracing:
+                    for k, v in obs.items():
+                        raw_trace.setdefault(k, []).append(
+                            np.array(v, copy=True))
                 obs, reward, terminated, truncated, info = env.step(action)
                 steps += 1
                 total_steps += 1
                 ep_return += float(reward)
                 terminated = bool(terminated)
                 truncated = bool(truncated)
-                if steps >= args.max_steps and not (terminated or truncated):
-                    truncated = True
+                max_step_hit = steps >= args.max_steps and not (terminated or truncated)
+                if max_step_hit:
+                    truncated = True  # evaluator-side timeout, marked explicitly
+                if tracing:
+                    step_records.append({
+                        "t": steps - 1, "seed": ep_seed,
+                        "action": action.tolist(),
+                        "reward": float(reward),
+                        "terminated": terminated, "truncated": truncated,
+                        "max_step_reached": bool(max_step_hit),
+                        "obs_small": _obs_small(obs),
+                        "info_small": _obs_small(info)})
                 done = terminated or truncated
             success = None
             if isinstance(info, dict):
@@ -739,8 +1005,14 @@ def evaluate_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
                     if key in info:
                         success = bool(info[key])
                         break
+            if tracing and trace_dir is not None:
+                for k, v in obs.items():
+                    raw_trace.setdefault(k, []).append(np.array(v, copy=True))
+                _write_trace(trace_dir, ep_i, step_records, raw_trace,
+                             success, ep_seed)
             episodes_out.append({
-                "episode_index": ep_i, "steps": steps, "return": ep_return,
+                "episode_index": ep_i, "seed": ep_seed, "steps": steps,
+                "return": ep_return,
                 "terminated": terminated, "truncated": truncated,
                 "success": success})
     finally:
@@ -752,6 +1024,7 @@ def evaluate_supermimic(args: argparse.Namespace) -> Dict[str, Any]:
             "mode": "closed_loop_actor",
             "env_factory": args.env_factory,
             "checkpoint": args.checkpoint,
+            "episode_seed_base": seed_base,
             "episodes": len(episodes_out),
             "total_steps": total_steps,
             "success_rate": n_succ / max(1, len(episodes_out)),
@@ -789,8 +1062,20 @@ def build_argparser() -> argparse.ArgumentParser:
     tr.add_argument("--device", default="auto")
     tr.add_argument("--time-budget", type=float, default=0.0,
                     help="wall-clock seconds; <=0 disables. Checkpoint+exit on timeout.")
-    tr.add_argument("--resume-from", default=None,
-                    help="path to a v2 supermimic checkpoint to resume")
+    grp = tr.add_mutually_exclusive_group()
+    grp.add_argument("--resume-from", default=None,
+                     help="path to a v2 supermimic checkpoint to resume "
+                          "(exact same-dataset resume; fingerprint must match)")
+    grp.add_argument("--finetune-from", default=None,
+                     help="path to a v2 supermimic checkpoint to finetune on a NEW "
+                          "dataset: restores model+optimizer states and cumulative "
+                          "counters, retains source dimensions, rebuilds batchers")
+    tr.add_argument("--wm-checkpoint-interval", type=int, default=5000,
+                    help="warmup-phase checkpoint interval in global WM steps "
+                         "(plus first update, final and latest)")
+    tr.add_argument("--actor-checkpoint-interval", type=int, default=5000,
+                    help="actor-phase 'latest' checkpoint interval in global actor "
+                         "steps (plus first update, final and latest)")
     tr.add_argument("--small-config", action="store_true",
                     help="tiny model + short horizon for software testing only")
     tr.set_defaults(func=train_supermimic)
@@ -809,6 +1094,13 @@ def build_argparser() -> argparse.ArgumentParser:
     ev.add_argument("--success-key", default="success")
     ev.add_argument("--output", default=None)
     ev.add_argument("--device", default="auto")
+    ev.add_argument("--save-trace", type=int, default=0,
+                    help="save raw per-step state/action/contact/cursor traces "
+                         "for the first N closed-loop episodes")
+    ev.add_argument("--episode-seed-base", type=int, default=None,
+                    help="if set, episode i resets with seed = base + i exactly "
+                         "(native nominal-target protocol); otherwise the legacy "
+                         "seed*100003+i schedule is used")
     ev.set_defaults(func=evaluate_supermimic)
     return p
 

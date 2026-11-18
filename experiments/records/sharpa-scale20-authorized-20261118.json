@@ -1,0 +1,19 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-scale20-authorized-20261118",
+  "timestamp_utc": "2026-11-18T15:02:33.186056+00:00",
+  "status": "authorized_implementation_in_progress_not_yet_runtime_verified",
+  "base_commit": "2937f5731a6b9533a0cf8b197ed10d52857b691d",
+  "cumulative_targets": {
+    "bc": 400000,
+    "wm": 40000,
+    "actor": 100000,
+    "critic": 100000,
+    "unique_success_train_demonstrations": 1380
+  },
+  "new_attempt_cap": 2560,
+  "deadline_utc": "2026-11-19T15:00:00Z",
+  "max_lab_gpus": 5,
+  "actual_new_updates_verified": 0,
+  "task_doc": "docs/tasks/sharpa-scale20-20261118.zh-CN.md"
+}

@@ -38,6 +38,7 @@ import json
 import math
 import os
 import random
+import shutil
 import signal
 import subprocess
 import sys
@@ -907,7 +908,10 @@ def save_checkpoint(
         "env_transitions": int(env_transitions),
         "provenance": provenance,
     }
-    torch.save(payload, path)
+    # Atomic publish: readers and crash recovery never observe a torn file.
+    tmp = path.with_name(path.name + ".tmp")
+    torch.save(payload, tmp)
+    os.replace(tmp, path)
 
 
 def load_checkpoint(
@@ -1866,6 +1870,41 @@ def train_ppo(
 # Autonomous evaluation (closed-loop, heldout-only, no teacher fallback)
 # ---------------------------------------------------------------------------
 
+def _encode_video_from_array(arr: np.ndarray, out_path: Path, fps: int = 15) -> dict:
+    """Encode one MP4 from a (T+1,H,W,C) uint8 array; no PNG copies kept."""
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    if arr.ndim != 4 or arr.shape[0] < 4:
+        return {"returncode": None, "frames": int(arr.shape[0]) if arr.ndim else 0,
+                "error": "too few frames"}
+    frames_dir = out_path.parent / f".{out_path.stem}_frames_tmp"
+    if frames_dir.exists():
+        shutil.rmtree(frames_dir, ignore_errors=True)
+    frames_dir.mkdir(parents=True)
+    if arr.dtype != np.uint8:
+        arr = np.clip(arr, 0, 255).astype(np.uint8)
+    if arr.shape[-1] == 4:
+        arr = arr[..., :3]
+    try:
+        from PIL import Image
+    except ImportError as exc:  # encoder missing: raw NPZ stays the evidence
+        return {"returncode": None, "frames": int(arr.shape[0]),
+                "error": f"encoder unavailable: {exc}"}
+    for i, img in enumerate(arr):
+        Image.fromarray(img).save(frames_dir / f"f_{i:05d}.png")
+    try:
+        rc = subprocess.run(
+            ["ffmpeg", "-y", "-framerate", str(fps), "-i",
+             str(frames_dir / "f_%05d.png"), "-pix_fmt", "yuv420p", str(out_path)],
+            check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode
+    except OSError as exc:  # e.g. ffmpeg absent: record, do not crash the eval
+        shutil.rmtree(frames_dir, ignore_errors=True)
+        return {"returncode": None, "frames": int(arr.shape[0]),
+                "error": f"encoder unavailable: {exc}"}
+    shutil.rmtree(frames_dir, ignore_errors=True)
+    return {"returncode": int(rc), "frames": int(arr.shape[0])}
+
+
 def evaluate_policy(
     env_factory: Callable[..., Any],
     checkpoint: Path,
@@ -1875,6 +1914,10 @@ def evaluate_policy(
     max_steps: int = 400,
     output: Path | None = None,
     task_id: str = "tap",
+    seeds: Sequence[int] | None = None,
+    trace_dir: Path | None = None,
+    trace_episodes: int = 10,
+    time_budget_s: float | None = None,
 ) -> dict:
     """Closed-loop evaluation on the explicit heldout configuration.
 
@@ -1882,6 +1925,14 @@ def evaluate_policy(
     whitelisted observation keys and never the privileged info mapping. The
     env is closed only after the report is written (SimulationApp.close is a
     fast shutdown). No teacher action is ever substituted for the policy.
+
+    ``seeds`` optionally pins the exact per-episode reset seeds (fixed nominal
+    target coordinates). For the first ``trace_episodes`` episodes the full
+    raw observation/action stream plus privileged contacts/cursor/target are
+    saved under ``trace_dir`` (never overwriting existing files), with a
+    paired screen video encoded from the saved arrays. ``time_budget_s``
+    stops the campaign at an episode boundary; SIGTERM does the same, and the
+    report is always written before the env is closed.
     """
     dev = torch.device("cpu")
     model, payload = load_checkpoint(checkpoint, dev)
@@ -1889,40 +1940,123 @@ def evaluate_policy(
     cfg = ModelConfig.from_dict(payload["model_config"])
     env = make_env(env_factory, env_kwargs)
     rng = random.Random(seed)
+    if seeds is not None:
+        seeds = [int(s) for s in seeds]
+        if len(seeds) < episodes:
+            raise ContractError(
+                f"explicit seeds list shorter than episodes: {len(seeds)} < {episodes}")
+    stop_requested, restore_sigterm = _install_sigterm_flag()
+    started = time.time()
     rows: list[dict] = []
     event_counts: dict[str, int] = {}
+    trace_records: list[dict] = []
+
+    def _persist_trace(ep: int, ep_seed: int, data: dict) -> dict:
+        """Write one episode's raw trace + paired videos immediately.
+
+        Never overwrites existing raw files; returns the record metadata or a
+        skip marker. Full observation arrays are copied at collection time so
+        a backend reusing buffers cannot corrupt earlier steps.
+        """
+        tdir = Path(trace_dir)
+        tdir.mkdir(parents=True, exist_ok=True)
+        ep_dir = tdir / f"episode_{ep:03d}_seed{ep_seed}"
+        if (ep_dir / "raw_trace.npz").exists() or (ep_dir / "trace_meta.json").exists():
+            return {"episode": ep, "seed": int(ep_seed), "skipped_existing": True}
+        ep_dir.mkdir(parents=True, exist_ok=True)
+        meta = data.pop("_meta")
+        arrays = {k: np.stack(v) for k, v in data.items()}
+        np.savez_compressed(ep_dir / "raw_trace.npz", **arrays)
+        (ep_dir / "trace_meta.json").write_text(
+            json.dumps({
+                "episode": ep, "seed": int(ep_seed),
+                "checkpoint": str(checkpoint),
+                "max_steps": int(max_steps),
+                "privileged_evaluator_trace": True,
+                "actor_observation_keys": list(ACTOR_OBS_KEYS),
+                "steps": meta,
+            }, indent=2), encoding="utf-8")
+        v_screen = _encode_video_from_array(arrays["screen_rgb"], ep_dir / "screen_rgb.mp4")
+        v_wrist = _encode_video_from_array(arrays["wrist_rgb"], ep_dir / "wrist_rgb.mp4")
+        return {"episode": ep, "seed": int(ep_seed),
+                "raw": str(ep_dir / "raw_trace.npz"),
+                "video_screen": str(ep_dir / "screen_rgb.mp4"),
+                "video_wrist": str(ep_dir / "wrist_rgb.mp4"),
+                "video_screen_encode": v_screen,
+                "video_wrist_encode": v_wrist}
+
     try:
         for ep in range(episodes):
-            obs, info = _env_reset(env, seed=rng.randrange(2**31),
+            if stop_requested():
+                break
+            if time_budget_s is not None and time.time() - started > time_budget_s:
+                break
+            ep_seed = seeds[ep] if seeds is not None else rng.randrange(2**31)
+            obs, info = _env_reset(env, seed=ep_seed,
                                    options={"split": "heldout", "task_id": task_id})
             _check_exact_obs_keys(obs)
             hidden = None
             steps = 0
-            outcome: dict[str, Any] = {"episode": ep}
+            trace_obs: dict[str, list] | None = None
+            if trace_dir is not None and ep < int(trace_episodes):
+                trace_obs = {k: [np.array(obs[k], copy=True)] for k in ACTOR_OBS_KEYS}
+                trace_obs["_meta"] = []
+            outcome: dict[str, Any] = {"episode": ep, "seed": int(ep_seed)}
             for t in range(max_steps):
                 obs_t = _obs_to_tensors(obs, cfg, dev)
                 with torch.no_grad():
                     action, _raw, _lp, _v, hidden = model.act(obs_t, hidden, deterministic=True)
-                obs, reward, terminated, truncated, info = _env_step(env, action[0].cpu().numpy())
+                act = action[0].cpu().numpy()
+                obs, reward, terminated, truncated, info = _env_step(env, act)
                 _check_exact_obs_keys(obs)
                 steps = t + 1
+                is_last = terminated or truncated or (t == max_steps - 1)
+                # The evaluator-imposed step cap applies ONLY when the env did
+                # not end the episode itself: a success exactly on the last
+                # step is terminated=True, truncated=False, no cap.
+                cap_hit = (t == max_steps - 1) and not terminated and not truncated
+                if trace_obs is not None:
+                    for k in ACTOR_OBS_KEYS:
+                        trace_obs[k].append(np.array(obs[k], copy=True))
+                    trace_obs["_meta"].append({
+                        "t": t,
+                        "action": [float(v) for v in act],
+                        "executed_q_ref": [float(v) for v in (
+                            np.asarray((info or {}).get("executed_q_ref"),
+                                       dtype=np.float64).tolist()
+                            if (info or {}).get("executed_q_ref") is not None else [])],
+                        "reward": float(reward),
+                        "sim_time": float((info or {}).get("sim_time", float("nan"))),
+                        "terminated": bool(terminated),
+                        "truncated": bool(truncated) or cap_hit,
+                        "evaluator_step_cap": bool(cap_hit),
+                        "failure_reason": ((info or {}).get("failure_reason")
+                                           or ("eval_step_limit" if cap_hit else None)),
+                        "cursor_px": (info or {}).get("oracle_cursor_px"),
+                        "target_px": (info or {}).get("oracle_target_px"),
+                        "cursor_over_target": bool((info or {}).get("oracle_cursor_over_target", False)),
+                        "click_registered": int((info or {}).get("oracle_click_registered", 0)),
+                        "click_on_target": int((info or {}).get("oracle_click_on_target", 0)),
+                        "contacts": (info or {}).get("contacts", {}),
+                        "events": (info or {}).get("events", []) or [],
+                    })
                 for ev in (info or {}).get("events", []) or []:
                     event_counts[str(ev)] = event_counts.get(str(ev), 0) + 1
-                if terminated or truncated:
+                if is_last:
                     outcome.update(
                         {
-                            "success": bool((info or {}).get("success", False)),
+                            "success": bool((info or {}).get("success", False)) and bool(terminated),
                             "terminated": bool(terminated),
-                            "truncated": bool(truncated),
+                            "truncated": bool(truncated) or cap_hit,
                             "steps": steps,
-                            "failure_reason": (info or {}).get("failure_reason"),
+                            "failure_reason": ((info or {}).get("failure_reason")
+                                               or ("eval_step_limit" if cap_hit else None)),
                         }
                     )
                     break
-            else:
-                outcome.update({"success": False, "terminated": False, "truncated": True,
-                                "steps": steps, "failure_reason": "eval_step_limit"})
             rows.append(outcome)
+            if trace_obs is not None:
+                trace_records.append(_persist_trace(ep, int(ep_seed), trace_obs))
     finally:
         report = {
             "schema": LOG_SCHEMA,
@@ -1930,23 +2064,34 @@ def evaluate_policy(
             "stage": payload["stage"],
             "split_options": "heldout",
             "episodes_attempted": len(rows),
+            "episodes_requested": int(episodes),
+            "stop_reason": ("sigterm" if stop_requested() else
+                            ("time_budget" if (time_budget_s is not None
+                                               and time.time() - started > time_budget_s
+                                               and len(rows) < episodes)
+                             else "completed")),
             "successes": sum(1 for r in rows if r.get("success")),
             "success_rate": (sum(1 for r in rows if r.get("success")) / len(rows)) if rows else 0.0,
             "mean_steps": sum(r["steps"] for r in rows) / len(rows) if rows else 0.0,
             "failure_reasons": {k: sum(1 for r in rows if r.get("failure_reason") == k)
                                 for k in {r.get("failure_reason") for r in rows}},
             "event_counts": event_counts,
+            "seeds": [r.get("seed") for r in rows],
             "rows": rows,
+            "traces": trace_records,
         }
+        # Raw traces are persisted per episode during the loop; the aggregate
+        # report is written here, AFTER trace metadata exists and BEFORE the
+        # env is closed (Isaac fast_shutdown exits the process).
         if output is not None:
             output = Path(output)
             output.mkdir(parents=True, exist_ok=True)
             (output / f"eval_{int(time.time())}.json").write_text(
                 json.dumps(report, indent=2), encoding="utf-8")
-        # Env closed only after the report is written.
         close = getattr(env, "close", None)
         if callable(close):
             close()
+        restore_sigterm()
     return report
 
 
@@ -2095,9 +2240,15 @@ def build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--checkpoint", required=True)
     p.add_argument("--episodes", type=int, default=100)
     p.add_argument("--seed", type=int, default=0)
+    p.add_argument("--seeds", default=None,
+                   help="Comma-separated explicit per-episode reset seeds (fixed nominal targets).")
     p.add_argument("--max-steps", type=int, default=400)
     p.add_argument("--task-id", default="tap")
     p.add_argument("--output", default=None)
+    p.add_argument("--trace-dir", default=None,
+                    help="Save full raw obs/action/contact/cursor traces + paired video here.")
+    p.add_argument("--trace-episodes", type=int, default=10)
+    p.add_argument("--time-budget", type=float, default=None)
     p.add_argument("--env-kwarg", action="append", default=None)
 
     sub.add_parser("probe-gpu", help="Labelled software check of CUDA/UUID visibility.")
@@ -2187,6 +2338,8 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     if args.command == "eval":
         factory = load_env_factory(args.env_factory)
+        explicit_seeds = ([int(s) for s in args.seeds.split(",") if s.strip()]
+                          if args.seeds else None)
         report = evaluate_policy(
             factory,
             Path(args.checkpoint),
@@ -2196,6 +2349,10 @@ def main(argv: Sequence[str] | None = None) -> int:
             max_steps=args.max_steps,
             output=Path(args.output) if args.output else None,
             task_id=args.task_id,
+            seeds=explicit_seeds,
+            trace_dir=Path(args.trace_dir) if args.trace_dir else None,
+            trace_episodes=args.trace_episodes,
+            time_budget_s=args.time_budget,
         )
         print(json.dumps({k: v for k, v in report.items() if k != "rows"}, indent=2, sort_keys=True))
         return 0

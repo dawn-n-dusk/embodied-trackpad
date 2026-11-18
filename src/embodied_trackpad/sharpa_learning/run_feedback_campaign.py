@@ -12,6 +12,7 @@ import hashlib
 import json
 import math
 import os
+import shutil
 import subprocess
 import time
 import uuid
@@ -57,6 +58,10 @@ def _encode_video_from_npz(npz_path: Path, out_path: Path, key: str, fps: int = 
          str(frames_dir / f"{out_path.stem}_%05d.png"),
          "-pix_fmt", "yuv420p", str(out_path)],
         check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode
+    # Keep no derived PNG frame copies once NPZ + MP4 are verified: the video
+    # can be regenerated from the lossless NPZ observations on demand.
+    if rc == 0 and out_path.exists():
+        shutil.rmtree(frames_dir, ignore_errors=True)
     return {"returncode": int(rc), "frames": int(arr.shape[0])}
 
 
@@ -127,11 +132,12 @@ def run_feedback_episode(env: SharpaEnv, expert: FeedbackExpert,
                          episode_dir: Path, episode_id: str,
                          seed: int, max_decisions: int,
                          source_manifest_path: Path | None = None,
-                         split: str = "train") -> dict:
+                         split: str = "train", compress: bool = False) -> dict:
     episode_dir.mkdir(parents=True, exist_ok=True)
     logger = _TeacherLogger(expert, episode_dir / "teacher.jsonl")
     writer = EpisodeWriter(episode_dir, episode_id,
-                           env.provenance if hasattr(env, "provenance") else {})
+                           env.provenance if hasattr(env, "provenance") else {},
+                           compress=compress)
 
     obs, info = env.reset(seed=seed, options={"task_id": "tap"})
     reset_sim_time = float(info.get("sim_time", 0.0))
@@ -254,12 +260,21 @@ def run_campaign(stage: str, out_dir: str, data_root: str,
                  gpu_index: int = 1, seed: int = 0,
                  n_episodes: int = 1, max_decisions: int = 400,
                  source_manifest_path: str | None = None,
-                 split: str = "train") -> dict:
+                 split: str = "train", compress: bool = False,
+                 seeds: list[int] | None = None) -> dict:
+    """Run ``n_episodes`` feedback-expert episodes (or the exact ``seeds``
+    list when given, so the launch receipt matches the actual reset seeds)."""
     out = Path(out_dir).resolve()
     out.mkdir(parents=True, exist_ok=True)
     data_root_p = Path(data_root).resolve()
     data_root_p.mkdir(parents=True, exist_ok=True)
     source_manifest = Path(source_manifest_path) if source_manifest_path else None
+    if seeds is not None:
+        seed_list = [int(s) for s in seeds]
+        if not seed_list:
+            raise ValueError("explicit seeds list must not be empty")
+    else:
+        seed_list = [int(seed) + i for i in range(int(n_episodes))]
 
     env = SharpaEnv({"stage": stage, "out_dir": str(out),
                      "gpu_index": int(gpu_index)})
@@ -268,21 +283,23 @@ def run_campaign(stage: str, out_dir: str, data_root: str,
     delta_scale = None
     run_namespace = uuid.uuid4().hex
     try:
-        for i in range(n_episodes):
+        for i, ep_seed in enumerate(seed_list):
             eid = f"fb-{time.strftime('%Y%m%dT%H%M%SZ', time.gmtime())}-{run_namespace}-{i:04d}"
             ep_dir = out / eid
             expert = FeedbackExpert(env)
             manifest = run_feedback_episode(
                 env, expert, ep_dir, eid,
-                seed=int(seed) + i, max_decisions=int(max_decisions),
+                seed=ep_seed, max_decisions=int(max_decisions),
                 source_manifest_path=source_manifest,
                 split=split,
+                compress=compress,
             )
             episodes.append({
                 "path": str(ep_dir), "episode_id": eid,
                 "split": manifest.get("split", split),
                 "source_kind": manifest.get("source_kind"),
                 "training_eligible_for_bc": manifest.get("training_eligible_for_bc"),
+                "seed": int(ep_seed),
                 "action_names": manifest.get("action_names", []),
                 "delta_scale": manifest.get("delta_scale"),
             })
@@ -309,10 +326,15 @@ def main(argv=None) -> int:
     ap.add_argument("--gpu-index", type=int, default=1)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--n-episodes", type=int, default=1)
+    ap.add_argument("--seeds", default=None,
+                    help="Comma-separated exact per-episode seeds; overrides "
+                         "--seed/--n-episodes so the receipt matches actual resets.")
     ap.add_argument("--max-decisions", type=int, default=400)
     ap.add_argument("--source-manifest", default=None)
     ap.add_argument("--split", default="train",
                     choices=["train", "val", "test"])
+    ap.add_argument("--compress-npz", action="store_true",
+                    help="Lossless DEFLATE NPZ compression (campaign storage scope).")
     args = ap.parse_args(argv)
 
     result = run_campaign(
@@ -325,6 +347,9 @@ def main(argv=None) -> int:
         max_decisions=args.max_decisions,
         source_manifest_path=args.source_manifest,
         split=args.split,
+        compress=args.compress_npz,
+        seeds=([int(s) for s in args.seeds.split(",") if s.strip()]
+               if args.seeds else None),
     )
     print(json.dumps({
         "status": "complete",

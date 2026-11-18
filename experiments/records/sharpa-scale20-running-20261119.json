@@ -1,0 +1,79 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-scale20-running-20261119",
+  "timestamp_utc": "2026-11-18T17:05:16.774398+00:00",
+  "status": "actual_training_and_collection_running_targets_incomplete",
+  "source_base": "2937f5731a6b9533a0cf8b197ed10d52857b691d",
+  "cumulative_targets": {
+    "bc": 400000,
+    "world_model": 40000,
+    "actor": 100000,
+    "critic": 100000,
+    "unique_success_demonstrations": 1380
+  },
+  "checkpoint_verified_steps": {
+    "bc": 20001,
+    "world_model": 10000,
+    "actor": 10000,
+    "critic": 10000
+  },
+  "bc_log_step": 27225,
+  "bc_log_utc": "2026-11-18T17:05:17Z",
+  "bc_checkpoint_sha256": "bdaecf7ff0938c8a329a7f521ec167f4c455be356a86aaa0624151b464ee305f",
+  "wm_stage1_checkpoint_sha256": "bddaa5fcf1292eeb876392781a273fa6ec1f94ed23ead2d751577bae0acfc7ce",
+  "trained_data": {
+    "episodes": 69,
+    "actions": 10217,
+    "new_collection_admitted": 0
+  },
+  "collection_snapshot": {
+    "active_collectors_verified": 4,
+    "finished_manifests": 45,
+    "unique_episode_ids": 45,
+    "declared_success": 33,
+    "independently_sampled_trajectories": 4,
+    "sampled_npz_sha_pass": 4,
+    "sampled_array_sha_pass": 92,
+    "sampled_actual_proprio_motion": 4,
+    "sampled_strict_sim_time": 4,
+    "sampled_success": 3,
+    "sampled_failure": 1
+  },
+  "evaluation": {
+    "fixed_nominal_target_count": 100,
+    "wm_raw_trace_files_present": 10,
+    "completed_aggregate": null,
+    "earlier_independent_trace_review": {
+      "episodes": 4,
+      "actions": 1209,
+      "actual_proprio_motion": 4
+    }
+  },
+  "actual_dagger_corrections": 0,
+  "actual_ppo_updates": 0,
+  "budget": {
+    "max_lab_gpus": 5,
+    "new_attempt_slots": 2560,
+    "new_storage_gib": 12,
+    "deadline_utc": "2026-11-19T15:00:00Z"
+  },
+  "validation": {
+    "bc_focused_pass": 71,
+    "wm_focused_pass": 27,
+    "wm_local_video_dependency_failure": 1,
+    "remote_video_encoding_checked": true,
+    "private_data_manager_independent_tests": 25,
+    "private_wm_manager_independent_tests": 20,
+    "deployed_data_source_sha_files_pass": 80,
+    "deployed_wm_source_sha_files_pass": 64
+  },
+  "limitations": [
+    "20x targets not completed",
+    "collected candidates are not yet frozen or admitted to training",
+    "100-target aggregate evaluation not complete",
+    "prediction errors still worse than persistence at stage1; imagination return is not task success",
+    "no installation, sensitivity, camera or real-Mac generalization claim",
+    "initial startup/import/evaluation failures retained; no retroactive success"
+  ],
+  "task_doc": "docs/tasks/sharpa-scale20-20261118.zh-CN.md"
+}

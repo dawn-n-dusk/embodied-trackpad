@@ -39,12 +39,16 @@ class EpisodeWriter:
     immutable episode directory. Observations precede actions; the final
     observation is appended after the last step."""
 
-    def __init__(self, episode_dir, episode_id: str, provenance: dict):
+    def __init__(self, episode_dir, episode_id: str, provenance: dict,
+                 compress: bool = False):
         self.dir = Path(episode_dir)
         if (self.dir / "manifest.json").exists():
             raise FileExistsError(
                 f"refusing to overwrite existing episode: {self.dir}")
         self.dir.mkdir(parents=True, exist_ok=True)
+        # Lossless DEFLATE NPZ compression is opt-in (campaign storage scope);
+        # arrays are never downsampled or re-encoded either way.
+        self.compress = bool(compress)
         self.episode_id = episode_id
         self.provenance = dict(provenance)
         self.obs = {k: [] for k in OBS_KEYS}
@@ -85,6 +89,9 @@ class EpisodeWriter:
     def finalize(self, manifest_extra: dict | None = None) -> dict:
         T = len(self.action)
         npz_path = self.dir / "trajectory.npz"
+        if npz_path.exists():
+            raise FileExistsError(
+                f"refusing to overwrite existing trajectory: {npz_path}")
         arrays = {k: np.stack(v) for k, v in self.obs.items()}
         arrays.update({
             "action": np.stack(self.action) if T else np.zeros(
@@ -106,7 +113,8 @@ class EpisodeWriter:
             if arr.shape[0] != expected:
                 raise ValueError(
                     f"array {k} length {arr.shape[0]} != expected {expected}")
-        np.savez(npz_path, **arrays)
+        saver = np.savez_compressed if self.compress else np.savez
+        saver(npz_path, **arrays)
         manifest = {
             "schema": SCHEMA,
             "episode_id": self.episode_id,

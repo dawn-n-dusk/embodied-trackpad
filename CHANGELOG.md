@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-19: Started the bounded20x Sharpa campaign and recorded actual BC/WM checkpoint counters plus four moving native collectors. Added atomic BC checkpoints, optional lossless trajectory compression, explicit collection/evaluation seeds, paired raw evaluation traces and explicit world-model dataset-transfer provenance. New data and completed100-target performance remain pending; initial failures and prior results are preserved.
+
 - 2026-11-18: Recorded expanded BC20000 autonomous evaluation0/2 on two new nominal targets, with verified paired video and raw trajectories. Preserved evaluator truncation/reporting limitations; no DAgger/PPO or generalization success claimed.
 
 - 2026-11-18: Integrated the feedback expert and native collector, corrected student-state BC labels and invalid-label masking, prevented future parallel episode-ID collisions, and fixed world-model reward/latent evaluation. Verified98 focused tests,20,000 actual BC updates and completed WM/actor/critic training; autonomous robustness remains unproven.
