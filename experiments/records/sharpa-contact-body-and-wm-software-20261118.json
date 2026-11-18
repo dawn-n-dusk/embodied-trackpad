@@ -1,0 +1,50 @@
+{
+  "record_version": "1.0",
+  "id": "sharpa-contact-body-and-wm-software-20261118",
+  "timestamp_utc": "2026-11-18T04:12:39.714674+00:00",
+  "status": "measured_contact_release_and_software_reviewed_full_gui_training_pending",
+  "source_candidates": {
+    "environment": "ddd1775",
+    "world_model": "89b1d93"
+  },
+  "native": {
+    "runtime": "Isaac Sim 6.0.1 CPU PhysX and one RTX renderer",
+    "run_id": "diag-20261118T040151Z",
+    "physics_steps": 1590,
+    "simulation_seconds": 13.25,
+    "logged_records": 793,
+    "index_positive_logged_records": 294,
+    "other_finger_positive_logged_records": 0,
+    "index_peak_force_N_reported": 4.1944,
+    "final_contact_force_N": 0,
+    "contact_bodies": [
+      "right_index_elastomer",
+      "right_index_DP",
+      "right_index_MP"
+    ],
+    "result_sha256": "e4799bdd63420048ad286fa4d80dd160e7a0521fb09fe5dcf1c15e054ba1da34",
+    "series_sha256": "e1fc93ace5fab42d3700cc27b1f4e49cad0437e7fea355897169b1e210978595",
+    "native_source_hashes_matched": 5,
+    "gui_adapter_executed": false,
+    "bc_eligible": false
+  },
+  "software": {
+    "combined_tests_passed": 50,
+    "command": "PYTHONPATH=src python -m pytest tests/test_bc_ppo.py tests/test_sharpa_learning_collect.py tests/test_sharpa_supermimic.py tests/test_sharpa_world_model.py -q",
+    "seconds": 6.16,
+    "independent_actor_phase_resume_check": "4 WM + 2 actor/critic updates, resume to 4 WM + 4 actor/critic; weights, all optimizer states and next sampled batches match continuous run",
+    "fixtures_not_formal_training": true
+  },
+  "formal": {
+    "eligible_sharpa_bc_episodes": 0,
+    "optimizer_updates": 0,
+    "autonomous_gui_successes": 0
+  },
+  "limitations": [
+    "Contact diagnostic freezes the contact pose; a stage named slide is not evidence of verified relative sliding.",
+    "Finger contact includes distal, middle phalanx and elastomer bodies; marker height is not collision penetration.",
+    "Simulated capacitive recognition is an uncalibrated force proxy.",
+    "Static composed Sharpa world joint is disabled; runtime still emits a disjoint-transform warning.",
+    "World-model prediction quality and autonomous control remain unvalidated."
+  ]
+}

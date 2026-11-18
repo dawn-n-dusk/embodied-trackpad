@@ -1,5 +1,7 @@
 # Changelog
 
+- 2026-11-18: Fixed contact attribution to actual finger collision bodies and collection timing; integrated experimental world-model/BPTT learner with deterministic resume and 50 focused integration checks. Measured contact/release is separate from full GUI success and formal training.
+
 - 2026-11-18: Added the experimental visual BC/correction/PPO module with 14 independently passing software checks; documented SuperMimic transfer and analytical BPTT acceptance. Physical integration, new demonstrations and formal training remain unaccepted.
 
 - 2026-11-17: Integrated the official Sharpa right hand with a complete temporary 7-DoF Panda arm. Independently verified a29-DoF,14-second native scene, clear screen/wrist views and correctly timed videos. Preserved prior failures; no contact-task success or learned-policy claim.

@@ -1,5 +1,7 @@
 # Current status
 
+2026-11-18 continuation: real finger-body contact and final release independently observed; learning-module integration passes **50 focused software checks**. This diagnostic does not execute GUI actions and is not BC-eligible. Formal new Sharpa training remains zero at this milestone. [Evidence and limits](docs/experiments/2026-11-18-sharpa-contact-and-worldmodel.zh-CN.md).
+
 2026-11-18 contact diagnostic: a new native run completed1506 physics steps /12.55 simulation seconds, but independent review of751 records found **zero fingertip-pad contact pairs and zero force**. The reported `any_real_contact=true` incorrectly counted valid sensor frames and is rejected. This is not a successful touch demonstration; formal training remains zero. [Diagnostic record](experiments/records/sharpa-contact-diagnostic-20261118.json).
 
 2026-11-18 software milestone: experimental visual BC/correction/PPO module and **14 independently passing focused tests** are integrated. These use explicit software fixtures; no new physical demonstration, GPU policy training or autonomous task result is accepted. Real SharpaEnv integration and bounded batch orchestration remain pending. [Review record](experiments/records/sharpa-bcppo-software-reviewed-20261118.json).
